@@ -16,9 +16,297 @@ service CloudHashingBilling {
             body: "*"
         };
     }
+
+    rpc CreateCoinAccount(CreateCoinAccountRequest) returns (CreateCoinAccountResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/coin/account"
+            body: "*"
+        };
+    }
+    rpc GetCoinAccount(GetCoinAccountRequest) returns (GetCoinAccountResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coin/account"
+            body: "*"
+        };
+    }
+    rpc GetCoinAccountsByAppUser(GetCoinAccountsByAppUserRequest) returns (GetCoinAccountsByAppUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coin/accounts/by/app/user"
+            body: "*"
+        };
+    }
+    rpc DeleteCoinAccount(DeleteCoinAccountRequest) returns (DeleteCoinAccountResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/coin/account"
+            body: "*"
+        };
+    }
+
+    rpc CreateCoinAccountTransaction(CreateCoinAccountTransactionRequest) returns (CreateCoinAccountTransactionResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/coin/account/transaction"
+            body: "*"
+        };
+    }
+    rpc GetCoinAccountTransaction(GetCoinAccountTransactionRequest) returns (GetCoinAccountTransactionResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coin/account/transaction"
+            body: "*"
+        };
+    }
+    rpc GetCoinAccountTransactionsByCoinAccount(GetCoinAccountTransactionsByCoinAccountRequest) returns (GetCoinAccountTransactionsByCoinAccountResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coin/account/transactions/by/coin/account"
+            body: "*"
+        };
+    }
+    rpc GetCoinAccountTransactionsByCoin(GetCoinAccountTransactionsByCoinRequest) returns (GetCoinAccountTransactionsByCoinResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coin/account/transactions/by/coin"
+            body: "*"
+        };
+    }
+    rpc DeleteCoinAccountTransaction(DeleteCoinAccountTransactionRequest) returns (DeleteCoinAccountTransactionResponse) {
+        option (google.api.http) = {
+            post: "/v1/delete/coin/account/transaction"
+            body: "*"
+        };
+    }
+
+    rpc CreatePlatformBenefit(CreatePlatformBenefitRequest) returns (CreatePlatformBenefitResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/platform/benefit",
+            body: "*"
+        };
+    }
+    rpc GetPlatformBenefitsByGood(GetPlatformBenefitsByGoodRequest) returns (GetPlatformBenefitsByGoodResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/platform/benefits/by/good"
+            body: "*"
+        };
+    }
+
+    rpc CreatePlatformSetting(CreatePlatformSettingRequest) returns (CreatePlatformSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/platform/setting"
+            body: "*"
+        };
+    }
+    rpc UpdatePlatformSetting(UpdatePlatformSettingRequest) returns (UpdatePlatformSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/platform/setting"
+            body: "*"
+        };
+    }
+    rpc GetPlatformSettingByGood(GetPlatformSettingByGoodRequest) returns (GetPlatformSettingByGoodResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/platform/setting/by/good"
+            body: "*"
+        };
+    }
+
+    rpc CreateUserBenefit(CreateUserBenefitRequest) returns (CreateUserBenefitResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/user/benefit"
+            body: "*"
+        };
+    }
+    rpc GetUserBebefitsByAppUser(GetUserBenefitsByAppUserRequest) returns (GetUserBenefitsByAppUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/benefits/by/app/user"
+            body: "*"
+        };
+    }
 }
 
 // request body and response
 message VersionResponse {
     string Info = 100;
+}
+
+message CoinAccountInfo {
+    string ID = 200;
+    string CoinTypeID = 201;
+    string Address = 202;
+    string GeneratedBy = 203;
+    string UsedFor = 204;
+    bool Idle = 205;
+    string AppID = 206;
+    string UserID = 207;
+}
+
+message CreateCoinAccountRequest {
+    CoinAccountInfo Info = 300;
+}
+
+message CreateCoinAccountResponse {
+    CoinAccountInfo Info = 400;
+}
+
+message GetCoinAccountRequest {
+    string ID = 500;
+}
+
+message GetCoinAccountResponse {
+    CoinAccountInfo Info = 600;
+}
+
+message GetCoinAccountsByAppUserRequest {
+    string AppID = 700;
+    string UserID = 701;
+    string CoinTypeID = 702;
+}
+
+message GetCoinAccountsByAppUserResponse {
+    CoinAccountInfo Info = 800;
+}
+
+message DeleteCoinAccountRequest {
+    string ID = 900;
+}
+
+message DeleteCoinAccountResponse {
+    CoinAccountInfo Info = 1000;
+}
+
+message CoinAccountTransaction {
+    string ID = 1100;
+    string AppID = 1101;
+    string UserID = 1102;
+    string FromAddressID = 1103;
+    string ToAddressID = 1104;
+    string CoinTypeID = 1105;
+    double Amount = 1106;
+    string Message = 1107;
+    int32 CreateAt = 1108;
+    string State = 1109;
+    string ChainTransactionID = 1110;
+    string PlatformTransactionID = 1111;
+}
+
+message CreateCoinAccountTransactionRequest {
+    CoinAccountTransaction Transaction = 1200;
+}
+
+message CreateCoinAccountTransactionResponse {
+    CoinAccountTransaction Transaction = 1300;
+}
+
+message GetCoinAccountTransactionRequest {
+    string ID = 1400;
+}
+
+message GetCoinAccountTransactionResponse {
+    CoinAccountTransaction Transaction = 1500;
+}
+
+message GetCoinAccountTransactionsByCoinAccountRequest {
+    string CoinTypeID = 1600;
+    string AddressID = 1601;
+}
+
+message GetCoinAccountTransactionsByCoinAccountResponse {
+    repeated CoinAccountTransaction Transactions = 1700;
+}
+
+message GetCoinAccountTransactionsByCoinRequest {
+    string CoinTypeID = 1800;
+}
+
+message GetCoinAccountTransactionsByCoinResponse {
+    repeated CoinAccountTransaction Transactions = 1900;
+}
+
+message DeleteCoinAccountTransactionRequest {
+    string ID = 2000;
+}
+
+message DeleteCoinAccountTransactionResponse {
+    CoinAccountTransaction Transaction = 2100;
+}
+
+message PlatformBenefit {
+    string ID = 2200;
+    string GoodID = 2201;
+    string BenefitAccountID = 2202;
+    double Amount = 2203;
+    int32 HappenAt = 2204;
+    string ChainTransactionID = 2205;
+}
+
+message CreatePlatformBenefitRequest {
+    PlatformBenefit Info = 2300;
+}
+
+message CreatePlatformBenefitResponse {
+    PlatformBenefit Info = 2400;
+}
+
+message GetPlatformBenefitsByGoodRequest {
+    string GoodID = 2500;
+}
+
+message GetPlatformBenefitsByGoodResponse {
+    repeated PlatformBenefit Infos = 2600;
+}
+
+message PlatformSetting {
+    string ID = 2700;
+    string GoodID = 2701;
+    string BenefitAccountID = 2702;
+    string PlatformOfflineAccountID = 2703;
+    string UserOnlineAccountID = 2704;
+    string UserOfflineAccountID = 2705;
+    int32 BenefitIntervalHours = 2706;
+}
+
+message CreatePlatformSettingRequest {
+    PlatformSetting Info = 2800;
+}
+
+message CreatePlatformSettingResponse {
+    PlatformSetting Info = 2900;
+}
+
+message UpdatePlatformSettingRequest {
+    PlatformSetting Info = 3000;
+}
+
+message UpdatePlatformSettingResponse {
+    PlatformSetting Info = 3100;
+}
+
+message GetPlatformSettingByGoodRequest {
+    string GoodID = 3200;
+}
+
+message GetPlatformSettingByGoodResponse {
+    PlatformSetting Info = 3300;
+}
+
+message UserBenefit {
+    string ID = 3401;
+    string UserID = 3402;
+    string AppID = 3403;
+    string GoodID = 3404;
+    double Amount = 3405;
+    int32 HappenAt = 3406;
+    string OrderID = 3407;
+}
+
+message CreateUserBenefitRequest {
+    UserBenefit Info = 3500;
+}
+
+message CreateUserBenefitResponse {
+    UserBenefit Info = 3600;
+}
+
+message GetUserBenefitsByAppUserRequest {
+    string AppID = 3700;
+    string UserID = 3701;
+}
+
+message GetUserBenefitsByAppUserResponse {
+    repeated UserBenefit Infos = 3800;
 }
