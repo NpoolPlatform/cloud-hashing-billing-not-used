@@ -30,7 +30,11 @@ func TestCRUD(t *testing.T) {
 	}
 
 	coinAccount := npool.CoinAccountInfo{
-		CoinTypeID: uuid.New().String(),
+		CoinTypeID:  uuid.New().String(),
+		AppID:       uuid.New().String(),
+		UserID:      uuid.New().String(),
+		GeneratedBy: "user",
+		UsedFor:     "benefit",
 	}
 
 	_, err := Create(context.Background(), &npool.CreateCoinAccountRequest{
