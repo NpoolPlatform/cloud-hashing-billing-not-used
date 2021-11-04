@@ -24,6 +24,15 @@ func init() {
 	}
 }
 
+func assertCoinAccount(t *testing.T, actual, expected *npool.CoinAccountInfo) {
+	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
+	assert.Equal(t, actual.Address, expected.Address)
+	assert.Equal(t, actual.GeneratedBy, expected.GeneratedBy)
+	assert.Equal(t, actual.UsedFor, expected.UsedFor)
+	assert.Equal(t, actual.AppID, expected.AppID)
+	assert.Equal(t, actual.UserID, expected.UserID)
+}
+
 func TestCRUD(t *testing.T) {
 	if runByGithubAction, err := strconv.ParseBool(os.Getenv("RUN_BY_GITHUB_ACTION")); err == nil && runByGithubAction {
 		return
@@ -37,8 +46,12 @@ func TestCRUD(t *testing.T) {
 		UsedFor:     "benefit",
 	}
 
-	_, err := Create(context.Background(), &npool.CreateCoinAccountRequest{
+	resp, err := Create(context.Background(), &npool.CreateCoinAccountRequest{
 		Info: &coinAccount,
 	})
-	assert.Nil(t, err)
+	if assert.Nil(t, err) {
+		assert.NotEqual(t, resp.Info.ID, uuid.UUID{}.String())
+		assert.True(t, resp.Info.Idle)
+		assertCoinAccount(t, resp.Info, &coinAccount)
+	}
 }

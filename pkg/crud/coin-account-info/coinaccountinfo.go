@@ -66,7 +66,30 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountRequest) (*npool.Cre
 }
 
 func Get(ctx context.Context, in *npool.GetCoinAccountRequest) (*npool.GetCoinAccountResponse, error) {
-	return nil, nil
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid coin account id: %v", err)
+	}
+
+	infos, err := db.Client().
+		CoinAccountInfo.
+		Query().
+		Where(
+			coinaccountinfo.And(
+				coinaccountinfo.ID(id),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty coin account")
+	}
+
+	return &npool.GetCoinAccountResponse{
+		Info: dbRowToCoinAccount(infos[0]),
+	}, nil
 }
 
 func GetCoinAccountsByAppUser(ctx context.Context, in *npool.GetCoinAccountsByAppUserRequest) (*npool.GetCoinAccountsByAppUserResponse, error) {
