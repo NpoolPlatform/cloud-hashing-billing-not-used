@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package service.sample.v1;
+package cloud.hashing.billing.v1;
 
 option go_package = "github.com/NpoolPlatform/cloud-hashing-billing/message/npool";
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-// Service Name
+// Cloud Hashing Billing
 service ServiceExample {
     // Method Version
     rpc Version (google.protobuf.Empty) returns (VersionResponse){

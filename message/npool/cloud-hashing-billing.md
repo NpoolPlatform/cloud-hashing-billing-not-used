@@ -4,9 +4,9 @@
 ## Table of Contents
 
 - [npool/cloud-hashing-billing.proto](#npool/cloud-hashing-billing.proto)
-    - [VersionResponse](#service.sample.v1.VersionResponse)
+    - [VersionResponse](#cloud.hashing.billing.v1.VersionResponse)
   
-    - [ServiceExample](#service.sample.v1.ServiceExample)
+    - [ServiceExample](#cloud.hashing.billing.v1.ServiceExample)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -19,7 +19,7 @@
 
 
 
-<a name="service.sample.v1.VersionResponse"></a>
+<a name="cloud.hashing.billing.v1.VersionResponse"></a>
 
 ### VersionResponse
 request body and response
@@ -40,14 +40,14 @@ request body and response
  
 
 
-<a name="service.sample.v1.ServiceExample"></a>
+<a name="cloud.hashing.billing.v1.ServiceExample"></a>
 
 ### ServiceExample
-Service Name
+Cloud Hashing Billing
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Version | [.google.protobuf.Empty](#google.protobuf.Empty) | [VersionResponse](#service.sample.v1.VersionResponse) | Method Version |
+| Version | [.google.protobuf.Empty](#google.protobuf.Empty) | [VersionResponse](#cloud.hashing.billing.v1.VersionResponse) | Method Version |
 
  
 

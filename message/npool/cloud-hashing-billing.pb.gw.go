@@ -78,7 +78,7 @@ func RegisterServiceExampleHandlerServer(ctx context.Context, mux *runtime.Serve
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/service.sample.v1.ServiceExample/Version", runtime.WithHTTPPathPattern("/version"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cloud.hashing.billing.v1.ServiceExample/Version", runtime.WithHTTPPathPattern("/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -140,7 +140,7 @@ func RegisterServiceExampleHandlerClient(ctx context.Context, mux *runtime.Serve
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/service.sample.v1.ServiceExample/Version", runtime.WithHTTPPathPattern("/version"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cloud.hashing.billing.v1.ServiceExample/Version", runtime.WithHTTPPathPattern("/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

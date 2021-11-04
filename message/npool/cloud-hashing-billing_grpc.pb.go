@@ -33,7 +33,7 @@ func NewServiceExampleClient(cc grpc.ClientConnInterface) ServiceExampleClient {
 
 func (c *serviceExampleClient) Version(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error) {
 	out := new(VersionResponse)
-	err := c.cc.Invoke(ctx, "/service.sample.v1.ServiceExample/Version", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.ServiceExample/Version", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func _ServiceExample_Version_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/service.sample.v1.ServiceExample/Version",
+		FullMethod: "/cloud.hashing.billing.v1.ServiceExample/Version",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ServiceExampleServer).Version(ctx, req.(*emptypb.Empty))
@@ -91,7 +91,7 @@ func _ServiceExample_Version_Handler(srv interface{}, ctx context.Context, dec f
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ServiceExample_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "service.sample.v1.ServiceExample",
+	ServiceName: "cloud.hashing.billing.v1.ServiceExample",
 	HandlerType: (*ServiceExampleServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
