@@ -9,15 +9,15 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent"
 )
 
-// The EmptyFunc type is an adapter to allow the use of ordinary
-// function as Empty mutator.
-type EmptyFunc func(context.Context, *ent.EmptyMutation) (ent.Value, error)
+// The CoinAccountInfoFunc type is an adapter to allow the use of ordinary
+// function as CoinAccountInfo mutator.
+type CoinAccountInfoFunc func(context.Context, *ent.CoinAccountInfoMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f EmptyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.EmptyMutation)
+func (f CoinAccountInfoFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.CoinAccountInfoMutation)
 	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.EmptyMutation", m)
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CoinAccountInfoMutation", m)
 	}
 	return f(ctx, mv)
 }

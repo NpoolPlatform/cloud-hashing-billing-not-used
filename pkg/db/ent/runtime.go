@@ -2,8 +2,34 @@
 
 package ent
 
+import (
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/schema"
+	"github.com/google/uuid"
+)
+
 // The init function reads all schema descriptors with runtime code
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	coinaccountinfoFields := schema.CoinAccountInfo{}.Fields()
+	_ = coinaccountinfoFields
+	// coinaccountinfoDescCreateAt is the schema descriptor for create_at field.
+	coinaccountinfoDescCreateAt := coinaccountinfoFields[8].Descriptor()
+	// coinaccountinfo.DefaultCreateAt holds the default value on creation for the create_at field.
+	coinaccountinfo.DefaultCreateAt = coinaccountinfoDescCreateAt.Default.(func() uint32)
+	// coinaccountinfoDescUpdateAt is the schema descriptor for update_at field.
+	coinaccountinfoDescUpdateAt := coinaccountinfoFields[9].Descriptor()
+	// coinaccountinfo.DefaultUpdateAt holds the default value on creation for the update_at field.
+	coinaccountinfo.DefaultUpdateAt = coinaccountinfoDescUpdateAt.Default.(func() uint32)
+	// coinaccountinfo.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	coinaccountinfo.UpdateDefaultUpdateAt = coinaccountinfoDescUpdateAt.UpdateDefault.(func() uint32)
+	// coinaccountinfoDescDeleteAt is the schema descriptor for delete_at field.
+	coinaccountinfoDescDeleteAt := coinaccountinfoFields[10].Descriptor()
+	// coinaccountinfo.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	coinaccountinfo.DefaultDeleteAt = coinaccountinfoDescDeleteAt.Default.(func() uint32)
+	// coinaccountinfoDescID is the schema descriptor for id field.
+	coinaccountinfoDescID := coinaccountinfoFields[0].Descriptor()
+	// coinaccountinfo.DefaultID holds the default value on creation for the id field.
+	coinaccountinfo.DefaultID = coinaccountinfoDescID.Default.(func() uuid.UUID)
 }

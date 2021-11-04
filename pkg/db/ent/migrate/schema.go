@@ -8,19 +8,29 @@ import (
 )
 
 var (
-	// EmptiesColumns holds the columns for the "empties" table.
-	EmptiesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+	// CoinAccountInfosColumns holds the columns for the "coin_account_infos" table.
+	CoinAccountInfosColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "coin_type_id", Type: field.TypeUUID},
+		{Name: "address", Type: field.TypeString},
+		{Name: "generated_by", Type: field.TypeEnum, Enums: []string{"platform", "user"}},
+		{Name: "used_for", Type: field.TypeEnum, Enums: []string{"benefit", "offline", "user", "paying"}},
+		{Name: "idle", Type: field.TypeBool},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
 	}
-	// EmptiesTable holds the schema information for the "empties" table.
-	EmptiesTable = &schema.Table{
-		Name:       "empties",
-		Columns:    EmptiesColumns,
-		PrimaryKey: []*schema.Column{EmptiesColumns[0]},
+	// CoinAccountInfosTable holds the schema information for the "coin_account_infos" table.
+	CoinAccountInfosTable = &schema.Table{
+		Name:       "coin_account_infos",
+		Columns:    CoinAccountInfosColumns,
+		PrimaryKey: []*schema.Column{CoinAccountInfosColumns[0]},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		EmptiesTable,
+		CoinAccountInfosTable,
 	}
 )
 

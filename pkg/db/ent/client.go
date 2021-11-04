@@ -8,8 +8,9 @@ import (
 	"log"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/migrate"
+	"github.com/google/uuid"
 
-	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/empty"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -20,8 +21,8 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
-	// Empty is the client for interacting with the Empty builders.
-	Empty *EmptyClient
+	// CoinAccountInfo is the client for interacting with the CoinAccountInfo builders.
+	CoinAccountInfo *CoinAccountInfoClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -35,7 +36,7 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
-	c.Empty = NewEmptyClient(c.config)
+	c.CoinAccountInfo = NewCoinAccountInfoClient(c.config)
 }
 
 // Open opens a database/sql.DB specified by the driver name and
@@ -67,9 +68,9 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Empty:  NewEmptyClient(cfg),
+		ctx:             ctx,
+		config:          cfg,
+		CoinAccountInfo: NewCoinAccountInfoClient(cfg),
 	}, nil
 }
 
@@ -87,15 +88,15 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		config: cfg,
-		Empty:  NewEmptyClient(cfg),
+		config:          cfg,
+		CoinAccountInfo: NewCoinAccountInfoClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Empty.
+//		CoinAccountInfo.
 //		Query().
 //		Count(ctx)
 //
@@ -118,87 +119,87 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Empty.Use(hooks...)
+	c.CoinAccountInfo.Use(hooks...)
 }
 
-// EmptyClient is a client for the Empty schema.
-type EmptyClient struct {
+// CoinAccountInfoClient is a client for the CoinAccountInfo schema.
+type CoinAccountInfoClient struct {
 	config
 }
 
-// NewEmptyClient returns a client for the Empty from the given config.
-func NewEmptyClient(c config) *EmptyClient {
-	return &EmptyClient{config: c}
+// NewCoinAccountInfoClient returns a client for the CoinAccountInfo from the given config.
+func NewCoinAccountInfoClient(c config) *CoinAccountInfoClient {
+	return &CoinAccountInfoClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `empty.Hooks(f(g(h())))`.
-func (c *EmptyClient) Use(hooks ...Hook) {
-	c.hooks.Empty = append(c.hooks.Empty, hooks...)
+// A call to `Use(f, g, h)` equals to `coinaccountinfo.Hooks(f(g(h())))`.
+func (c *CoinAccountInfoClient) Use(hooks ...Hook) {
+	c.hooks.CoinAccountInfo = append(c.hooks.CoinAccountInfo, hooks...)
 }
 
-// Create returns a create builder for Empty.
-func (c *EmptyClient) Create() *EmptyCreate {
-	mutation := newEmptyMutation(c.config, OpCreate)
-	return &EmptyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a create builder for CoinAccountInfo.
+func (c *CoinAccountInfoClient) Create() *CoinAccountInfoCreate {
+	mutation := newCoinAccountInfoMutation(c.config, OpCreate)
+	return &CoinAccountInfoCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of Empty entities.
-func (c *EmptyClient) CreateBulk(builders ...*EmptyCreate) *EmptyCreateBulk {
-	return &EmptyCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of CoinAccountInfo entities.
+func (c *CoinAccountInfoClient) CreateBulk(builders ...*CoinAccountInfoCreate) *CoinAccountInfoCreateBulk {
+	return &CoinAccountInfoCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for Empty.
-func (c *EmptyClient) Update() *EmptyUpdate {
-	mutation := newEmptyMutation(c.config, OpUpdate)
-	return &EmptyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for CoinAccountInfo.
+func (c *CoinAccountInfoClient) Update() *CoinAccountInfoUpdate {
+	mutation := newCoinAccountInfoMutation(c.config, OpUpdate)
+	return &CoinAccountInfoUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *EmptyClient) UpdateOne(e *Empty) *EmptyUpdateOne {
-	mutation := newEmptyMutation(c.config, OpUpdateOne, withEmpty(e))
-	return &EmptyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *CoinAccountInfoClient) UpdateOne(cai *CoinAccountInfo) *CoinAccountInfoUpdateOne {
+	mutation := newCoinAccountInfoMutation(c.config, OpUpdateOne, withCoinAccountInfo(cai))
+	return &CoinAccountInfoUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *EmptyClient) UpdateOneID(id int) *EmptyUpdateOne {
-	mutation := newEmptyMutation(c.config, OpUpdateOne, withEmptyID(id))
-	return &EmptyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *CoinAccountInfoClient) UpdateOneID(id uuid.UUID) *CoinAccountInfoUpdateOne {
+	mutation := newCoinAccountInfoMutation(c.config, OpUpdateOne, withCoinAccountInfoID(id))
+	return &CoinAccountInfoUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for Empty.
-func (c *EmptyClient) Delete() *EmptyDelete {
-	mutation := newEmptyMutation(c.config, OpDelete)
-	return &EmptyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for CoinAccountInfo.
+func (c *CoinAccountInfoClient) Delete() *CoinAccountInfoDelete {
+	mutation := newCoinAccountInfoMutation(c.config, OpDelete)
+	return &CoinAccountInfoDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a delete builder for the given entity.
-func (c *EmptyClient) DeleteOne(e *Empty) *EmptyDeleteOne {
-	return c.DeleteOneID(e.ID)
+func (c *CoinAccountInfoClient) DeleteOne(cai *CoinAccountInfo) *CoinAccountInfoDeleteOne {
+	return c.DeleteOneID(cai.ID)
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *EmptyClient) DeleteOneID(id int) *EmptyDeleteOne {
-	builder := c.Delete().Where(empty.ID(id))
+func (c *CoinAccountInfoClient) DeleteOneID(id uuid.UUID) *CoinAccountInfoDeleteOne {
+	builder := c.Delete().Where(coinaccountinfo.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &EmptyDeleteOne{builder}
+	return &CoinAccountInfoDeleteOne{builder}
 }
 
-// Query returns a query builder for Empty.
-func (c *EmptyClient) Query() *EmptyQuery {
-	return &EmptyQuery{
+// Query returns a query builder for CoinAccountInfo.
+func (c *CoinAccountInfoClient) Query() *CoinAccountInfoQuery {
+	return &CoinAccountInfoQuery{
 		config: c.config,
 	}
 }
 
-// Get returns a Empty entity by its id.
-func (c *EmptyClient) Get(ctx context.Context, id int) (*Empty, error) {
-	return c.Query().Where(empty.ID(id)).Only(ctx)
+// Get returns a CoinAccountInfo entity by its id.
+func (c *CoinAccountInfoClient) Get(ctx context.Context, id uuid.UUID) (*CoinAccountInfo, error) {
+	return c.Query().Where(coinaccountinfo.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *EmptyClient) GetX(ctx context.Context, id int) *Empty {
+func (c *CoinAccountInfoClient) GetX(ctx context.Context, id uuid.UUID) *CoinAccountInfo {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -207,6 +208,6 @@ func (c *EmptyClient) GetX(ctx context.Context, id int) *Empty {
 }
 
 // Hooks returns the client hooks.
-func (c *EmptyClient) Hooks() []Hook {
-	return c.hooks.Empty
+func (c *CoinAccountInfoClient) Hooks() []Hook {
+	return c.hooks.CoinAccountInfo
 }
