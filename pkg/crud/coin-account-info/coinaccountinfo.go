@@ -93,7 +93,38 @@ func Get(ctx context.Context, in *npool.GetCoinAccountRequest) (*npool.GetCoinAc
 }
 
 func GetCoinAccountsByAppUser(ctx context.Context, in *npool.GetCoinAccountsByAppUserRequest) (*npool.GetCoinAccountsByAppUserResponse, error) {
-	return nil, nil
+	if _, err := uuid.Parse(in.GetAppID()); err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+	if _, err := uuid.Parse(in.GetUserID()); err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
+	infos, err := db.Client().
+		CoinAccountInfo.
+		Query().
+		Where(
+			coinaccountinfo.And(
+				coinaccountinfo.AppID(uuid.MustParse(in.GetAppID())),
+				coinaccountinfo.UserID(uuid.MustParse(in.GetUserID())),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty coin account")
+	}
+
+	accounts := []*npool.CoinAccountInfo{}
+	for _, info := range infos {
+		accounts = append(accounts, dbRowToCoinAccount(info))
+	}
+
+	return &npool.GetCoinAccountsByAppUserResponse{
+		Infos: accounts,
+	}, nil
 }
 
 func Delete(ctx context.Context, in *npool.DeleteCoinAccountRequest) (*npool.DeleteCoinAccountResponse, error) {

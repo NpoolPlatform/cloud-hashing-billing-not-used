@@ -445,7 +445,6 @@
 | ----- | ---- | ----- | ----------- |
 | AppID | [string](#string) |  |  |
 | UserID | [string](#string) |  |  |
-| CoinTypeID | [string](#string) |  |  |
 
 
 
@@ -460,7 +459,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Info | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) |  |  |
+| Infos | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) | repeated |  |
 
 
 

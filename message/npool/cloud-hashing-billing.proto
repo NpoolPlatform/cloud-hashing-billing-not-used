@@ -154,11 +154,10 @@ message GetCoinAccountResponse {
 message GetCoinAccountsByAppUserRequest {
     string AppID = 700;
     string UserID = 701;
-    string CoinTypeID = 702;
 }
 
 message GetCoinAccountsByAppUserResponse {
-    CoinAccountInfo Info = 800;
+    repeated CoinAccountInfo Infos = 800;
 }
 
 message DeleteCoinAccountRequest {

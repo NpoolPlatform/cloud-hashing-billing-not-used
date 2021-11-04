@@ -63,4 +63,12 @@ func TestCRUD(t *testing.T) {
 		assert.True(t, resp1.Info.Idle)
 		assertCoinAccount(t, resp1.Info, &coinAccount)
 	}
+
+	resp2, err := GetCoinAccountsByAppUser(context.Background(), &npool.GetCoinAccountsByAppUserRequest{
+		AppID:  coinAccount.AppID,
+		UserID: coinAccount.UserID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, len(resp2.Infos), 1)
+	}
 }
