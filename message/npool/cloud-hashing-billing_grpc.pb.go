@@ -15,88 +15,88 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// ServiceExampleClient is the client API for ServiceExample service.
+// CloudHashingBillingClient is the client API for CloudHashingBilling service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ServiceExampleClient interface {
+type CloudHashingBillingClient interface {
 	// Method Version
 	Version(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error)
 }
 
-type serviceExampleClient struct {
+type cloudHashingBillingClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewServiceExampleClient(cc grpc.ClientConnInterface) ServiceExampleClient {
-	return &serviceExampleClient{cc}
+func NewCloudHashingBillingClient(cc grpc.ClientConnInterface) CloudHashingBillingClient {
+	return &cloudHashingBillingClient{cc}
 }
 
-func (c *serviceExampleClient) Version(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error) {
+func (c *cloudHashingBillingClient) Version(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error) {
 	out := new(VersionResponse)
-	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.ServiceExample/Version", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.CloudHashingBilling/Version", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ServiceExampleServer is the server API for ServiceExample service.
-// All implementations must embed UnimplementedServiceExampleServer
+// CloudHashingBillingServer is the server API for CloudHashingBilling service.
+// All implementations must embed UnimplementedCloudHashingBillingServer
 // for forward compatibility
-type ServiceExampleServer interface {
+type CloudHashingBillingServer interface {
 	// Method Version
 	Version(context.Context, *emptypb.Empty) (*VersionResponse, error)
-	mustEmbedUnimplementedServiceExampleServer()
+	mustEmbedUnimplementedCloudHashingBillingServer()
 }
 
-// UnimplementedServiceExampleServer must be embedded to have forward compatible implementations.
-type UnimplementedServiceExampleServer struct {
+// UnimplementedCloudHashingBillingServer must be embedded to have forward compatible implementations.
+type UnimplementedCloudHashingBillingServer struct {
 }
 
-func (UnimplementedServiceExampleServer) Version(context.Context, *emptypb.Empty) (*VersionResponse, error) {
+func (UnimplementedCloudHashingBillingServer) Version(context.Context, *emptypb.Empty) (*VersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Version not implemented")
 }
-func (UnimplementedServiceExampleServer) mustEmbedUnimplementedServiceExampleServer() {}
+func (UnimplementedCloudHashingBillingServer) mustEmbedUnimplementedCloudHashingBillingServer() {}
 
-// UnsafeServiceExampleServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ServiceExampleServer will
+// UnsafeCloudHashingBillingServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CloudHashingBillingServer will
 // result in compilation errors.
-type UnsafeServiceExampleServer interface {
-	mustEmbedUnimplementedServiceExampleServer()
+type UnsafeCloudHashingBillingServer interface {
+	mustEmbedUnimplementedCloudHashingBillingServer()
 }
 
-func RegisterServiceExampleServer(s grpc.ServiceRegistrar, srv ServiceExampleServer) {
-	s.RegisterService(&ServiceExample_ServiceDesc, srv)
+func RegisterCloudHashingBillingServer(s grpc.ServiceRegistrar, srv CloudHashingBillingServer) {
+	s.RegisterService(&CloudHashingBilling_ServiceDesc, srv)
 }
 
-func _ServiceExample_Version_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CloudHashingBilling_Version_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServiceExampleServer).Version(ctx, in)
+		return srv.(CloudHashingBillingServer).Version(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/cloud.hashing.billing.v1.ServiceExample/Version",
+		FullMethod: "/cloud.hashing.billing.v1.CloudHashingBilling/Version",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceExampleServer).Version(ctx, req.(*emptypb.Empty))
+		return srv.(CloudHashingBillingServer).Version(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ServiceExample_ServiceDesc is the grpc.ServiceDesc for ServiceExample service.
+// CloudHashingBilling_ServiceDesc is the grpc.ServiceDesc for CloudHashingBilling service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ServiceExample_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "cloud.hashing.billing.v1.ServiceExample",
-	HandlerType: (*ServiceExampleServer)(nil),
+var CloudHashingBilling_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "cloud.hashing.billing.v1.CloudHashingBilling",
+	HandlerType: (*CloudHashingBillingServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Version",
-			Handler:    _ServiceExample_Version_Handler,
+			Handler:    _CloudHashingBilling_Version_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

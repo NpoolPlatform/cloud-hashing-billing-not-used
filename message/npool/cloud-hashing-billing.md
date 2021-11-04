@@ -6,7 +6,7 @@
 - [npool/cloud-hashing-billing.proto](#npool/cloud-hashing-billing.proto)
     - [VersionResponse](#cloud.hashing.billing.v1.VersionResponse)
   
-    - [ServiceExample](#cloud.hashing.billing.v1.ServiceExample)
+    - [CloudHashingBilling](#cloud.hashing.billing.v1.CloudHashingBilling)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -40,9 +40,9 @@ request body and response
  
 
 
-<a name="cloud.hashing.billing.v1.ServiceExample"></a>
+<a name="cloud.hashing.billing.v1.CloudHashingBilling"></a>
 
-### ServiceExample
+### CloudHashingBilling
 Cloud Hashing Billing
 
 | Method Name | Request Type | Response Type | Description |
