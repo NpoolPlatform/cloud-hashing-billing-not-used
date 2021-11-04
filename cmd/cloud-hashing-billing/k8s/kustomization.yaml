@@ -1,0 +1,6 @@
+commonLabels:
+  # app: cloud-hashing-billing
+
+resources:
+- 01-cloud-hashing-billing.yaml
+- 02-ingress.yaml

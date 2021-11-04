@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 
-	"github.com/NpoolPlatform/go-service-app-template/message/npool"
+	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 )

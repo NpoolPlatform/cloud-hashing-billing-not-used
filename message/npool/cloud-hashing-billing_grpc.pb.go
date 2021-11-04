@@ -100,5 +100,5 @@ var ServiceExample_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "npool/service-sample.proto",
+	Metadata: "npool/cloud-hashing-billing.proto",
 }

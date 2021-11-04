@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [npool/service-sample.proto](#npool/service-sample.proto)
+- [npool/cloud-hashing-billing.proto](#npool/cloud-hashing-billing.proto)
     - [VersionResponse](#service.sample.v1.VersionResponse)
   
     - [ServiceExample](#service.sample.v1.ServiceExample)
@@ -12,10 +12,10 @@
 
 
 
-<a name="npool/service-sample.proto"></a>
+<a name="npool/cloud-hashing-billing.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## npool/service-sample.proto
+## npool/cloud-hashing-billing.proto
 
 
 
