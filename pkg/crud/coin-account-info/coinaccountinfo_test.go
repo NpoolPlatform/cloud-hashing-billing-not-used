@@ -71,4 +71,13 @@ func TestCRUD(t *testing.T) {
 	if assert.Nil(t, err) {
 		assert.Equal(t, len(resp2.Infos), 1)
 	}
+
+	resp3, err := Delete(context.Background(), &npool.DeleteCoinAccountRequest{
+		ID: resp.Info.ID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
+		assert.True(t, resp3.Info.Idle)
+		assertCoinAccount(t, resp3.Info, &coinAccount)
+	}
 }

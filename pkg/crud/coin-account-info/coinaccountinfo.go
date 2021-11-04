@@ -2,6 +2,7 @@ package coinaccountinfo
 
 import (
 	"context"
+	"time"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
 
@@ -128,5 +129,20 @@ func GetCoinAccountsByAppUser(ctx context.Context, in *npool.GetCoinAccountsByAp
 }
 
 func Delete(ctx context.Context, in *npool.DeleteCoinAccountRequest) (*npool.DeleteCoinAccountResponse, error) {
-	return nil, nil
+	if _, err := uuid.Parse(in.GetID()); err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	info, err := db.Client().
+		CoinAccountInfo.
+		UpdateOneID(uuid.MustParse(in.GetID())).
+		SetDeleteAt(uint32(time.Now().Unix())).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail delete coin account: %v", err)
+	}
+
+	return &npool.DeleteCoinAccountResponse{
+		Info: dbRowToCoinAccount(info),
+	}, nil
 }
