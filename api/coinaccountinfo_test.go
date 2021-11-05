@@ -71,6 +71,22 @@ func TestCRUD(t *testing.T) { //nolint
 
 	resp, err = cli.R().
 		SetHeader("Content-Type", "application/json").
+		SetBody(npool.GetCoinAccountsByAppUserRequest{
+			AppID:  firstCreateInfo.Info.AppID,
+			UserID: firstCreateInfo.Info.UserID,
+		}).
+		Post("http://localhost:34759/v1/get/coin/accounts/by/app/user")
+	if assert.Nil(t, err) {
+		assert.Equal(t, 200, resp.StatusCode())
+		info := npool.GetCoinAccountsByAppUserResponse{}
+		err := json.Unmarshal(resp.Body(), &info)
+		if assert.Nil(t, err) {
+			assert.Equal(t, len(info.Infos), 1)
+		}
+	}
+
+	resp, err = cli.R().
+		SetHeader("Content-Type", "application/json").
 		SetBody(npool.GetCoinAccountRequest{
 			ID: firstCreateInfo.Info.ID,
 		}).
