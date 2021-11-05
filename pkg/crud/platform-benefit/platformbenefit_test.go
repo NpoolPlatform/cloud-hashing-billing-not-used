@@ -57,4 +57,12 @@ func TestCRUD(t *testing.T) {
 	if assert.Nil(t, err) {
 		assert.Equal(t, len(resp1.Infos), 1)
 	}
+
+	resp2, err := Get(context.Background(), &npool.GetPlatformBenefitRequest{
+		ID: resp.Info.ID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp2.Info.ID, resp.Info.ID)
+		assertPlatformBenefit(t, resp2.Info, &platformBenefit)
+	}
 }

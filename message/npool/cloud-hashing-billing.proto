@@ -97,6 +97,18 @@ service CloudHashingBilling {
             body: "*"
         };
     }
+    rpc GetPlatformBenefit(GetPlatformBenefitRequest) returns (GetPlatformBenefitResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/platform/benefit"
+            body: "*"
+        };
+    }
+    rpc GetPlatformBenefitDetail(GetPlatformBenefitDetailRequest) returns (GetPlatformBenefitDetailResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/platform/benefit/detail"
+            body: "*"
+        };
+    }
 
     rpc CreatePlatformSetting(CreatePlatformSettingRequest) returns (CreatePlatformSettingResponse) {
         option (google.api.http) = {
@@ -272,7 +284,7 @@ message PlatformBenefit {
     string GoodID = 2201;
     string BenefitAccountID = 2202;
     double Amount = 2203;
-    int32 HappenAt = 2204;
+    uint32 CreateAt = 2204;
     string ChainTransactionID = 2205;
 }
 
@@ -290,6 +302,31 @@ message GetPlatformBenefitsByGoodRequest {
 
 message GetPlatformBenefitsByGoodResponse {
     repeated PlatformBenefit Infos = 2600;
+}
+
+message PlatformBenefitDetail {
+    string ID = 2610;
+    string GoodID = 2611;
+    CoinAccountInfo BenefitAddress = 2612;
+    double Amount = 2613;
+    uint32 CreateAt = 2614;
+    string ChainTransactionID = 2615;
+}
+
+message GetPlatformBenefitDetailRequest {
+    string ID = 2620;
+}
+
+message GetPlatformBenefitDetailResponse {
+    PlatformBenefitDetail Detail = 2630;
+}
+
+message GetPlatformBenefitRequest {
+    string ID = 2640;
+}
+
+message GetPlatformBenefitResponse {
+    PlatformBenefit Info = 2650;
 }
 
 message PlatformSetting {
@@ -332,7 +369,7 @@ message UserBenefit {
     string AppID = 3403;
     string GoodID = 3404;
     double Amount = 3405;
-    int32 HappenAt = 3406;
+    uint32 CreateAt = 3406;
     string OrderID = 3407;
 }
 

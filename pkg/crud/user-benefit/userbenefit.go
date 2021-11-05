@@ -34,12 +34,13 @@ func validateUserBenefit(info *npool.UserBenefit) error {
 
 func dbRowToUserBenefit(row *ent.UserBenefit) *npool.UserBenefit {
 	return &npool.UserBenefit{
-		ID:      row.ID.String(),
-		GoodID:  row.GoodID.String(),
-		AppID:   row.AppID.String(),
-		UserID:  row.UserID.String(),
-		Amount:  price.DBPriceToVisualPrice(row.Amount),
-		OrderID: row.OrderID.String(),
+		ID:       row.ID.String(),
+		GoodID:   row.GoodID.String(),
+		AppID:    row.AppID.String(),
+		UserID:   row.UserID.String(),
+		Amount:   price.DBPriceToVisualPrice(row.Amount),
+		OrderID:  row.OrderID.String(),
+		CreateAt: row.CreateAt,
 	}
 }
 

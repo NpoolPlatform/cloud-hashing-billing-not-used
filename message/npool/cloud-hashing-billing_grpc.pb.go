@@ -34,6 +34,8 @@ type CloudHashingBillingClient interface {
 	DeleteCoinAccountTransaction(ctx context.Context, in *DeleteCoinAccountTransactionRequest, opts ...grpc.CallOption) (*DeleteCoinAccountTransactionResponse, error)
 	CreatePlatformBenefit(ctx context.Context, in *CreatePlatformBenefitRequest, opts ...grpc.CallOption) (*CreatePlatformBenefitResponse, error)
 	GetPlatformBenefitsByGood(ctx context.Context, in *GetPlatformBenefitsByGoodRequest, opts ...grpc.CallOption) (*GetPlatformBenefitsByGoodResponse, error)
+	GetPlatformBenefit(ctx context.Context, in *GetPlatformBenefitRequest, opts ...grpc.CallOption) (*GetPlatformBenefitResponse, error)
+	GetPlatformBenefitDetail(ctx context.Context, in *GetPlatformBenefitDetailRequest, opts ...grpc.CallOption) (*GetPlatformBenefitDetailResponse, error)
 	CreatePlatformSetting(ctx context.Context, in *CreatePlatformSettingRequest, opts ...grpc.CallOption) (*CreatePlatformSettingResponse, error)
 	UpdatePlatformSetting(ctx context.Context, in *UpdatePlatformSettingRequest, opts ...grpc.CallOption) (*UpdatePlatformSettingResponse, error)
 	GetPlatformSettingByGood(ctx context.Context, in *GetPlatformSettingByGoodRequest, opts ...grpc.CallOption) (*GetPlatformSettingByGoodResponse, error)
@@ -175,6 +177,24 @@ func (c *cloudHashingBillingClient) GetPlatformBenefitsByGood(ctx context.Contex
 	return out, nil
 }
 
+func (c *cloudHashingBillingClient) GetPlatformBenefit(ctx context.Context, in *GetPlatformBenefitRequest, opts ...grpc.CallOption) (*GetPlatformBenefitResponse, error) {
+	out := new(GetPlatformBenefitResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.CloudHashingBilling/GetPlatformBenefit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingBillingClient) GetPlatformBenefitDetail(ctx context.Context, in *GetPlatformBenefitDetailRequest, opts ...grpc.CallOption) (*GetPlatformBenefitDetailResponse, error) {
+	out := new(GetPlatformBenefitDetailResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.CloudHashingBilling/GetPlatformBenefitDetail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *cloudHashingBillingClient) CreatePlatformSetting(ctx context.Context, in *CreatePlatformSettingRequest, opts ...grpc.CallOption) (*CreatePlatformSettingResponse, error) {
 	out := new(CreatePlatformSettingResponse)
 	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.CloudHashingBilling/CreatePlatformSetting", in, out, opts...)
@@ -239,6 +259,8 @@ type CloudHashingBillingServer interface {
 	DeleteCoinAccountTransaction(context.Context, *DeleteCoinAccountTransactionRequest) (*DeleteCoinAccountTransactionResponse, error)
 	CreatePlatformBenefit(context.Context, *CreatePlatformBenefitRequest) (*CreatePlatformBenefitResponse, error)
 	GetPlatformBenefitsByGood(context.Context, *GetPlatformBenefitsByGoodRequest) (*GetPlatformBenefitsByGoodResponse, error)
+	GetPlatformBenefit(context.Context, *GetPlatformBenefitRequest) (*GetPlatformBenefitResponse, error)
+	GetPlatformBenefitDetail(context.Context, *GetPlatformBenefitDetailRequest) (*GetPlatformBenefitDetailResponse, error)
 	CreatePlatformSetting(context.Context, *CreatePlatformSettingRequest) (*CreatePlatformSettingResponse, error)
 	UpdatePlatformSetting(context.Context, *UpdatePlatformSettingRequest) (*UpdatePlatformSettingResponse, error)
 	GetPlatformSettingByGood(context.Context, *GetPlatformSettingByGoodRequest) (*GetPlatformSettingByGoodResponse, error)
@@ -292,6 +314,12 @@ func (UnimplementedCloudHashingBillingServer) CreatePlatformBenefit(context.Cont
 }
 func (UnimplementedCloudHashingBillingServer) GetPlatformBenefitsByGood(context.Context, *GetPlatformBenefitsByGoodRequest) (*GetPlatformBenefitsByGoodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlatformBenefitsByGood not implemented")
+}
+func (UnimplementedCloudHashingBillingServer) GetPlatformBenefit(context.Context, *GetPlatformBenefitRequest) (*GetPlatformBenefitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPlatformBenefit not implemented")
+}
+func (UnimplementedCloudHashingBillingServer) GetPlatformBenefitDetail(context.Context, *GetPlatformBenefitDetailRequest) (*GetPlatformBenefitDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPlatformBenefitDetail not implemented")
 }
 func (UnimplementedCloudHashingBillingServer) CreatePlatformSetting(context.Context, *CreatePlatformSettingRequest) (*CreatePlatformSettingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePlatformSetting not implemented")
@@ -573,6 +601,42 @@ func _CloudHashingBilling_GetPlatformBenefitsByGood_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CloudHashingBilling_GetPlatformBenefit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPlatformBenefitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingBillingServer).GetPlatformBenefit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.billing.v1.CloudHashingBilling/GetPlatformBenefit",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingBillingServer).GetPlatformBenefit(ctx, req.(*GetPlatformBenefitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingBilling_GetPlatformBenefitDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPlatformBenefitDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingBillingServer).GetPlatformBenefitDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.billing.v1.CloudHashingBilling/GetPlatformBenefitDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingBillingServer).GetPlatformBenefitDetail(ctx, req.(*GetPlatformBenefitDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CloudHashingBilling_CreatePlatformSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreatePlatformSettingRequest)
 	if err := dec(in); err != nil {
@@ -725,6 +789,14 @@ var CloudHashingBilling_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPlatformBenefitsByGood",
 			Handler:    _CloudHashingBilling_GetPlatformBenefitsByGood_Handler,
+		},
+		{
+			MethodName: "GetPlatformBenefit",
+			Handler:    _CloudHashingBilling_GetPlatformBenefit_Handler,
+		},
+		{
+			MethodName: "GetPlatformBenefitDetail",
+			Handler:    _CloudHashingBilling_GetPlatformBenefitDetail_Handler,
 		},
 		{
 			MethodName: "CreatePlatformSetting",

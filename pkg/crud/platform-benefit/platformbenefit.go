@@ -33,6 +33,7 @@ func dbRowToPlatformBenefit(row *ent.PlatformBenefit) *npool.PlatformBenefit {
 		BenefitAccountID:   row.BenefitAccountID.String(),
 		Amount:             price.DBPriceToVisualPrice(row.Amount),
 		ChainTransactionID: row.ChainTransactionID,
+		CreateAt:           row.CreateAt,
 	}
 }
 
@@ -87,5 +88,32 @@ func GetByGood(ctx context.Context, in *npool.GetPlatformBenefitsByGoodRequest) 
 
 	return &npool.GetPlatformBenefitsByGoodResponse{
 		Infos: benefits,
+	}, nil
+}
+
+func Get(ctx context.Context, in *npool.GetPlatformBenefitRequest) (*npool.GetPlatformBenefitResponse, error) {
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	infos, err := db.Client().
+		PlatformBenefit.
+		Query().
+		Where(
+			platformbenefit.And(
+				platformbenefit.ID(id),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query platform benefit: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty platform benefit")
+	}
+
+	return &npool.GetPlatformBenefitResponse{
+		Info: dbRowToPlatformBenefit(infos[0]),
 	}, nil
 }
