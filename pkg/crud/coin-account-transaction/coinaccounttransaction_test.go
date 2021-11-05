@@ -96,7 +96,7 @@ func TestCRUD(t *testing.T) {
 	coinAccountTransaction.State = "paying"
 	coinAccountTransaction.ID = resp.Info.ID
 
-	resp4, err := UpdateCoinAccountTransaction(context.Background(), &npool.UpdateCoinAccountTransactionRequest{
+	resp4, err := Update(context.Background(), &npool.UpdateCoinAccountTransactionRequest{
 		Info: &coinAccountTransaction,
 	})
 	if assert.Nil(t, err) {

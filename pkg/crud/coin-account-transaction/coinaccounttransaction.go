@@ -180,7 +180,7 @@ func GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool.GetCoinAcco
 	}, nil
 }
 
-func UpdateCoinAccountTransaction(ctx context.Context, in *npool.UpdateCoinAccountTransactionRequest) (*npool.UpdateCoinAccountTransactionResponse, error) {
+func Update(ctx context.Context, in *npool.UpdateCoinAccountTransactionRequest) (*npool.UpdateCoinAccountTransactionResponse, error) {
 	if _, err := uuid.Parse(in.GetInfo().GetID()); err != nil {
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
