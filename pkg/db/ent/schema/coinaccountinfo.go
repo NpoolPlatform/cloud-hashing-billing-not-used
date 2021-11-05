@@ -25,7 +25,7 @@ func (CoinAccountInfo) Fields() []ent.Field {
 		field.Enum("generated_by").
 			Values("platform", "user"),
 		field.Enum("used_for").
-			Values("benefit", "offline", "user", "paying"),
+			Values("benefit", "offline", "user", "paying", "withdraw"),
 		field.Bool("idle"),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),

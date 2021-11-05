@@ -103,10 +103,11 @@ type UsedFor string
 
 // UsedFor values.
 const (
-	UsedForBenefit UsedFor = "benefit"
-	UsedForOffline UsedFor = "offline"
-	UsedForUser    UsedFor = "user"
-	UsedForPaying  UsedFor = "paying"
+	UsedForBenefit  UsedFor = "benefit"
+	UsedForOffline  UsedFor = "offline"
+	UsedForUser     UsedFor = "user"
+	UsedForPaying   UsedFor = "paying"
+	UsedForWithdraw UsedFor = "withdraw"
 )
 
 func (uf UsedFor) String() string {
@@ -116,7 +117,7 @@ func (uf UsedFor) String() string {
 // UsedForValidator is a validator for the "used_for" field enum values. It is called by the builders before save.
 func UsedForValidator(uf UsedFor) error {
 	switch uf {
-	case UsedForBenefit, UsedForOffline, UsedForUser, UsedForPaying:
+	case UsedForBenefit, UsedForOffline, UsedForUser, UsedForPaying, UsedForWithdraw:
 		return nil
 	default:
 		return fmt.Errorf("coinaccountinfo: invalid enum value for used_for field: %q", uf)

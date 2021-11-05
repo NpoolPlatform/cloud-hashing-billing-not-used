@@ -6,6 +6,7 @@
 - [npool/cloud-hashing-billing.proto](#npool/cloud-hashing-billing.proto)
     - [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo)
     - [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction)
+    - [CoinAccountTransactionDetail](#cloud.hashing.billing.v1.CoinAccountTransactionDetail)
     - [CreateCoinAccountRequest](#cloud.hashing.billing.v1.CreateCoinAccountRequest)
     - [CreateCoinAccountResponse](#cloud.hashing.billing.v1.CreateCoinAccountResponse)
     - [CreateCoinAccountTransactionRequest](#cloud.hashing.billing.v1.CreateCoinAccountTransactionRequest)
@@ -22,6 +23,8 @@
     - [DeleteCoinAccountTransactionResponse](#cloud.hashing.billing.v1.DeleteCoinAccountTransactionResponse)
     - [GetCoinAccountRequest](#cloud.hashing.billing.v1.GetCoinAccountRequest)
     - [GetCoinAccountResponse](#cloud.hashing.billing.v1.GetCoinAccountResponse)
+    - [GetCoinAccountTransactionDetailRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionDetailRequest)
+    - [GetCoinAccountTransactionDetailResponse](#cloud.hashing.billing.v1.GetCoinAccountTransactionDetailResponse)
     - [GetCoinAccountTransactionRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionRequest)
     - [GetCoinAccountTransactionResponse](#cloud.hashing.billing.v1.GetCoinAccountTransactionResponse)
     - [GetCoinAccountTransactionsByCoinAccountRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinAccountRequest)
@@ -93,6 +96,32 @@
 | UserID | [string](#string) |  |  |
 | FromAddressID | [string](#string) |  |  |
 | ToAddressID | [string](#string) |  |  |
+| CoinTypeID | [string](#string) |  |  |
+| Amount | [double](#double) |  |  |
+| Message | [string](#string) |  |  |
+| CreateAt | [uint32](#uint32) |  |  |
+| State | [string](#string) |  |  |
+| ChainTransactionID | [string](#string) |  |  |
+| PlatformTransactionID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.CoinAccountTransactionDetail"></a>
+
+### CoinAccountTransactionDetail
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
+| UserID | [string](#string) |  |  |
+| FromAddress | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) |  |  |
+| ToAddress | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) |  |  |
 | CoinTypeID | [string](#string) |  |  |
 | Amount | [double](#double) |  |  |
 | Message | [string](#string) |  |  |
@@ -340,6 +369,36 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | Info | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.GetCoinAccountTransactionDetailRequest"></a>
+
+### GetCoinAccountTransactionDetailRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.GetCoinAccountTransactionDetailResponse"></a>
+
+### GetCoinAccountTransactionDetailResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Detail | [CoinAccountTransactionDetail](#cloud.hashing.billing.v1.CoinAccountTransactionDetail) |  |  |
 
 
 
@@ -719,6 +778,7 @@ Cloud Hashing Billing
 | GetCoinAccountTransactionsByCoinAccount | [GetCoinAccountTransactionsByCoinAccountRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinAccountRequest) | [GetCoinAccountTransactionsByCoinAccountResponse](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinAccountResponse) |  |
 | GetCoinAccountTransactionsByCoin | [GetCoinAccountTransactionsByCoinRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinRequest) | [GetCoinAccountTransactionsByCoinResponse](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinResponse) |  |
 | UpdateCoinAccountTransaction | [UpdateCoinAccountTransactionRequest](#cloud.hashing.billing.v1.UpdateCoinAccountTransactionRequest) | [UpdateCoinAccountTransactionResponse](#cloud.hashing.billing.v1.UpdateCoinAccountTransactionResponse) |  |
+| GetCoinAccountTransactionDetail | [GetCoinAccountTransactionDetailRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionDetailRequest) | [GetCoinAccountTransactionDetailResponse](#cloud.hashing.billing.v1.GetCoinAccountTransactionDetailResponse) |  |
 | DeleteCoinAccountTransaction | [DeleteCoinAccountTransactionRequest](#cloud.hashing.billing.v1.DeleteCoinAccountTransactionRequest) | [DeleteCoinAccountTransactionResponse](#cloud.hashing.billing.v1.DeleteCoinAccountTransactionResponse) |  |
 | CreatePlatformBenefit | [CreatePlatformBenefitRequest](#cloud.hashing.billing.v1.CreatePlatformBenefitRequest) | [CreatePlatformBenefitResponse](#cloud.hashing.billing.v1.CreatePlatformBenefitResponse) |  |
 | GetPlatformBenefitsByGood | [GetPlatformBenefitsByGoodRequest](#cloud.hashing.billing.v1.GetPlatformBenefitsByGoodRequest) | [GetPlatformBenefitsByGoodResponse](#cloud.hashing.billing.v1.GetPlatformBenefitsByGoodResponse) |  |

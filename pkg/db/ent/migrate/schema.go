@@ -14,7 +14,7 @@ var (
 		{Name: "coin_type_id", Type: field.TypeUUID},
 		{Name: "address", Type: field.TypeString},
 		{Name: "generated_by", Type: field.TypeEnum, Enums: []string{"platform", "user"}},
-		{Name: "used_for", Type: field.TypeEnum, Enums: []string{"benefit", "offline", "user", "paying"}},
+		{Name: "used_for", Type: field.TypeEnum, Enums: []string{"benefit", "offline", "user", "paying", "withdraw"}},
 		{Name: "idle", Type: field.TypeBool},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},

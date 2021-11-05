@@ -68,7 +68,13 @@ service CloudHashingBilling {
     }
     rpc UpdateCoinAccountTransaction(UpdateCoinAccountTransactionRequest) returns (UpdateCoinAccountTransactionResponse) {
         option (google.api.http) = {
-            post: "/v1/update/coin/account/transaction/state"
+            post: "/v1/update/coin/account/transaction"
+            body: "*"
+        };
+    }
+    rpc GetCoinAccountTransactionDetail(GetCoinAccountTransactionDetailRequest) returns (GetCoinAccountTransactionDetailResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coin/account/transaction/detail"
             body: "*"
         };
     }
@@ -203,6 +209,29 @@ message GetCoinAccountTransactionRequest {
 
 message GetCoinAccountTransactionResponse {
     CoinAccountTransaction Info = 1500;
+}
+
+message CoinAccountTransactionDetail {
+    string ID = 1510;
+    string AppID = 1511;
+    string UserID = 1512;
+    CoinAccountInfo FromAddress = 1513;
+    CoinAccountInfo ToAddress = 1514;
+    string CoinTypeID = 1515;
+    double Amount = 1516;
+    string Message = 1517;
+    uint32 CreateAt = 1518;
+    string State = 1519;
+    string ChainTransactionID = 1520;
+    string PlatformTransactionID = 1521;
+}
+
+message GetCoinAccountTransactionDetailRequest {
+    string ID = 1550;
+}
+
+message GetCoinAccountTransactionDetailResponse {
+    CoinAccountTransactionDetail Detail = 1560;
 }
 
 message GetCoinAccountTransactionsByCoinAccountRequest {
