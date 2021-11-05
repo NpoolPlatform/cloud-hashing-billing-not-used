@@ -24,7 +24,7 @@ func (CoinAccountTransaction) Fields() []ent.Field {
 		field.UUID("from_address_id", uuid.UUID{}),
 		field.UUID("to_address_id", uuid.UUID{}),
 		field.UUID("coin_type_id", uuid.UUID{}),
-		field.Int64("amount"),
+		field.Uint64("amount"),
 		field.String("message"),
 		field.Enum("state").
 			Values("wait", "paying", "successful", "fail"),

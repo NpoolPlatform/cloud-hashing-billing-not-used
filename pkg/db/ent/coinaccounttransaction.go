@@ -27,7 +27,7 @@ type CoinAccountTransaction struct {
 	// CoinTypeID holds the value of the "coin_type_id" field.
 	CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 	// Amount holds the value of the "amount" field.
-	Amount int64 `json:"amount,omitempty"`
+	Amount uint64 `json:"amount,omitempty"`
 	// Message holds the value of the "message" field.
 	Message string `json:"message,omitempty"`
 	// State holds the value of the "state" field.
@@ -110,7 +110,7 @@ func (cat *CoinAccountTransaction) assignValues(columns []string, values []inter
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field amount", values[i])
 			} else if value.Valid {
-				cat.Amount = value.Int64
+				cat.Amount = uint64(value.Int64)
 			}
 		case coinaccounttransaction.FieldMessage:
 			if value, ok := values[i].(*sql.NullString); !ok {

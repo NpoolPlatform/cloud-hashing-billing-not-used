@@ -94,7 +94,7 @@
 | CoinTypeID | [string](#string) |  |  |
 | Amount | [double](#double) |  |  |
 | Message | [string](#string) |  |  |
-| CreateAt | [int32](#int32) |  |  |
+| CreateAt | [uint32](#uint32) |  |  |
 | State | [string](#string) |  |  |
 | ChainTransactionID | [string](#string) |  |  |
 | PlatformTransactionID | [string](#string) |  |  |
@@ -142,7 +142,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Transaction | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
+| Info | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
 
 
 
@@ -157,7 +157,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Transaction | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
+| Info | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
 
 
 
@@ -307,7 +307,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Transaction | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
+| Info | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
 
 
 
@@ -367,7 +367,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Transaction | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
+| Info | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
 
 
 
@@ -398,7 +398,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Transactions | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) | repeated |  |
+| Infos | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) | repeated |  |
 
 
 
@@ -428,7 +428,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Transactions | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) | repeated |  |
+| Infos | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) | repeated |  |
 
 
 

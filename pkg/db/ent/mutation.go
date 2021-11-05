@@ -925,8 +925,8 @@ type CoinAccountTransactionMutation struct {
 	from_address_id         *uuid.UUID
 	to_address_id           *uuid.UUID
 	coin_type_id            *uuid.UUID
-	amount                  *int64
-	addamount               *int64
+	amount                  *uint64
+	addamount               *uint64
 	message                 *string
 	state                   *coinaccounttransaction.State
 	chain_transaction_id    *string
@@ -1209,13 +1209,13 @@ func (m *CoinAccountTransactionMutation) ResetCoinTypeID() {
 }
 
 // SetAmount sets the "amount" field.
-func (m *CoinAccountTransactionMutation) SetAmount(i int64) {
-	m.amount = &i
+func (m *CoinAccountTransactionMutation) SetAmount(u uint64) {
+	m.amount = &u
 	m.addamount = nil
 }
 
 // Amount returns the value of the "amount" field in the mutation.
-func (m *CoinAccountTransactionMutation) Amount() (r int64, exists bool) {
+func (m *CoinAccountTransactionMutation) Amount() (r uint64, exists bool) {
 	v := m.amount
 	if v == nil {
 		return
@@ -1226,7 +1226,7 @@ func (m *CoinAccountTransactionMutation) Amount() (r int64, exists bool) {
 // OldAmount returns the old "amount" field's value of the CoinAccountTransaction entity.
 // If the CoinAccountTransaction object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CoinAccountTransactionMutation) OldAmount(ctx context.Context) (v int64, err error) {
+func (m *CoinAccountTransactionMutation) OldAmount(ctx context.Context) (v uint64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldAmount is only allowed on UpdateOne operations")
 	}
@@ -1240,17 +1240,17 @@ func (m *CoinAccountTransactionMutation) OldAmount(ctx context.Context) (v int64
 	return oldValue.Amount, nil
 }
 
-// AddAmount adds i to the "amount" field.
-func (m *CoinAccountTransactionMutation) AddAmount(i int64) {
+// AddAmount adds u to the "amount" field.
+func (m *CoinAccountTransactionMutation) AddAmount(u uint64) {
 	if m.addamount != nil {
-		*m.addamount += i
+		*m.addamount += u
 	} else {
-		m.addamount = &i
+		m.addamount = &u
 	}
 }
 
 // AddedAmount returns the value that was added to the "amount" field in this mutation.
-func (m *CoinAccountTransactionMutation) AddedAmount() (r int64, exists bool) {
+func (m *CoinAccountTransactionMutation) AddedAmount() (r uint64, exists bool) {
 	v := m.addamount
 	if v == nil {
 		return
@@ -1749,7 +1749,7 @@ func (m *CoinAccountTransactionMutation) SetField(name string, value ent.Value) 
 		m.SetCoinTypeID(v)
 		return nil
 	case coinaccounttransaction.FieldAmount:
-		v, ok := value.(int64)
+		v, ok := value.(uint64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1850,7 +1850,7 @@ func (m *CoinAccountTransactionMutation) AddedField(name string) (ent.Value, boo
 func (m *CoinAccountTransactionMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case coinaccounttransaction.FieldAmount:
-		v, ok := value.(int64)
+		v, ok := value.(uint64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

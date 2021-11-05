@@ -54,8 +54,8 @@ func (catc *CoinAccountTransactionCreate) SetCoinTypeID(u uuid.UUID) *CoinAccoun
 }
 
 // SetAmount sets the "amount" field.
-func (catc *CoinAccountTransactionCreate) SetAmount(i int64) *CoinAccountTransactionCreate {
-	catc.mutation.SetAmount(i)
+func (catc *CoinAccountTransactionCreate) SetAmount(u uint64) *CoinAccountTransactionCreate {
+	catc.mutation.SetAmount(u)
 	return catc
 }
 
@@ -341,7 +341,7 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 	}
 	if value, ok := catc.mutation.Amount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinaccounttransaction.FieldAmount,
 		})
@@ -518,7 +518,7 @@ func (u *CoinAccountTransactionUpsert) UpdateCoinTypeID() *CoinAccountTransactio
 }
 
 // SetAmount sets the "amount" field.
-func (u *CoinAccountTransactionUpsert) SetAmount(v int64) *CoinAccountTransactionUpsert {
+func (u *CoinAccountTransactionUpsert) SetAmount(v uint64) *CoinAccountTransactionUpsert {
 	u.Set(coinaccounttransaction.FieldAmount, v)
 	return u
 }
@@ -734,7 +734,7 @@ func (u *CoinAccountTransactionUpsertOne) UpdateCoinTypeID() *CoinAccountTransac
 }
 
 // SetAmount sets the "amount" field.
-func (u *CoinAccountTransactionUpsertOne) SetAmount(v int64) *CoinAccountTransactionUpsertOne {
+func (u *CoinAccountTransactionUpsertOne) SetAmount(v uint64) *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.SetAmount(v)
 	})
@@ -1132,7 +1132,7 @@ func (u *CoinAccountTransactionUpsertBulk) UpdateCoinTypeID() *CoinAccountTransa
 }
 
 // SetAmount sets the "amount" field.
-func (u *CoinAccountTransactionUpsertBulk) SetAmount(v int64) *CoinAccountTransactionUpsertBulk {
+func (u *CoinAccountTransactionUpsertBulk) SetAmount(v uint64) *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.SetAmount(v)
 	})

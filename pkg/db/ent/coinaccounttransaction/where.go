@@ -127,7 +127,7 @@ func CoinTypeID(v uuid.UUID) predicate.CoinAccountTransaction {
 }
 
 // Amount applies equality check predicate on the "amount" field. It's identical to AmountEQ.
-func Amount(v int64) predicate.CoinAccountTransaction {
+func Amount(v uint64) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldAmount), v))
 	})
@@ -556,21 +556,21 @@ func CoinTypeIDLTE(v uuid.UUID) predicate.CoinAccountTransaction {
 }
 
 // AmountEQ applies the EQ predicate on the "amount" field.
-func AmountEQ(v int64) predicate.CoinAccountTransaction {
+func AmountEQ(v uint64) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldAmount), v))
 	})
 }
 
 // AmountNEQ applies the NEQ predicate on the "amount" field.
-func AmountNEQ(v int64) predicate.CoinAccountTransaction {
+func AmountNEQ(v uint64) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldAmount), v))
 	})
 }
 
 // AmountIn applies the In predicate on the "amount" field.
-func AmountIn(vs ...int64) predicate.CoinAccountTransaction {
+func AmountIn(vs ...uint64) predicate.CoinAccountTransaction {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -587,7 +587,7 @@ func AmountIn(vs ...int64) predicate.CoinAccountTransaction {
 }
 
 // AmountNotIn applies the NotIn predicate on the "amount" field.
-func AmountNotIn(vs ...int64) predicate.CoinAccountTransaction {
+func AmountNotIn(vs ...uint64) predicate.CoinAccountTransaction {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -604,28 +604,28 @@ func AmountNotIn(vs ...int64) predicate.CoinAccountTransaction {
 }
 
 // AmountGT applies the GT predicate on the "amount" field.
-func AmountGT(v int64) predicate.CoinAccountTransaction {
+func AmountGT(v uint64) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldAmount), v))
 	})
 }
 
 // AmountGTE applies the GTE predicate on the "amount" field.
-func AmountGTE(v int64) predicate.CoinAccountTransaction {
+func AmountGTE(v uint64) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldAmount), v))
 	})
 }
 
 // AmountLT applies the LT predicate on the "amount" field.
-func AmountLT(v int64) predicate.CoinAccountTransaction {
+func AmountLT(v uint64) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldAmount), v))
 	})
 }
 
 // AmountLTE applies the LTE predicate on the "amount" field.
-func AmountLTE(v int64) predicate.CoinAccountTransaction {
+func AmountLTE(v uint64) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldAmount), v))
 	})

@@ -177,18 +177,18 @@ message CoinAccountTransaction {
     string CoinTypeID = 1105;
     double Amount = 1106;
     string Message = 1107;
-    int32 CreateAt = 1108;
+    uint32 CreateAt = 1108;
     string State = 1109;
     string ChainTransactionID = 1110;
     string PlatformTransactionID = 1111;
 }
 
 message CreateCoinAccountTransactionRequest {
-    CoinAccountTransaction Transaction = 1200;
+    CoinAccountTransaction Info = 1200;
 }
 
 message CreateCoinAccountTransactionResponse {
-    CoinAccountTransaction Transaction = 1300;
+    CoinAccountTransaction Info = 1300;
 }
 
 message GetCoinAccountTransactionRequest {
@@ -196,7 +196,7 @@ message GetCoinAccountTransactionRequest {
 }
 
 message GetCoinAccountTransactionResponse {
-    CoinAccountTransaction Transaction = 1500;
+    CoinAccountTransaction Info = 1500;
 }
 
 message GetCoinAccountTransactionsByCoinAccountRequest {
@@ -205,7 +205,7 @@ message GetCoinAccountTransactionsByCoinAccountRequest {
 }
 
 message GetCoinAccountTransactionsByCoinAccountResponse {
-    repeated CoinAccountTransaction Transactions = 1700;
+    repeated CoinAccountTransaction Infos = 1700;
 }
 
 message GetCoinAccountTransactionsByCoinRequest {
@@ -213,7 +213,7 @@ message GetCoinAccountTransactionsByCoinRequest {
 }
 
 message GetCoinAccountTransactionsByCoinResponse {
-    repeated CoinAccountTransaction Transactions = 1900;
+    repeated CoinAccountTransaction Infos = 1900;
 }
 
 message DeleteCoinAccountTransactionRequest {
@@ -221,7 +221,7 @@ message DeleteCoinAccountTransactionRequest {
 }
 
 message DeleteCoinAccountTransactionResponse {
-    CoinAccountTransaction Transaction = 2100;
+    CoinAccountTransaction Info = 2100;
 }
 
 message PlatformBenefit {

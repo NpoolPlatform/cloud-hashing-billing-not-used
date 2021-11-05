@@ -58,15 +58,15 @@ func (catu *CoinAccountTransactionUpdate) SetCoinTypeID(u uuid.UUID) *CoinAccoun
 }
 
 // SetAmount sets the "amount" field.
-func (catu *CoinAccountTransactionUpdate) SetAmount(i int64) *CoinAccountTransactionUpdate {
+func (catu *CoinAccountTransactionUpdate) SetAmount(u uint64) *CoinAccountTransactionUpdate {
 	catu.mutation.ResetAmount()
-	catu.mutation.SetAmount(i)
+	catu.mutation.SetAmount(u)
 	return catu
 }
 
-// AddAmount adds i to the "amount" field.
-func (catu *CoinAccountTransactionUpdate) AddAmount(i int64) *CoinAccountTransactionUpdate {
-	catu.mutation.AddAmount(i)
+// AddAmount adds u to the "amount" field.
+func (catu *CoinAccountTransactionUpdate) AddAmount(u uint64) *CoinAccountTransactionUpdate {
+	catu.mutation.AddAmount(u)
 	return catu
 }
 
@@ -288,14 +288,14 @@ func (catu *CoinAccountTransactionUpdate) sqlSave(ctx context.Context) (n int, e
 	}
 	if value, ok := catu.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinaccounttransaction.FieldAmount,
 		})
 	}
 	if value, ok := catu.mutation.AddedAmount(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinaccounttransaction.FieldAmount,
 		})
@@ -420,15 +420,15 @@ func (catuo *CoinAccountTransactionUpdateOne) SetCoinTypeID(u uuid.UUID) *CoinAc
 }
 
 // SetAmount sets the "amount" field.
-func (catuo *CoinAccountTransactionUpdateOne) SetAmount(i int64) *CoinAccountTransactionUpdateOne {
+func (catuo *CoinAccountTransactionUpdateOne) SetAmount(u uint64) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.ResetAmount()
-	catuo.mutation.SetAmount(i)
+	catuo.mutation.SetAmount(u)
 	return catuo
 }
 
-// AddAmount adds i to the "amount" field.
-func (catuo *CoinAccountTransactionUpdateOne) AddAmount(i int64) *CoinAccountTransactionUpdateOne {
-	catuo.mutation.AddAmount(i)
+// AddAmount adds u to the "amount" field.
+func (catuo *CoinAccountTransactionUpdateOne) AddAmount(u uint64) *CoinAccountTransactionUpdateOne {
+	catuo.mutation.AddAmount(u)
 	return catuo
 }
 
@@ -674,14 +674,14 @@ func (catuo *CoinAccountTransactionUpdateOne) sqlSave(ctx context.Context) (_nod
 	}
 	if value, ok := catuo.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinaccounttransaction.FieldAmount,
 		})
 	}
 	if value, ok := catuo.mutation.AddedAmount(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinaccounttransaction.FieldAmount,
 		})
