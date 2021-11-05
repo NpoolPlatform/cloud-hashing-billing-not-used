@@ -29,6 +29,7 @@ type CloudHashingBillingClient interface {
 	GetCoinAccountTransaction(ctx context.Context, in *GetCoinAccountTransactionRequest, opts ...grpc.CallOption) (*GetCoinAccountTransactionResponse, error)
 	GetCoinAccountTransactionsByCoinAccount(ctx context.Context, in *GetCoinAccountTransactionsByCoinAccountRequest, opts ...grpc.CallOption) (*GetCoinAccountTransactionsByCoinAccountResponse, error)
 	GetCoinAccountTransactionsByCoin(ctx context.Context, in *GetCoinAccountTransactionsByCoinRequest, opts ...grpc.CallOption) (*GetCoinAccountTransactionsByCoinResponse, error)
+	UpdateCoinAccountTransaction(ctx context.Context, in *UpdateCoinAccountTransactionRequest, opts ...grpc.CallOption) (*UpdateCoinAccountTransactionResponse, error)
 	DeleteCoinAccountTransaction(ctx context.Context, in *DeleteCoinAccountTransactionRequest, opts ...grpc.CallOption) (*DeleteCoinAccountTransactionResponse, error)
 	CreatePlatformBenefit(ctx context.Context, in *CreatePlatformBenefitRequest, opts ...grpc.CallOption) (*CreatePlatformBenefitResponse, error)
 	GetPlatformBenefitsByGood(ctx context.Context, in *GetPlatformBenefitsByGoodRequest, opts ...grpc.CallOption) (*GetPlatformBenefitsByGoodResponse, error)
@@ -128,6 +129,15 @@ func (c *cloudHashingBillingClient) GetCoinAccountTransactionsByCoin(ctx context
 	return out, nil
 }
 
+func (c *cloudHashingBillingClient) UpdateCoinAccountTransaction(ctx context.Context, in *UpdateCoinAccountTransactionRequest, opts ...grpc.CallOption) (*UpdateCoinAccountTransactionResponse, error) {
+	out := new(UpdateCoinAccountTransactionResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.CloudHashingBilling/UpdateCoinAccountTransaction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *cloudHashingBillingClient) DeleteCoinAccountTransaction(ctx context.Context, in *DeleteCoinAccountTransactionRequest, opts ...grpc.CallOption) (*DeleteCoinAccountTransactionResponse, error) {
 	out := new(DeleteCoinAccountTransactionResponse)
 	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.CloudHashingBilling/DeleteCoinAccountTransaction", in, out, opts...)
@@ -214,6 +224,7 @@ type CloudHashingBillingServer interface {
 	GetCoinAccountTransaction(context.Context, *GetCoinAccountTransactionRequest) (*GetCoinAccountTransactionResponse, error)
 	GetCoinAccountTransactionsByCoinAccount(context.Context, *GetCoinAccountTransactionsByCoinAccountRequest) (*GetCoinAccountTransactionsByCoinAccountResponse, error)
 	GetCoinAccountTransactionsByCoin(context.Context, *GetCoinAccountTransactionsByCoinRequest) (*GetCoinAccountTransactionsByCoinResponse, error)
+	UpdateCoinAccountTransaction(context.Context, *UpdateCoinAccountTransactionRequest) (*UpdateCoinAccountTransactionResponse, error)
 	DeleteCoinAccountTransaction(context.Context, *DeleteCoinAccountTransactionRequest) (*DeleteCoinAccountTransactionResponse, error)
 	CreatePlatformBenefit(context.Context, *CreatePlatformBenefitRequest) (*CreatePlatformBenefitResponse, error)
 	GetPlatformBenefitsByGood(context.Context, *GetPlatformBenefitsByGoodRequest) (*GetPlatformBenefitsByGoodResponse, error)
@@ -255,6 +266,9 @@ func (UnimplementedCloudHashingBillingServer) GetCoinAccountTransactionsByCoinAc
 }
 func (UnimplementedCloudHashingBillingServer) GetCoinAccountTransactionsByCoin(context.Context, *GetCoinAccountTransactionsByCoinRequest) (*GetCoinAccountTransactionsByCoinResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCoinAccountTransactionsByCoin not implemented")
+}
+func (UnimplementedCloudHashingBillingServer) UpdateCoinAccountTransaction(context.Context, *UpdateCoinAccountTransactionRequest) (*UpdateCoinAccountTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCoinAccountTransaction not implemented")
 }
 func (UnimplementedCloudHashingBillingServer) DeleteCoinAccountTransaction(context.Context, *DeleteCoinAccountTransactionRequest) (*DeleteCoinAccountTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCoinAccountTransaction not implemented")
@@ -455,6 +469,24 @@ func _CloudHashingBilling_GetCoinAccountTransactionsByCoin_Handler(srv interface
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CloudHashingBilling_UpdateCoinAccountTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCoinAccountTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingBillingServer).UpdateCoinAccountTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.billing.v1.CloudHashingBilling/UpdateCoinAccountTransaction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingBillingServer).UpdateCoinAccountTransaction(ctx, req.(*UpdateCoinAccountTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CloudHashingBilling_DeleteCoinAccountTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteCoinAccountTransactionRequest)
 	if err := dec(in); err != nil {
@@ -641,6 +673,10 @@ var CloudHashingBilling_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCoinAccountTransactionsByCoin",
 			Handler:    _CloudHashingBilling_GetCoinAccountTransactionsByCoin_Handler,
+		},
+		{
+			MethodName: "UpdateCoinAccountTransaction",
+			Handler:    _CloudHashingBilling_UpdateCoinAccountTransaction_Handler,
 		},
 		{
 			MethodName: "DeleteCoinAccountTransaction",

@@ -38,6 +38,8 @@
     - [GetUserBenefitsByAppUserResponse](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserResponse)
     - [PlatformBenefit](#cloud.hashing.billing.v1.PlatformBenefit)
     - [PlatformSetting](#cloud.hashing.billing.v1.PlatformSetting)
+    - [UpdateCoinAccountTransactionRequest](#cloud.hashing.billing.v1.UpdateCoinAccountTransactionRequest)
+    - [UpdateCoinAccountTransactionResponse](#cloud.hashing.billing.v1.UpdateCoinAccountTransactionResponse)
     - [UpdatePlatformSettingRequest](#cloud.hashing.billing.v1.UpdatePlatformSettingRequest)
     - [UpdatePlatformSettingResponse](#cloud.hashing.billing.v1.UpdatePlatformSettingResponse)
     - [UserBenefit](#cloud.hashing.billing.v1.UserBenefit)
@@ -598,6 +600,36 @@
 
 
 
+<a name="cloud.hashing.billing.v1.UpdateCoinAccountTransactionRequest"></a>
+
+### UpdateCoinAccountTransactionRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.UpdateCoinAccountTransactionResponse"></a>
+
+### UpdateCoinAccountTransactionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [CoinAccountTransaction](#cloud.hashing.billing.v1.CoinAccountTransaction) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.billing.v1.UpdatePlatformSettingRequest"></a>
 
 ### UpdatePlatformSettingRequest
@@ -686,6 +718,7 @@ Cloud Hashing Billing
 | GetCoinAccountTransaction | [GetCoinAccountTransactionRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionRequest) | [GetCoinAccountTransactionResponse](#cloud.hashing.billing.v1.GetCoinAccountTransactionResponse) |  |
 | GetCoinAccountTransactionsByCoinAccount | [GetCoinAccountTransactionsByCoinAccountRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinAccountRequest) | [GetCoinAccountTransactionsByCoinAccountResponse](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinAccountResponse) |  |
 | GetCoinAccountTransactionsByCoin | [GetCoinAccountTransactionsByCoinRequest](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinRequest) | [GetCoinAccountTransactionsByCoinResponse](#cloud.hashing.billing.v1.GetCoinAccountTransactionsByCoinResponse) |  |
+| UpdateCoinAccountTransaction | [UpdateCoinAccountTransactionRequest](#cloud.hashing.billing.v1.UpdateCoinAccountTransactionRequest) | [UpdateCoinAccountTransactionResponse](#cloud.hashing.billing.v1.UpdateCoinAccountTransactionResponse) |  |
 | DeleteCoinAccountTransaction | [DeleteCoinAccountTransactionRequest](#cloud.hashing.billing.v1.DeleteCoinAccountTransactionRequest) | [DeleteCoinAccountTransactionResponse](#cloud.hashing.billing.v1.DeleteCoinAccountTransactionResponse) |  |
 | CreatePlatformBenefit | [CreatePlatformBenefitRequest](#cloud.hashing.billing.v1.CreatePlatformBenefitRequest) | [CreatePlatformBenefitResponse](#cloud.hashing.billing.v1.CreatePlatformBenefitResponse) |  |
 | GetPlatformBenefitsByGood | [GetPlatformBenefitsByGoodRequest](#cloud.hashing.billing.v1.GetPlatformBenefitsByGoodRequest) | [GetPlatformBenefitsByGoodResponse](#cloud.hashing.billing.v1.GetPlatformBenefitsByGoodResponse) |  |

@@ -180,6 +180,31 @@ func GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool.GetCoinAcco
 	}, nil
 }
 
+func UpdateCoinAccountTransaction(ctx context.Context, in *npool.UpdateCoinAccountTransactionRequest) (*npool.UpdateCoinAccountTransactionResponse, error) {
+	if _, err := uuid.Parse(in.GetInfo().GetID()); err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	if err := validateCoinAccountTransaction(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	info, err := db.Client().
+		CoinAccountTransaction.
+		UpdateOneID(uuid.MustParse(in.GetInfo().GetID())).
+		SetState(coinaccounttransaction.State(in.GetInfo().GetState())).
+		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
+		SetPlatformTransactionID(uuid.MustParse(in.GetInfo().GetPlatformTransactionID())).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail update coin account: %v", err)
+	}
+
+	return &npool.UpdateCoinAccountTransactionResponse{
+		Info: dbRowToCoinAccountTransaction(info),
+	}, nil
+}
+
 func Delete(ctx context.Context, in *npool.DeleteCoinAccountTransactionRequest) (*npool.DeleteCoinAccountTransactionResponse, error) {
 	if _, err := uuid.Parse(in.GetID()); err != nil {
 		return nil, xerrors.Errorf("invalid id: %v", err)

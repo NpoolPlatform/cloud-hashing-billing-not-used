@@ -66,6 +66,12 @@ service CloudHashingBilling {
             body: "*"
         };
     }
+    rpc UpdateCoinAccountTransaction(UpdateCoinAccountTransactionRequest) returns (UpdateCoinAccountTransactionResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/coin/account/transaction/state"
+            body: "*"
+        };
+    }
     rpc DeleteCoinAccountTransaction(DeleteCoinAccountTransactionRequest) returns (DeleteCoinAccountTransactionResponse) {
         option (google.api.http) = {
             post: "/v1/delete/coin/account/transaction"
@@ -214,6 +220,14 @@ message GetCoinAccountTransactionsByCoinRequest {
 
 message GetCoinAccountTransactionsByCoinResponse {
     repeated CoinAccountTransaction Infos = 1900;
+}
+
+message UpdateCoinAccountTransactionRequest {
+    CoinAccountTransaction Info = 1910;
+}
+
+message UpdateCoinAccountTransactionResponse {
+    CoinAccountTransaction Info = 1920;
 }
 
 message DeleteCoinAccountTransactionRequest {
