@@ -14,6 +14,8 @@ type Tx struct {
 	config
 	// CoinAccountInfo is the client for interacting with the CoinAccountInfo builders.
 	CoinAccountInfo *CoinAccountInfoClient
+	// CoinAccountTransaction is the client for interacting with the CoinAccountTransaction builders.
+	CoinAccountTransaction *CoinAccountTransactionClient
 
 	// lazily loaded.
 	client     *Client
@@ -150,6 +152,7 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.CoinAccountInfo = NewCoinAccountInfoClient(tx.config)
+	tx.CoinAccountTransaction = NewCoinAccountTransactionClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

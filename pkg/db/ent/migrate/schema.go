@@ -28,9 +28,33 @@ var (
 		Columns:    CoinAccountInfosColumns,
 		PrimaryKey: []*schema.Column{CoinAccountInfosColumns[0]},
 	}
+	// CoinAccountTransactionsColumns holds the columns for the "coin_account_transactions" table.
+	CoinAccountTransactionsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "from_address_id", Type: field.TypeUUID},
+		{Name: "to_address_id", Type: field.TypeUUID},
+		{Name: "coin_type_id", Type: field.TypeUUID},
+		{Name: "amount", Type: field.TypeInt64},
+		{Name: "message", Type: field.TypeString},
+		{Name: "state", Type: field.TypeEnum, Enums: []string{"wait", "paying", "successful", "fail"}},
+		{Name: "chain_transaction_id", Type: field.TypeString},
+		{Name: "platform_transaction_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// CoinAccountTransactionsTable holds the schema information for the "coin_account_transactions" table.
+	CoinAccountTransactionsTable = &schema.Table{
+		Name:       "coin_account_transactions",
+		Columns:    CoinAccountTransactionsColumns,
+		PrimaryKey: []*schema.Column{CoinAccountTransactionsColumns[0]},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		CoinAccountInfosTable,
+		CoinAccountTransactionsTable,
 	}
 )
 

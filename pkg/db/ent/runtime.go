@@ -4,6 +4,7 @@ package ent
 
 import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/schema"
 	"github.com/google/uuid"
 )
@@ -32,4 +33,24 @@ func init() {
 	coinaccountinfoDescID := coinaccountinfoFields[0].Descriptor()
 	// coinaccountinfo.DefaultID holds the default value on creation for the id field.
 	coinaccountinfo.DefaultID = coinaccountinfoDescID.Default.(func() uuid.UUID)
+	coinaccounttransactionFields := schema.CoinAccountTransaction{}.Fields()
+	_ = coinaccounttransactionFields
+	// coinaccounttransactionDescCreateAt is the schema descriptor for create_at field.
+	coinaccounttransactionDescCreateAt := coinaccounttransactionFields[11].Descriptor()
+	// coinaccounttransaction.DefaultCreateAt holds the default value on creation for the create_at field.
+	coinaccounttransaction.DefaultCreateAt = coinaccounttransactionDescCreateAt.Default.(func() uint32)
+	// coinaccounttransactionDescUpdateAt is the schema descriptor for update_at field.
+	coinaccounttransactionDescUpdateAt := coinaccounttransactionFields[12].Descriptor()
+	// coinaccounttransaction.DefaultUpdateAt holds the default value on creation for the update_at field.
+	coinaccounttransaction.DefaultUpdateAt = coinaccounttransactionDescUpdateAt.Default.(func() uint32)
+	// coinaccounttransaction.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	coinaccounttransaction.UpdateDefaultUpdateAt = coinaccounttransactionDescUpdateAt.UpdateDefault.(func() uint32)
+	// coinaccounttransactionDescDeleteAt is the schema descriptor for delete_at field.
+	coinaccounttransactionDescDeleteAt := coinaccounttransactionFields[13].Descriptor()
+	// coinaccounttransaction.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	coinaccounttransaction.DefaultDeleteAt = coinaccounttransactionDescDeleteAt.Default.(func() uint32)
+	// coinaccounttransactionDescID is the schema descriptor for id field.
+	coinaccounttransactionDescID := coinaccounttransactionFields[0].Descriptor()
+	// coinaccounttransaction.DefaultID holds the default value on creation for the id field.
+	coinaccounttransaction.DefaultID = coinaccounttransactionDescID.Default.(func() uuid.UUID)
 }

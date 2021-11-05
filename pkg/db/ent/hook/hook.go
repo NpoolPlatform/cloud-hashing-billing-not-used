@@ -22,6 +22,19 @@ func (f CoinAccountInfoFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Va
 	return f(ctx, mv)
 }
 
+// The CoinAccountTransactionFunc type is an adapter to allow the use of ordinary
+// function as CoinAccountTransaction mutator.
+type CoinAccountTransactionFunc func(context.Context, *ent.CoinAccountTransactionMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CoinAccountTransactionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.CoinAccountTransactionMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CoinAccountTransactionMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // Condition is a hook condition function.
 type Condition func(context.Context, ent.Mutation) bool
 

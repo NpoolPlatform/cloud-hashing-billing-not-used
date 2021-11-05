@@ -9,6 +9,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -29,7 +30,8 @@ type OrderFunc func(*sql.Selector)
 // columnChecker returns a function indicates if the column exists in the given column.
 func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
-		coinaccountinfo.Table: coinaccountinfo.ValidColumn,
+		coinaccountinfo.Table:        coinaccountinfo.ValidColumn,
+		coinaccounttransaction.Table: coinaccounttransaction.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {

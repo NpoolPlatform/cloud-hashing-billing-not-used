@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -23,6 +24,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// CoinAccountInfo is the client for interacting with the CoinAccountInfo builders.
 	CoinAccountInfo *CoinAccountInfoClient
+	// CoinAccountTransaction is the client for interacting with the CoinAccountTransaction builders.
+	CoinAccountTransaction *CoinAccountTransactionClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -37,6 +40,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.CoinAccountInfo = NewCoinAccountInfoClient(c.config)
+	c.CoinAccountTransaction = NewCoinAccountTransactionClient(c.config)
 }
 
 // Open opens a database/sql.DB specified by the driver name and
@@ -68,9 +72,10 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:             ctx,
-		config:          cfg,
-		CoinAccountInfo: NewCoinAccountInfoClient(cfg),
+		ctx:                    ctx,
+		config:                 cfg,
+		CoinAccountInfo:        NewCoinAccountInfoClient(cfg),
+		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
 	}, nil
 }
 
@@ -88,8 +93,9 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		config:          cfg,
-		CoinAccountInfo: NewCoinAccountInfoClient(cfg),
+		config:                 cfg,
+		CoinAccountInfo:        NewCoinAccountInfoClient(cfg),
+		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
 	}, nil
 }
 
@@ -120,6 +126,7 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	c.CoinAccountInfo.Use(hooks...)
+	c.CoinAccountTransaction.Use(hooks...)
 }
 
 // CoinAccountInfoClient is a client for the CoinAccountInfo schema.
@@ -210,4 +217,94 @@ func (c *CoinAccountInfoClient) GetX(ctx context.Context, id uuid.UUID) *CoinAcc
 // Hooks returns the client hooks.
 func (c *CoinAccountInfoClient) Hooks() []Hook {
 	return c.hooks.CoinAccountInfo
+}
+
+// CoinAccountTransactionClient is a client for the CoinAccountTransaction schema.
+type CoinAccountTransactionClient struct {
+	config
+}
+
+// NewCoinAccountTransactionClient returns a client for the CoinAccountTransaction from the given config.
+func NewCoinAccountTransactionClient(c config) *CoinAccountTransactionClient {
+	return &CoinAccountTransactionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `coinaccounttransaction.Hooks(f(g(h())))`.
+func (c *CoinAccountTransactionClient) Use(hooks ...Hook) {
+	c.hooks.CoinAccountTransaction = append(c.hooks.CoinAccountTransaction, hooks...)
+}
+
+// Create returns a create builder for CoinAccountTransaction.
+func (c *CoinAccountTransactionClient) Create() *CoinAccountTransactionCreate {
+	mutation := newCoinAccountTransactionMutation(c.config, OpCreate)
+	return &CoinAccountTransactionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of CoinAccountTransaction entities.
+func (c *CoinAccountTransactionClient) CreateBulk(builders ...*CoinAccountTransactionCreate) *CoinAccountTransactionCreateBulk {
+	return &CoinAccountTransactionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for CoinAccountTransaction.
+func (c *CoinAccountTransactionClient) Update() *CoinAccountTransactionUpdate {
+	mutation := newCoinAccountTransactionMutation(c.config, OpUpdate)
+	return &CoinAccountTransactionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *CoinAccountTransactionClient) UpdateOne(cat *CoinAccountTransaction) *CoinAccountTransactionUpdateOne {
+	mutation := newCoinAccountTransactionMutation(c.config, OpUpdateOne, withCoinAccountTransaction(cat))
+	return &CoinAccountTransactionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *CoinAccountTransactionClient) UpdateOneID(id uuid.UUID) *CoinAccountTransactionUpdateOne {
+	mutation := newCoinAccountTransactionMutation(c.config, OpUpdateOne, withCoinAccountTransactionID(id))
+	return &CoinAccountTransactionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for CoinAccountTransaction.
+func (c *CoinAccountTransactionClient) Delete() *CoinAccountTransactionDelete {
+	mutation := newCoinAccountTransactionMutation(c.config, OpDelete)
+	return &CoinAccountTransactionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *CoinAccountTransactionClient) DeleteOne(cat *CoinAccountTransaction) *CoinAccountTransactionDeleteOne {
+	return c.DeleteOneID(cat.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *CoinAccountTransactionClient) DeleteOneID(id uuid.UUID) *CoinAccountTransactionDeleteOne {
+	builder := c.Delete().Where(coinaccounttransaction.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &CoinAccountTransactionDeleteOne{builder}
+}
+
+// Query returns a query builder for CoinAccountTransaction.
+func (c *CoinAccountTransactionClient) Query() *CoinAccountTransactionQuery {
+	return &CoinAccountTransactionQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a CoinAccountTransaction entity by its id.
+func (c *CoinAccountTransactionClient) Get(ctx context.Context, id uuid.UUID) (*CoinAccountTransaction, error) {
+	return c.Query().Where(coinaccounttransaction.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *CoinAccountTransactionClient) GetX(ctx context.Context, id uuid.UUID) *CoinAccountTransaction {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *CoinAccountTransactionClient) Hooks() []Hook {
+	return c.hooks.CoinAccountTransaction
 }

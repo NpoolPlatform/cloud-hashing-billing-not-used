@@ -8,3 +8,6 @@ import (
 
 // CoinAccountInfo is the predicate function for coinaccountinfo builders.
 type CoinAccountInfo func(*sql.Selector)
+
+// CoinAccountTransaction is the predicate function for coinaccounttransaction builders.
+type CoinAccountTransaction func(*sql.Selector)
