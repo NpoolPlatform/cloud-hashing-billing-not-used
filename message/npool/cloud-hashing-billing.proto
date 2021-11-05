@@ -37,7 +37,7 @@ service CloudHashingBilling {
     }
     rpc DeleteCoinAccount(DeleteCoinAccountRequest) returns (DeleteCoinAccountResponse) {
         option (google.api.http) = {
-            post: "/v1/update/coin/account"
+            post: "/v1/delete/coin/account"
             body: "*"
         };
     }

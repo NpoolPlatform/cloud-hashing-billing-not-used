@@ -850,7 +850,7 @@ func RegisterCloudHashingBillingHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cloud.hashing.billing.v1.CloudHashingBilling/DeleteCoinAccount", runtime.WithHTTPPathPattern("/v1/update/coin/account"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cloud.hashing.billing.v1.CloudHashingBilling/DeleteCoinAccount", runtime.WithHTTPPathPattern("/v1/delete/coin/account"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1360,7 +1360,7 @@ func RegisterCloudHashingBillingHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cloud.hashing.billing.v1.CloudHashingBilling/DeleteCoinAccount", runtime.WithHTTPPathPattern("/v1/update/coin/account"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cloud.hashing.billing.v1.CloudHashingBilling/DeleteCoinAccount", runtime.WithHTTPPathPattern("/v1/delete/coin/account"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1708,7 +1708,7 @@ var (
 
 	pattern_CloudHashingBilling_GetCoinAccountsByAppUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 2, 5, 2, 6}, []string{"v1", "get", "coin", "accounts", "by", "app", "user"}, ""))
 
-	pattern_CloudHashingBilling_DeleteCoinAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "update", "coin", "account"}, ""))
+	pattern_CloudHashingBilling_DeleteCoinAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "delete", "coin", "account"}, ""))
 
 	pattern_CloudHashingBilling_CreateCoinAccountTransaction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v1", "create", "coin", "account", "transaction"}, ""))
 
