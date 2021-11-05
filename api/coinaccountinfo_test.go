@@ -22,7 +22,7 @@ func assertCoinAccount(t *testing.T, actual, expected *npool.CoinAccountInfo) {
 	assert.Equal(t, actual.UserID, expected.UserID)
 }
 
-func TestCRUD(t *testing.T) { //nolint
+func TestCoinAccountInfoCRUD(t *testing.T) { //nolint
 	if runByGithubAction, err := strconv.ParseBool(os.Getenv("RUN_BY_GITHUB_ACTION")); err == nil && runByGithubAction {
 		return
 	}
