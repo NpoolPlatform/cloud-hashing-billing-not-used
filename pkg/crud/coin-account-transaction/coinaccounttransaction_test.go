@@ -86,11 +86,18 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, len(resp2.Infos), 1)
 	}
 
-	resp3, err := Delete(context.Background(), &npool.DeleteCoinAccountTransactionRequest{
+	resp3, err := GetCoinAccountTransactionsByCoin(context.Background(), &npool.GetCoinAccountTransactionsByCoinRequest{
+		CoinTypeID: coinAccountTransaction.CoinTypeID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, len(resp3.Infos), 1)
+	}
+
+	resp4, err := Delete(context.Background(), &npool.DeleteCoinAccountTransactionRequest{
 		ID: resp.Info.ID,
 	})
 	if assert.Nil(t, err) {
-		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
-		assertCoinAccountTransaction(t, resp3.Info, &coinAccountTransaction)
+		assert.Equal(t, resp4.Info.ID, resp.Info.ID)
+		assertCoinAccountTransaction(t, resp4.Info, &coinAccountTransaction)
 	}
 }
