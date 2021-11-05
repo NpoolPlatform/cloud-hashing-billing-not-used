@@ -12,5 +12,8 @@ type CoinAccountInfo func(*sql.Selector)
 // CoinAccountTransaction is the predicate function for coinaccounttransaction builders.
 type CoinAccountTransaction func(*sql.Selector)
 
+// PlatformBenefit is the predicate function for platformbenefit builders.
+type PlatformBenefit func(*sql.Selector)
+
 // PlatformSetting is the predicate function for platformsetting builders.
 type PlatformSetting func(*sql.Selector)

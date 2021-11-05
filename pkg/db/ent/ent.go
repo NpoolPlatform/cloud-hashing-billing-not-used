@@ -10,6 +10,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 )
 
@@ -33,6 +34,7 @@ func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
 		coinaccountinfo.Table:        coinaccountinfo.ValidColumn,
 		coinaccounttransaction.Table: coinaccounttransaction.ValidColumn,
+		platformbenefit.Table:        platformbenefit.ValidColumn,
 		platformsetting.Table:        platformsetting.ValidColumn,
 	}
 	check, ok := checks[table]

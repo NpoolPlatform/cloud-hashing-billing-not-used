@@ -12,6 +12,7 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 
 	"entgo.io/ent/dialect"
@@ -27,6 +28,8 @@ type Client struct {
 	CoinAccountInfo *CoinAccountInfoClient
 	// CoinAccountTransaction is the client for interacting with the CoinAccountTransaction builders.
 	CoinAccountTransaction *CoinAccountTransactionClient
+	// PlatformBenefit is the client for interacting with the PlatformBenefit builders.
+	PlatformBenefit *PlatformBenefitClient
 	// PlatformSetting is the client for interacting with the PlatformSetting builders.
 	PlatformSetting *PlatformSettingClient
 }
@@ -44,6 +47,7 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.CoinAccountInfo = NewCoinAccountInfoClient(c.config)
 	c.CoinAccountTransaction = NewCoinAccountTransactionClient(c.config)
+	c.PlatformBenefit = NewPlatformBenefitClient(c.config)
 	c.PlatformSetting = NewPlatformSettingClient(c.config)
 }
 
@@ -80,6 +84,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		config:                 cfg,
 		CoinAccountInfo:        NewCoinAccountInfoClient(cfg),
 		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
+		PlatformBenefit:        NewPlatformBenefitClient(cfg),
 		PlatformSetting:        NewPlatformSettingClient(cfg),
 	}, nil
 }
@@ -101,6 +106,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		config:                 cfg,
 		CoinAccountInfo:        NewCoinAccountInfoClient(cfg),
 		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
+		PlatformBenefit:        NewPlatformBenefitClient(cfg),
 		PlatformSetting:        NewPlatformSettingClient(cfg),
 	}, nil
 }
@@ -133,6 +139,7 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	c.CoinAccountInfo.Use(hooks...)
 	c.CoinAccountTransaction.Use(hooks...)
+	c.PlatformBenefit.Use(hooks...)
 	c.PlatformSetting.Use(hooks...)
 }
 
@@ -314,6 +321,96 @@ func (c *CoinAccountTransactionClient) GetX(ctx context.Context, id uuid.UUID) *
 // Hooks returns the client hooks.
 func (c *CoinAccountTransactionClient) Hooks() []Hook {
 	return c.hooks.CoinAccountTransaction
+}
+
+// PlatformBenefitClient is a client for the PlatformBenefit schema.
+type PlatformBenefitClient struct {
+	config
+}
+
+// NewPlatformBenefitClient returns a client for the PlatformBenefit from the given config.
+func NewPlatformBenefitClient(c config) *PlatformBenefitClient {
+	return &PlatformBenefitClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `platformbenefit.Hooks(f(g(h())))`.
+func (c *PlatformBenefitClient) Use(hooks ...Hook) {
+	c.hooks.PlatformBenefit = append(c.hooks.PlatformBenefit, hooks...)
+}
+
+// Create returns a create builder for PlatformBenefit.
+func (c *PlatformBenefitClient) Create() *PlatformBenefitCreate {
+	mutation := newPlatformBenefitMutation(c.config, OpCreate)
+	return &PlatformBenefitCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PlatformBenefit entities.
+func (c *PlatformBenefitClient) CreateBulk(builders ...*PlatformBenefitCreate) *PlatformBenefitCreateBulk {
+	return &PlatformBenefitCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PlatformBenefit.
+func (c *PlatformBenefitClient) Update() *PlatformBenefitUpdate {
+	mutation := newPlatformBenefitMutation(c.config, OpUpdate)
+	return &PlatformBenefitUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PlatformBenefitClient) UpdateOne(pb *PlatformBenefit) *PlatformBenefitUpdateOne {
+	mutation := newPlatformBenefitMutation(c.config, OpUpdateOne, withPlatformBenefit(pb))
+	return &PlatformBenefitUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PlatformBenefitClient) UpdateOneID(id uuid.UUID) *PlatformBenefitUpdateOne {
+	mutation := newPlatformBenefitMutation(c.config, OpUpdateOne, withPlatformBenefitID(id))
+	return &PlatformBenefitUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PlatformBenefit.
+func (c *PlatformBenefitClient) Delete() *PlatformBenefitDelete {
+	mutation := newPlatformBenefitMutation(c.config, OpDelete)
+	return &PlatformBenefitDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *PlatformBenefitClient) DeleteOne(pb *PlatformBenefit) *PlatformBenefitDeleteOne {
+	return c.DeleteOneID(pb.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *PlatformBenefitClient) DeleteOneID(id uuid.UUID) *PlatformBenefitDeleteOne {
+	builder := c.Delete().Where(platformbenefit.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PlatformBenefitDeleteOne{builder}
+}
+
+// Query returns a query builder for PlatformBenefit.
+func (c *PlatformBenefitClient) Query() *PlatformBenefitQuery {
+	return &PlatformBenefitQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a PlatformBenefit entity by its id.
+func (c *PlatformBenefitClient) Get(ctx context.Context, id uuid.UUID) (*PlatformBenefit, error) {
+	return c.Query().Where(platformbenefit.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PlatformBenefitClient) GetX(ctx context.Context, id uuid.UUID) *PlatformBenefit {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *PlatformBenefitClient) Hooks() []Hook {
+	return c.hooks.PlatformBenefit
 }
 
 // PlatformSettingClient is a client for the PlatformSetting schema.

@@ -16,6 +16,8 @@ type Tx struct {
 	CoinAccountInfo *CoinAccountInfoClient
 	// CoinAccountTransaction is the client for interacting with the CoinAccountTransaction builders.
 	CoinAccountTransaction *CoinAccountTransactionClient
+	// PlatformBenefit is the client for interacting with the PlatformBenefit builders.
+	PlatformBenefit *PlatformBenefitClient
 	// PlatformSetting is the client for interacting with the PlatformSetting builders.
 	PlatformSetting *PlatformSettingClient
 
@@ -155,6 +157,7 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.CoinAccountInfo = NewCoinAccountInfoClient(tx.config)
 	tx.CoinAccountTransaction = NewCoinAccountTransactionClient(tx.config)
+	tx.PlatformBenefit = NewPlatformBenefitClient(tx.config)
 	tx.PlatformSetting = NewPlatformSettingClient(tx.config)
 }
 

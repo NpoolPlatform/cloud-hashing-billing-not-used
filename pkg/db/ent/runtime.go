@@ -5,6 +5,7 @@ package ent
 import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/schema"
 	"github.com/google/uuid"
@@ -54,6 +55,26 @@ func init() {
 	coinaccounttransactionDescID := coinaccounttransactionFields[0].Descriptor()
 	// coinaccounttransaction.DefaultID holds the default value on creation for the id field.
 	coinaccounttransaction.DefaultID = coinaccounttransactionDescID.Default.(func() uuid.UUID)
+	platformbenefitFields := schema.PlatformBenefit{}.Fields()
+	_ = platformbenefitFields
+	// platformbenefitDescCreateAt is the schema descriptor for create_at field.
+	platformbenefitDescCreateAt := platformbenefitFields[5].Descriptor()
+	// platformbenefit.DefaultCreateAt holds the default value on creation for the create_at field.
+	platformbenefit.DefaultCreateAt = platformbenefitDescCreateAt.Default.(func() uint32)
+	// platformbenefitDescUpdateAt is the schema descriptor for update_at field.
+	platformbenefitDescUpdateAt := platformbenefitFields[6].Descriptor()
+	// platformbenefit.DefaultUpdateAt holds the default value on creation for the update_at field.
+	platformbenefit.DefaultUpdateAt = platformbenefitDescUpdateAt.Default.(func() uint32)
+	// platformbenefit.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	platformbenefit.UpdateDefaultUpdateAt = platformbenefitDescUpdateAt.UpdateDefault.(func() uint32)
+	// platformbenefitDescDeleteAt is the schema descriptor for delete_at field.
+	platformbenefitDescDeleteAt := platformbenefitFields[7].Descriptor()
+	// platformbenefit.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	platformbenefit.DefaultDeleteAt = platformbenefitDescDeleteAt.Default.(func() uint32)
+	// platformbenefitDescID is the schema descriptor for id field.
+	platformbenefitDescID := platformbenefitFields[0].Descriptor()
+	// platformbenefit.DefaultID holds the default value on creation for the id field.
+	platformbenefit.DefaultID = platformbenefitDescID.Default.(func() uuid.UUID)
 	platformsettingFields := schema.PlatformSetting{}.Fields()
 	_ = platformsettingFields
 	// platformsettingDescCreateAt is the schema descriptor for create_at field.

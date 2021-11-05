@@ -35,6 +35,19 @@ func (f CoinAccountTransactionFunc) Mutate(ctx context.Context, m ent.Mutation) 
 	return f(ctx, mv)
 }
 
+// The PlatformBenefitFunc type is an adapter to allow the use of ordinary
+// function as PlatformBenefit mutator.
+type PlatformBenefitFunc func(context.Context, *ent.PlatformBenefitMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f PlatformBenefitFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.PlatformBenefitMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PlatformBenefitMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The PlatformSettingFunc type is an adapter to allow the use of ordinary
 // function as PlatformSetting mutator.
 type PlatformSettingFunc func(context.Context, *ent.PlatformSettingMutation) (ent.Value, error)

@@ -26,6 +26,7 @@ type config struct {
 type hooks struct {
 	CoinAccountInfo        []ent.Hook
 	CoinAccountTransaction []ent.Hook
+	PlatformBenefit        []ent.Hook
 	PlatformSetting        []ent.Hook
 }
 
