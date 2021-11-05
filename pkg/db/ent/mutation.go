@@ -9,6 +9,7 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/predicate"
 	"github.com/google/uuid"
 
@@ -26,6 +27,7 @@ const (
 	// Node types.
 	TypeCoinAccountInfo        = "CoinAccountInfo"
 	TypeCoinAccountTransaction = "CoinAccountTransaction"
+	TypePlatformSetting        = "PlatformSetting"
 )
 
 // CoinAccountInfoMutation represents an operation that mutates the CoinAccountInfo nodes in the graph.
@@ -1993,4 +1995,869 @@ func (m *CoinAccountTransactionMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *CoinAccountTransactionMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown CoinAccountTransaction edge %s", name)
+}
+
+// PlatformSettingMutation represents an operation that mutates the PlatformSetting nodes in the graph.
+type PlatformSettingMutation struct {
+	config
+	op                          Op
+	typ                         string
+	id                          *uuid.UUID
+	good_id                     *uuid.UUID
+	benefit_account_id          *uuid.UUID
+	platform_offline_account_id *uuid.UUID
+	user_online_account_id      *uuid.UUID
+	user_offline_account_id     *uuid.UUID
+	benefit_interval_hours      *int32
+	addbenefit_interval_hours   *int32
+	create_at                   *uint32
+	addcreate_at                *uint32
+	update_at                   *uint32
+	addupdate_at                *uint32
+	delete_at                   *uint32
+	adddelete_at                *uint32
+	clearedFields               map[string]struct{}
+	done                        bool
+	oldValue                    func(context.Context) (*PlatformSetting, error)
+	predicates                  []predicate.PlatformSetting
+}
+
+var _ ent.Mutation = (*PlatformSettingMutation)(nil)
+
+// platformsettingOption allows management of the mutation configuration using functional options.
+type platformsettingOption func(*PlatformSettingMutation)
+
+// newPlatformSettingMutation creates new mutation for the PlatformSetting entity.
+func newPlatformSettingMutation(c config, op Op, opts ...platformsettingOption) *PlatformSettingMutation {
+	m := &PlatformSettingMutation{
+		config:        c,
+		op:            op,
+		typ:           TypePlatformSetting,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withPlatformSettingID sets the ID field of the mutation.
+func withPlatformSettingID(id uuid.UUID) platformsettingOption {
+	return func(m *PlatformSettingMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *PlatformSetting
+		)
+		m.oldValue = func(ctx context.Context) (*PlatformSetting, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().PlatformSetting.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withPlatformSetting sets the old PlatformSetting of the mutation.
+func withPlatformSetting(node *PlatformSetting) platformsettingOption {
+	return func(m *PlatformSettingMutation) {
+		m.oldValue = func(context.Context) (*PlatformSetting, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m PlatformSettingMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m PlatformSettingMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of PlatformSetting entities.
+func (m *PlatformSettingMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *PlatformSettingMutation) ID() (id uuid.UUID, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// SetGoodID sets the "good_id" field.
+func (m *PlatformSettingMutation) SetGoodID(u uuid.UUID) {
+	m.good_id = &u
+}
+
+// GoodID returns the value of the "good_id" field in the mutation.
+func (m *PlatformSettingMutation) GoodID() (r uuid.UUID, exists bool) {
+	v := m.good_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGoodID returns the old "good_id" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldGoodID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldGoodID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldGoodID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGoodID: %w", err)
+	}
+	return oldValue.GoodID, nil
+}
+
+// ResetGoodID resets all changes to the "good_id" field.
+func (m *PlatformSettingMutation) ResetGoodID() {
+	m.good_id = nil
+}
+
+// SetBenefitAccountID sets the "benefit_account_id" field.
+func (m *PlatformSettingMutation) SetBenefitAccountID(u uuid.UUID) {
+	m.benefit_account_id = &u
+}
+
+// BenefitAccountID returns the value of the "benefit_account_id" field in the mutation.
+func (m *PlatformSettingMutation) BenefitAccountID() (r uuid.UUID, exists bool) {
+	v := m.benefit_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBenefitAccountID returns the old "benefit_account_id" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldBenefitAccountID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldBenefitAccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldBenefitAccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBenefitAccountID: %w", err)
+	}
+	return oldValue.BenefitAccountID, nil
+}
+
+// ResetBenefitAccountID resets all changes to the "benefit_account_id" field.
+func (m *PlatformSettingMutation) ResetBenefitAccountID() {
+	m.benefit_account_id = nil
+}
+
+// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
+func (m *PlatformSettingMutation) SetPlatformOfflineAccountID(u uuid.UUID) {
+	m.platform_offline_account_id = &u
+}
+
+// PlatformOfflineAccountID returns the value of the "platform_offline_account_id" field in the mutation.
+func (m *PlatformSettingMutation) PlatformOfflineAccountID() (r uuid.UUID, exists bool) {
+	v := m.platform_offline_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPlatformOfflineAccountID returns the old "platform_offline_account_id" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldPlatformOfflineAccountID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldPlatformOfflineAccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldPlatformOfflineAccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPlatformOfflineAccountID: %w", err)
+	}
+	return oldValue.PlatformOfflineAccountID, nil
+}
+
+// ResetPlatformOfflineAccountID resets all changes to the "platform_offline_account_id" field.
+func (m *PlatformSettingMutation) ResetPlatformOfflineAccountID() {
+	m.platform_offline_account_id = nil
+}
+
+// SetUserOnlineAccountID sets the "user_online_account_id" field.
+func (m *PlatformSettingMutation) SetUserOnlineAccountID(u uuid.UUID) {
+	m.user_online_account_id = &u
+}
+
+// UserOnlineAccountID returns the value of the "user_online_account_id" field in the mutation.
+func (m *PlatformSettingMutation) UserOnlineAccountID() (r uuid.UUID, exists bool) {
+	v := m.user_online_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserOnlineAccountID returns the old "user_online_account_id" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldUserOnlineAccountID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUserOnlineAccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUserOnlineAccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserOnlineAccountID: %w", err)
+	}
+	return oldValue.UserOnlineAccountID, nil
+}
+
+// ResetUserOnlineAccountID resets all changes to the "user_online_account_id" field.
+func (m *PlatformSettingMutation) ResetUserOnlineAccountID() {
+	m.user_online_account_id = nil
+}
+
+// SetUserOfflineAccountID sets the "user_offline_account_id" field.
+func (m *PlatformSettingMutation) SetUserOfflineAccountID(u uuid.UUID) {
+	m.user_offline_account_id = &u
+}
+
+// UserOfflineAccountID returns the value of the "user_offline_account_id" field in the mutation.
+func (m *PlatformSettingMutation) UserOfflineAccountID() (r uuid.UUID, exists bool) {
+	v := m.user_offline_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserOfflineAccountID returns the old "user_offline_account_id" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldUserOfflineAccountID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUserOfflineAccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUserOfflineAccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserOfflineAccountID: %w", err)
+	}
+	return oldValue.UserOfflineAccountID, nil
+}
+
+// ResetUserOfflineAccountID resets all changes to the "user_offline_account_id" field.
+func (m *PlatformSettingMutation) ResetUserOfflineAccountID() {
+	m.user_offline_account_id = nil
+}
+
+// SetBenefitIntervalHours sets the "benefit_interval_hours" field.
+func (m *PlatformSettingMutation) SetBenefitIntervalHours(i int32) {
+	m.benefit_interval_hours = &i
+	m.addbenefit_interval_hours = nil
+}
+
+// BenefitIntervalHours returns the value of the "benefit_interval_hours" field in the mutation.
+func (m *PlatformSettingMutation) BenefitIntervalHours() (r int32, exists bool) {
+	v := m.benefit_interval_hours
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBenefitIntervalHours returns the old "benefit_interval_hours" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldBenefitIntervalHours(ctx context.Context) (v int32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldBenefitIntervalHours is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldBenefitIntervalHours requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBenefitIntervalHours: %w", err)
+	}
+	return oldValue.BenefitIntervalHours, nil
+}
+
+// AddBenefitIntervalHours adds i to the "benefit_interval_hours" field.
+func (m *PlatformSettingMutation) AddBenefitIntervalHours(i int32) {
+	if m.addbenefit_interval_hours != nil {
+		*m.addbenefit_interval_hours += i
+	} else {
+		m.addbenefit_interval_hours = &i
+	}
+}
+
+// AddedBenefitIntervalHours returns the value that was added to the "benefit_interval_hours" field in this mutation.
+func (m *PlatformSettingMutation) AddedBenefitIntervalHours() (r int32, exists bool) {
+	v := m.addbenefit_interval_hours
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetBenefitIntervalHours resets all changes to the "benefit_interval_hours" field.
+func (m *PlatformSettingMutation) ResetBenefitIntervalHours() {
+	m.benefit_interval_hours = nil
+	m.addbenefit_interval_hours = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *PlatformSettingMutation) SetCreateAt(u uint32) {
+	m.create_at = &u
+	m.addcreate_at = nil
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *PlatformSettingMutation) CreateAt() (r uint32, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (m *PlatformSettingMutation) AddCreateAt(u uint32) {
+	if m.addcreate_at != nil {
+		*m.addcreate_at += u
+	} else {
+		m.addcreate_at = &u
+	}
+}
+
+// AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
+func (m *PlatformSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+	v := m.addcreate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *PlatformSettingMutation) ResetCreateAt() {
+	m.create_at = nil
+	m.addcreate_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *PlatformSettingMutation) SetUpdateAt(u uint32) {
+	m.update_at = &u
+	m.addupdate_at = nil
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *PlatformSettingMutation) UpdateAt() (r uint32, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (m *PlatformSettingMutation) AddUpdateAt(u uint32) {
+	if m.addupdate_at != nil {
+		*m.addupdate_at += u
+	} else {
+		m.addupdate_at = &u
+	}
+}
+
+// AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
+func (m *PlatformSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+	v := m.addupdate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *PlatformSettingMutation) ResetUpdateAt() {
+	m.update_at = nil
+	m.addupdate_at = nil
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (m *PlatformSettingMutation) SetDeleteAt(u uint32) {
+	m.delete_at = &u
+	m.adddelete_at = nil
+}
+
+// DeleteAt returns the value of the "delete_at" field in the mutation.
+func (m *PlatformSettingMutation) DeleteAt() (r uint32, exists bool) {
+	v := m.delete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteAt returns the old "delete_at" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteAt: %w", err)
+	}
+	return oldValue.DeleteAt, nil
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (m *PlatformSettingMutation) AddDeleteAt(u uint32) {
+	if m.adddelete_at != nil {
+		*m.adddelete_at += u
+	} else {
+		m.adddelete_at = &u
+	}
+}
+
+// AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
+func (m *PlatformSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+	v := m.adddelete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDeleteAt resets all changes to the "delete_at" field.
+func (m *PlatformSettingMutation) ResetDeleteAt() {
+	m.delete_at = nil
+	m.adddelete_at = nil
+}
+
+// Where appends a list predicates to the PlatformSettingMutation builder.
+func (m *PlatformSettingMutation) Where(ps ...predicate.PlatformSetting) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *PlatformSettingMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (PlatformSetting).
+func (m *PlatformSettingMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *PlatformSettingMutation) Fields() []string {
+	fields := make([]string, 0, 9)
+	if m.good_id != nil {
+		fields = append(fields, platformsetting.FieldGoodID)
+	}
+	if m.benefit_account_id != nil {
+		fields = append(fields, platformsetting.FieldBenefitAccountID)
+	}
+	if m.platform_offline_account_id != nil {
+		fields = append(fields, platformsetting.FieldPlatformOfflineAccountID)
+	}
+	if m.user_online_account_id != nil {
+		fields = append(fields, platformsetting.FieldUserOnlineAccountID)
+	}
+	if m.user_offline_account_id != nil {
+		fields = append(fields, platformsetting.FieldUserOfflineAccountID)
+	}
+	if m.benefit_interval_hours != nil {
+		fields = append(fields, platformsetting.FieldBenefitIntervalHours)
+	}
+	if m.create_at != nil {
+		fields = append(fields, platformsetting.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, platformsetting.FieldUpdateAt)
+	}
+	if m.delete_at != nil {
+		fields = append(fields, platformsetting.FieldDeleteAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *PlatformSettingMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case platformsetting.FieldGoodID:
+		return m.GoodID()
+	case platformsetting.FieldBenefitAccountID:
+		return m.BenefitAccountID()
+	case platformsetting.FieldPlatformOfflineAccountID:
+		return m.PlatformOfflineAccountID()
+	case platformsetting.FieldUserOnlineAccountID:
+		return m.UserOnlineAccountID()
+	case platformsetting.FieldUserOfflineAccountID:
+		return m.UserOfflineAccountID()
+	case platformsetting.FieldBenefitIntervalHours:
+		return m.BenefitIntervalHours()
+	case platformsetting.FieldCreateAt:
+		return m.CreateAt()
+	case platformsetting.FieldUpdateAt:
+		return m.UpdateAt()
+	case platformsetting.FieldDeleteAt:
+		return m.DeleteAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *PlatformSettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case platformsetting.FieldGoodID:
+		return m.OldGoodID(ctx)
+	case platformsetting.FieldBenefitAccountID:
+		return m.OldBenefitAccountID(ctx)
+	case platformsetting.FieldPlatformOfflineAccountID:
+		return m.OldPlatformOfflineAccountID(ctx)
+	case platformsetting.FieldUserOnlineAccountID:
+		return m.OldUserOnlineAccountID(ctx)
+	case platformsetting.FieldUserOfflineAccountID:
+		return m.OldUserOfflineAccountID(ctx)
+	case platformsetting.FieldBenefitIntervalHours:
+		return m.OldBenefitIntervalHours(ctx)
+	case platformsetting.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case platformsetting.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case platformsetting.FieldDeleteAt:
+		return m.OldDeleteAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown PlatformSetting field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PlatformSettingMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case platformsetting.FieldGoodID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGoodID(v)
+		return nil
+	case platformsetting.FieldBenefitAccountID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBenefitAccountID(v)
+		return nil
+	case platformsetting.FieldPlatformOfflineAccountID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPlatformOfflineAccountID(v)
+		return nil
+	case platformsetting.FieldUserOnlineAccountID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserOnlineAccountID(v)
+		return nil
+	case platformsetting.FieldUserOfflineAccountID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserOfflineAccountID(v)
+		return nil
+	case platformsetting.FieldBenefitIntervalHours:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBenefitIntervalHours(v)
+		return nil
+	case platformsetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case platformsetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case platformsetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown PlatformSetting field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *PlatformSettingMutation) AddedFields() []string {
+	var fields []string
+	if m.addbenefit_interval_hours != nil {
+		fields = append(fields, platformsetting.FieldBenefitIntervalHours)
+	}
+	if m.addcreate_at != nil {
+		fields = append(fields, platformsetting.FieldCreateAt)
+	}
+	if m.addupdate_at != nil {
+		fields = append(fields, platformsetting.FieldUpdateAt)
+	}
+	if m.adddelete_at != nil {
+		fields = append(fields, platformsetting.FieldDeleteAt)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *PlatformSettingMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case platformsetting.FieldBenefitIntervalHours:
+		return m.AddedBenefitIntervalHours()
+	case platformsetting.FieldCreateAt:
+		return m.AddedCreateAt()
+	case platformsetting.FieldUpdateAt:
+		return m.AddedUpdateAt()
+	case platformsetting.FieldDeleteAt:
+		return m.AddedDeleteAt()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PlatformSettingMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case platformsetting.FieldBenefitIntervalHours:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddBenefitIntervalHours(v)
+		return nil
+	case platformsetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateAt(v)
+		return nil
+	case platformsetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateAt(v)
+		return nil
+	case platformsetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeleteAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown PlatformSetting numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *PlatformSettingMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *PlatformSettingMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *PlatformSettingMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown PlatformSetting nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *PlatformSettingMutation) ResetField(name string) error {
+	switch name {
+	case platformsetting.FieldGoodID:
+		m.ResetGoodID()
+		return nil
+	case platformsetting.FieldBenefitAccountID:
+		m.ResetBenefitAccountID()
+		return nil
+	case platformsetting.FieldPlatformOfflineAccountID:
+		m.ResetPlatformOfflineAccountID()
+		return nil
+	case platformsetting.FieldUserOnlineAccountID:
+		m.ResetUserOnlineAccountID()
+		return nil
+	case platformsetting.FieldUserOfflineAccountID:
+		m.ResetUserOfflineAccountID()
+		return nil
+	case platformsetting.FieldBenefitIntervalHours:
+		m.ResetBenefitIntervalHours()
+		return nil
+	case platformsetting.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case platformsetting.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case platformsetting.FieldDeleteAt:
+		m.ResetDeleteAt()
+		return nil
+	}
+	return fmt.Errorf("unknown PlatformSetting field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *PlatformSettingMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *PlatformSettingMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *PlatformSettingMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *PlatformSettingMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *PlatformSettingMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *PlatformSettingMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *PlatformSettingMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown PlatformSetting unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *PlatformSettingMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown PlatformSetting edge %s", name)
 }

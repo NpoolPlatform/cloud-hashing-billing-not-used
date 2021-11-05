@@ -5,6 +5,7 @@ package ent
 import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/schema"
 	"github.com/google/uuid"
 )
@@ -53,4 +54,24 @@ func init() {
 	coinaccounttransactionDescID := coinaccounttransactionFields[0].Descriptor()
 	// coinaccounttransaction.DefaultID holds the default value on creation for the id field.
 	coinaccounttransaction.DefaultID = coinaccounttransactionDescID.Default.(func() uuid.UUID)
+	platformsettingFields := schema.PlatformSetting{}.Fields()
+	_ = platformsettingFields
+	// platformsettingDescCreateAt is the schema descriptor for create_at field.
+	platformsettingDescCreateAt := platformsettingFields[7].Descriptor()
+	// platformsetting.DefaultCreateAt holds the default value on creation for the create_at field.
+	platformsetting.DefaultCreateAt = platformsettingDescCreateAt.Default.(func() uint32)
+	// platformsettingDescUpdateAt is the schema descriptor for update_at field.
+	platformsettingDescUpdateAt := platformsettingFields[8].Descriptor()
+	// platformsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
+	platformsetting.DefaultUpdateAt = platformsettingDescUpdateAt.Default.(func() uint32)
+	// platformsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	platformsetting.UpdateDefaultUpdateAt = platformsettingDescUpdateAt.UpdateDefault.(func() uint32)
+	// platformsettingDescDeleteAt is the schema descriptor for delete_at field.
+	platformsettingDescDeleteAt := platformsettingFields[9].Descriptor()
+	// platformsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	platformsetting.DefaultDeleteAt = platformsettingDescDeleteAt.Default.(func() uint32)
+	// platformsettingDescID is the schema descriptor for id field.
+	platformsettingDescID := platformsettingFields[0].Descriptor()
+	// platformsetting.DefaultID holds the default value on creation for the id field.
+	platformsetting.DefaultID = platformsettingDescID.Default.(func() uuid.UUID)
 }

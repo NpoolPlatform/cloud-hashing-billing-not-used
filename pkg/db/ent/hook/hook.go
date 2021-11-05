@@ -35,6 +35,19 @@ func (f CoinAccountTransactionFunc) Mutate(ctx context.Context, m ent.Mutation) 
 	return f(ctx, mv)
 }
 
+// The PlatformSettingFunc type is an adapter to allow the use of ordinary
+// function as PlatformSetting mutator.
+type PlatformSettingFunc func(context.Context, *ent.PlatformSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f PlatformSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.PlatformSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PlatformSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // Condition is a hook condition function.
 type Condition func(context.Context, ent.Mutation) bool
 

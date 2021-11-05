@@ -51,10 +51,30 @@ var (
 		Columns:    CoinAccountTransactionsColumns,
 		PrimaryKey: []*schema.Column{CoinAccountTransactionsColumns[0]},
 	}
+	// PlatformSettingsColumns holds the columns for the "platform_settings" table.
+	PlatformSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "good_id", Type: field.TypeUUID, Unique: true},
+		{Name: "benefit_account_id", Type: field.TypeUUID},
+		{Name: "platform_offline_account_id", Type: field.TypeUUID},
+		{Name: "user_online_account_id", Type: field.TypeUUID},
+		{Name: "user_offline_account_id", Type: field.TypeUUID},
+		{Name: "benefit_interval_hours", Type: field.TypeInt32},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// PlatformSettingsTable holds the schema information for the "platform_settings" table.
+	PlatformSettingsTable = &schema.Table{
+		Name:       "platform_settings",
+		Columns:    PlatformSettingsColumns,
+		PrimaryKey: []*schema.Column{PlatformSettingsColumns[0]},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		CoinAccountInfosTable,
 		CoinAccountTransactionsTable,
+		PlatformSettingsTable,
 	}
 )
 

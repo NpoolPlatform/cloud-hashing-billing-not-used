@@ -10,6 +10,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -32,6 +33,7 @@ func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
 		coinaccountinfo.Table:        coinaccountinfo.ValidColumn,
 		coinaccounttransaction.Table: coinaccounttransaction.ValidColumn,
+		platformsetting.Table:        platformsetting.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {

@@ -12,6 +12,7 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -26,6 +27,8 @@ type Client struct {
 	CoinAccountInfo *CoinAccountInfoClient
 	// CoinAccountTransaction is the client for interacting with the CoinAccountTransaction builders.
 	CoinAccountTransaction *CoinAccountTransactionClient
+	// PlatformSetting is the client for interacting with the PlatformSetting builders.
+	PlatformSetting *PlatformSettingClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -41,6 +44,7 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.CoinAccountInfo = NewCoinAccountInfoClient(c.config)
 	c.CoinAccountTransaction = NewCoinAccountTransactionClient(c.config)
+	c.PlatformSetting = NewPlatformSettingClient(c.config)
 }
 
 // Open opens a database/sql.DB specified by the driver name and
@@ -76,6 +80,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		config:                 cfg,
 		CoinAccountInfo:        NewCoinAccountInfoClient(cfg),
 		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
+		PlatformSetting:        NewPlatformSettingClient(cfg),
 	}, nil
 }
 
@@ -96,6 +101,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		config:                 cfg,
 		CoinAccountInfo:        NewCoinAccountInfoClient(cfg),
 		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
+		PlatformSetting:        NewPlatformSettingClient(cfg),
 	}, nil
 }
 
@@ -127,6 +133,7 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	c.CoinAccountInfo.Use(hooks...)
 	c.CoinAccountTransaction.Use(hooks...)
+	c.PlatformSetting.Use(hooks...)
 }
 
 // CoinAccountInfoClient is a client for the CoinAccountInfo schema.
@@ -307,4 +314,94 @@ func (c *CoinAccountTransactionClient) GetX(ctx context.Context, id uuid.UUID) *
 // Hooks returns the client hooks.
 func (c *CoinAccountTransactionClient) Hooks() []Hook {
 	return c.hooks.CoinAccountTransaction
+}
+
+// PlatformSettingClient is a client for the PlatformSetting schema.
+type PlatformSettingClient struct {
+	config
+}
+
+// NewPlatformSettingClient returns a client for the PlatformSetting from the given config.
+func NewPlatformSettingClient(c config) *PlatformSettingClient {
+	return &PlatformSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `platformsetting.Hooks(f(g(h())))`.
+func (c *PlatformSettingClient) Use(hooks ...Hook) {
+	c.hooks.PlatformSetting = append(c.hooks.PlatformSetting, hooks...)
+}
+
+// Create returns a create builder for PlatformSetting.
+func (c *PlatformSettingClient) Create() *PlatformSettingCreate {
+	mutation := newPlatformSettingMutation(c.config, OpCreate)
+	return &PlatformSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PlatformSetting entities.
+func (c *PlatformSettingClient) CreateBulk(builders ...*PlatformSettingCreate) *PlatformSettingCreateBulk {
+	return &PlatformSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PlatformSetting.
+func (c *PlatformSettingClient) Update() *PlatformSettingUpdate {
+	mutation := newPlatformSettingMutation(c.config, OpUpdate)
+	return &PlatformSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PlatformSettingClient) UpdateOne(ps *PlatformSetting) *PlatformSettingUpdateOne {
+	mutation := newPlatformSettingMutation(c.config, OpUpdateOne, withPlatformSetting(ps))
+	return &PlatformSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PlatformSettingClient) UpdateOneID(id uuid.UUID) *PlatformSettingUpdateOne {
+	mutation := newPlatformSettingMutation(c.config, OpUpdateOne, withPlatformSettingID(id))
+	return &PlatformSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PlatformSetting.
+func (c *PlatformSettingClient) Delete() *PlatformSettingDelete {
+	mutation := newPlatformSettingMutation(c.config, OpDelete)
+	return &PlatformSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *PlatformSettingClient) DeleteOne(ps *PlatformSetting) *PlatformSettingDeleteOne {
+	return c.DeleteOneID(ps.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *PlatformSettingClient) DeleteOneID(id uuid.UUID) *PlatformSettingDeleteOne {
+	builder := c.Delete().Where(platformsetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PlatformSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for PlatformSetting.
+func (c *PlatformSettingClient) Query() *PlatformSettingQuery {
+	return &PlatformSettingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a PlatformSetting entity by its id.
+func (c *PlatformSettingClient) Get(ctx context.Context, id uuid.UUID) (*PlatformSetting, error) {
+	return c.Query().Where(platformsetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PlatformSettingClient) GetX(ctx context.Context, id uuid.UUID) *PlatformSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *PlatformSettingClient) Hooks() []Hook {
+	return c.hooks.PlatformSetting
 }

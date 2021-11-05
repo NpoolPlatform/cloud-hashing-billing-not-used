@@ -26,6 +26,7 @@ type config struct {
 type hooks struct {
 	CoinAccountInfo        []ent.Hook
 	CoinAccountTransaction []ent.Hook
+	PlatformSetting        []ent.Hook
 }
 
 // Options applies the options on the config object.
