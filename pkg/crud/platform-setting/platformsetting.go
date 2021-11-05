@@ -128,3 +128,30 @@ func GetByGood(ctx context.Context, in *npool.GetPlatformSettingByGoodRequest) (
 		Info: dbRowToPlatformSetting(infos[0]),
 	}, nil
 }
+
+func Get(ctx context.Context, in *npool.GetPlatformSettingRequest) (*npool.GetPlatformSettingResponse, error) {
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	infos, err := db.Client().
+		PlatformSetting.
+		Query().
+		Where(
+			platformsetting.And(
+				platformsetting.ID(id),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query platform setting: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty platform setting")
+	}
+
+	return &npool.GetPlatformSettingResponse{
+		Info: dbRowToPlatformSetting(infos[0]),
+	}, nil
+}

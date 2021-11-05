@@ -41,11 +41,16 @@
     - [GetPlatformBenefitsByGoodResponse](#cloud.hashing.billing.v1.GetPlatformBenefitsByGoodResponse)
     - [GetPlatformSettingByGoodRequest](#cloud.hashing.billing.v1.GetPlatformSettingByGoodRequest)
     - [GetPlatformSettingByGoodResponse](#cloud.hashing.billing.v1.GetPlatformSettingByGoodResponse)
+    - [GetPlatformSettingDetailRequest](#cloud.hashing.billing.v1.GetPlatformSettingDetailRequest)
+    - [GetPlatformSettingDetailResponse](#cloud.hashing.billing.v1.GetPlatformSettingDetailResponse)
+    - [GetPlatformSettingRequest](#cloud.hashing.billing.v1.GetPlatformSettingRequest)
+    - [GetPlatformSettingResponse](#cloud.hashing.billing.v1.GetPlatformSettingResponse)
     - [GetUserBenefitsByAppUserRequest](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserRequest)
     - [GetUserBenefitsByAppUserResponse](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserResponse)
     - [PlatformBenefit](#cloud.hashing.billing.v1.PlatformBenefit)
     - [PlatformBenefitDetail](#cloud.hashing.billing.v1.PlatformBenefitDetail)
     - [PlatformSetting](#cloud.hashing.billing.v1.PlatformSetting)
+    - [PlatformSettingDetail](#cloud.hashing.billing.v1.PlatformSettingDetail)
     - [UpdateCoinAccountTransactionRequest](#cloud.hashing.billing.v1.UpdateCoinAccountTransactionRequest)
     - [UpdateCoinAccountTransactionResponse](#cloud.hashing.billing.v1.UpdateCoinAccountTransactionResponse)
     - [UpdatePlatformSettingRequest](#cloud.hashing.billing.v1.UpdatePlatformSettingRequest)
@@ -652,6 +657,66 @@
 
 
 
+<a name="cloud.hashing.billing.v1.GetPlatformSettingDetailRequest"></a>
+
+### GetPlatformSettingDetailRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.GetPlatformSettingDetailResponse"></a>
+
+### GetPlatformSettingDetailResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Detail | [PlatformSettingDetail](#cloud.hashing.billing.v1.PlatformSettingDetail) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.GetPlatformSettingRequest"></a>
+
+### GetPlatformSettingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.GetPlatformSettingResponse"></a>
+
+### GetPlatformSettingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [PlatformSetting](#cloud.hashing.billing.v1.PlatformSetting) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.billing.v1.GetUserBenefitsByAppUserRequest"></a>
 
 ### GetUserBenefitsByAppUserRequest
@@ -737,6 +802,27 @@
 | PlatformOfflineAccountID | [string](#string) |  |  |
 | UserOnlineAccountID | [string](#string) |  |  |
 | UserOfflineAccountID | [string](#string) |  |  |
+| BenefitIntervalHours | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.PlatformSettingDetail"></a>
+
+### PlatformSettingDetail
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+| GoodID | [string](#string) |  |  |
+| BenefitAddress | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) |  |  |
+| PlatformOfflineAddress | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) |  |  |
+| UserOnlineAddress | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) |  |  |
+| UserOfflineAddress | [CoinAccountInfo](#cloud.hashing.billing.v1.CoinAccountInfo) |  |  |
 | BenefitIntervalHours | [int32](#int32) |  |  |
 
 
@@ -872,6 +958,8 @@ Cloud Hashing Billing
 | CreatePlatformSetting | [CreatePlatformSettingRequest](#cloud.hashing.billing.v1.CreatePlatformSettingRequest) | [CreatePlatformSettingResponse](#cloud.hashing.billing.v1.CreatePlatformSettingResponse) |  |
 | UpdatePlatformSetting | [UpdatePlatformSettingRequest](#cloud.hashing.billing.v1.UpdatePlatformSettingRequest) | [UpdatePlatformSettingResponse](#cloud.hashing.billing.v1.UpdatePlatformSettingResponse) |  |
 | GetPlatformSettingByGood | [GetPlatformSettingByGoodRequest](#cloud.hashing.billing.v1.GetPlatformSettingByGoodRequest) | [GetPlatformSettingByGoodResponse](#cloud.hashing.billing.v1.GetPlatformSettingByGoodResponse) |  |
+| GetPlatformSettingDetail | [GetPlatformSettingDetailRequest](#cloud.hashing.billing.v1.GetPlatformSettingDetailRequest) | [GetPlatformSettingDetailResponse](#cloud.hashing.billing.v1.GetPlatformSettingDetailResponse) |  |
+| GetPlatformSetting | [GetPlatformSettingRequest](#cloud.hashing.billing.v1.GetPlatformSettingRequest) | [GetPlatformSettingResponse](#cloud.hashing.billing.v1.GetPlatformSettingResponse) |  |
 | CreateUserBenefit | [CreateUserBenefitRequest](#cloud.hashing.billing.v1.CreateUserBenefitRequest) | [CreateUserBenefitResponse](#cloud.hashing.billing.v1.CreateUserBenefitResponse) |  |
 | GetUserBebefitsByAppUser | [GetUserBenefitsByAppUserRequest](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserRequest) | [GetUserBenefitsByAppUserResponse](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserResponse) |  |
 

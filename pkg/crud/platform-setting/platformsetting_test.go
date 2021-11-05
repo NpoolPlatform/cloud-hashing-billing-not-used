@@ -72,4 +72,12 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp2.Info.ID, resp.Info.ID)
 		assertPlatformSetting(t, resp2.Info, &platformSetting)
 	}
+
+	resp3, err := Get(context.Background(), &npool.GetPlatformSettingRequest{
+		ID: resp2.Info.ID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
+		assertPlatformSetting(t, resp3.Info, &platformSetting)
+	}
 }

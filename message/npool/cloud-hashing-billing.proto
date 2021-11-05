@@ -128,6 +128,18 @@ service CloudHashingBilling {
             body: "*"
         };
     }
+    rpc GetPlatformSettingDetail(GetPlatformSettingDetailRequest) returns (GetPlatformSettingDetailResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/platform/setting/detail"
+            body: "*"
+        };
+    }
+    rpc GetPlatformSetting(GetPlatformSettingRequest) returns (GetPlatformSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/platform/setting"
+            body: "*"
+        };
+    }
 
     rpc CreateUserBenefit(CreateUserBenefitRequest) returns (CreateUserBenefitResponse) {
         option (google.api.http) = {
@@ -361,6 +373,32 @@ message GetPlatformSettingByGoodRequest {
 
 message GetPlatformSettingByGoodResponse {
     PlatformSetting Info = 3300;
+}
+
+message PlatformSettingDetail {
+    string ID = 3310;
+    string GoodID = 3311;
+    CoinAccountInfo BenefitAddress = 3312;
+    CoinAccountInfo PlatformOfflineAddress = 3313;
+    CoinAccountInfo UserOnlineAddress = 3314;
+    CoinAccountInfo UserOfflineAddress = 3315;
+    int32 BenefitIntervalHours = 3316;
+}
+
+message GetPlatformSettingDetailRequest {
+    string ID = 3320;
+}
+
+message GetPlatformSettingDetailResponse {
+    PlatformSettingDetail Detail = 3330;
+}
+
+message GetPlatformSettingRequest {
+    string ID = 3340;
+}
+
+message GetPlatformSettingResponse {
+    PlatformSetting Info = 3350;
 }
 
 message UserBenefit {
