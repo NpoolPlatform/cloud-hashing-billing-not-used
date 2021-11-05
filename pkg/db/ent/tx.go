@@ -20,6 +20,8 @@ type Tx struct {
 	PlatformBenefit *PlatformBenefitClient
 	// PlatformSetting is the client for interacting with the PlatformSetting builders.
 	PlatformSetting *PlatformSettingClient
+	// UserBenefit is the client for interacting with the UserBenefit builders.
+	UserBenefit *UserBenefitClient
 
 	// lazily loaded.
 	client     *Client
@@ -159,6 +161,7 @@ func (tx *Tx) init() {
 	tx.CoinAccountTransaction = NewCoinAccountTransactionClient(tx.config)
 	tx.PlatformBenefit = NewPlatformBenefitClient(tx.config)
 	tx.PlatformSetting = NewPlatformSettingClient(tx.config)
+	tx.UserBenefit = NewUserBenefitClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

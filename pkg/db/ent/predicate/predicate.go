@@ -17,3 +17,6 @@ type PlatformBenefit func(*sql.Selector)
 
 // PlatformSetting is the predicate function for platformsetting builders.
 type PlatformSetting func(*sql.Selector)
+
+// UserBenefit is the predicate function for userbenefit builders.
+type UserBenefit func(*sql.Selector)

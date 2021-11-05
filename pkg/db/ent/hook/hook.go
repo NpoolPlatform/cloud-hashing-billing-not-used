@@ -61,6 +61,19 @@ func (f PlatformSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Va
 	return f(ctx, mv)
 }
 
+// The UserBenefitFunc type is an adapter to allow the use of ordinary
+// function as UserBenefit mutator.
+type UserBenefitFunc func(context.Context, *ent.UserBenefitMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserBenefitFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.UserBenefitMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserBenefitMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // Condition is a hook condition function.
 type Condition func(context.Context, ent.Mutation) bool
 

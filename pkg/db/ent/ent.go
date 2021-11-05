@@ -12,6 +12,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -36,6 +37,7 @@ func columnChecker(table string) func(string) error {
 		coinaccounttransaction.Table: coinaccounttransaction.ValidColumn,
 		platformbenefit.Table:        platformbenefit.ValidColumn,
 		platformsetting.Table:        platformsetting.ValidColumn,
+		userbenefit.Table:            userbenefit.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {

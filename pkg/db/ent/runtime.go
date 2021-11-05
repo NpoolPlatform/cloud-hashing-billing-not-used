@@ -8,6 +8,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/schema"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
 	"github.com/google/uuid"
 )
 
@@ -95,4 +96,24 @@ func init() {
 	platformsettingDescID := platformsettingFields[0].Descriptor()
 	// platformsetting.DefaultID holds the default value on creation for the id field.
 	platformsetting.DefaultID = platformsettingDescID.Default.(func() uuid.UUID)
+	userbenefitFields := schema.UserBenefit{}.Fields()
+	_ = userbenefitFields
+	// userbenefitDescCreateAt is the schema descriptor for create_at field.
+	userbenefitDescCreateAt := userbenefitFields[6].Descriptor()
+	// userbenefit.DefaultCreateAt holds the default value on creation for the create_at field.
+	userbenefit.DefaultCreateAt = userbenefitDescCreateAt.Default.(func() uint32)
+	// userbenefitDescUpdateAt is the schema descriptor for update_at field.
+	userbenefitDescUpdateAt := userbenefitFields[7].Descriptor()
+	// userbenefit.DefaultUpdateAt holds the default value on creation for the update_at field.
+	userbenefit.DefaultUpdateAt = userbenefitDescUpdateAt.Default.(func() uint32)
+	// userbenefit.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	userbenefit.UpdateDefaultUpdateAt = userbenefitDescUpdateAt.UpdateDefault.(func() uint32)
+	// userbenefitDescDeleteAt is the schema descriptor for delete_at field.
+	userbenefitDescDeleteAt := userbenefitFields[8].Descriptor()
+	// userbenefit.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	userbenefit.DefaultDeleteAt = userbenefitDescDeleteAt.Default.(func() uint32)
+	// userbenefitDescID is the schema descriptor for id field.
+	userbenefitDescID := userbenefitFields[0].Descriptor()
+	// userbenefit.DefaultID holds the default value on creation for the id field.
+	userbenefit.DefaultID = userbenefitDescID.Default.(func() uuid.UUID)
 }

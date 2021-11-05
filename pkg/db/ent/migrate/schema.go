@@ -54,7 +54,7 @@ var (
 	// PlatformBenefitsColumns holds the columns for the "platform_benefits" table.
 	PlatformBenefitsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
-		{Name: "good_id", Type: field.TypeUUID, Unique: true},
+		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "benefit_account_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
 		{Name: "chain_transaction_id", Type: field.TypeString},
@@ -94,12 +94,31 @@ var (
 		Columns:    PlatformSettingsColumns,
 		PrimaryKey: []*schema.Column{PlatformSettingsColumns[0]},
 	}
+	// UserBenefitsColumns holds the columns for the "user_benefits" table.
+	UserBenefitsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID},
+		{Name: "good_id", Type: field.TypeUUID},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "order_id", Type: field.TypeUUID},
+		{Name: "amount", Type: field.TypeUint64},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// UserBenefitsTable holds the schema information for the "user_benefits" table.
+	UserBenefitsTable = &schema.Table{
+		Name:       "user_benefits",
+		Columns:    UserBenefitsColumns,
+		PrimaryKey: []*schema.Column{UserBenefitsColumns[0]},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		CoinAccountInfosTable,
 		CoinAccountTransactionsTable,
 		PlatformBenefitsTable,
 		PlatformSettingsTable,
+		UserBenefitsTable,
 	}
 )
 

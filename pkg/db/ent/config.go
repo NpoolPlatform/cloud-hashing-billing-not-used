@@ -28,6 +28,7 @@ type hooks struct {
 	CoinAccountTransaction []ent.Hook
 	PlatformBenefit        []ent.Hook
 	PlatformSetting        []ent.Hook
+	UserBenefit            []ent.Hook
 }
 
 // Options applies the options on the config object.
