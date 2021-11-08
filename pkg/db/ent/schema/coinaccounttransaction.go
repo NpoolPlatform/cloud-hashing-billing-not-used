@@ -18,7 +18,8 @@ type CoinAccountTransaction struct {
 func (CoinAccountTransaction) Fields() []ent.Field {
 	return []ent.Field{
 		field.UUID("id", uuid.UUID{}).
-			Default(uuid.New),
+			Default(uuid.New).
+			Unique(),
 		field.UUID("user_id", uuid.UUID{}),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("from_address_id", uuid.UUID{}),

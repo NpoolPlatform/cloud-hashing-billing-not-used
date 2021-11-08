@@ -18,7 +18,8 @@ type PlatformSetting struct {
 func (PlatformSetting) Fields() []ent.Field {
 	return []ent.Field{
 		field.UUID("id", uuid.UUID{}).
-			Default(uuid.New),
+			Default(uuid.New).
+			Unique(),
 		field.UUID("good_id", uuid.UUID{}).
 			Unique(),
 		field.UUID("benefit_account_id", uuid.UUID{}),

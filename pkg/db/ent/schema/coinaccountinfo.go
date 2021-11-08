@@ -19,7 +19,8 @@ type CoinAccountInfo struct {
 func (CoinAccountInfo) Fields() []ent.Field {
 	return []ent.Field{
 		field.UUID("id", uuid.UUID{}).
-			Default(uuid.New),
+			Default(uuid.New).
+			Unique(),
 		field.UUID("coin_type_id", uuid.UUID{}),
 		field.String("address"),
 		field.Enum("generated_by").

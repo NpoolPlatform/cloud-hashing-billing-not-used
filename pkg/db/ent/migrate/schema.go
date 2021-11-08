@@ -10,7 +10,7 @@ import (
 var (
 	// CoinAccountInfosColumns holds the columns for the "coin_account_infos" table.
 	CoinAccountInfosColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "coin_type_id", Type: field.TypeUUID},
 		{Name: "address", Type: field.TypeString},
 		{Name: "generated_by", Type: field.TypeEnum, Enums: []string{"platform", "user"}},
@@ -30,7 +30,7 @@ var (
 	}
 	// CoinAccountTransactionsColumns holds the columns for the "coin_account_transactions" table.
 	CoinAccountTransactionsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "from_address_id", Type: field.TypeUUID},
@@ -53,7 +53,7 @@ var (
 	}
 	// PlatformBenefitsColumns holds the columns for the "platform_benefits" table.
 	PlatformBenefitsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "benefit_account_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
@@ -77,7 +77,7 @@ var (
 	}
 	// PlatformSettingsColumns holds the columns for the "platform_settings" table.
 	PlatformSettingsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "good_id", Type: field.TypeUUID, Unique: true},
 		{Name: "benefit_account_id", Type: field.TypeUUID},
 		{Name: "platform_offline_account_id", Type: field.TypeUUID},
@@ -96,7 +96,7 @@ var (
 	}
 	// UserBenefitsColumns holds the columns for the "user_benefits" table.
 	UserBenefitsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},
