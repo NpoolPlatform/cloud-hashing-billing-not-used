@@ -50,4 +50,4 @@ spec:
     port: 50030
     targetPort: 50030
   selector:
-    app: cloud-hashing-order
+    app: cloud-hashing-billing
