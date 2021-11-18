@@ -1,5 +1,5 @@
 package constant
 
 const (
-	ServiceName = "cloud-hashing-billing.npool.top"
+	ServiceName = "cloud-hashing-billing.npool.top" //nolint
 )
