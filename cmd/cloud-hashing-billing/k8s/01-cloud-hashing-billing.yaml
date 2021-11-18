@@ -47,4 +47,7 @@ metadata:
 spec:
   ports:
   - name: api
-    port: 34759
+    port: 50030
+    targetPort: 50030
+  selector:
+    app: cloud-hashing-order

@@ -1,39 +1,57 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: cloud-hashing-billing-npool-top-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-billing
-    k8s.kuboard.cn/workload: cloud-hashing-billing
+    k8s.kuboard.cn/displayName: cloud-hashing-billing-npool
+    k8s.kuboard.cn/workload: cloud-hashing-billing-npool
     kubernetes.io/ingress.class: "traefik-internet"
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-billing-prefix@kubernetescrd
+
 spec:
   rules:
-  - host: api.npool.top
-    http:
-      paths:
-      - path: /cloud-hashing-billing
-        backend:
-          serviceName: cloud-hashing-billing
-          servicePort: http
+    - host: api.npool.top
+      http:
+        paths:
+          - path: /cloud-hashing-billing
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
 
 ---
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: cloud-hashing-billing-xpool-top-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-billing
-    k8s.kuboard.cn/workload: cloud-hashing-billing
+    k8s.kuboard.cn/displayName: cloud-hashing-billing-xpool
+    k8s.kuboard.cn/workload: cloud-hashing-billing-xpool
     kubernetes.io/ingress.class: "traefik-internet"
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-billing-prefix@kubernetescrd
+
 spec:
   rules:
-  - host: api.xpool.top
-    http:
-      paths:
-      - path: /cloud-hashing-billing
-        backend:
-          serviceName: cloud-hashing-billing
-          servicePort: http
+    - host: api.xpool.top
+      http:
+        paths:
+          - path: /cloud-hashing-billing
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-cloud-hashing-billing-prefix
+  namespace: kube-system
+spec:
+  stripPrefix:
+    prefixes:
+      - /cloud-hashing-billing
