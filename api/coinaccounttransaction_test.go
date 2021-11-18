@@ -66,7 +66,7 @@ func TestCoinAccountTransactionCRUD(t *testing.T) { //nolint
 		SetBody(npool.CreateCoinAccountTransactionRequest{
 			Info: &coinAccountTransaction,
 		}).
-		Post("http://localhost:34759/v1/create/coin/account/transaction")
+		Post("http://localhost:50030/v1/create/coin/account/transaction")
 	if assert.Nil(t, err) {
 		assert.Equal(t, 200, resp.StatusCode())
 		err := json.Unmarshal(resp.Body(), &firstCreateInfo)
@@ -81,7 +81,7 @@ func TestCoinAccountTransactionCRUD(t *testing.T) { //nolint
 		SetBody(npool.GetCoinAccountTransactionRequest{
 			ID: firstCreateInfo.Info.ID,
 		}).
-		Post("http://localhost:34759/v1/get/coin/account/transaction")
+		Post("http://localhost:50030/v1/get/coin/account/transaction")
 	if assert.Nil(t, err) {
 		assert.Equal(t, 200, resp.StatusCode())
 		info := npool.GetCoinAccountTransactionResponse{}
@@ -98,7 +98,7 @@ func TestCoinAccountTransactionCRUD(t *testing.T) { //nolint
 			CoinTypeID: firstCreateInfo.Info.CoinTypeID,
 			AddressID:  firstCreateInfo.Info.FromAddressID,
 		}).
-		Post("http://localhost:34759/v1/get/coin/account/transactions/by/coin/account")
+		Post("http://localhost:50030/v1/get/coin/account/transactions/by/coin/account")
 	if assert.Nil(t, err) {
 		assert.Equal(t, 200, resp.StatusCode())
 		info := npool.GetCoinAccountTransactionsByCoinAccountResponse{}
@@ -114,7 +114,7 @@ func TestCoinAccountTransactionCRUD(t *testing.T) { //nolint
 			CoinTypeID: firstCreateInfo.Info.CoinTypeID,
 			AddressID:  firstCreateInfo.Info.ToAddressID,
 		}).
-		Post("http://localhost:34759/v1/get/coin/account/transactions/by/coin/account")
+		Post("http://localhost:50030/v1/get/coin/account/transactions/by/coin/account")
 	if assert.Nil(t, err) {
 		assert.Equal(t, 200, resp.StatusCode())
 		info := npool.GetCoinAccountTransactionsByCoinAccountResponse{}
@@ -132,7 +132,7 @@ func TestCoinAccountTransactionCRUD(t *testing.T) { //nolint
 		SetBody(npool.UpdateCoinAccountTransactionRequest{
 			Info: &coinAccountTransaction,
 		}).
-		Post("http://localhost:34759/v1/update/coin/account/transaction")
+		Post("http://localhost:50030/v1/update/coin/account/transaction")
 	if assert.Nil(t, err) {
 		assert.Equal(t, 200, resp.StatusCode())
 		info := npool.UpdateCoinAccountTransactionResponse{}
@@ -148,7 +148,7 @@ func TestCoinAccountTransactionCRUD(t *testing.T) { //nolint
 		SetBody(npool.DeleteCoinAccountTransactionRequest{
 			ID: firstCreateInfo.Info.ID,
 		}).
-		Post("http://localhost:34759/v1/delete/coin/account/transaction")
+		Post("http://localhost:50030/v1/delete/coin/account/transaction")
 	if assert.Nil(t, err) {
 		assert.Equal(t, 200, resp.StatusCode())
 		info := npool.DeleteCoinAccountTransactionResponse{}
@@ -217,7 +217,7 @@ func TestGetCoinAccountTransactionDetail(t *testing.T) {
 		SetBody(npool.GetCoinAccountTransactionDetailRequest{
 			ID: resp3.Info.ID,
 		}).
-		Post("http://localhost:34759/v1/get/coin/account/transaction/detail")
+		Post("http://localhost:50030/v1/get/coin/account/transaction/detail")
 	if assert.Nil(t, err) {
 		assert.Equal(t, 200, resp.StatusCode())
 		info := npool.GetCoinAccountTransactionDetailResponse{}

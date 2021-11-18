@@ -1,9 +1,9 @@
 ---
 config:
   hostname: "cloud-hashing-billing.npool.top"
-  http_port: 34759
-  grpc_port: 34789
-  healthz_port: 34799
+  http_port: 50030
+  grpc_port: 50031
+  healthz_port: 50032
   appid: "89089012783789789719823798127398"
   logdir: "/var/log"
   apolloAccessKey: "0147fb70b815403790e8634b899fac07"
