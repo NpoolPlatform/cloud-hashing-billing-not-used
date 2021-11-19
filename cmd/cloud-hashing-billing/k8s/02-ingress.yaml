@@ -8,7 +8,7 @@ metadata:
     k8s.kuboard.cn/workload: cloud-hashing-billing-npool
     kubernetes.io/ingress.class: "traefik-internet"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-billing-prefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-billing-prefix@kubernetescrd,kube-system-cookies-to-body@kubernetescrd
 
 spec:
   rules:
@@ -32,7 +32,7 @@ metadata:
     k8s.kuboard.cn/workload: cloud-hashing-billing-xpool
     kubernetes.io/ingress.class: "traefik-internet"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-billing-prefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-billing-prefix@kubernetescrd,kube-system-cookies-to-body@kubernetescrd
 
 spec:
   rules:
