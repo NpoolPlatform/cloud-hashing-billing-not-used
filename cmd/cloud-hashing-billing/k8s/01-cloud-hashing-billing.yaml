@@ -46,8 +46,14 @@ metadata:
   namespace: kube-system
 spec:
   ports:
-  - name: api
+  - name: http
     port: 50030
     targetPort: 50030
+  - name: grpc
+    port: 50031
+    targetPort: 50031
+  - name: healthz
+    port: 50032
+    targetPort: 50032
   selector:
     app: cloud-hashing-billing
