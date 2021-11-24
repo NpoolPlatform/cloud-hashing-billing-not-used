@@ -19,7 +19,7 @@ func (s *Server) CreateCoinAccount(ctx context.Context, in *npool.CreateCoinAcco
 	resp, err := coinaccountinfo.Create(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create coin account info error: %w", err)
-		return &npool.CreateCoinAccountResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.CreateCoinAccountResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -28,7 +28,7 @@ func (s *Server) GetCoinAccount(ctx context.Context, in *npool.GetCoinAccountReq
 	resp, err := coinaccountinfo.Get(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account info error: %w", err)
-		return &npool.GetCoinAccountResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -37,7 +37,7 @@ func (s *Server) GetCoinAccountsByAppUser(ctx context.Context, in *npool.GetCoin
 	resp, err := coinaccountinfo.GetCoinAccountsByAppUser(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account info by app user error: %w", err)
-		return &npool.GetCoinAccountsByAppUserResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountsByAppUserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -46,7 +46,7 @@ func (s *Server) DeleteCoinAccount(ctx context.Context, in *npool.DeleteCoinAcco
 	resp, err := coinaccountinfo.Delete(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("delete coin account info error: %w", err)
-		return &npool.DeleteCoinAccountResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.DeleteCoinAccountResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
