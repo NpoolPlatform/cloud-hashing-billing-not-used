@@ -15,7 +15,7 @@ spec:
     - host: api.npool.top
       http: &http_appid_userid_rules
         paths:
-          - path: /cloud-hashing-billing
+          - path: /api/cloud-hashing-billing
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
@@ -41,39 +41,39 @@ spec:
     - host: api.npool.top
       http: &http_rules
         paths:
-          - path: /cloud-hashing-billing/version
+          - path: /api/cloud-hashing-billing/version
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
-          - path: /cloud-hashing-billing/v1/update/platform/setting
+          - path: /api/cloud-hashing-billing/v1/update/platform/setting
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
-          - path: /cloud-hashing-billing/v1/get/platform/setting
+          - path: /api/cloud-hashing-billing/v1/get/platform/setting
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
-          - path: /cloud-hashing-billing/v1/get/platform/benefit
+          - path: /api/cloud-hashing-billing/v1/get/platform/benefit
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
-          - path: /cloud-hashing-billing/v1/get/coin/account
+          - path: /api/cloud-hashing-billing/v1/get/coin/account
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
-          - path: /cloud-hashing-billing/v1/delete/coin/account
+          - path: /api/cloud-hashing-billing/v1/delete/coin/account
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
-          - path: /cloud-hashing-billing/v1/create/platform/setting
+          - path: /api/cloud-hashing-billing/v1/create/platform/setting
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
-          - path: /cloud-hashing-billing/v1/create/platform/benefit
+          - path: /api/cloud-hashing-billing/v1/create/platform/benefit
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
-          - path: /cloud-hashing-billing/v1/create/coin/account
+          - path: /api/cloud-hashing-billing/v1/create/coin/account
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
@@ -90,4 +90,4 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-      - /cloud-hashing-billing
+      - /api/cloud-hashing-billing
