@@ -16,14 +16,17 @@ import (
 )
 
 func validateCoinAccount(info *npool.CoinAccountInfo) error {
-	if _, err := uuid.Parse(info.CoinTypeID); err != nil {
+	if _, err := uuid.Parse(info.GetCoinTypeID()); err != nil {
 		return xerrors.Errorf("invalid coin type id: %v", err)
 	}
-	if _, err := uuid.Parse(info.AppID); err != nil {
+	if _, err := uuid.Parse(info.GetAppID()); err != nil {
 		return xerrors.Errorf("invalid app id: %v", err)
 	}
-	if _, err := uuid.Parse(info.UserID); err != nil {
+	if _, err := uuid.Parse(info.GetUserID()); err != nil {
 		return xerrors.Errorf("invalid user id: %v", err)
+	}
+	if len(info.GetAddress()) == 0 {
+		return xerrors.Errorf("invalid coin address")
 	}
 	return nil
 }

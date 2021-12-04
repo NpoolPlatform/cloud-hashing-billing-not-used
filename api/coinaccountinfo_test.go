@@ -31,6 +31,7 @@ func TestCoinAccountInfoCRUD(t *testing.T) { //nolint
 		CoinTypeID:  uuid.New().String(),
 		AppID:       uuid.New().String(),
 		UserID:      uuid.New().String(),
+		Address:     uuid.New().String(),
 		GeneratedBy: "user",
 		UsedFor:     "benefit",
 	}
