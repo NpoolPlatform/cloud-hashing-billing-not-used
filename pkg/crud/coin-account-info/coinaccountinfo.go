@@ -25,7 +25,7 @@ func validateCoinAccount(info *npool.CoinAccountInfo) error {
 	if _, err := uuid.Parse(info.GetUserID()); err != nil {
 		return xerrors.Errorf("invalid user id: %v", err)
 	}
-	if len(info.GetAddress()) == 0 {
+	if info.GetAddress() == "" {
 		return xerrors.Errorf("invalid coin address")
 	}
 	return nil
