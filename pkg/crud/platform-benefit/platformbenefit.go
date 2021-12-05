@@ -77,9 +77,6 @@ func GetByGood(ctx context.Context, in *npool.GetPlatformBenefitsByGoodRequest) 
 	if err != nil {
 		return nil, xerrors.Errorf("fail query platform benefit: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty platform benefit")
-	}
 
 	benefits := []*npool.PlatformBenefit{}
 	for _, info := range infos {
