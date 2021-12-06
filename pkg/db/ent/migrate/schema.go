@@ -57,7 +57,7 @@ var (
 		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "benefit_account_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
-		{Name: "last_benefit_timestamp", Type: field.TypeUint32},
+		{Name: "last_benefit_timestamp", Type: field.TypeUint32, Unique: true},
 		{Name: "chain_transaction_id", Type: field.TypeString},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},

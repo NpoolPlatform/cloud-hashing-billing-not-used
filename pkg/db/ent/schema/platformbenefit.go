@@ -24,7 +24,8 @@ func (PlatformBenefit) Fields() []ent.Field {
 		field.UUID("good_id", uuid.UUID{}),
 		field.UUID("benefit_account_id", uuid.UUID{}),
 		field.Uint64("amount"),
-		field.Uint32("last_benefit_timestamp"),
+		field.Uint32("last_benefit_timestamp").
+			Unique(),
 		field.String("chain_transaction_id"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
