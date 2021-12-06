@@ -87,13 +87,14 @@ func GetLatestByGood(ctx context.Context, in *npool.GetLatestPlatformBenefitByGo
 		return nil, xerrors.Errorf("fail query platform benefit: %v", err)
 	}
 
-	benefits := []*npool.PlatformBenefit{}
+	var benefit *npool.PlatformBenefit
 	for _, info := range infos {
-		benefits = append(benefits, dbRowToPlatformBenefit(info))
+		benefit = dbRowToPlatformBenefit(info)
+		break
 	}
 
 	return &npool.GetLatestPlatformBenefitByGoodResponse{
-		Info: benefits[0],
+		Info: benefit,
 	}, nil
 }
 
