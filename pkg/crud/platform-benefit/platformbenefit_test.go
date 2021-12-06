@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/test-init" //nolint
@@ -41,7 +42,7 @@ func TestCRUD(t *testing.T) {
 		GoodID:               uuid.New().String(),
 		BenefitAccountID:     uuid.New().String(),
 		Amount:               0.13,
-		LastBenefitTimestamp: time.Now().Unix(),
+		LastBenefitTimestamp: uint32(time.Now().Unix()),
 		ChainTransactionID:   uuid.New().String(),
 	}
 

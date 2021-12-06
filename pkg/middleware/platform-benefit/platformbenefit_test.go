@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/test-init" //nolint
@@ -47,10 +48,11 @@ func TestGet(t *testing.T) {
 	assert.Nil(t, err)
 
 	benefit := npool.PlatformBenefit{
-		GoodID:             uuid.New().String(),
-		BenefitAccountID:   resp1.Info.ID,
-		Amount:             0.13,
-		ChainTransactionID: "adfjklasjfdlksajf",
+		GoodID:               uuid.New().String(),
+		BenefitAccountID:     resp1.Info.ID,
+		Amount:               0.13,
+		LastBenefitTimestamp: uint32(time.Now().Unix()),
+		ChainTransactionID:   "adfjklasjfdlksajf",
 	}
 	resp2, err := platformbenefit.Create(context.Background(), &npool.CreatePlatformBenefitRequest{
 		Info: &benefit,
