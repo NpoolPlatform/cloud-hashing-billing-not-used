@@ -77,7 +77,7 @@ func TestCRUD(t *testing.T) {
 		assertPlatformBenefit(t, resp3.Info, &platformBenefit)
 	}
 
-	platformBenefit.LastBenefitTimestamp += 1
+	platformBenefit.LastBenefitTimestamp++
 	platformBenefit.ChainTransactionID = uuid.New().String()
 
 	time.Sleep(2 * time.Second)
