@@ -53,7 +53,7 @@ set -e
 compile_date=`date -u +'%Y-%m-%dT%H:%M:%SZ'`
 git_revision=`git rev-parse HEAD 2>/dev/null || echo unknow`
 
-go test -ldflags "-s -w -X $pkg.buildDate=${compile_date} \
+go test -p 1 -ldflags "-s -w -X $pkg.buildDate=${compile_date} \
         -X $pkg.gitCommit=${git_revision} \
         -X $pkg.gitVersion=${version}     \
         -X $pkg.gitBranch=${git_branch}"  \

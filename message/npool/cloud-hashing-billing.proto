@@ -91,6 +91,12 @@ service CloudHashingBilling {
             body: "*"
         };
     }
+    rpc GetLatestPlatformBenefitByGood(GetLatestPlatformBenefitByGoodRequest) returns (GetLatestPlatformBenefitByGoodResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/latest/platform/benefit/by/good"
+            body: "*"
+        };
+    }
     rpc GetPlatformBenefitsByGood(GetPlatformBenefitsByGoodRequest) returns (GetPlatformBenefitsByGoodResponse) {
         option (google.api.http) = {
             post: "/v1/get/platform/benefits/by/good"
@@ -340,6 +346,14 @@ message GetPlatformBenefitRequest {
 
 message GetPlatformBenefitResponse {
     PlatformBenefit Info = 2650;
+}
+
+message GetLatestPlatformBenefitByGoodRequest {
+    string GoodID = 1;
+}
+
+message GetLatestPlatformBenefitByGoodResponse {
+    PlatformBenefit Info = 1;
 }
 
 message PlatformSetting {

@@ -32,6 +32,15 @@ func (s *Server) GetPlatformBenefitsByGood(ctx context.Context, in *npool.GetPla
 	return resp, nil
 }
 
+func (s *Server) GetLatestPlatformBenefitByGood(ctx context.Context, in *npool.GetLatestPlatformBenefitByGoodRequest) (*npool.GetLatestPlatformBenefitByGoodResponse, error) {
+	resp, err := crud.GetLatestByGood(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get good latest platform benefit error: %w", err)
+		return &npool.GetLatestPlatformBenefitByGoodResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return resp, nil
+}
+
 func (s *Server) GetPlatformBenefit(ctx context.Context, in *npool.GetPlatformBenefitRequest) (*npool.GetPlatformBenefitResponse, error) {
 	resp, err := crud.Get(ctx, in)
 	if err != nil {

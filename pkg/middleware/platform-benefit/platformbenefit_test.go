@@ -51,7 +51,7 @@ func TestGet(t *testing.T) {
 		GoodID:               uuid.New().String(),
 		BenefitAccountID:     resp1.Info.ID,
 		Amount:               0.13,
-		LastBenefitTimestamp: uint32(time.Now().Unix()),
+		LastBenefitTimestamp: uint32(time.Now().Unix()) + 1000,
 		ChainTransactionID:   "adfjklasjfdlksajf",
 	}
 	resp2, err := platformbenefit.Create(context.Background(), &npool.CreatePlatformBenefitRequest{

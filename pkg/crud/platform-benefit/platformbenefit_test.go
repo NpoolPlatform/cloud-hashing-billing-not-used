@@ -68,4 +68,30 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp2.Info.ID, resp.Info.ID)
 		assertPlatformBenefit(t, resp2.Info, &platformBenefit)
 	}
+
+	resp3, err := GetLatestByGood(context.Background(), &npool.GetLatestPlatformBenefitByGoodRequest{
+		GoodID: platformBenefit.GoodID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
+		assertPlatformBenefit(t, resp3.Info, &platformBenefit)
+	}
+
+	platformBenefit.LastBenefitTimestamp += 1
+	platformBenefit.ChainTransactionID = uuid.New().String()
+
+	time.Sleep(2 * time.Second)
+
+	resp4, err := Create(context.Background(), &npool.CreatePlatformBenefitRequest{
+		Info: &platformBenefit,
+	})
+	assert.Nil(t, err)
+
+	resp5, err := GetLatestByGood(context.Background(), &npool.GetLatestPlatformBenefitByGoodRequest{
+		GoodID: platformBenefit.GoodID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp5.Info.ID, resp4.Info.ID)
+		assertPlatformBenefit(t, resp5.Info, &platformBenefit)
+	}
 }

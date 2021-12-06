@@ -64,6 +64,39 @@ func Create(ctx context.Context, in *npool.CreatePlatformBenefitRequest) (*npool
 	}, nil
 }
 
+func GetLatestByGood(ctx context.Context, in *npool.GetLatestPlatformBenefitByGoodRequest) (*npool.GetLatestPlatformBenefitByGoodResponse, error) {
+	goodID, err := uuid.Parse(in.GetGoodID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid good id: %v", err)
+	}
+
+	infos, err := db.Client().
+		PlatformBenefit.
+		Query().
+		Order(
+			ent.Desc(platformbenefit.FieldCreateAt),
+		).
+		Where(
+			platformbenefit.And(
+				platformbenefit.GoodID(goodID),
+			),
+		).
+		Limit(1).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query platform benefit: %v", err)
+	}
+
+	benefits := []*npool.PlatformBenefit{}
+	for _, info := range infos {
+		benefits = append(benefits, dbRowToPlatformBenefit(info))
+	}
+
+	return &npool.GetLatestPlatformBenefitByGoodResponse{
+		Info: benefits[0],
+	}, nil
+}
+
 func GetByGood(ctx context.Context, in *npool.GetPlatformBenefitsByGoodRequest) (*npool.GetPlatformBenefitsByGoodResponse, error) {
 	goodID, err := uuid.Parse(in.GetGoodID())
 	if err != nil {
