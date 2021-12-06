@@ -52,6 +52,19 @@ func (pbu *PlatformBenefitUpdate) AddAmount(u uint64) *PlatformBenefitUpdate {
 	return pbu
 }
 
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (pbu *PlatformBenefitUpdate) SetLastBenefitTimestamp(u uint32) *PlatformBenefitUpdate {
+	pbu.mutation.ResetLastBenefitTimestamp()
+	pbu.mutation.SetLastBenefitTimestamp(u)
+	return pbu
+}
+
+// AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
+func (pbu *PlatformBenefitUpdate) AddLastBenefitTimestamp(u uint32) *PlatformBenefitUpdate {
+	pbu.mutation.AddLastBenefitTimestamp(u)
+	return pbu
+}
+
 // SetChainTransactionID sets the "chain_transaction_id" field.
 func (pbu *PlatformBenefitUpdate) SetChainTransactionID(s string) *PlatformBenefitUpdate {
 	pbu.mutation.SetChainTransactionID(s)
@@ -227,6 +240,20 @@ func (pbu *PlatformBenefitUpdate) sqlSave(ctx context.Context) (n int, err error
 			Column: platformbenefit.FieldAmount,
 		})
 	}
+	if value, ok := pbu.mutation.LastBenefitTimestamp(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: platformbenefit.FieldLastBenefitTimestamp,
+		})
+	}
+	if value, ok := pbu.mutation.AddedLastBenefitTimestamp(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: platformbenefit.FieldLastBenefitTimestamp,
+		})
+	}
 	if value, ok := pbu.mutation.ChainTransactionID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -317,6 +344,19 @@ func (pbuo *PlatformBenefitUpdateOne) SetAmount(u uint64) *PlatformBenefitUpdate
 // AddAmount adds u to the "amount" field.
 func (pbuo *PlatformBenefitUpdateOne) AddAmount(u uint64) *PlatformBenefitUpdateOne {
 	pbuo.mutation.AddAmount(u)
+	return pbuo
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (pbuo *PlatformBenefitUpdateOne) SetLastBenefitTimestamp(u uint32) *PlatformBenefitUpdateOne {
+	pbuo.mutation.ResetLastBenefitTimestamp()
+	pbuo.mutation.SetLastBenefitTimestamp(u)
+	return pbuo
+}
+
+// AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
+func (pbuo *PlatformBenefitUpdateOne) AddLastBenefitTimestamp(u uint32) *PlatformBenefitUpdateOne {
+	pbuo.mutation.AddLastBenefitTimestamp(u)
 	return pbuo
 }
 
@@ -517,6 +557,20 @@ func (pbuo *PlatformBenefitUpdateOne) sqlSave(ctx context.Context) (_node *Platf
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: platformbenefit.FieldAmount,
+		})
+	}
+	if value, ok := pbuo.mutation.LastBenefitTimestamp(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: platformbenefit.FieldLastBenefitTimestamp,
+		})
+	}
+	if value, ok := pbuo.mutation.AddedLastBenefitTimestamp(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: platformbenefit.FieldLastBenefitTimestamp,
 		})
 	}
 	if value, ok := pbuo.mutation.ChainTransactionID(); ok {

@@ -57,6 +57,7 @@ var (
 		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "benefit_account_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
+		{Name: "last_benefit_timestamp", Type: field.TypeUint32},
 		{Name: "chain_transaction_id", Type: field.TypeString},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
@@ -71,7 +72,7 @@ var (
 			{
 				Name:    "platformbenefit_good_id_chain_transaction_id",
 				Unique:  true,
-				Columns: []*schema.Column{PlatformBenefitsColumns[1], PlatformBenefitsColumns[4]},
+				Columns: []*schema.Column{PlatformBenefitsColumns[1], PlatformBenefitsColumns[5]},
 			},
 		},
 	}

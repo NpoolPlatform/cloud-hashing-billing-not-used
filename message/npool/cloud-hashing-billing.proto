@@ -298,6 +298,7 @@ message PlatformBenefit {
     double Amount = 2203;
     uint32 CreateAt = 2204;
     string ChainTransactionID = 2205;
+    uint32 LastBenefitTimestamp = 2206;
 }
 
 message CreatePlatformBenefitRequest {

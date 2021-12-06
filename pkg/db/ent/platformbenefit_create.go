@@ -41,6 +41,12 @@ func (pbc *PlatformBenefitCreate) SetAmount(u uint64) *PlatformBenefitCreate {
 	return pbc
 }
 
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (pbc *PlatformBenefitCreate) SetLastBenefitTimestamp(u uint32) *PlatformBenefitCreate {
+	pbc.mutation.SetLastBenefitTimestamp(u)
+	return pbc
+}
+
 // SetChainTransactionID sets the "chain_transaction_id" field.
 func (pbc *PlatformBenefitCreate) SetChainTransactionID(s string) *PlatformBenefitCreate {
 	pbc.mutation.SetChainTransactionID(s)
@@ -195,6 +201,9 @@ func (pbc *PlatformBenefitCreate) check() error {
 	if _, ok := pbc.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "amount"`)}
 	}
+	if _, ok := pbc.mutation.LastBenefitTimestamp(); !ok {
+		return &ValidationError{Name: "last_benefit_timestamp", err: errors.New(`ent: missing required field "last_benefit_timestamp"`)}
+	}
 	if _, ok := pbc.mutation.ChainTransactionID(); !ok {
 		return &ValidationError{Name: "chain_transaction_id", err: errors.New(`ent: missing required field "chain_transaction_id"`)}
 	}
@@ -263,6 +272,14 @@ func (pbc *PlatformBenefitCreate) createSpec() (*PlatformBenefit, *sqlgraph.Crea
 			Column: platformbenefit.FieldAmount,
 		})
 		_node.Amount = value
+	}
+	if value, ok := pbc.mutation.LastBenefitTimestamp(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: platformbenefit.FieldLastBenefitTimestamp,
+		})
+		_node.LastBenefitTimestamp = value
 	}
 	if value, ok := pbc.mutation.ChainTransactionID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -383,6 +400,18 @@ func (u *PlatformBenefitUpsert) SetAmount(v uint64) *PlatformBenefitUpsert {
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *PlatformBenefitUpsert) UpdateAmount() *PlatformBenefitUpsert {
 	u.SetExcluded(platformbenefit.FieldAmount)
+	return u
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (u *PlatformBenefitUpsert) SetLastBenefitTimestamp(v uint32) *PlatformBenefitUpsert {
+	u.Set(platformbenefit.FieldLastBenefitTimestamp, v)
+	return u
+}
+
+// UpdateLastBenefitTimestamp sets the "last_benefit_timestamp" field to the value that was provided on create.
+func (u *PlatformBenefitUpsert) UpdateLastBenefitTimestamp() *PlatformBenefitUpsert {
+	u.SetExcluded(platformbenefit.FieldLastBenefitTimestamp)
 	return u
 }
 
@@ -523,6 +552,20 @@ func (u *PlatformBenefitUpsertOne) SetAmount(v uint64) *PlatformBenefitUpsertOne
 func (u *PlatformBenefitUpsertOne) UpdateAmount() *PlatformBenefitUpsertOne {
 	return u.Update(func(s *PlatformBenefitUpsert) {
 		s.UpdateAmount()
+	})
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (u *PlatformBenefitUpsertOne) SetLastBenefitTimestamp(v uint32) *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.SetLastBenefitTimestamp(v)
+	})
+}
+
+// UpdateLastBenefitTimestamp sets the "last_benefit_timestamp" field to the value that was provided on create.
+func (u *PlatformBenefitUpsertOne) UpdateLastBenefitTimestamp() *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.UpdateLastBenefitTimestamp()
 	})
 }
 
@@ -837,6 +880,20 @@ func (u *PlatformBenefitUpsertBulk) SetAmount(v uint64) *PlatformBenefitUpsertBu
 func (u *PlatformBenefitUpsertBulk) UpdateAmount() *PlatformBenefitUpsertBulk {
 	return u.Update(func(s *PlatformBenefitUpsert) {
 		s.UpdateAmount()
+	})
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (u *PlatformBenefitUpsertBulk) SetLastBenefitTimestamp(v uint32) *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.SetLastBenefitTimestamp(v)
+	})
+}
+
+// UpdateLastBenefitTimestamp sets the "last_benefit_timestamp" field to the value that was provided on create.
+func (u *PlatformBenefitUpsertBulk) UpdateLastBenefitTimestamp() *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.UpdateLastBenefitTimestamp()
 	})
 }
 

@@ -17,6 +17,8 @@ const (
 	FieldBenefitAccountID = "benefit_account_id"
 	// FieldAmount holds the string denoting the amount field in the database.
 	FieldAmount = "amount"
+	// FieldLastBenefitTimestamp holds the string denoting the last_benefit_timestamp field in the database.
+	FieldLastBenefitTimestamp = "last_benefit_timestamp"
 	// FieldChainTransactionID holds the string denoting the chain_transaction_id field in the database.
 	FieldChainTransactionID = "chain_transaction_id"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
@@ -35,6 +37,7 @@ var Columns = []string{
 	FieldGoodID,
 	FieldBenefitAccountID,
 	FieldAmount,
+	FieldLastBenefitTimestamp,
 	FieldChainTransactionID,
 	FieldCreateAt,
 	FieldUpdateAt,

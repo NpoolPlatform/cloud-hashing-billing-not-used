@@ -23,17 +23,21 @@ func validatePlatformBenefit(info *npool.PlatformBenefit) error {
 	if _, err := uuid.Parse(info.GetBenefitAccountID()); err != nil {
 		return xerrors.Errorf("invalid benefit account id: %v", err)
 	}
+	if info.GetLastBenefitTimestamp() == 0 {
+		return xerrors.Errorf("invalid last benefit stamp")
+	}
 	return nil
 }
 
 func dbRowToPlatformBenefit(row *ent.PlatformBenefit) *npool.PlatformBenefit {
 	return &npool.PlatformBenefit{
-		ID:                 row.ID.String(),
-		GoodID:             row.GoodID.String(),
-		BenefitAccountID:   row.BenefitAccountID.String(),
-		Amount:             price.DBPriceToVisualPrice(row.Amount),
-		ChainTransactionID: row.ChainTransactionID,
-		CreateAt:           row.CreateAt,
+		ID:                   row.ID.String(),
+		GoodID:               row.GoodID.String(),
+		BenefitAccountID:     row.BenefitAccountID.String(),
+		Amount:               price.DBPriceToVisualPrice(row.Amount),
+		ChainTransactionID:   row.ChainTransactionID,
+		CreateAt:             row.CreateAt,
+		LastBenefitTimestamp: row.LastBenefitTimestamp,
 	}
 }
 
@@ -49,6 +53,7 @@ func Create(ctx context.Context, in *npool.CreatePlatformBenefitRequest) (*npool
 		SetBenefitAccountID(uuid.MustParse(in.GetInfo().GetBenefitAccountID())).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
+		SetLastBenefitTimestamp(in.GetInfo().GetLastBenefitTimestamp()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create platform benefit: %v", err)

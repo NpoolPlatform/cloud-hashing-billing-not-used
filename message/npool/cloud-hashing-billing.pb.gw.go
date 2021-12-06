@@ -1379,7 +1379,7 @@ func RegisterCloudHashingBillingHandlerFromEndpoint(ctx context.Context, mux *ru
 
 // RegisterCloudHashingBillingHandler registers the http handlers for service CloudHashingBilling to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterCloudHashingBillingHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+func RegisterCloudHashingBillingHandler(ctx context.Context, mux *runtime.ServeMux, conn grpc.ClientConnInterface) error {
 	return RegisterCloudHashingBillingHandlerClient(ctx, mux, NewCloudHashingBillingClient(conn))
 }
 

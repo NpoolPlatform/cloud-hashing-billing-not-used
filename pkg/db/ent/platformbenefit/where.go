@@ -112,6 +112,13 @@ func Amount(v uint64) predicate.PlatformBenefit {
 	})
 }
 
+// LastBenefitTimestamp applies equality check predicate on the "last_benefit_timestamp" field. It's identical to LastBenefitTimestampEQ.
+func LastBenefitTimestamp(v uint32) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLastBenefitTimestamp), v))
+	})
+}
+
 // ChainTransactionID applies equality check predicate on the "chain_transaction_id" field. It's identical to ChainTransactionIDEQ.
 func ChainTransactionID(v string) predicate.PlatformBenefit {
 	return predicate.PlatformBenefit(func(s *sql.Selector) {
@@ -365,6 +372,82 @@ func AmountLT(v uint64) predicate.PlatformBenefit {
 func AmountLTE(v uint64) predicate.PlatformBenefit {
 	return predicate.PlatformBenefit(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldAmount), v))
+	})
+}
+
+// LastBenefitTimestampEQ applies the EQ predicate on the "last_benefit_timestamp" field.
+func LastBenefitTimestampEQ(v uint32) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLastBenefitTimestamp), v))
+	})
+}
+
+// LastBenefitTimestampNEQ applies the NEQ predicate on the "last_benefit_timestamp" field.
+func LastBenefitTimestampNEQ(v uint32) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldLastBenefitTimestamp), v))
+	})
+}
+
+// LastBenefitTimestampIn applies the In predicate on the "last_benefit_timestamp" field.
+func LastBenefitTimestampIn(vs ...uint32) predicate.PlatformBenefit {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldLastBenefitTimestamp), v...))
+	})
+}
+
+// LastBenefitTimestampNotIn applies the NotIn predicate on the "last_benefit_timestamp" field.
+func LastBenefitTimestampNotIn(vs ...uint32) predicate.PlatformBenefit {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldLastBenefitTimestamp), v...))
+	})
+}
+
+// LastBenefitTimestampGT applies the GT predicate on the "last_benefit_timestamp" field.
+func LastBenefitTimestampGT(v uint32) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldLastBenefitTimestamp), v))
+	})
+}
+
+// LastBenefitTimestampGTE applies the GTE predicate on the "last_benefit_timestamp" field.
+func LastBenefitTimestampGTE(v uint32) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldLastBenefitTimestamp), v))
+	})
+}
+
+// LastBenefitTimestampLT applies the LT predicate on the "last_benefit_timestamp" field.
+func LastBenefitTimestampLT(v uint32) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldLastBenefitTimestamp), v))
+	})
+}
+
+// LastBenefitTimestampLTE applies the LTE predicate on the "last_benefit_timestamp" field.
+func LastBenefitTimestampLTE(v uint32) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldLastBenefitTimestamp), v))
 	})
 }
 

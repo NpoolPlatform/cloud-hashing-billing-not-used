@@ -2004,24 +2004,26 @@ func (m *CoinAccountTransactionMutation) ResetEdge(name string) error {
 // PlatformBenefitMutation represents an operation that mutates the PlatformBenefit nodes in the graph.
 type PlatformBenefitMutation struct {
 	config
-	op                   Op
-	typ                  string
-	id                   *uuid.UUID
-	good_id              *uuid.UUID
-	benefit_account_id   *uuid.UUID
-	amount               *uint64
-	addamount            *uint64
-	chain_transaction_id *string
-	create_at            *uint32
-	addcreate_at         *uint32
-	update_at            *uint32
-	addupdate_at         *uint32
-	delete_at            *uint32
-	adddelete_at         *uint32
-	clearedFields        map[string]struct{}
-	done                 bool
-	oldValue             func(context.Context) (*PlatformBenefit, error)
-	predicates           []predicate.PlatformBenefit
+	op                        Op
+	typ                       string
+	id                        *uuid.UUID
+	good_id                   *uuid.UUID
+	benefit_account_id        *uuid.UUID
+	amount                    *uint64
+	addamount                 *uint64
+	last_benefit_timestamp    *uint32
+	addlast_benefit_timestamp *uint32
+	chain_transaction_id      *string
+	create_at                 *uint32
+	addcreate_at              *uint32
+	update_at                 *uint32
+	addupdate_at              *uint32
+	delete_at                 *uint32
+	adddelete_at              *uint32
+	clearedFields             map[string]struct{}
+	done                      bool
+	oldValue                  func(context.Context) (*PlatformBenefit, error)
+	predicates                []predicate.PlatformBenefit
 }
 
 var _ ent.Mutation = (*PlatformBenefitMutation)(nil)
@@ -2235,6 +2237,62 @@ func (m *PlatformBenefitMutation) AddedAmount() (r uint64, exists bool) {
 func (m *PlatformBenefitMutation) ResetAmount() {
 	m.amount = nil
 	m.addamount = nil
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (m *PlatformBenefitMutation) SetLastBenefitTimestamp(u uint32) {
+	m.last_benefit_timestamp = &u
+	m.addlast_benefit_timestamp = nil
+}
+
+// LastBenefitTimestamp returns the value of the "last_benefit_timestamp" field in the mutation.
+func (m *PlatformBenefitMutation) LastBenefitTimestamp() (r uint32, exists bool) {
+	v := m.last_benefit_timestamp
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastBenefitTimestamp returns the old "last_benefit_timestamp" field's value of the PlatformBenefit entity.
+// If the PlatformBenefit object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformBenefitMutation) OldLastBenefitTimestamp(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldLastBenefitTimestamp is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldLastBenefitTimestamp requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastBenefitTimestamp: %w", err)
+	}
+	return oldValue.LastBenefitTimestamp, nil
+}
+
+// AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
+func (m *PlatformBenefitMutation) AddLastBenefitTimestamp(u uint32) {
+	if m.addlast_benefit_timestamp != nil {
+		*m.addlast_benefit_timestamp += u
+	} else {
+		m.addlast_benefit_timestamp = &u
+	}
+}
+
+// AddedLastBenefitTimestamp returns the value that was added to the "last_benefit_timestamp" field in this mutation.
+func (m *PlatformBenefitMutation) AddedLastBenefitTimestamp() (r uint32, exists bool) {
+	v := m.addlast_benefit_timestamp
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetLastBenefitTimestamp resets all changes to the "last_benefit_timestamp" field.
+func (m *PlatformBenefitMutation) ResetLastBenefitTimestamp() {
+	m.last_benefit_timestamp = nil
+	m.addlast_benefit_timestamp = nil
 }
 
 // SetChainTransactionID sets the "chain_transaction_id" field.
@@ -2460,7 +2518,7 @@ func (m *PlatformBenefitMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *PlatformBenefitMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.good_id != nil {
 		fields = append(fields, platformbenefit.FieldGoodID)
 	}
@@ -2469,6 +2527,9 @@ func (m *PlatformBenefitMutation) Fields() []string {
 	}
 	if m.amount != nil {
 		fields = append(fields, platformbenefit.FieldAmount)
+	}
+	if m.last_benefit_timestamp != nil {
+		fields = append(fields, platformbenefit.FieldLastBenefitTimestamp)
 	}
 	if m.chain_transaction_id != nil {
 		fields = append(fields, platformbenefit.FieldChainTransactionID)
@@ -2496,6 +2557,8 @@ func (m *PlatformBenefitMutation) Field(name string) (ent.Value, bool) {
 		return m.BenefitAccountID()
 	case platformbenefit.FieldAmount:
 		return m.Amount()
+	case platformbenefit.FieldLastBenefitTimestamp:
+		return m.LastBenefitTimestamp()
 	case platformbenefit.FieldChainTransactionID:
 		return m.ChainTransactionID()
 	case platformbenefit.FieldCreateAt:
@@ -2519,6 +2582,8 @@ func (m *PlatformBenefitMutation) OldField(ctx context.Context, name string) (en
 		return m.OldBenefitAccountID(ctx)
 	case platformbenefit.FieldAmount:
 		return m.OldAmount(ctx)
+	case platformbenefit.FieldLastBenefitTimestamp:
+		return m.OldLastBenefitTimestamp(ctx)
 	case platformbenefit.FieldChainTransactionID:
 		return m.OldChainTransactionID(ctx)
 	case platformbenefit.FieldCreateAt:
@@ -2556,6 +2621,13 @@ func (m *PlatformBenefitMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAmount(v)
+		return nil
+	case platformbenefit.FieldLastBenefitTimestamp:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastBenefitTimestamp(v)
 		return nil
 	case platformbenefit.FieldChainTransactionID:
 		v, ok := value.(string)
@@ -2596,6 +2668,9 @@ func (m *PlatformBenefitMutation) AddedFields() []string {
 	if m.addamount != nil {
 		fields = append(fields, platformbenefit.FieldAmount)
 	}
+	if m.addlast_benefit_timestamp != nil {
+		fields = append(fields, platformbenefit.FieldLastBenefitTimestamp)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, platformbenefit.FieldCreateAt)
 	}
@@ -2615,6 +2690,8 @@ func (m *PlatformBenefitMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case platformbenefit.FieldAmount:
 		return m.AddedAmount()
+	case platformbenefit.FieldLastBenefitTimestamp:
+		return m.AddedLastBenefitTimestamp()
 	case platformbenefit.FieldCreateAt:
 		return m.AddedCreateAt()
 	case platformbenefit.FieldUpdateAt:
@@ -2636,6 +2713,13 @@ func (m *PlatformBenefitMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddAmount(v)
+		return nil
+	case platformbenefit.FieldLastBenefitTimestamp:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddLastBenefitTimestamp(v)
 		return nil
 	case platformbenefit.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -2693,6 +2777,9 @@ func (m *PlatformBenefitMutation) ResetField(name string) error {
 		return nil
 	case platformbenefit.FieldAmount:
 		m.ResetAmount()
+		return nil
+	case platformbenefit.FieldLastBenefitTimestamp:
+		m.ResetLastBenefitTimestamp()
 		return nil
 	case platformbenefit.FieldChainTransactionID:
 		m.ResetChainTransactionID()

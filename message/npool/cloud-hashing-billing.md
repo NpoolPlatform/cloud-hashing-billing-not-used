@@ -762,6 +762,7 @@
 | Amount | [double](#double) |  |  |
 | CreateAt | [uint32](#uint32) |  |  |
 | ChainTransactionID | [string](#string) |  |  |
+| LastBenefitTimestamp | [uint32](#uint32) |  |  |
 
 
 
