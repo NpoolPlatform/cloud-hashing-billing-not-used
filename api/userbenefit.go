@@ -30,3 +30,21 @@ func (s *Server) GetUserBenefitsByAppUser(ctx context.Context, in *npool.GetUser
 	}
 	return resp, nil
 }
+
+func (s *Server) GetLatestUserBenefitByGood(ctx context.Context, in *npool.GetLatestUserBenefitByGoodRequest) (*npool.GetLatestUserBenefitByGoodResponse, error) {
+	resp, err := crud.GetLatestByGood(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get user benefit error: %w", err)
+		return &npool.GetLatestUserBenefitByGoodResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return resp, nil
+}
+
+func (s *Server) GetUserBenefitByApp(ctx context.Context, in *npool.GetUserBenefitsByAppRequest) (*npool.GetUserBenefitsByAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get user benefit error: %w", err)
+		return &npool.GetUserBenefitsByAppResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return resp, nil
+}
