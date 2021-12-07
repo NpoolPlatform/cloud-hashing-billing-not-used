@@ -159,6 +159,18 @@ service CloudHashingBilling {
             body: "*"
         };
     }
+    rpc GetUserBenefitsByApp(GetUserBenefitsByAppRequest) returns (GetUserBenefitsByAppResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/benefits/by/app"
+            body: "*"
+        };
+    }
+    rpc GetLatestUserBenefitByGood(GetLatestUserBenefitByGoodRequest) returns (GetLatestUserBenefitByGoodResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/latest/user/benefit/by/good"
+            body: "*"
+        };
+    }
 }
 
 // request body and response
