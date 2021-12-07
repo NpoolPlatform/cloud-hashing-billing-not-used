@@ -34,7 +34,7 @@ func assertUserBenefit(t *testing.T, actual, expected *npool.UserBenefit) {
 	assert.Equal(t, actual.OrderID, expected.OrderID)
 }
 
-func TestCRUD(t *testing.T) {
+func TestCRUD(t *testing.T) { //nolint
 	if runByGithubAction, err := strconv.ParseBool(os.Getenv("RUN_BY_GITHUB_ACTION")); err == nil && runByGithubAction {
 		return
 	}
@@ -62,5 +62,20 @@ func TestCRUD(t *testing.T) {
 	})
 	if assert.Nil(t, err) {
 		assert.Equal(t, len(resp1.Infos), 1)
+	}
+
+	resp2, err := GetByApp(context.Background(), &npool.GetUserBenefitsByAppRequest{
+		AppID: userBenefit.AppID,
+	})
+	if assert.Nil(t, err) {
+		assert.Positive(t, len(resp2.Infos))
+	}
+
+	resp3, err := GetLatestByGood(context.Background(), &npool.GetLatestUserBenefitByGoodRequest{
+		GoodID: userBenefit.GoodID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, userBenefit.LastBenefitTimestamp, resp3.Info.LastBenefitTimestamp)
+		assertUserBenefit(t, &userBenefit, resp3.Info)
 	}
 }
