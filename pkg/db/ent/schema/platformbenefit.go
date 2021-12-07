@@ -53,7 +53,7 @@ func (PlatformBenefit) Edges() []ent.Edge {
 // Indexes of the PlatformBenefit
 func (PlatformBenefit) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("good_id", "chain_transaction_id").
+		index.Fields("good_id", "last_benefit_timestamp").
 			Unique(),
 	}
 }

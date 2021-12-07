@@ -70,9 +70,9 @@ var (
 		PrimaryKey: []*schema.Column{PlatformBenefitsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "platformbenefit_good_id_chain_transaction_id",
+				Name:    "platformbenefit_good_id_last_benefit_timestamp",
 				Unique:  true,
-				Columns: []*schema.Column{PlatformBenefitsColumns[1], PlatformBenefitsColumns[5]},
+				Columns: []*schema.Column{PlatformBenefitsColumns[1], PlatformBenefitsColumns[4]},
 			},
 		},
 	}
