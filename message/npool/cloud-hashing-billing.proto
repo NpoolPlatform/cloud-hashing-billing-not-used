@@ -458,16 +458,22 @@ message GetUserBenefitsByAppUserResponse {
 
 message GetUserBenefitsByAppRequest {
     string AppID = 3900;
+    PageInfo PageInfo = 3950;
 }
 
 message GetUserBenefitsByAppResponse {
-    repeated UserBenefit Infos = 3950;
+    repeated UserBenefit Infos = 3960;
 }
 
 message GetLatestUserBenefitByGoodRequest {
-    string GoodID = 3960;
+    string GoodID = 3970;
 }
 
 message GetLatestUserBenefitByGoodResponse {
     UserBenefit Info = 3990;
+}
+
+message PageInfo {
+    int32 PageIndex = 21;
+    int32 PageSize = 22;
 }

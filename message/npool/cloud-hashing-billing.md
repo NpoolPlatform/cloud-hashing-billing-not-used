@@ -53,6 +53,7 @@
     - [GetUserBenefitsByAppResponse](#cloud.hashing.billing.v1.GetUserBenefitsByAppResponse)
     - [GetUserBenefitsByAppUserRequest](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserRequest)
     - [GetUserBenefitsByAppUserResponse](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserResponse)
+    - [PageInfo](#cloud.hashing.billing.v1.PageInfo)
     - [PlatformBenefit](#cloud.hashing.billing.v1.PlatformBenefit)
     - [PlatformBenefitDetail](#cloud.hashing.billing.v1.PlatformBenefitDetail)
     - [PlatformSetting](#cloud.hashing.billing.v1.PlatformSetting)
@@ -792,6 +793,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | AppID | [string](#string) |  |  |
+| PageInfo | [PageInfo](#cloud.hashing.billing.v1.PageInfo) |  |  |
 
 
 
@@ -838,6 +840,22 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | Infos | [UserBenefit](#cloud.hashing.billing.v1.UserBenefit) | repeated |  |
+
+
+
+
+
+
+<a name="cloud.hashing.billing.v1.PageInfo"></a>
+
+### PageInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| PageIndex | [int32](#int32) |  |  |
+| PageSize | [int32](#int32) |  |  |
 
 
 
