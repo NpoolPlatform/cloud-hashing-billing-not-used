@@ -53,8 +53,8 @@ func (CoinAccountInfo) Edges() []ent.Edge {
 	return nil
 }
 
-// Indexs of the CoinAccountInfo.
-func (CoinAccountInfo) Indexs() []ent.Index {
+// Indexes of the CoinAccountInfo.
+func (CoinAccountInfo) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("coin_type_id", "address").
 			Unique(),

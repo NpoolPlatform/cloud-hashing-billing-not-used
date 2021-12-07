@@ -27,6 +27,13 @@ var (
 		Name:       "coin_account_infos",
 		Columns:    CoinAccountInfosColumns,
 		PrimaryKey: []*schema.Column{CoinAccountInfosColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "coinaccountinfo_coin_type_id_address",
+				Unique:  true,
+				Columns: []*schema.Column{CoinAccountInfosColumns[1], CoinAccountInfosColumns[2]},
+			},
+		},
 	}
 	// CoinAccountTransactionsColumns holds the columns for the "coin_account_transactions" table.
 	CoinAccountTransactionsColumns = []*schema.Column{
