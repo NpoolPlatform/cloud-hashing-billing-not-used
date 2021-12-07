@@ -53,6 +53,12 @@ func (ubc *UserBenefitCreate) SetAmount(u uint64) *UserBenefitCreate {
 	return ubc
 }
 
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (ubc *UserBenefitCreate) SetLastBenefitTimestamp(u uint32) *UserBenefitCreate {
+	ubc.mutation.SetLastBenefitTimestamp(u)
+	return ubc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ubc *UserBenefitCreate) SetCreateAt(u uint32) *UserBenefitCreate {
 	ubc.mutation.SetCreateAt(u)
@@ -207,6 +213,9 @@ func (ubc *UserBenefitCreate) check() error {
 	if _, ok := ubc.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "amount"`)}
 	}
+	if _, ok := ubc.mutation.LastBenefitTimestamp(); !ok {
+		return &ValidationError{Name: "last_benefit_timestamp", err: errors.New(`ent: missing required field "last_benefit_timestamp"`)}
+	}
 	if _, ok := ubc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
 	}
@@ -288,6 +297,14 @@ func (ubc *UserBenefitCreate) createSpec() (*UserBenefit, *sqlgraph.CreateSpec) 
 			Column: userbenefit.FieldAmount,
 		})
 		_node.Amount = value
+	}
+	if value, ok := ubc.mutation.LastBenefitTimestamp(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userbenefit.FieldLastBenefitTimestamp,
+		})
+		_node.LastBenefitTimestamp = value
 	}
 	if value, ok := ubc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -424,6 +441,18 @@ func (u *UserBenefitUpsert) SetAmount(v uint64) *UserBenefitUpsert {
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *UserBenefitUpsert) UpdateAmount() *UserBenefitUpsert {
 	u.SetExcluded(userbenefit.FieldAmount)
+	return u
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (u *UserBenefitUpsert) SetLastBenefitTimestamp(v uint32) *UserBenefitUpsert {
+	u.Set(userbenefit.FieldLastBenefitTimestamp, v)
+	return u
+}
+
+// UpdateLastBenefitTimestamp sets the "last_benefit_timestamp" field to the value that was provided on create.
+func (u *UserBenefitUpsert) UpdateLastBenefitTimestamp() *UserBenefitUpsert {
+	u.SetExcluded(userbenefit.FieldLastBenefitTimestamp)
 	return u
 }
 
@@ -580,6 +609,20 @@ func (u *UserBenefitUpsertOne) SetAmount(v uint64) *UserBenefitUpsertOne {
 func (u *UserBenefitUpsertOne) UpdateAmount() *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.UpdateAmount()
+	})
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (u *UserBenefitUpsertOne) SetLastBenefitTimestamp(v uint32) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.SetLastBenefitTimestamp(v)
+	})
+}
+
+// UpdateLastBenefitTimestamp sets the "last_benefit_timestamp" field to the value that was provided on create.
+func (u *UserBenefitUpsertOne) UpdateLastBenefitTimestamp() *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.UpdateLastBenefitTimestamp()
 	})
 }
 
@@ -908,6 +951,20 @@ func (u *UserBenefitUpsertBulk) SetAmount(v uint64) *UserBenefitUpsertBulk {
 func (u *UserBenefitUpsertBulk) UpdateAmount() *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.UpdateAmount()
+	})
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (u *UserBenefitUpsertBulk) SetLastBenefitTimestamp(v uint32) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.SetLastBenefitTimestamp(v)
+	})
+}
+
+// UpdateLastBenefitTimestamp sets the "last_benefit_timestamp" field to the value that was provided on create.
+func (u *UserBenefitUpsertBulk) UpdateLastBenefitTimestamp() *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.UpdateLastBenefitTimestamp()
 	})
 }
 

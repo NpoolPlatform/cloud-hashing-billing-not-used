@@ -3713,25 +3713,27 @@ func (m *PlatformSettingMutation) ResetEdge(name string) error {
 // UserBenefitMutation represents an operation that mutates the UserBenefit nodes in the graph.
 type UserBenefitMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *uuid.UUID
-	good_id       *uuid.UUID
-	app_id        *uuid.UUID
-	user_id       *uuid.UUID
-	order_id      *uuid.UUID
-	amount        *uint64
-	addamount     *uint64
-	create_at     *uint32
-	addcreate_at  *uint32
-	update_at     *uint32
-	addupdate_at  *uint32
-	delete_at     *uint32
-	adddelete_at  *uint32
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*UserBenefit, error)
-	predicates    []predicate.UserBenefit
+	op                        Op
+	typ                       string
+	id                        *uuid.UUID
+	good_id                   *uuid.UUID
+	app_id                    *uuid.UUID
+	user_id                   *uuid.UUID
+	order_id                  *uuid.UUID
+	amount                    *uint64
+	addamount                 *uint64
+	last_benefit_timestamp    *uint32
+	addlast_benefit_timestamp *uint32
+	create_at                 *uint32
+	addcreate_at              *uint32
+	update_at                 *uint32
+	addupdate_at              *uint32
+	delete_at                 *uint32
+	adddelete_at              *uint32
+	clearedFields             map[string]struct{}
+	done                      bool
+	oldValue                  func(context.Context) (*UserBenefit, error)
+	predicates                []predicate.UserBenefit
 }
 
 var _ ent.Mutation = (*UserBenefitMutation)(nil)
@@ -4019,6 +4021,62 @@ func (m *UserBenefitMutation) ResetAmount() {
 	m.addamount = nil
 }
 
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (m *UserBenefitMutation) SetLastBenefitTimestamp(u uint32) {
+	m.last_benefit_timestamp = &u
+	m.addlast_benefit_timestamp = nil
+}
+
+// LastBenefitTimestamp returns the value of the "last_benefit_timestamp" field in the mutation.
+func (m *UserBenefitMutation) LastBenefitTimestamp() (r uint32, exists bool) {
+	v := m.last_benefit_timestamp
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastBenefitTimestamp returns the old "last_benefit_timestamp" field's value of the UserBenefit entity.
+// If the UserBenefit object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserBenefitMutation) OldLastBenefitTimestamp(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldLastBenefitTimestamp is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldLastBenefitTimestamp requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastBenefitTimestamp: %w", err)
+	}
+	return oldValue.LastBenefitTimestamp, nil
+}
+
+// AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
+func (m *UserBenefitMutation) AddLastBenefitTimestamp(u uint32) {
+	if m.addlast_benefit_timestamp != nil {
+		*m.addlast_benefit_timestamp += u
+	} else {
+		m.addlast_benefit_timestamp = &u
+	}
+}
+
+// AddedLastBenefitTimestamp returns the value that was added to the "last_benefit_timestamp" field in this mutation.
+func (m *UserBenefitMutation) AddedLastBenefitTimestamp() (r uint32, exists bool) {
+	v := m.addlast_benefit_timestamp
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetLastBenefitTimestamp resets all changes to the "last_benefit_timestamp" field.
+func (m *UserBenefitMutation) ResetLastBenefitTimestamp() {
+	m.last_benefit_timestamp = nil
+	m.addlast_benefit_timestamp = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *UserBenefitMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -4206,7 +4264,7 @@ func (m *UserBenefitMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserBenefitMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.good_id != nil {
 		fields = append(fields, userbenefit.FieldGoodID)
 	}
@@ -4221,6 +4279,9 @@ func (m *UserBenefitMutation) Fields() []string {
 	}
 	if m.amount != nil {
 		fields = append(fields, userbenefit.FieldAmount)
+	}
+	if m.last_benefit_timestamp != nil {
+		fields = append(fields, userbenefit.FieldLastBenefitTimestamp)
 	}
 	if m.create_at != nil {
 		fields = append(fields, userbenefit.FieldCreateAt)
@@ -4249,6 +4310,8 @@ func (m *UserBenefitMutation) Field(name string) (ent.Value, bool) {
 		return m.OrderID()
 	case userbenefit.FieldAmount:
 		return m.Amount()
+	case userbenefit.FieldLastBenefitTimestamp:
+		return m.LastBenefitTimestamp()
 	case userbenefit.FieldCreateAt:
 		return m.CreateAt()
 	case userbenefit.FieldUpdateAt:
@@ -4274,6 +4337,8 @@ func (m *UserBenefitMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldOrderID(ctx)
 	case userbenefit.FieldAmount:
 		return m.OldAmount(ctx)
+	case userbenefit.FieldLastBenefitTimestamp:
+		return m.OldLastBenefitTimestamp(ctx)
 	case userbenefit.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case userbenefit.FieldUpdateAt:
@@ -4324,6 +4389,13 @@ func (m *UserBenefitMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetAmount(v)
 		return nil
+	case userbenefit.FieldLastBenefitTimestamp:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastBenefitTimestamp(v)
+		return nil
 	case userbenefit.FieldCreateAt:
 		v, ok := value.(uint32)
 		if !ok {
@@ -4356,6 +4428,9 @@ func (m *UserBenefitMutation) AddedFields() []string {
 	if m.addamount != nil {
 		fields = append(fields, userbenefit.FieldAmount)
 	}
+	if m.addlast_benefit_timestamp != nil {
+		fields = append(fields, userbenefit.FieldLastBenefitTimestamp)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, userbenefit.FieldCreateAt)
 	}
@@ -4375,6 +4450,8 @@ func (m *UserBenefitMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case userbenefit.FieldAmount:
 		return m.AddedAmount()
+	case userbenefit.FieldLastBenefitTimestamp:
+		return m.AddedLastBenefitTimestamp()
 	case userbenefit.FieldCreateAt:
 		return m.AddedCreateAt()
 	case userbenefit.FieldUpdateAt:
@@ -4396,6 +4473,13 @@ func (m *UserBenefitMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddAmount(v)
+		return nil
+	case userbenefit.FieldLastBenefitTimestamp:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddLastBenefitTimestamp(v)
 		return nil
 	case userbenefit.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -4459,6 +4543,9 @@ func (m *UserBenefitMutation) ResetField(name string) error {
 		return nil
 	case userbenefit.FieldAmount:
 		m.ResetAmount()
+		return nil
+	case userbenefit.FieldLastBenefitTimestamp:
+		m.ResetLastBenefitTimestamp()
 		return nil
 	case userbenefit.FieldCreateAt:
 		m.ResetCreateAt()

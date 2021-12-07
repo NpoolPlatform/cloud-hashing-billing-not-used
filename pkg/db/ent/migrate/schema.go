@@ -103,6 +103,7 @@ var (
 		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "order_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
+		{Name: "last_benefit_timestamp", Type: field.TypeUint32, Unique: true},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

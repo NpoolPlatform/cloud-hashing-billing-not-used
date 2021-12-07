@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/test-init" //nolint
@@ -29,6 +30,7 @@ func assertUserBenefit(t *testing.T, actual, expected *npool.UserBenefit) {
 	assert.Equal(t, actual.AppID, expected.AppID)
 	assert.Equal(t, actual.UserID, expected.UserID)
 	assert.Equal(t, actual.Amount, expected.Amount)
+	assert.Equal(t, actual.LastBenefitTimestamp, expected.LastBenefitTimestamp)
 	assert.Equal(t, actual.OrderID, expected.OrderID)
 }
 
@@ -38,11 +40,12 @@ func TestCRUD(t *testing.T) {
 	}
 
 	userBenefit := npool.UserBenefit{
-		GoodID:  uuid.New().String(),
-		AppID:   uuid.New().String(),
-		UserID:  uuid.New().String(),
-		Amount:  0.13,
-		OrderID: uuid.New().String(),
+		GoodID:               uuid.New().String(),
+		AppID:                uuid.New().String(),
+		UserID:               uuid.New().String(),
+		Amount:               0.13,
+		LastBenefitTimestamp: uint32(time.Now().Unix()),
+		OrderID:              uuid.New().String(),
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateUserBenefitRequest{

@@ -424,6 +424,7 @@ message UserBenefit {
     double Amount = 3405;
     uint32 CreateAt = 3406;
     string OrderID = 3407;
+    uint32 LastBenefitTimestamp = 3408;
 }
 
 message CreateUserBenefitRequest {

@@ -29,18 +29,22 @@ func validateUserBenefit(info *npool.UserBenefit) error {
 	if _, err := uuid.Parse(info.GetOrderID()); err != nil {
 		return xerrors.Errorf("invalid order id: %v", err)
 	}
+	if info.GetLastBenefitTimestamp() == 0 {
+		return xerrors.Errorf("invalid last benefit timestamp")
+	}
 	return nil
 }
 
 func dbRowToUserBenefit(row *ent.UserBenefit) *npool.UserBenefit {
 	return &npool.UserBenefit{
-		ID:       row.ID.String(),
-		GoodID:   row.GoodID.String(),
-		AppID:    row.AppID.String(),
-		UserID:   row.UserID.String(),
-		Amount:   price.DBPriceToVisualPrice(row.Amount),
-		OrderID:  row.OrderID.String(),
-		CreateAt: row.CreateAt,
+		ID:                   row.ID.String(),
+		GoodID:               row.GoodID.String(),
+		AppID:                row.AppID.String(),
+		UserID:               row.UserID.String(),
+		Amount:               price.DBPriceToVisualPrice(row.Amount),
+		OrderID:              row.OrderID.String(),
+		CreateAt:             row.CreateAt,
+		LastBenefitTimestamp: row.LastBenefitTimestamp,
 	}
 }
 
@@ -57,6 +61,7 @@ func Create(ctx context.Context, in *npool.CreateUserBenefitRequest) (*npool.Cre
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetOrderID(uuid.MustParse(in.GetInfo().GetOrderID())).
+		SetLastBenefitTimestamp(in.GetInfo().GetLastBenefitTimestamp()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create user benefit: %v", err)

@@ -64,6 +64,19 @@ func (ubu *UserBenefitUpdate) AddAmount(u uint64) *UserBenefitUpdate {
 	return ubu
 }
 
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (ubu *UserBenefitUpdate) SetLastBenefitTimestamp(u uint32) *UserBenefitUpdate {
+	ubu.mutation.ResetLastBenefitTimestamp()
+	ubu.mutation.SetLastBenefitTimestamp(u)
+	return ubu
+}
+
+// AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
+func (ubu *UserBenefitUpdate) AddLastBenefitTimestamp(u uint32) *UserBenefitUpdate {
+	ubu.mutation.AddLastBenefitTimestamp(u)
+	return ubu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ubu *UserBenefitUpdate) SetCreateAt(u uint32) *UserBenefitUpdate {
 	ubu.mutation.ResetCreateAt()
@@ -247,6 +260,20 @@ func (ubu *UserBenefitUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: userbenefit.FieldAmount,
 		})
 	}
+	if value, ok := ubu.mutation.LastBenefitTimestamp(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userbenefit.FieldLastBenefitTimestamp,
+		})
+	}
+	if value, ok := ubu.mutation.AddedLastBenefitTimestamp(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userbenefit.FieldLastBenefitTimestamp,
+		})
+	}
 	if value, ok := ubu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -342,6 +369,19 @@ func (ubuo *UserBenefitUpdateOne) SetAmount(u uint64) *UserBenefitUpdateOne {
 // AddAmount adds u to the "amount" field.
 func (ubuo *UserBenefitUpdateOne) AddAmount(u uint64) *UserBenefitUpdateOne {
 	ubuo.mutation.AddAmount(u)
+	return ubuo
+}
+
+// SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
+func (ubuo *UserBenefitUpdateOne) SetLastBenefitTimestamp(u uint32) *UserBenefitUpdateOne {
+	ubuo.mutation.ResetLastBenefitTimestamp()
+	ubuo.mutation.SetLastBenefitTimestamp(u)
+	return ubuo
+}
+
+// AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
+func (ubuo *UserBenefitUpdateOne) AddLastBenefitTimestamp(u uint32) *UserBenefitUpdateOne {
+	ubuo.mutation.AddLastBenefitTimestamp(u)
 	return ubuo
 }
 
@@ -550,6 +590,20 @@ func (ubuo *UserBenefitUpdateOne) sqlSave(ctx context.Context) (_node *UserBenef
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: userbenefit.FieldAmount,
+		})
+	}
+	if value, ok := ubuo.mutation.LastBenefitTimestamp(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userbenefit.FieldLastBenefitTimestamp,
+		})
+	}
+	if value, ok := ubuo.mutation.AddedLastBenefitTimestamp(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userbenefit.FieldLastBenefitTimestamp,
 		})
 	}
 	if value, ok := ubuo.mutation.CreateAt(); ok {
