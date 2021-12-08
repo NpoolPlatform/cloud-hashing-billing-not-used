@@ -86,29 +86,36 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, len(resp2.Infos), 1)
 	}
 
-	resp3, err := GetCoinAccountTransactionsByCoin(context.Background(), &npool.GetCoinAccountTransactionsByCoinRequest{
+	resp3, err := GetCoinAccountTransactionsByState(context.Background(), &npool.GetCoinAccountTransactionsByStateRequest{
+		State: "wait",
+	})
+	if assert.Nil(t, err) {
+		assert.NotEqual(t, len(resp3.Infos), 0)
+	}
+
+	resp4, err := GetCoinAccountTransactionsByCoin(context.Background(), &npool.GetCoinAccountTransactionsByCoinRequest{
 		CoinTypeID: coinAccountTransaction.CoinTypeID,
 	})
 	if assert.Nil(t, err) {
-		assert.Equal(t, len(resp3.Infos), 1)
+		assert.Equal(t, len(resp4.Infos), 1)
 	}
 
 	coinAccountTransaction.State = "paying"
 	coinAccountTransaction.ID = resp.Info.ID
 
-	resp4, err := Update(context.Background(), &npool.UpdateCoinAccountTransactionRequest{
+	resp5, err := Update(context.Background(), &npool.UpdateCoinAccountTransactionRequest{
 		Info: &coinAccountTransaction,
-	})
-	if assert.Nil(t, err) {
-		assert.Equal(t, resp4.Info.ID, resp.Info.ID)
-		assertCoinAccountTransaction(t, resp4.Info, &coinAccountTransaction)
-	}
-
-	resp5, err := Delete(context.Background(), &npool.DeleteCoinAccountTransactionRequest{
-		ID: resp.Info.ID,
 	})
 	if assert.Nil(t, err) {
 		assert.Equal(t, resp5.Info.ID, resp.Info.ID)
 		assertCoinAccountTransaction(t, resp5.Info, &coinAccountTransaction)
+	}
+
+	resp6, err := Delete(context.Background(), &npool.DeleteCoinAccountTransactionRequest{
+		ID: resp.Info.ID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp6.Info.ID, resp.Info.ID)
+		assertCoinAccountTransaction(t, resp6.Info, &coinAccountTransaction)
 	}
 }

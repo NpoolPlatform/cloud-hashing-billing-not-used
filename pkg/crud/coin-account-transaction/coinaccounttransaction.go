@@ -146,6 +146,30 @@ func GetCoinAccountTransactionsByCoinAccount(ctx context.Context, in *npool.GetC
 	}, nil
 }
 
+func GetCoinAccountTransactionsByState(ctx context.Context, in *npool.GetCoinAccountTransactionsByStateRequest) (*npool.GetCoinAccountTransactionsByStateResponse, error) {
+	infos, err := db.Client().
+		CoinAccountTransaction.
+		Query().
+		Where(
+			coinaccounttransaction.And(
+				coinaccounttransaction.StateEQ(coinaccounttransaction.State(in.GetState())),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account transaction: %v", err)
+	}
+
+	transactions := []*npool.CoinAccountTransaction{}
+	for _, info := range infos {
+		transactions = append(transactions, dbRowToCoinAccountTransaction(info))
+	}
+
+	return &npool.GetCoinAccountTransactionsByStateResponse{
+		Infos: transactions,
+	}, nil
+}
+
 func GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool.GetCoinAccountTransactionsByCoinRequest) (*npool.GetCoinAccountTransactionsByCoinResponse, error) {
 	if _, err := uuid.Parse(in.GetCoinTypeID()); err != nil {
 		return nil, xerrors.Errorf("invalid coin type id: %v", err)

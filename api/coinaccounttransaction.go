@@ -43,6 +43,15 @@ func (s *Server) GetCoinAccountTransactionsByCoinAccount(ctx context.Context, in
 	return resp, nil
 }
 
+func (s *Server) GetCoinAccountTransactionsByState(ctx context.Context, in *npool.GetCoinAccountTransactionsByStateRequest) (*npool.GetCoinAccountTransactionsByStateResponse, error) {
+	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByState(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get coin account transaction by state error: %w", err)
+		return &npool.GetCoinAccountTransactionsByStateResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return resp, nil
+}
+
 func (s *Server) GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool.GetCoinAccountTransactionsByCoinRequest) (*npool.GetCoinAccountTransactionsByCoinResponse, error) {
 	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByCoin(ctx, in)
 	if err != nil {
