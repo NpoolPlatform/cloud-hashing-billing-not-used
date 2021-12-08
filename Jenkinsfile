@@ -114,12 +114,6 @@ pipeline {
         expression { BUILD_TARGET == 'true' }
       }
       steps {
-        sh(returnStdout: true, script: '''
-          images=`docker images | grep entropypool | grep cloud-hashing-billing | grep latest | awk '{ print $3 }'`
-          for image in $images; do
-            docker rmi $image
-          done
-        '''.stripIndent())
         sh 'DEVELOPMENT=development make generate-docker-images'
       }
     }
@@ -233,10 +227,6 @@ pipeline {
           tag=`git describe --tags $revlist`
           git reset --hard
           git checkout $tag
-          images=`docker images | grep entropypool | grep cloud-hashing-billing | grep $tag | awk '{ print $3 }'`
-          for image in $images; do
-            docker rmi $image -f
-          done
         '''.stripIndent())
         sh 'DEVELOPMENT=other make generate-docker-images'
       }
@@ -247,16 +237,60 @@ pipeline {
         expression { RELEASE_TARGET == 'true' }
       }
       steps {
-        sh 'DEVELOPMENT=development make release-docker-images'
+        sh 'TAG=latest make release-docker-images'
+        sh(returnStdout: true, script: '''
+          images=`docker images | grep entropypool | grep cloud-hashing-billing | grep none | awk '{ print $3 }'`
+          for image in $images; do
+            docker rmi $image -f
+          done
+        '''.stripIndent())
       }
     }
 
-    stage('Release docker image for testing or production') {
+    stage('Release docker image for testing') {
       when {
         expression { RELEASE_TARGET == 'true' }
       }
       steps {
-        sh 'DEVELOPMENT=other make release-docker-images'
+        sh(returnStdout: false, script: '''
+          revlist=`git rev-list --tags --max-count=1`
+          tag=`git describe --tags $revlist`
+
+          set +e
+          docker images | grep cloud-hashing-billing | grep $tag
+          rc=$?
+          set -e
+          if [ 0 -eq $rc ]; then
+            TAG=$tag make release-docker-images
+          fi
+        '''.stripIndent())
+      }
+    }
+
+    stage('Release docker image for production') {
+      when {
+        expression { RELEASE_TARGET == 'true' }
+      }
+      steps {
+        sh(returnStdout: false, script: '''
+          revlist=`git rev-list --tags --max-count=1`
+          tag=`git describe --tags $revlist`
+
+          major=`echo $tag | awk -F '.' '{ print $1 }'`
+          minor=`echo $tag | awk -F '.' '{ print $2 }'`
+          patch=`echo $tag | awk -F '.' '{ print $3 }'`
+
+          patch=$(( $patch - $patch % 2 ))
+          tag=$major.$minor.$patch
+
+          set +e
+          docker images | grep cloud-hashing-billing | grep $tag
+          rc=$?
+          set -e
+          if [ 0 -eq $rc ]; then
+            TAG=$tag make release-docker-images
+          fi
+        '''.stripIndent())
       }
     }
 
