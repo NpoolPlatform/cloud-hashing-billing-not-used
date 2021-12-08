@@ -71,11 +71,21 @@ func TestCRUD(t *testing.T) { //nolint
 		assert.Positive(t, len(resp2.Infos))
 	}
 
-	resp3, err := GetLatestByGood(context.Background(), &npool.GetLatestUserBenefitByGoodRequest{
+	time.Sleep(2 * time.Second)
+
+	userBenefit.LastBenefitTimestamp++
+	resp3, err := Create(context.Background(), &npool.CreateUserBenefitRequest{
+		Info: &userBenefit,
+	})
+	assert.Nil(t, err)
+
+	resp4, err := GetLatestByGoodAppUser(context.Background(), &npool.GetLatestUserBenefitByGoodAppUserRequest{
 		GoodID: userBenefit.GoodID,
+		AppID:  userBenefit.AppID,
+		UserID: userBenefit.UserID,
 	})
 	if assert.Nil(t, err) {
-		assert.Equal(t, userBenefit.LastBenefitTimestamp, resp3.Info.LastBenefitTimestamp)
-		assertUserBenefit(t, &userBenefit, resp3.Info)
+		assert.Equal(t, resp4.Info.ID, resp3.Info.ID)
+		assertUserBenefit(t, &userBenefit, resp4.Info)
 	}
 }

@@ -96,9 +96,6 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserBenefitsByAppUserRequest
 	if err != nil {
 		return nil, xerrors.Errorf("fail query user benefit: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty user benefit")
-	}
 
 	benefits := []*npool.UserBenefit{}
 	for _, info := range infos {
@@ -110,26 +107,46 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserBenefitsByAppUserRequest
 	}, nil
 }
 
-func GetLatestByGood(ctx context.Context, in *npool.GetLatestUserBenefitByGoodRequest) (*npool.GetLatestUserBenefitByGoodResponse, error) {
+func GetLatestByGoodAppUser(ctx context.Context, in *npool.GetLatestUserBenefitByGoodAppUserRequest) (*npool.GetLatestUserBenefitByGoodAppUserResponse, error) {
 	goodID, err := uuid.Parse(in.GetGoodID())
 	if err != nil {
 		return nil, xerrors.Errorf("invalid good id: %v", err)
 	}
 
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	userID, err := uuid.Parse(in.GetUserID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
 	infos, err := db.Client().
-		UserBenefit.Query().
-		Where(userbenefit.GoodID(goodID)).
-		Order(ent.Desc(userbenefit.FieldCreateAt)).
+		UserBenefit.
+		Query().
+		Order(
+			ent.Desc(userbenefit.FieldCreateAt),
+		).
+		Where(
+			userbenefit.GoodID(goodID),
+			userbenefit.AppID(appID),
+			userbenefit.UserID(userID),
+		).
 		Limit(1).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("failed to query user benefit db, %v", err)
-	} else if len(infos) == 0 {
-		return nil, xerrors.Errorf("no user benefit record found! goodID %v", in.GetGoodID())
+		return nil, xerrors.Errorf("fail query user benefit: %v", err)
 	}
 
-	return &npool.GetLatestUserBenefitByGoodResponse{
-		Info: dbRowToUserBenefit(infos[0]),
+	var benefit *npool.UserBenefit
+	if len(infos) > 0 {
+		benefit = dbRowToUserBenefit(infos[0])
+	}
+
+	return &npool.GetLatestUserBenefitByGoodAppUserResponse{
+		Info: benefit,
 	}, nil
 }
 
@@ -140,9 +157,11 @@ func GetByApp(ctx context.Context, in *npool.GetUserBenefitsByAppRequest) (*npoo
 	}
 
 	infos, err := db.Client().
-		UserBenefit.Query().
-		Where(userbenefit.AppID(appID)).
-		Order(ent.Desc(userbenefit.FieldCreateAt)).
+		UserBenefit.
+		Query().
+		Where(
+			userbenefit.AppID(appID),
+		).
 		Limit(200).
 		All(ctx)
 	if err != nil {

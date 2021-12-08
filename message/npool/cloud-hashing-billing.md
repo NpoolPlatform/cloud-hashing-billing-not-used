@@ -35,8 +35,8 @@
     - [GetCoinAccountsByAppUserResponse](#cloud.hashing.billing.v1.GetCoinAccountsByAppUserResponse)
     - [GetLatestPlatformBenefitByGoodRequest](#cloud.hashing.billing.v1.GetLatestPlatformBenefitByGoodRequest)
     - [GetLatestPlatformBenefitByGoodResponse](#cloud.hashing.billing.v1.GetLatestPlatformBenefitByGoodResponse)
-    - [GetLatestUserBenefitByGoodRequest](#cloud.hashing.billing.v1.GetLatestUserBenefitByGoodRequest)
-    - [GetLatestUserBenefitByGoodResponse](#cloud.hashing.billing.v1.GetLatestUserBenefitByGoodResponse)
+    - [GetLatestUserBenefitByGoodAppUserRequest](#cloud.hashing.billing.v1.GetLatestUserBenefitByGoodAppUserRequest)
+    - [GetLatestUserBenefitByGoodAppUserResponse](#cloud.hashing.billing.v1.GetLatestUserBenefitByGoodAppUserResponse)
     - [GetPlatformBenefitDetailRequest](#cloud.hashing.billing.v1.GetPlatformBenefitDetailRequest)
     - [GetPlatformBenefitDetailResponse](#cloud.hashing.billing.v1.GetPlatformBenefitDetailResponse)
     - [GetPlatformBenefitRequest](#cloud.hashing.billing.v1.GetPlatformBenefitRequest)
@@ -574,14 +574,16 @@
 
 
 
-<a name="cloud.hashing.billing.v1.GetLatestUserBenefitByGoodRequest"></a>
+<a name="cloud.hashing.billing.v1.GetLatestUserBenefitByGoodAppUserRequest"></a>
 
-### GetLatestUserBenefitByGoodRequest
+### GetLatestUserBenefitByGoodAppUserRequest
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| AppID | [string](#string) |  |  |
+| UserID | [string](#string) |  |  |
 | GoodID | [string](#string) |  |  |
 
 
@@ -589,9 +591,9 @@
 
 
 
-<a name="cloud.hashing.billing.v1.GetLatestUserBenefitByGoodResponse"></a>
+<a name="cloud.hashing.billing.v1.GetLatestUserBenefitByGoodAppUserResponse"></a>
 
-### GetLatestUserBenefitByGoodResponse
+### GetLatestUserBenefitByGoodAppUserResponse
 
 
 
@@ -1080,7 +1082,7 @@ Cloud Hashing Billing
 | CreateUserBenefit | [CreateUserBenefitRequest](#cloud.hashing.billing.v1.CreateUserBenefitRequest) | [CreateUserBenefitResponse](#cloud.hashing.billing.v1.CreateUserBenefitResponse) |  |
 | GetUserBebefitsByAppUser | [GetUserBenefitsByAppUserRequest](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserRequest) | [GetUserBenefitsByAppUserResponse](#cloud.hashing.billing.v1.GetUserBenefitsByAppUserResponse) |  |
 | GetUserBenefitsByApp | [GetUserBenefitsByAppRequest](#cloud.hashing.billing.v1.GetUserBenefitsByAppRequest) | [GetUserBenefitsByAppResponse](#cloud.hashing.billing.v1.GetUserBenefitsByAppResponse) |  |
-| GetLatestUserBenefitByGood | [GetLatestUserBenefitByGoodRequest](#cloud.hashing.billing.v1.GetLatestUserBenefitByGoodRequest) | [GetLatestUserBenefitByGoodResponse](#cloud.hashing.billing.v1.GetLatestUserBenefitByGoodResponse) |  |
+| GetLatestUserBenefitByGoodAppUser | [GetLatestUserBenefitByGoodAppUserRequest](#cloud.hashing.billing.v1.GetLatestUserBenefitByGoodAppUserRequest) | [GetLatestUserBenefitByGoodAppUserResponse](#cloud.hashing.billing.v1.GetLatestUserBenefitByGoodAppUserResponse) |  |
 
  
 

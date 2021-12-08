@@ -165,9 +165,9 @@ service CloudHashingBilling {
             body: "*"
         };
     }
-    rpc GetLatestUserBenefitByGood(GetLatestUserBenefitByGoodRequest) returns (GetLatestUserBenefitByGoodResponse) {
+    rpc GetLatestUserBenefitByGoodAppUser(GetLatestUserBenefitByGoodAppUserRequest) returns (GetLatestUserBenefitByGoodAppUserResponse) {
         option (google.api.http) = {
-            post: "/v1/get/latest/user/benefit/by/good"
+            post: "/v1/get/latest/user/benefit/by/good/app/user"
             body: "*"
         };
     }
@@ -456,6 +456,11 @@ message GetUserBenefitsByAppUserResponse {
     repeated UserBenefit Infos = 3800;
 }
 
+message PageInfo {
+    int32 PageIndex = 21;
+    int32 PageSize = 22;
+}
+
 message GetUserBenefitsByAppRequest {
     string AppID = 3900;
     PageInfo PageInfo = 3950;
@@ -465,15 +470,13 @@ message GetUserBenefitsByAppResponse {
     repeated UserBenefit Infos = 3960;
 }
 
-message GetLatestUserBenefitByGoodRequest {
-    string GoodID = 3970;
+message GetLatestUserBenefitByGoodAppUserRequest {
+    string AppID = 1;
+    string UserID = 2;
+    string GoodID = 3;
 }
 
-message GetLatestUserBenefitByGoodResponse {
-    UserBenefit Info = 3990;
+message GetLatestUserBenefitByGoodAppUserResponse {
+    UserBenefit Info = 1;
 }
 
-message PageInfo {
-    int32 PageIndex = 21;
-    int32 PageSize = 22;
-}

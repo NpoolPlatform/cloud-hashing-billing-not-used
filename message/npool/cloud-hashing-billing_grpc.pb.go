@@ -45,7 +45,7 @@ type CloudHashingBillingClient interface {
 	CreateUserBenefit(ctx context.Context, in *CreateUserBenefitRequest, opts ...grpc.CallOption) (*CreateUserBenefitResponse, error)
 	GetUserBebefitsByAppUser(ctx context.Context, in *GetUserBenefitsByAppUserRequest, opts ...grpc.CallOption) (*GetUserBenefitsByAppUserResponse, error)
 	GetUserBenefitsByApp(ctx context.Context, in *GetUserBenefitsByAppRequest, opts ...grpc.CallOption) (*GetUserBenefitsByAppResponse, error)
-	GetLatestUserBenefitByGood(ctx context.Context, in *GetLatestUserBenefitByGoodRequest, opts ...grpc.CallOption) (*GetLatestUserBenefitByGoodResponse, error)
+	GetLatestUserBenefitByGoodAppUser(ctx context.Context, in *GetLatestUserBenefitByGoodAppUserRequest, opts ...grpc.CallOption) (*GetLatestUserBenefitByGoodAppUserResponse, error)
 }
 
 type cloudHashingBillingClient struct {
@@ -281,9 +281,9 @@ func (c *cloudHashingBillingClient) GetUserBenefitsByApp(ctx context.Context, in
 	return out, nil
 }
 
-func (c *cloudHashingBillingClient) GetLatestUserBenefitByGood(ctx context.Context, in *GetLatestUserBenefitByGoodRequest, opts ...grpc.CallOption) (*GetLatestUserBenefitByGoodResponse, error) {
-	out := new(GetLatestUserBenefitByGoodResponse)
-	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.CloudHashingBilling/GetLatestUserBenefitByGood", in, out, opts...)
+func (c *cloudHashingBillingClient) GetLatestUserBenefitByGoodAppUser(ctx context.Context, in *GetLatestUserBenefitByGoodAppUserRequest, opts ...grpc.CallOption) (*GetLatestUserBenefitByGoodAppUserResponse, error) {
+	out := new(GetLatestUserBenefitByGoodAppUserResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.billing.v1.CloudHashingBilling/GetLatestUserBenefitByGoodAppUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -320,7 +320,7 @@ type CloudHashingBillingServer interface {
 	CreateUserBenefit(context.Context, *CreateUserBenefitRequest) (*CreateUserBenefitResponse, error)
 	GetUserBebefitsByAppUser(context.Context, *GetUserBenefitsByAppUserRequest) (*GetUserBenefitsByAppUserResponse, error)
 	GetUserBenefitsByApp(context.Context, *GetUserBenefitsByAppRequest) (*GetUserBenefitsByAppResponse, error)
-	GetLatestUserBenefitByGood(context.Context, *GetLatestUserBenefitByGoodRequest) (*GetLatestUserBenefitByGoodResponse, error)
+	GetLatestUserBenefitByGoodAppUser(context.Context, *GetLatestUserBenefitByGoodAppUserRequest) (*GetLatestUserBenefitByGoodAppUserResponse, error)
 	mustEmbedUnimplementedCloudHashingBillingServer()
 }
 
@@ -403,8 +403,8 @@ func (UnimplementedCloudHashingBillingServer) GetUserBebefitsByAppUser(context.C
 func (UnimplementedCloudHashingBillingServer) GetUserBenefitsByApp(context.Context, *GetUserBenefitsByAppRequest) (*GetUserBenefitsByAppResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBenefitsByApp not implemented")
 }
-func (UnimplementedCloudHashingBillingServer) GetLatestUserBenefitByGood(context.Context, *GetLatestUserBenefitByGoodRequest) (*GetLatestUserBenefitByGoodResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetLatestUserBenefitByGood not implemented")
+func (UnimplementedCloudHashingBillingServer) GetLatestUserBenefitByGoodAppUser(context.Context, *GetLatestUserBenefitByGoodAppUserRequest) (*GetLatestUserBenefitByGoodAppUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLatestUserBenefitByGoodAppUser not implemented")
 }
 func (UnimplementedCloudHashingBillingServer) mustEmbedUnimplementedCloudHashingBillingServer() {}
 
@@ -869,20 +869,20 @@ func _CloudHashingBilling_GetUserBenefitsByApp_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CloudHashingBilling_GetLatestUserBenefitByGood_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetLatestUserBenefitByGoodRequest)
+func _CloudHashingBilling_GetLatestUserBenefitByGoodAppUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLatestUserBenefitByGoodAppUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CloudHashingBillingServer).GetLatestUserBenefitByGood(ctx, in)
+		return srv.(CloudHashingBillingServer).GetLatestUserBenefitByGoodAppUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/cloud.hashing.billing.v1.CloudHashingBilling/GetLatestUserBenefitByGood",
+		FullMethod: "/cloud.hashing.billing.v1.CloudHashingBilling/GetLatestUserBenefitByGoodAppUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CloudHashingBillingServer).GetLatestUserBenefitByGood(ctx, req.(*GetLatestUserBenefitByGoodRequest))
+		return srv.(CloudHashingBillingServer).GetLatestUserBenefitByGoodAppUser(ctx, req.(*GetLatestUserBenefitByGoodAppUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -995,8 +995,8 @@ var CloudHashingBilling_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CloudHashingBilling_GetUserBenefitsByApp_Handler,
 		},
 		{
-			MethodName: "GetLatestUserBenefitByGood",
-			Handler:    _CloudHashingBilling_GetLatestUserBenefitByGood_Handler,
+			MethodName: "GetLatestUserBenefitByGoodAppUser",
+			Handler:    _CloudHashingBilling_GetLatestUserBenefitByGoodAppUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
