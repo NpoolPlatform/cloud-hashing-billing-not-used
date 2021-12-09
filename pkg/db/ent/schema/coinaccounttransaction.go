@@ -7,6 +7,8 @@ import (
 	"entgo.io/ent/schema/field"
 
 	"github.com/google/uuid"
+
+	constant "github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
 )
 
 // CoinAccountTransaction holds the schema definition for the CoinAccountTransaction entity.
@@ -28,7 +30,11 @@ func (CoinAccountTransaction) Fields() []ent.Field {
 		field.Uint64("amount"),
 		field.String("message"),
 		field.Enum("state").
-			Values("wait", "paying", "successful", "fail"),
+			Values(constant.CoinTransactionStateCreated,
+				constant.CoinTransactionStateWait,
+				constant.CoinTransactionStatePaying,
+				constant.CoinTransactionStateSuccessful,
+				constant.CoinTransactionStateFail),
 		field.String("chain_transaction_id"),
 		field.UUID("platform_transaction_id", uuid.UUID{}),
 		field.Uint32("create_at").

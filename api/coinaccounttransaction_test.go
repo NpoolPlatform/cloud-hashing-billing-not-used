@@ -17,6 +17,8 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/coin-account-info"        //nolint
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/coin-account-transaction" //nolint
+
+	constant "github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
 )
 
 func init() {
@@ -55,7 +57,7 @@ func TestCoinAccountTransactionCRUD(t *testing.T) { //nolint
 		PlatformTransactionID: uuid.New().String(),
 		Amount:                1.3,
 		Message:               "for transaction test",
-		State:                 "wait",
+		State:                 constant.CoinTransactionStateWait,
 	}
 	firstCreateInfo := npool.CreateCoinAccountTransactionResponse{}
 

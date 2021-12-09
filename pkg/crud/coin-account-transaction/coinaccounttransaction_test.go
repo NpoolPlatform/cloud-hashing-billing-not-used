@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/test-init" //nolint
 
 	"github.com/google/uuid"
@@ -51,7 +52,7 @@ func TestCRUD(t *testing.T) {
 		PlatformTransactionID: uuid.New().String(),
 		Amount:                1.3,
 		Message:               "for transaction test",
-		State:                 "wait",
+		State:                 constant.CoinTransactionStateWait,
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateCoinAccountTransactionRequest{
@@ -87,7 +88,7 @@ func TestCRUD(t *testing.T) {
 	}
 
 	resp3, err := GetCoinAccountTransactionsByState(context.Background(), &npool.GetCoinAccountTransactionsByStateRequest{
-		State: "wait",
+		State: constant.CoinTransactionStateWait,
 	})
 	if assert.Nil(t, err) {
 		assert.NotEqual(t, len(resp3.Infos), 0)

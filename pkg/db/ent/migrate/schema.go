@@ -45,7 +45,7 @@ var (
 		{Name: "coin_type_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
 		{Name: "message", Type: field.TypeString},
-		{Name: "state", Type: field.TypeEnum, Enums: []string{"wait", "paying", "successful", "fail"}},
+		{Name: "state", Type: field.TypeEnum, Enums: []string{"created", "wait", "paying", "successful", "fail"}},
 		{Name: "chain_transaction_id", Type: field.TypeString},
 		{Name: "platform_transaction_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},

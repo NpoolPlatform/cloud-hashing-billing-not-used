@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent"
@@ -73,7 +74,7 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountTransactionRequest) 
 		SetMessage(in.GetInfo().GetMessage()).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
 		SetPlatformTransactionID(uuid.MustParse(in.GetInfo().GetPlatformTransactionID())).
-		SetState("wait").
+		SetState(constant.CoinTransactionStateWait).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create coin account: %v", err)
