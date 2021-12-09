@@ -122,9 +122,9 @@ var (
 		PrimaryKey: []*schema.Column{UserBenefitsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "userbenefit_good_id_last_benefit_timestamp_app_id_user_id",
+				Name:    "userbenefit_good_id_last_benefit_timestamp_app_id_user_id_order_id",
 				Unique:  true,
-				Columns: []*schema.Column{UserBenefitsColumns[1], UserBenefitsColumns[6], UserBenefitsColumns[2], UserBenefitsColumns[3]},
+				Columns: []*schema.Column{UserBenefitsColumns[1], UserBenefitsColumns[6], UserBenefitsColumns[2], UserBenefitsColumns[3], UserBenefitsColumns[4]},
 			},
 		},
 	}
