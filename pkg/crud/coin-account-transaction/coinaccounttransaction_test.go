@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
-	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"     //nolint
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/test-init" //nolint
 
 	"github.com/google/uuid"
