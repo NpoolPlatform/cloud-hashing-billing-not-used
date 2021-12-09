@@ -57,7 +57,7 @@ func TestCoinAccountTransactionCRUD(t *testing.T) { //nolint
 		PlatformTransactionID: uuid.New().String(),
 		Amount:                1.3,
 		Message:               "for transaction test",
-		State:                 constant.CoinTransactionStateWait,
+		State:                 constant.CoinTransactionStateCreated,
 	}
 	firstCreateInfo := npool.CreateCoinAccountTransactionResponse{}
 

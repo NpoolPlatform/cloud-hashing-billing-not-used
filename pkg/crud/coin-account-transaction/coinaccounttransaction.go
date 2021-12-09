@@ -74,7 +74,7 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountTransactionRequest) 
 		SetMessage(in.GetInfo().GetMessage()).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
 		SetPlatformTransactionID(uuid.MustParse(in.GetInfo().GetPlatformTransactionID())).
-		SetState(constant.CoinTransactionStateWait).
+		SetState(constant.CoinTransactionStateCreated).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create coin account: %v", err)

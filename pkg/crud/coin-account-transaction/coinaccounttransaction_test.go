@@ -52,7 +52,7 @@ func TestCRUD(t *testing.T) {
 		PlatformTransactionID: uuid.New().String(),
 		Amount:                1.3,
 		Message:               "for transaction test",
-		State:                 constant.CoinTransactionStateWait,
+		State:                 constant.CoinTransactionStateCreated,
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateCoinAccountTransactionRequest{
@@ -88,7 +88,7 @@ func TestCRUD(t *testing.T) {
 	}
 
 	resp3, err := GetCoinAccountTransactionsByState(context.Background(), &npool.GetCoinAccountTransactionsByStateRequest{
-		State: constant.CoinTransactionStateWait,
+		State: constant.CoinTransactionStateCreated,
 	})
 	if assert.Nil(t, err) {
 		assert.NotEqual(t, len(resp3.Infos), 0)
