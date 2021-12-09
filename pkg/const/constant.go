@@ -6,4 +6,5 @@ const (
 	CoinTransactionStatePaying     = "paying"
 	CoinTransactionStateSuccessful = "successful"
 	CoinTransactionStateFail       = "fail"
+	CoinTransactionStateRejected   = "rejected"
 )

@@ -93,6 +93,7 @@ const (
 	StateWait       State = "wait"
 	StatePaying     State = "paying"
 	StateSuccessful State = "successful"
+	StateRejected   State = "rejected"
 	StateFail       State = "fail"
 )
 
@@ -103,7 +104,7 @@ func (s State) String() string {
 // StateValidator is a validator for the "state" field enum values. It is called by the builders before save.
 func StateValidator(s State) error {
 	switch s {
-	case StateCreated, StateWait, StatePaying, StateSuccessful, StateFail:
+	case StateCreated, StateWait, StatePaying, StateSuccessful, StateRejected, StateFail:
 		return nil
 	default:
 		return fmt.Errorf("coinaccounttransaction: invalid enum value for state field: %q", s)
