@@ -110,7 +110,7 @@ var (
 		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "order_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
-		{Name: "last_benefit_timestamp", Type: field.TypeUint32, Unique: true},
+		{Name: "last_benefit_timestamp", Type: field.TypeUint32},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -120,6 +120,13 @@ var (
 		Name:       "user_benefits",
 		Columns:    UserBenefitsColumns,
 		PrimaryKey: []*schema.Column{UserBenefitsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userbenefit_good_id_last_benefit_timestamp_app_id_user_id",
+				Unique:  true,
+				Columns: []*schema.Column{UserBenefitsColumns[1], UserBenefitsColumns[6], UserBenefitsColumns[2], UserBenefitsColumns[3]},
+			},
+		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
