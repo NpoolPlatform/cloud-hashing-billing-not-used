@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cloud-hashing-billing
-        image: entropypool/cloud-hashing-billing:latest
+        image: uhub.service.ucloud.cn/entropypool/cloud-hashing-billing:latest
         imagePullPolicy: Always
         env:
         - name: ENV_ENVIRONMENT_TARGET
