@@ -4229,7 +4229,7 @@ var file_npool_cloud_hashing_billing_proto_rawDesc = []byte{
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x22, 0x17,
 	0x2f, 0x76, 0x31, 0x2f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x2f,
 	0x62, 0x65, 0x6e, 0x65, 0x66, 0x69, 0x74, 0x3a, 0x01, 0x2a, 0x12, 0xbf, 0x01, 0x0a, 0x18, 0x47,
-	0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x42, 0x65, 0x62, 0x65, 0x66, 0x69, 0x74, 0x73, 0x42, 0x79,
+	0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x42, 0x65, 0x6e, 0x65, 0x66, 0x69, 0x74, 0x73, 0x42, 0x79,
 	0x41, 0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x12, 0x39, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e,
 	0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x62, 0x69, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x2e,
 	0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x42, 0x65, 0x6e, 0x65, 0x66, 0x69,
@@ -4417,7 +4417,7 @@ var file_npool_cloud_hashing_billing_proto_depIdxs = []int32{
 	48, // 62: cloud.hashing.billing.v1.CloudHashingBilling.GetPlatformSettingDetail:input_type -> cloud.hashing.billing.v1.GetPlatformSettingDetailRequest
 	50, // 63: cloud.hashing.billing.v1.CloudHashingBilling.GetPlatformSetting:input_type -> cloud.hashing.billing.v1.GetPlatformSettingRequest
 	53, // 64: cloud.hashing.billing.v1.CloudHashingBilling.CreateUserBenefit:input_type -> cloud.hashing.billing.v1.CreateUserBenefitRequest
-	55, // 65: cloud.hashing.billing.v1.CloudHashingBilling.GetUserBebefitsByAppUser:input_type -> cloud.hashing.billing.v1.GetUserBenefitsByAppUserRequest
+	55, // 65: cloud.hashing.billing.v1.CloudHashingBilling.GetUserBenefitsByAppUser:input_type -> cloud.hashing.billing.v1.GetUserBenefitsByAppUserRequest
 	58, // 66: cloud.hashing.billing.v1.CloudHashingBilling.GetUserBenefitsByApp:input_type -> cloud.hashing.billing.v1.GetUserBenefitsByAppRequest
 	60, // 67: cloud.hashing.billing.v1.CloudHashingBilling.GetLatestUserBenefitByGoodAppUser:input_type -> cloud.hashing.billing.v1.GetLatestUserBenefitByGoodAppUserRequest
 	0,  // 68: cloud.hashing.billing.v1.CloudHashingBilling.Version:output_type -> cloud.hashing.billing.v1.VersionResponse
@@ -4444,7 +4444,7 @@ var file_npool_cloud_hashing_billing_proto_depIdxs = []int32{
 	49, // 89: cloud.hashing.billing.v1.CloudHashingBilling.GetPlatformSettingDetail:output_type -> cloud.hashing.billing.v1.GetPlatformSettingDetailResponse
 	51, // 90: cloud.hashing.billing.v1.CloudHashingBilling.GetPlatformSetting:output_type -> cloud.hashing.billing.v1.GetPlatformSettingResponse
 	54, // 91: cloud.hashing.billing.v1.CloudHashingBilling.CreateUserBenefit:output_type -> cloud.hashing.billing.v1.CreateUserBenefitResponse
-	56, // 92: cloud.hashing.billing.v1.CloudHashingBilling.GetUserBebefitsByAppUser:output_type -> cloud.hashing.billing.v1.GetUserBenefitsByAppUserResponse
+	56, // 92: cloud.hashing.billing.v1.CloudHashingBilling.GetUserBenefitsByAppUser:output_type -> cloud.hashing.billing.v1.GetUserBenefitsByAppUserResponse
 	59, // 93: cloud.hashing.billing.v1.CloudHashingBilling.GetUserBenefitsByApp:output_type -> cloud.hashing.billing.v1.GetUserBenefitsByAppResponse
 	61, // 94: cloud.hashing.billing.v1.CloudHashingBilling.GetLatestUserBenefitByGoodAppUser:output_type -> cloud.hashing.billing.v1.GetLatestUserBenefitByGoodAppUserResponse
 	68, // [68:95] is the sub-list for method output_type

@@ -159,7 +159,7 @@ service CloudHashingBilling {
             body: "*"
         };
     }
-    rpc GetUserBebefitsByAppUser(GetUserBenefitsByAppUserRequest) returns (GetUserBenefitsByAppUserResponse) {
+    rpc GetUserBenefitsByAppUser(GetUserBenefitsByAppUserRequest) returns (GetUserBenefitsByAppUserResponse) {
         option (google.api.http) = {
             post: "/v1/get/user/benefits/by/app/user"
             body: "*"
