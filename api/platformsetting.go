@@ -17,7 +17,7 @@ import (
 func (s *Server) CreatePlatformSetting(ctx context.Context, in *npool.CreatePlatformSettingRequest) (*npool.CreatePlatformSettingResponse, error) {
 	resp, err := crud.Create(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorf("create platform setting error: %w", err)
+		logger.Sugar().Errorf("create platform setting error: %v", err)
 		return &npool.CreatePlatformSettingResponse{}, status.Error(codes.Internal, "internal server error")
 	}
 	return resp, nil
@@ -26,7 +26,7 @@ func (s *Server) CreatePlatformSetting(ctx context.Context, in *npool.CreatePlat
 func (s *Server) GetPlatformSettingByGood(ctx context.Context, in *npool.GetPlatformSettingByGoodRequest) (*npool.GetPlatformSettingByGoodResponse, error) {
 	resp, err := crud.GetByGood(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorf("get platform setting error: %w", err)
+		logger.Sugar().Errorf("get platform setting error: %v", err)
 		return &npool.GetPlatformSettingByGoodResponse{}, status.Error(codes.Internal, "internal server error")
 	}
 	return resp, nil
@@ -35,7 +35,7 @@ func (s *Server) GetPlatformSettingByGood(ctx context.Context, in *npool.GetPlat
 func (s *Server) GetPlatformSettingDetail(ctx context.Context, in *npool.GetPlatformSettingDetailRequest) (*npool.GetPlatformSettingDetailResponse, error) {
 	resp, err := mw.Get(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorf("get platform setting detail error: %w", err)
+		logger.Sugar().Errorf("get platform setting detail error: %v", err)
 		return &npool.GetPlatformSettingDetailResponse{}, status.Error(codes.Internal, "internal server error")
 	}
 	return resp, nil
