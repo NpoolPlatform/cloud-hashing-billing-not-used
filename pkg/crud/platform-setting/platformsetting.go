@@ -120,12 +120,15 @@ func GetByGood(ctx context.Context, in *npool.GetPlatformSettingByGoodRequest) (
 	if err != nil {
 		return nil, xerrors.Errorf("fail query platform setting: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty platform setting")
+
+	var setting *npool.PlatformSetting
+	for _, info := range infos {
+		setting = dbRowToPlatformSetting(info)
+		break
 	}
 
 	return &npool.GetPlatformSettingByGoodResponse{
-		Info: dbRowToPlatformSetting(infos[0]),
+		Info: setting,
 	}, nil
 }
 
@@ -148,7 +151,7 @@ func Get(ctx context.Context, in *npool.GetPlatformSettingRequest) (*npool.GetPl
 		return nil, xerrors.Errorf("fail query platform setting: %v", err)
 	}
 	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty platform setting")
+		return nil, xerrors.Errorf("empty query result")
 	}
 
 	return &npool.GetPlatformSettingResponse{
