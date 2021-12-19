@@ -33,6 +33,15 @@ func (s *Server) GetCoinAccount(ctx context.Context, in *npool.GetCoinAccountReq
 	return resp, nil
 }
 
+func (s *Server) GetCoinAccountByCoinAddress(ctx context.Context, in *npool.GetCoinAccountByCoinAddressRequest) (*npool.GetCoinAccountByCoinAddressResponse, error) {
+	resp, err := coinaccountinfo.GetByCoinAddress(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get coin account info by coin address error: %w", err)
+		return &npool.GetCoinAccountByCoinAddressResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
 func (s *Server) GetCoinAccountsByAppUser(ctx context.Context, in *npool.GetCoinAccountsByAppUserRequest) (*npool.GetCoinAccountsByAppUserResponse, error) {
 	resp, err := coinaccountinfo.GetCoinAccountsByAppUser(ctx, in)
 	if err != nil {

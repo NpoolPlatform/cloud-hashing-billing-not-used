@@ -29,6 +29,12 @@ service CloudHashingBilling {
             body: "*"
         };
     }
+    rpc GetCoinAccountByCoinAddress(GetCoinAccountByCoinAddressRequest) returns (GetCoinAccountByCoinAddressResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coin/account/by/coin/address"
+            body: "*"
+        };
+    }
     rpc GetCoinAccountsByAppUser(GetCoinAccountsByAppUserRequest) returns (GetCoinAccountsByAppUserResponse) {
         option (google.api.http) = {
             post: "/v1/get/coin/accounts/by/app/user"
@@ -209,6 +215,15 @@ message GetCoinAccountRequest {
 
 message GetCoinAccountResponse {
     CoinAccountInfo Info = 600;
+}
+
+message GetCoinAccountByCoinAddressRequest {
+    string CoinInfoID = 1;
+    string Address = 2;
+}
+
+message GetCoinAccountByCoinAddressResponse {
+    CoinAccountInfo Info = 1;
 }
 
 message GetCoinAccountsByAppUserRequest {

@@ -96,6 +96,42 @@ func Get(ctx context.Context, in *npool.GetCoinAccountRequest) (*npool.GetCoinAc
 	}, nil
 }
 
+func GetByCoinAddress(ctx context.Context, in *npool.GetCoinAccountByCoinAddressRequest) (*npool.GetCoinAccountByCoinAddressResponse, error) {
+	coinInfoID, err := uuid.Parse(in.GetCoinInfoID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid coin info id: %v", err)
+	}
+
+	address := in.GetAddress()
+	if address == "" {
+		return nil, xerrors.Errorf("invalid coin address")
+	}
+
+	infos, err := db.Client().
+		CoinAccountInfo.
+		Query().
+		Where(
+			coinaccountinfo.And(
+				coinaccountinfo.CoinTypeID(coinInfoID),
+				coinaccountinfo.Address(address),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account: %v", err)
+	}
+
+	var account *npool.CoinAccountInfo
+	for _, info := range infos {
+		account = dbRowToCoinAccount(info)
+		break
+	}
+
+	return &npool.GetCoinAccountByCoinAddressResponse{
+		Info: account,
+	}, nil
+}
+
 func GetCoinAccountsByAppUser(ctx context.Context, in *npool.GetCoinAccountsByAppUserRequest) (*npool.GetCoinAccountsByAppUserResponse, error) {
 	if _, err := uuid.Parse(in.GetAppID()); err != nil {
 		return nil, xerrors.Errorf("invalid app id: %v", err)
