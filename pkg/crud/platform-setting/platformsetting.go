@@ -55,7 +55,12 @@ func Create(ctx context.Context, in *npool.CreatePlatformSettingRequest) (*npool
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		PlatformSetting.
 		Create().
 		SetGoodID(uuid.MustParse(in.GetInfo().GetGoodID())).
@@ -84,7 +89,12 @@ func Update(ctx context.Context, in *npool.UpdatePlatformSettingRequest) (*npool
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		PlatformSetting.
 		UpdateOneID(id).
 		SetBenefitAccountID(uuid.MustParse(in.GetInfo().GetBenefitAccountID())).
@@ -108,7 +118,12 @@ func GetByGood(ctx context.Context, in *npool.GetPlatformSettingByGoodRequest) (
 		return nil, xerrors.Errorf("invalid good id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		PlatformSetting.
 		Query().
 		Where(
@@ -138,7 +153,12 @@ func Get(ctx context.Context, in *npool.GetPlatformSettingRequest) (*npool.GetPl
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		PlatformSetting.
 		Query().
 		Where(

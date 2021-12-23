@@ -53,7 +53,12 @@ func Create(ctx context.Context, in *npool.CreateUserBenefitRequest) (*npool.Cre
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		UserBenefit.
 		Create().
 		SetGoodID(uuid.MustParse(in.GetInfo().GetGoodID())).
@@ -83,7 +88,12 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserBenefitsByAppUserRequest
 		return nil, xerrors.Errorf("invalid user id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserBenefit.
 		Query().
 		Where(
@@ -123,7 +133,12 @@ func GetLatestByGoodAppUser(ctx context.Context, in *npool.GetLatestUserBenefitB
 		return nil, xerrors.Errorf("invalid user id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserBenefit.
 		Query().
 		Order(
@@ -156,7 +171,12 @@ func GetByApp(ctx context.Context, in *npool.GetUserBenefitsByAppRequest) (*npoo
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserBenefit.
 		Query().
 		Where(

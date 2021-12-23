@@ -62,7 +62,12 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountTransactionRequest) 
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		CoinAccountTransaction.
 		Create().
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
@@ -91,7 +96,12 @@ func Get(ctx context.Context, in *npool.GetCoinAccountTransactionRequest) (*npoo
 		return nil, xerrors.Errorf("invalid coin account transaction id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		CoinAccountTransaction.
 		Query().
 		Where(
@@ -120,7 +130,12 @@ func GetCoinAccountTransactionsByCoinAccount(ctx context.Context, in *npool.GetC
 		return nil, xerrors.Errorf("invalid address id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		CoinAccountTransaction.
 		Query().
 		Where(
@@ -148,7 +163,12 @@ func GetCoinAccountTransactionsByCoinAccount(ctx context.Context, in *npool.GetC
 }
 
 func GetCoinAccountTransactionsByState(ctx context.Context, in *npool.GetCoinAccountTransactionsByStateRequest) (*npool.GetCoinAccountTransactionsByStateResponse, error) {
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		CoinAccountTransaction.
 		Query().
 		Where(
@@ -176,7 +196,12 @@ func GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool.GetCoinAcco
 		return nil, xerrors.Errorf("invalid coin type id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		CoinAccountTransaction.
 		Query().
 		Where(
@@ -208,7 +233,12 @@ func Update(ctx context.Context, in *npool.UpdateCoinAccountTransactionRequest) 
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		CoinAccountTransaction.
 		UpdateOneID(uuid.MustParse(in.GetInfo().GetID())).
 		SetState(coinaccounttransaction.State(in.GetInfo().GetState())).
@@ -229,7 +259,12 @@ func Delete(ctx context.Context, in *npool.DeleteCoinAccountTransactionRequest) 
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		CoinAccountTransaction.
 		UpdateOneID(uuid.MustParse(in.GetID())).
 		SetDeleteAt(uint32(time.Now().Unix())).

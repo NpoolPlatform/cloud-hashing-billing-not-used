@@ -46,7 +46,12 @@ func Create(ctx context.Context, in *npool.CreatePlatformBenefitRequest) (*npool
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		PlatformBenefit.
 		Create().
 		SetGoodID(uuid.MustParse(in.GetInfo().GetGoodID())).
@@ -70,7 +75,12 @@ func GetLatestByGood(ctx context.Context, in *npool.GetLatestPlatformBenefitByGo
 		return nil, xerrors.Errorf("invalid good id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		PlatformBenefit.
 		Query().
 		Order(
@@ -104,7 +114,12 @@ func GetByGood(ctx context.Context, in *npool.GetPlatformBenefitsByGoodRequest) 
 		return nil, xerrors.Errorf("invalid good id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		PlatformBenefit.
 		Query().
 		Where(
@@ -133,7 +148,12 @@ func Get(ctx context.Context, in *npool.GetPlatformBenefitRequest) (*npool.GetPl
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		PlatformBenefit.
 		Query().
 		Where(
