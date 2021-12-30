@@ -50,7 +50,7 @@ func (UserBenefit) Edges() []ent.Edge {
 	return nil
 }
 
-// Indexes of the PlatformBenefit
+// Indexes of the UserBenefit
 func (UserBenefit) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("good_id", "last_benefit_timestamp", "app_id", "user_id", "order_id").
