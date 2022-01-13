@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/const" //nolint
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent"

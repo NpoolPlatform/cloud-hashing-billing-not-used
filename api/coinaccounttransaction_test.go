@@ -12,8 +12,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 
-	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/test-init" //nolint
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/coin-account-info"        //nolint
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/coin-account-transaction" //nolint
