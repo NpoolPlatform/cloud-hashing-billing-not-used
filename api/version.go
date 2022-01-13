@@ -5,7 +5,7 @@ package api
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/version"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 	"google.golang.org/grpc/codes"

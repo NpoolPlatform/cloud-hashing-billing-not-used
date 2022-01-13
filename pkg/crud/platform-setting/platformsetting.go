@@ -3,7 +3,7 @@ package platformsetting
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-billing/message/npool"
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent"
