@@ -15,7 +15,7 @@ func (s *Server) CreatePlatformSetting(ctx context.Context, in *npool.CreatePlat
 	resp, err := crud.Create(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create platform setting error: %v", err)
-		return &npool.CreatePlatformSettingResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.CreatePlatformSettingResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -24,7 +24,7 @@ func (s *Server) GetPlatformSetting(ctx context.Context, in *npool.GetPlatformSe
 	resp, err := crud.Get(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get platform setting error: %v", err)
-		return &npool.GetPlatformSettingResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetPlatformSettingResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }

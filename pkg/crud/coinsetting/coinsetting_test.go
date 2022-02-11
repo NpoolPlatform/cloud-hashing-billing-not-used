@@ -1,4 +1,4 @@
-package platformsetting
+package coinsetting
 
 import (
 	"context"
@@ -24,8 +24,9 @@ func init() {
 	}
 }
 
-func assertPlatformSetting(t *testing.T, actual, expected *npool.PlatformSetting) {
-	assert.Equal(t, actual.WarmAccountUSDAmount, expected.WarmAccountUSDAmount)
+func assertCoinSetting(t *testing.T, actual, expected *npool.CoinSetting) {
+	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
+	assert.Equal(t, actual.WarmAccountCoinAmount, expected.WarmAccountCoinAmount)
 }
 
 func TestCRUD(t *testing.T) {
@@ -33,33 +34,42 @@ func TestCRUD(t *testing.T) {
 		return
 	}
 
-	platformSetting := npool.PlatformSetting{
-		WarmAccountUSDAmount: 100,
+	platformSetting := npool.CoinSetting{
+		CoinTypeID:            uuid.New().String(),
+		WarmAccountCoinAmount: 100,
 	}
 
-	resp, err := Create(context.Background(), &npool.CreatePlatformSettingRequest{
+	resp, err := Create(context.Background(), &npool.CreateCoinSettingRequest{
 		Info: &platformSetting,
 	})
 	if assert.Nil(t, err) {
 		assert.NotEqual(t, resp.Info.ID, uuid.UUID{}.String())
-		assertPlatformSetting(t, resp.Info, &platformSetting)
+		assertCoinSetting(t, resp.Info, &platformSetting)
 	}
 
 	platformSetting.ID = resp.Info.ID
 
-	resp1, err := Update(context.Background(), &npool.UpdatePlatformSettingRequest{
+	resp1, err := Update(context.Background(), &npool.UpdateCoinSettingRequest{
 		Info: &platformSetting,
 	})
 	if assert.Nil(t, err) {
 		assert.Equal(t, resp1.Info.ID, resp.Info.ID)
-		assertPlatformSetting(t, resp1.Info, &platformSetting)
+		assertCoinSetting(t, resp1.Info, &platformSetting)
 	}
 
-	resp3, err := Get(context.Background(), &npool.GetPlatformSettingRequest{
-		ID: resp.Info.ID,
+	resp2, err := GetByCoin(context.Background(), &npool.GetCoinSettingByCoinRequest{
+		CoinTypeID: platformSetting.CoinTypeID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp2.Info.ID, resp.Info.ID)
+		assertCoinSetting(t, resp2.Info, &platformSetting)
+	}
+
+	resp3, err := Get(context.Background(), &npool.GetCoinSettingRequest{
+		ID: resp2.Info.ID,
 	})
 	if assert.Nil(t, err) {
 		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
-		assertPlatformSetting(t, resp3.Info, &platformSetting)
+		assertCoinSetting(t, resp3.Info, &platformSetting)
 	}
 }
