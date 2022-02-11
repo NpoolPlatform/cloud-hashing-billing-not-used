@@ -190,3 +190,38 @@ func GetByGood(ctx context.Context, in *npool.GetGoodPaymentsByGoodRequest) (*np
 		Infos: payments,
 	}, nil
 }
+
+func GetIdleByGood(ctx context.Context, in *npool.GetIdleGoodPaymentsByGoodRequest) (*npool.GetIdleGoodPaymentsByGoodResponse, error) {
+	goodID, err := uuid.Parse(in.GetGoodID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid good id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		GoodPayment.
+		Query().
+		Where(
+			goodpayment.And(
+				goodpayment.GoodID(goodID),
+				goodpayment.Idle(true),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query good payment: %v", err)
+	}
+
+	payments := []*npool.GoodPayment{}
+	for _, info := range infos {
+		payments = append(payments, dbRowToGoodPayment(info))
+	}
+
+	return &npool.GetIdleGoodPaymentsByGoodResponse{
+		Infos: payments,
+	}, nil
+}
