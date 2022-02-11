@@ -91,7 +91,7 @@ var (
 	GoodPaymentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "good_id", Type: field.TypeUUID, Unique: true},
-		{Name: "payment_account_id", Type: field.TypeUUID},
+		{Name: "account_id", Type: field.TypeUUID},
 		{Name: "idle", Type: field.TypeBool},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
@@ -106,8 +106,9 @@ var (
 	// GoodSettingsColumns holds the columns for the "good_settings" table.
 	GoodSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "good_id", Type: field.TypeUUID},
+		{Name: "good_id", Type: field.TypeUUID, Unique: true},
 		{Name: "warm_account_usd_amount", Type: field.TypeUint64},
+		{Name: "warm_account_coin_amount", Type: field.TypeUint64},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -146,7 +147,6 @@ var (
 	// PlatformSettingsColumns holds the columns for the "platform_settings" table.
 	PlatformSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "warm_account_usd_amount", Type: field.TypeUint64},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
@@ -190,6 +190,8 @@ var (
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "account_id", Type: field.TypeUUID},
+		{Name: "name", Type: field.TypeString},
+		{Name: "message", Type: field.TypeString},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

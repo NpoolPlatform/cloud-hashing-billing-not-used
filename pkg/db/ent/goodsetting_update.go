@@ -47,6 +47,19 @@ func (gsu *GoodSettingUpdate) AddWarmAccountUsdAmount(u int64) *GoodSettingUpdat
 	return gsu
 }
 
+// SetWarmAccountCoinAmount sets the "warm_account_coin_amount" field.
+func (gsu *GoodSettingUpdate) SetWarmAccountCoinAmount(u uint64) *GoodSettingUpdate {
+	gsu.mutation.ResetWarmAccountCoinAmount()
+	gsu.mutation.SetWarmAccountCoinAmount(u)
+	return gsu
+}
+
+// AddWarmAccountCoinAmount adds u to the "warm_account_coin_amount" field.
+func (gsu *GoodSettingUpdate) AddWarmAccountCoinAmount(u int64) *GoodSettingUpdate {
+	gsu.mutation.AddWarmAccountCoinAmount(u)
+	return gsu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (gsu *GoodSettingUpdate) SetCreateAt(u uint32) *GoodSettingUpdate {
 	gsu.mutation.ResetCreateAt()
@@ -209,6 +222,20 @@ func (gsu *GoodSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: goodsetting.FieldWarmAccountUsdAmount,
 		})
 	}
+	if value, ok := gsu.mutation.WarmAccountCoinAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: goodsetting.FieldWarmAccountCoinAmount,
+		})
+	}
+	if value, ok := gsu.mutation.AddedWarmAccountCoinAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: goodsetting.FieldWarmAccountCoinAmount,
+		})
+	}
 	if value, ok := gsu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -286,6 +313,19 @@ func (gsuo *GoodSettingUpdateOne) SetWarmAccountUsdAmount(u uint64) *GoodSetting
 // AddWarmAccountUsdAmount adds u to the "warm_account_usd_amount" field.
 func (gsuo *GoodSettingUpdateOne) AddWarmAccountUsdAmount(u int64) *GoodSettingUpdateOne {
 	gsuo.mutation.AddWarmAccountUsdAmount(u)
+	return gsuo
+}
+
+// SetWarmAccountCoinAmount sets the "warm_account_coin_amount" field.
+func (gsuo *GoodSettingUpdateOne) SetWarmAccountCoinAmount(u uint64) *GoodSettingUpdateOne {
+	gsuo.mutation.ResetWarmAccountCoinAmount()
+	gsuo.mutation.SetWarmAccountCoinAmount(u)
+	return gsuo
+}
+
+// AddWarmAccountCoinAmount adds u to the "warm_account_coin_amount" field.
+func (gsuo *GoodSettingUpdateOne) AddWarmAccountCoinAmount(u int64) *GoodSettingUpdateOne {
+	gsuo.mutation.AddWarmAccountCoinAmount(u)
 	return gsuo
 }
 
@@ -473,6 +513,20 @@ func (gsuo *GoodSettingUpdateOne) sqlSave(ctx context.Context) (_node *GoodSetti
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: goodsetting.FieldWarmAccountUsdAmount,
+		})
+	}
+	if value, ok := gsuo.mutation.WarmAccountCoinAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: goodsetting.FieldWarmAccountCoinAmount,
+		})
+	}
+	if value, ok := gsuo.mutation.AddedWarmAccountCoinAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: goodsetting.FieldWarmAccountCoinAmount,
 		})
 	}
 	if value, ok := gsuo.mutation.CreateAt(); ok {

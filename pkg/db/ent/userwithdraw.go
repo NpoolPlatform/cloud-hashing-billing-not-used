@@ -22,6 +22,10 @@ type UserWithdraw struct {
 	UserID uuid.UUID `json:"user_id,omitempty"`
 	// AccountID holds the value of the "account_id" field.
 	AccountID uuid.UUID `json:"account_id,omitempty"`
+	// Name holds the value of the "name" field.
+	Name string `json:"name,omitempty"`
+	// Message holds the value of the "message" field.
+	Message string `json:"message,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -37,6 +41,8 @@ func (*UserWithdraw) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case userwithdraw.FieldCreateAt, userwithdraw.FieldUpdateAt, userwithdraw.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
+		case userwithdraw.FieldName, userwithdraw.FieldMessage:
+			values[i] = new(sql.NullString)
 		case userwithdraw.FieldID, userwithdraw.FieldAppID, userwithdraw.FieldUserID, userwithdraw.FieldAccountID:
 			values[i] = new(uuid.UUID)
 		default:
@@ -77,6 +83,18 @@ func (uw *UserWithdraw) assignValues(columns []string, values []interface{}) err
 				return fmt.Errorf("unexpected type %T for field account_id", values[i])
 			} else if value != nil {
 				uw.AccountID = *value
+			}
+		case userwithdraw.FieldName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field name", values[i])
+			} else if value.Valid {
+				uw.Name = value.String
+			}
+		case userwithdraw.FieldMessage:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field message", values[i])
+			} else if value.Valid {
+				uw.Message = value.String
 			}
 		case userwithdraw.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -130,6 +148,10 @@ func (uw *UserWithdraw) String() string {
 	builder.WriteString(fmt.Sprintf("%v", uw.UserID))
 	builder.WriteString(", account_id=")
 	builder.WriteString(fmt.Sprintf("%v", uw.AccountID))
+	builder.WriteString(", name=")
+	builder.WriteString(uw.Name)
+	builder.WriteString(", message=")
+	builder.WriteString(uw.Message)
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", uw.CreateAt))
 	builder.WriteString(", update_at=")

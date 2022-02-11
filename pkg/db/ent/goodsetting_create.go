@@ -35,6 +35,12 @@ func (gsc *GoodSettingCreate) SetWarmAccountUsdAmount(u uint64) *GoodSettingCrea
 	return gsc
 }
 
+// SetWarmAccountCoinAmount sets the "warm_account_coin_amount" field.
+func (gsc *GoodSettingCreate) SetWarmAccountCoinAmount(u uint64) *GoodSettingCreate {
+	gsc.mutation.SetWarmAccountCoinAmount(u)
+	return gsc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (gsc *GoodSettingCreate) SetCreateAt(u uint32) *GoodSettingCreate {
 	gsc.mutation.SetCreateAt(u)
@@ -188,6 +194,9 @@ func (gsc *GoodSettingCreate) check() error {
 	if _, ok := gsc.mutation.WarmAccountUsdAmount(); !ok {
 		return &ValidationError{Name: "warm_account_usd_amount", err: errors.New(`ent: missing required field "GoodSetting.warm_account_usd_amount"`)}
 	}
+	if _, ok := gsc.mutation.WarmAccountCoinAmount(); !ok {
+		return &ValidationError{Name: "warm_account_coin_amount", err: errors.New(`ent: missing required field "GoodSetting.warm_account_coin_amount"`)}
+	}
 	if _, ok := gsc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "GoodSetting.create_at"`)}
 	}
@@ -249,6 +258,14 @@ func (gsc *GoodSettingCreate) createSpec() (*GoodSetting, *sqlgraph.CreateSpec) 
 			Column: goodsetting.FieldWarmAccountUsdAmount,
 		})
 		_node.WarmAccountUsdAmount = value
+	}
+	if value, ok := gsc.mutation.WarmAccountCoinAmount(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: goodsetting.FieldWarmAccountCoinAmount,
+		})
+		_node.WarmAccountCoinAmount = value
 	}
 	if value, ok := gsc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -355,6 +372,24 @@ func (u *GoodSettingUpsert) UpdateWarmAccountUsdAmount() *GoodSettingUpsert {
 // AddWarmAccountUsdAmount adds v to the "warm_account_usd_amount" field.
 func (u *GoodSettingUpsert) AddWarmAccountUsdAmount(v uint64) *GoodSettingUpsert {
 	u.Add(goodsetting.FieldWarmAccountUsdAmount, v)
+	return u
+}
+
+// SetWarmAccountCoinAmount sets the "warm_account_coin_amount" field.
+func (u *GoodSettingUpsert) SetWarmAccountCoinAmount(v uint64) *GoodSettingUpsert {
+	u.Set(goodsetting.FieldWarmAccountCoinAmount, v)
+	return u
+}
+
+// UpdateWarmAccountCoinAmount sets the "warm_account_coin_amount" field to the value that was provided on create.
+func (u *GoodSettingUpsert) UpdateWarmAccountCoinAmount() *GoodSettingUpsert {
+	u.SetExcluded(goodsetting.FieldWarmAccountCoinAmount)
+	return u
+}
+
+// AddWarmAccountCoinAmount adds v to the "warm_account_coin_amount" field.
+func (u *GoodSettingUpsert) AddWarmAccountCoinAmount(v uint64) *GoodSettingUpsert {
+	u.Add(goodsetting.FieldWarmAccountCoinAmount, v)
 	return u
 }
 
@@ -494,6 +529,27 @@ func (u *GoodSettingUpsertOne) AddWarmAccountUsdAmount(v uint64) *GoodSettingUps
 func (u *GoodSettingUpsertOne) UpdateWarmAccountUsdAmount() *GoodSettingUpsertOne {
 	return u.Update(func(s *GoodSettingUpsert) {
 		s.UpdateWarmAccountUsdAmount()
+	})
+}
+
+// SetWarmAccountCoinAmount sets the "warm_account_coin_amount" field.
+func (u *GoodSettingUpsertOne) SetWarmAccountCoinAmount(v uint64) *GoodSettingUpsertOne {
+	return u.Update(func(s *GoodSettingUpsert) {
+		s.SetWarmAccountCoinAmount(v)
+	})
+}
+
+// AddWarmAccountCoinAmount adds v to the "warm_account_coin_amount" field.
+func (u *GoodSettingUpsertOne) AddWarmAccountCoinAmount(v uint64) *GoodSettingUpsertOne {
+	return u.Update(func(s *GoodSettingUpsert) {
+		s.AddWarmAccountCoinAmount(v)
+	})
+}
+
+// UpdateWarmAccountCoinAmount sets the "warm_account_coin_amount" field to the value that was provided on create.
+func (u *GoodSettingUpsertOne) UpdateWarmAccountCoinAmount() *GoodSettingUpsertOne {
+	return u.Update(func(s *GoodSettingUpsert) {
+		s.UpdateWarmAccountCoinAmount()
 	})
 }
 
@@ -808,6 +864,27 @@ func (u *GoodSettingUpsertBulk) AddWarmAccountUsdAmount(v uint64) *GoodSettingUp
 func (u *GoodSettingUpsertBulk) UpdateWarmAccountUsdAmount() *GoodSettingUpsertBulk {
 	return u.Update(func(s *GoodSettingUpsert) {
 		s.UpdateWarmAccountUsdAmount()
+	})
+}
+
+// SetWarmAccountCoinAmount sets the "warm_account_coin_amount" field.
+func (u *GoodSettingUpsertBulk) SetWarmAccountCoinAmount(v uint64) *GoodSettingUpsertBulk {
+	return u.Update(func(s *GoodSettingUpsert) {
+		s.SetWarmAccountCoinAmount(v)
+	})
+}
+
+// AddWarmAccountCoinAmount adds v to the "warm_account_coin_amount" field.
+func (u *GoodSettingUpsertBulk) AddWarmAccountCoinAmount(v uint64) *GoodSettingUpsertBulk {
+	return u.Update(func(s *GoodSettingUpsert) {
+		s.AddWarmAccountCoinAmount(v)
+	})
+}
+
+// UpdateWarmAccountCoinAmount sets the "warm_account_coin_amount" field to the value that was provided on create.
+func (u *GoodSettingUpsertBulk) UpdateWarmAccountCoinAmount() *GoodSettingUpsertBulk {
+	return u.Update(func(s *GoodSettingUpsert) {
+		s.UpdateWarmAccountCoinAmount()
 	})
 }
 

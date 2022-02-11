@@ -124,17 +124,17 @@ func init() {
 	goodsettingFields := schema.GoodSetting{}.Fields()
 	_ = goodsettingFields
 	// goodsettingDescCreateAt is the schema descriptor for create_at field.
-	goodsettingDescCreateAt := goodsettingFields[3].Descriptor()
+	goodsettingDescCreateAt := goodsettingFields[4].Descriptor()
 	// goodsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	goodsetting.DefaultCreateAt = goodsettingDescCreateAt.Default.(func() uint32)
 	// goodsettingDescUpdateAt is the schema descriptor for update_at field.
-	goodsettingDescUpdateAt := goodsettingFields[4].Descriptor()
+	goodsettingDescUpdateAt := goodsettingFields[5].Descriptor()
 	// goodsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	goodsetting.DefaultUpdateAt = goodsettingDescUpdateAt.Default.(func() uint32)
 	// goodsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	goodsetting.UpdateDefaultUpdateAt = goodsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// goodsettingDescDeleteAt is the schema descriptor for delete_at field.
-	goodsettingDescDeleteAt := goodsettingFields[5].Descriptor()
+	goodsettingDescDeleteAt := goodsettingFields[6].Descriptor()
 	// goodsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	goodsetting.DefaultDeleteAt = goodsettingDescDeleteAt.Default.(func() uint32)
 	// goodsettingDescID is the schema descriptor for id field.
@@ -164,17 +164,17 @@ func init() {
 	platformsettingFields := schema.PlatformSetting{}.Fields()
 	_ = platformsettingFields
 	// platformsettingDescCreateAt is the schema descriptor for create_at field.
-	platformsettingDescCreateAt := platformsettingFields[3].Descriptor()
+	platformsettingDescCreateAt := platformsettingFields[2].Descriptor()
 	// platformsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	platformsetting.DefaultCreateAt = platformsettingDescCreateAt.Default.(func() uint32)
 	// platformsettingDescUpdateAt is the schema descriptor for update_at field.
-	platformsettingDescUpdateAt := platformsettingFields[4].Descriptor()
+	platformsettingDescUpdateAt := platformsettingFields[3].Descriptor()
 	// platformsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	platformsetting.DefaultUpdateAt = platformsettingDescUpdateAt.Default.(func() uint32)
 	// platformsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	platformsetting.UpdateDefaultUpdateAt = platformsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// platformsettingDescDeleteAt is the schema descriptor for delete_at field.
-	platformsettingDescDeleteAt := platformsettingFields[5].Descriptor()
+	platformsettingDescDeleteAt := platformsettingFields[4].Descriptor()
 	// platformsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	platformsetting.DefaultDeleteAt = platformsettingDescDeleteAt.Default.(func() uint32)
 	// platformsettingDescID is the schema descriptor for id field.
@@ -204,17 +204,17 @@ func init() {
 	userwithdrawFields := schema.UserWithdraw{}.Fields()
 	_ = userwithdrawFields
 	// userwithdrawDescCreateAt is the schema descriptor for create_at field.
-	userwithdrawDescCreateAt := userwithdrawFields[4].Descriptor()
+	userwithdrawDescCreateAt := userwithdrawFields[6].Descriptor()
 	// userwithdraw.DefaultCreateAt holds the default value on creation for the create_at field.
 	userwithdraw.DefaultCreateAt = userwithdrawDescCreateAt.Default.(func() uint32)
 	// userwithdrawDescUpdateAt is the schema descriptor for update_at field.
-	userwithdrawDescUpdateAt := userwithdrawFields[5].Descriptor()
+	userwithdrawDescUpdateAt := userwithdrawFields[7].Descriptor()
 	// userwithdraw.DefaultUpdateAt holds the default value on creation for the update_at field.
 	userwithdraw.DefaultUpdateAt = userwithdrawDescUpdateAt.Default.(func() uint32)
 	// userwithdraw.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	userwithdraw.UpdateDefaultUpdateAt = userwithdrawDescUpdateAt.UpdateDefault.(func() uint32)
 	// userwithdrawDescDeleteAt is the schema descriptor for delete_at field.
-	userwithdrawDescDeleteAt := userwithdrawFields[6].Descriptor()
+	userwithdrawDescDeleteAt := userwithdrawFields[8].Descriptor()
 	// userwithdraw.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	userwithdraw.DefaultDeleteAt = userwithdrawDescDeleteAt.Default.(func() uint32)
 	// userwithdrawDescID is the schema descriptor for id field.

@@ -20,6 +20,8 @@ type GoodSetting struct {
 	GoodID uuid.UUID `json:"good_id,omitempty"`
 	// WarmAccountUsdAmount holds the value of the "warm_account_usd_amount" field.
 	WarmAccountUsdAmount uint64 `json:"warm_account_usd_amount,omitempty"`
+	// WarmAccountCoinAmount holds the value of the "warm_account_coin_amount" field.
+	WarmAccountCoinAmount uint64 `json:"warm_account_coin_amount,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -33,7 +35,7 @@ func (*GoodSetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case goodsetting.FieldWarmAccountUsdAmount, goodsetting.FieldCreateAt, goodsetting.FieldUpdateAt, goodsetting.FieldDeleteAt:
+		case goodsetting.FieldWarmAccountUsdAmount, goodsetting.FieldWarmAccountCoinAmount, goodsetting.FieldCreateAt, goodsetting.FieldUpdateAt, goodsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case goodsetting.FieldID, goodsetting.FieldGoodID:
 			values[i] = new(uuid.UUID)
@@ -69,6 +71,12 @@ func (gs *GoodSetting) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field warm_account_usd_amount", values[i])
 			} else if value.Valid {
 				gs.WarmAccountUsdAmount = uint64(value.Int64)
+			}
+		case goodsetting.FieldWarmAccountCoinAmount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field warm_account_coin_amount", values[i])
+			} else if value.Valid {
+				gs.WarmAccountCoinAmount = uint64(value.Int64)
 			}
 		case goodsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -120,6 +128,8 @@ func (gs *GoodSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", gs.GoodID))
 	builder.WriteString(", warm_account_usd_amount=")
 	builder.WriteString(fmt.Sprintf("%v", gs.WarmAccountUsdAmount))
+	builder.WriteString(", warm_account_coin_amount=")
+	builder.WriteString(fmt.Sprintf("%v", gs.WarmAccountCoinAmount))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", gs.CreateAt))
 	builder.WriteString(", update_at=")

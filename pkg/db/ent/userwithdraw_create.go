@@ -41,6 +41,18 @@ func (uwc *UserWithdrawCreate) SetAccountID(u uuid.UUID) *UserWithdrawCreate {
 	return uwc
 }
 
+// SetName sets the "name" field.
+func (uwc *UserWithdrawCreate) SetName(s string) *UserWithdrawCreate {
+	uwc.mutation.SetName(s)
+	return uwc
+}
+
+// SetMessage sets the "message" field.
+func (uwc *UserWithdrawCreate) SetMessage(s string) *UserWithdrawCreate {
+	uwc.mutation.SetMessage(s)
+	return uwc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (uwc *UserWithdrawCreate) SetCreateAt(u uint32) *UserWithdrawCreate {
 	uwc.mutation.SetCreateAt(u)
@@ -197,6 +209,12 @@ func (uwc *UserWithdrawCreate) check() error {
 	if _, ok := uwc.mutation.AccountID(); !ok {
 		return &ValidationError{Name: "account_id", err: errors.New(`ent: missing required field "UserWithdraw.account_id"`)}
 	}
+	if _, ok := uwc.mutation.Name(); !ok {
+		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "UserWithdraw.name"`)}
+	}
+	if _, ok := uwc.mutation.Message(); !ok {
+		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "UserWithdraw.message"`)}
+	}
 	if _, ok := uwc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserWithdraw.create_at"`)}
 	}
@@ -266,6 +284,22 @@ func (uwc *UserWithdrawCreate) createSpec() (*UserWithdraw, *sqlgraph.CreateSpec
 			Column: userwithdraw.FieldAccountID,
 		})
 		_node.AccountID = value
+	}
+	if value, ok := uwc.mutation.Name(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdraw.FieldName,
+		})
+		_node.Name = value
+	}
+	if value, ok := uwc.mutation.Message(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdraw.FieldMessage,
+		})
+		_node.Message = value
 	}
 	if value, ok := uwc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -378,6 +412,30 @@ func (u *UserWithdrawUpsert) SetAccountID(v uuid.UUID) *UserWithdrawUpsert {
 // UpdateAccountID sets the "account_id" field to the value that was provided on create.
 func (u *UserWithdrawUpsert) UpdateAccountID() *UserWithdrawUpsert {
 	u.SetExcluded(userwithdraw.FieldAccountID)
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *UserWithdrawUpsert) SetName(v string) *UserWithdrawUpsert {
+	u.Set(userwithdraw.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *UserWithdrawUpsert) UpdateName() *UserWithdrawUpsert {
+	u.SetExcluded(userwithdraw.FieldName)
+	return u
+}
+
+// SetMessage sets the "message" field.
+func (u *UserWithdrawUpsert) SetMessage(v string) *UserWithdrawUpsert {
+	u.Set(userwithdraw.FieldMessage, v)
+	return u
+}
+
+// UpdateMessage sets the "message" field to the value that was provided on create.
+func (u *UserWithdrawUpsert) UpdateMessage() *UserWithdrawUpsert {
+	u.SetExcluded(userwithdraw.FieldMessage)
 	return u
 }
 
@@ -524,6 +582,34 @@ func (u *UserWithdrawUpsertOne) SetAccountID(v uuid.UUID) *UserWithdrawUpsertOne
 func (u *UserWithdrawUpsertOne) UpdateAccountID() *UserWithdrawUpsertOne {
 	return u.Update(func(s *UserWithdrawUpsert) {
 		s.UpdateAccountID()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *UserWithdrawUpsertOne) SetName(v string) *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *UserWithdrawUpsertOne) UpdateName() *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateName()
+	})
+}
+
+// SetMessage sets the "message" field.
+func (u *UserWithdrawUpsertOne) SetMessage(v string) *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetMessage(v)
+	})
+}
+
+// UpdateMessage sets the "message" field to the value that was provided on create.
+func (u *UserWithdrawUpsertOne) UpdateMessage() *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateMessage()
 	})
 }
 
@@ -845,6 +931,34 @@ func (u *UserWithdrawUpsertBulk) SetAccountID(v uuid.UUID) *UserWithdrawUpsertBu
 func (u *UserWithdrawUpsertBulk) UpdateAccountID() *UserWithdrawUpsertBulk {
 	return u.Update(func(s *UserWithdrawUpsert) {
 		s.UpdateAccountID()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *UserWithdrawUpsertBulk) SetName(v string) *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *UserWithdrawUpsertBulk) UpdateName() *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateName()
+	})
+}
+
+// SetMessage sets the "message" field.
+func (u *UserWithdrawUpsertBulk) SetMessage(v string) *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetMessage(v)
+	})
+}
+
+// UpdateMessage sets the "message" field to the value that was provided on create.
+func (u *UserWithdrawUpsertBulk) UpdateMessage() *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateMessage()
 	})
 }
 

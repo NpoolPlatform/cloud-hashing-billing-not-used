@@ -105,6 +105,13 @@ func WarmAccountUsdAmount(v uint64) predicate.GoodSetting {
 	})
 }
 
+// WarmAccountCoinAmount applies equality check predicate on the "warm_account_coin_amount" field. It's identical to WarmAccountCoinAmountEQ.
+func WarmAccountCoinAmount(v uint64) predicate.GoodSetting {
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWarmAccountCoinAmount), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.GoodSetting {
 	return predicate.GoodSetting(func(s *sql.Selector) {
@@ -275,6 +282,82 @@ func WarmAccountUsdAmountLT(v uint64) predicate.GoodSetting {
 func WarmAccountUsdAmountLTE(v uint64) predicate.GoodSetting {
 	return predicate.GoodSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldWarmAccountUsdAmount), v))
+	})
+}
+
+// WarmAccountCoinAmountEQ applies the EQ predicate on the "warm_account_coin_amount" field.
+func WarmAccountCoinAmountEQ(v uint64) predicate.GoodSetting {
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWarmAccountCoinAmount), v))
+	})
+}
+
+// WarmAccountCoinAmountNEQ applies the NEQ predicate on the "warm_account_coin_amount" field.
+func WarmAccountCoinAmountNEQ(v uint64) predicate.GoodSetting {
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldWarmAccountCoinAmount), v))
+	})
+}
+
+// WarmAccountCoinAmountIn applies the In predicate on the "warm_account_coin_amount" field.
+func WarmAccountCoinAmountIn(vs ...uint64) predicate.GoodSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldWarmAccountCoinAmount), v...))
+	})
+}
+
+// WarmAccountCoinAmountNotIn applies the NotIn predicate on the "warm_account_coin_amount" field.
+func WarmAccountCoinAmountNotIn(vs ...uint64) predicate.GoodSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldWarmAccountCoinAmount), v...))
+	})
+}
+
+// WarmAccountCoinAmountGT applies the GT predicate on the "warm_account_coin_amount" field.
+func WarmAccountCoinAmountGT(v uint64) predicate.GoodSetting {
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldWarmAccountCoinAmount), v))
+	})
+}
+
+// WarmAccountCoinAmountGTE applies the GTE predicate on the "warm_account_coin_amount" field.
+func WarmAccountCoinAmountGTE(v uint64) predicate.GoodSetting {
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldWarmAccountCoinAmount), v))
+	})
+}
+
+// WarmAccountCoinAmountLT applies the LT predicate on the "warm_account_coin_amount" field.
+func WarmAccountCoinAmountLT(v uint64) predicate.GoodSetting {
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldWarmAccountCoinAmount), v))
+	})
+}
+
+// WarmAccountCoinAmountLTE applies the LTE predicate on the "warm_account_coin_amount" field.
+func WarmAccountCoinAmountLTE(v uint64) predicate.GoodSetting {
+	return predicate.GoodSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldWarmAccountCoinAmount), v))
 	})
 }
 

@@ -34,9 +34,9 @@ func (gpu *GoodPaymentUpdate) SetGoodID(u uuid.UUID) *GoodPaymentUpdate {
 	return gpu
 }
 
-// SetPaymentAccountID sets the "payment_account_id" field.
-func (gpu *GoodPaymentUpdate) SetPaymentAccountID(u uuid.UUID) *GoodPaymentUpdate {
-	gpu.mutation.SetPaymentAccountID(u)
+// SetAccountID sets the "account_id" field.
+func (gpu *GoodPaymentUpdate) SetAccountID(u uuid.UUID) *GoodPaymentUpdate {
+	gpu.mutation.SetAccountID(u)
 	return gpu
 }
 
@@ -194,11 +194,11 @@ func (gpu *GoodPaymentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: goodpayment.FieldGoodID,
 		})
 	}
-	if value, ok := gpu.mutation.PaymentAccountID(); ok {
+	if value, ok := gpu.mutation.AccountID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
-			Column: goodpayment.FieldPaymentAccountID,
+			Column: goodpayment.FieldAccountID,
 		})
 	}
 	if value, ok := gpu.mutation.Idle(); ok {
@@ -275,9 +275,9 @@ func (gpuo *GoodPaymentUpdateOne) SetGoodID(u uuid.UUID) *GoodPaymentUpdateOne {
 	return gpuo
 }
 
-// SetPaymentAccountID sets the "payment_account_id" field.
-func (gpuo *GoodPaymentUpdateOne) SetPaymentAccountID(u uuid.UUID) *GoodPaymentUpdateOne {
-	gpuo.mutation.SetPaymentAccountID(u)
+// SetAccountID sets the "account_id" field.
+func (gpuo *GoodPaymentUpdateOne) SetAccountID(u uuid.UUID) *GoodPaymentUpdateOne {
+	gpuo.mutation.SetAccountID(u)
 	return gpuo
 }
 
@@ -459,11 +459,11 @@ func (gpuo *GoodPaymentUpdateOne) sqlSave(ctx context.Context) (_node *GoodPayme
 			Column: goodpayment.FieldGoodID,
 		})
 	}
-	if value, ok := gpuo.mutation.PaymentAccountID(); ok {
+	if value, ok := gpuo.mutation.AccountID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
-			Column: goodpayment.FieldPaymentAccountID,
+			Column: goodpayment.FieldAccountID,
 		})
 	}
 	if value, ok := gpuo.mutation.Idle(); ok {

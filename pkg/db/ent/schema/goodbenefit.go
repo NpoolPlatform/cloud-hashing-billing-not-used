@@ -17,11 +17,8 @@ type GoodBenefit struct {
 // Fields of the GoodBenefit.
 func (GoodBenefit) Fields() []ent.Field {
 	return []ent.Field{
-		field.UUID("id", uuid.UUID{}).
-			Default(uuid.New).
-			Unique(),
-		field.UUID("good_id", uuid.UUID{}).
-			Unique(),
+		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
+		field.UUID("good_id", uuid.UUID{}).Unique(),
 		field.UUID("benefit_account_id", uuid.UUID{}),
 		field.UUID("platform_offline_account_id", uuid.UUID{}),
 		field.UUID("user_online_account_id", uuid.UUID{}),

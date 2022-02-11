@@ -17,9 +17,7 @@ type CoinSetting struct {
 // Fields of the CoinSetting.
 func (CoinSetting) Fields() []ent.Field {
 	return []ent.Field{
-		field.UUID("id", uuid.UUID{}).
-			Default(uuid.New).
-			Unique(),
+		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
 		field.UUID("coin_type_id", uuid.UUID{}).Unique(),
 		field.Uint64("warm_account_coin_amount"),
 		field.Uint32("create_at").

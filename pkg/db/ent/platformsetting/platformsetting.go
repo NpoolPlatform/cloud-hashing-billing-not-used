@@ -11,8 +11,6 @@ const (
 	Label = "platform_setting"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldAppID holds the string denoting the app_id field in the database.
-	FieldAppID = "app_id"
 	// FieldWarmAccountUsdAmount holds the string denoting the warm_account_usd_amount field in the database.
 	FieldWarmAccountUsdAmount = "warm_account_usd_amount"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
@@ -28,7 +26,6 @@ const (
 // Columns holds all SQL columns for platformsetting fields.
 var Columns = []string{
 	FieldID,
-	FieldAppID,
 	FieldWarmAccountUsdAmount,
 	FieldCreateAt,
 	FieldUpdateAt,

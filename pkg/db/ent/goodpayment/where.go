@@ -98,10 +98,10 @@ func GoodID(v uuid.UUID) predicate.GoodPayment {
 	})
 }
 
-// PaymentAccountID applies equality check predicate on the "payment_account_id" field. It's identical to PaymentAccountIDEQ.
-func PaymentAccountID(v uuid.UUID) predicate.GoodPayment {
+// AccountID applies equality check predicate on the "account_id" field. It's identical to AccountIDEQ.
+func AccountID(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPaymentAccountID), v))
+		s.Where(sql.EQ(s.C(FieldAccountID), v))
 	})
 }
 
@@ -209,22 +209,22 @@ func GoodIDLTE(v uuid.UUID) predicate.GoodPayment {
 	})
 }
 
-// PaymentAccountIDEQ applies the EQ predicate on the "payment_account_id" field.
-func PaymentAccountIDEQ(v uuid.UUID) predicate.GoodPayment {
+// AccountIDEQ applies the EQ predicate on the "account_id" field.
+func AccountIDEQ(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPaymentAccountID), v))
+		s.Where(sql.EQ(s.C(FieldAccountID), v))
 	})
 }
 
-// PaymentAccountIDNEQ applies the NEQ predicate on the "payment_account_id" field.
-func PaymentAccountIDNEQ(v uuid.UUID) predicate.GoodPayment {
+// AccountIDNEQ applies the NEQ predicate on the "account_id" field.
+func AccountIDNEQ(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldPaymentAccountID), v))
+		s.Where(sql.NEQ(s.C(FieldAccountID), v))
 	})
 }
 
-// PaymentAccountIDIn applies the In predicate on the "payment_account_id" field.
-func PaymentAccountIDIn(vs ...uuid.UUID) predicate.GoodPayment {
+// AccountIDIn applies the In predicate on the "account_id" field.
+func AccountIDIn(vs ...uuid.UUID) predicate.GoodPayment {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -236,12 +236,12 @@ func PaymentAccountIDIn(vs ...uuid.UUID) predicate.GoodPayment {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldPaymentAccountID), v...))
+		s.Where(sql.In(s.C(FieldAccountID), v...))
 	})
 }
 
-// PaymentAccountIDNotIn applies the NotIn predicate on the "payment_account_id" field.
-func PaymentAccountIDNotIn(vs ...uuid.UUID) predicate.GoodPayment {
+// AccountIDNotIn applies the NotIn predicate on the "account_id" field.
+func AccountIDNotIn(vs ...uuid.UUID) predicate.GoodPayment {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -253,35 +253,35 @@ func PaymentAccountIDNotIn(vs ...uuid.UUID) predicate.GoodPayment {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldPaymentAccountID), v...))
+		s.Where(sql.NotIn(s.C(FieldAccountID), v...))
 	})
 }
 
-// PaymentAccountIDGT applies the GT predicate on the "payment_account_id" field.
-func PaymentAccountIDGT(v uuid.UUID) predicate.GoodPayment {
+// AccountIDGT applies the GT predicate on the "account_id" field.
+func AccountIDGT(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldPaymentAccountID), v))
+		s.Where(sql.GT(s.C(FieldAccountID), v))
 	})
 }
 
-// PaymentAccountIDGTE applies the GTE predicate on the "payment_account_id" field.
-func PaymentAccountIDGTE(v uuid.UUID) predicate.GoodPayment {
+// AccountIDGTE applies the GTE predicate on the "account_id" field.
+func AccountIDGTE(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldPaymentAccountID), v))
+		s.Where(sql.GTE(s.C(FieldAccountID), v))
 	})
 }
 
-// PaymentAccountIDLT applies the LT predicate on the "payment_account_id" field.
-func PaymentAccountIDLT(v uuid.UUID) predicate.GoodPayment {
+// AccountIDLT applies the LT predicate on the "account_id" field.
+func AccountIDLT(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldPaymentAccountID), v))
+		s.Where(sql.LT(s.C(FieldAccountID), v))
 	})
 }
 
-// PaymentAccountIDLTE applies the LTE predicate on the "payment_account_id" field.
-func PaymentAccountIDLTE(v uuid.UUID) predicate.GoodPayment {
+// AccountIDLTE applies the LTE predicate on the "account_id" field.
+func AccountIDLTE(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldPaymentAccountID), v))
+		s.Where(sql.LTE(s.C(FieldAccountID), v))
 	})
 }
 

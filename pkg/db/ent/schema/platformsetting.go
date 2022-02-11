@@ -17,10 +17,7 @@ type PlatformSetting struct {
 // Fields of the PlatformSetting.
 func (PlatformSetting) Fields() []ent.Field {
 	return []ent.Field{
-		field.UUID("id", uuid.UUID{}).
-			Default(uuid.New).
-			Unique(),
-		field.UUID("app_id", uuid.UUID{}),
+		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
 		field.Uint64("warm_account_usd_amount"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {

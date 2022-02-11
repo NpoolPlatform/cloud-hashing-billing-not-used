@@ -18,8 +18,8 @@ type GoodPayment struct {
 	ID uuid.UUID `json:"id,omitempty"`
 	// GoodID holds the value of the "good_id" field.
 	GoodID uuid.UUID `json:"good_id,omitempty"`
-	// PaymentAccountID holds the value of the "payment_account_id" field.
-	PaymentAccountID uuid.UUID `json:"payment_account_id,omitempty"`
+	// AccountID holds the value of the "account_id" field.
+	AccountID uuid.UUID `json:"account_id,omitempty"`
 	// Idle holds the value of the "idle" field.
 	Idle bool `json:"idle,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
@@ -39,7 +39,7 @@ func (*GoodPayment) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullBool)
 		case goodpayment.FieldCreateAt, goodpayment.FieldUpdateAt, goodpayment.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case goodpayment.FieldID, goodpayment.FieldGoodID, goodpayment.FieldPaymentAccountID:
+		case goodpayment.FieldID, goodpayment.FieldGoodID, goodpayment.FieldAccountID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type GoodPayment", columns[i])
@@ -68,11 +68,11 @@ func (gp *GoodPayment) assignValues(columns []string, values []interface{}) erro
 			} else if value != nil {
 				gp.GoodID = *value
 			}
-		case goodpayment.FieldPaymentAccountID:
+		case goodpayment.FieldAccountID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field payment_account_id", values[i])
+				return fmt.Errorf("unexpected type %T for field account_id", values[i])
 			} else if value != nil {
-				gp.PaymentAccountID = *value
+				gp.AccountID = *value
 			}
 		case goodpayment.FieldIdle:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -128,8 +128,8 @@ func (gp *GoodPayment) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", gp.ID))
 	builder.WriteString(", good_id=")
 	builder.WriteString(fmt.Sprintf("%v", gp.GoodID))
-	builder.WriteString(", payment_account_id=")
-	builder.WriteString(fmt.Sprintf("%v", gp.PaymentAccountID))
+	builder.WriteString(", account_id=")
+	builder.WriteString(fmt.Sprintf("%v", gp.AccountID))
 	builder.WriteString(", idle=")
 	builder.WriteString(fmt.Sprintf("%v", gp.Idle))
 	builder.WriteString(", create_at=")

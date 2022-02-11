@@ -29,9 +29,9 @@ func (gpc *GoodPaymentCreate) SetGoodID(u uuid.UUID) *GoodPaymentCreate {
 	return gpc
 }
 
-// SetPaymentAccountID sets the "payment_account_id" field.
-func (gpc *GoodPaymentCreate) SetPaymentAccountID(u uuid.UUID) *GoodPaymentCreate {
-	gpc.mutation.SetPaymentAccountID(u)
+// SetAccountID sets the "account_id" field.
+func (gpc *GoodPaymentCreate) SetAccountID(u uuid.UUID) *GoodPaymentCreate {
+	gpc.mutation.SetAccountID(u)
 	return gpc
 }
 
@@ -191,8 +191,8 @@ func (gpc *GoodPaymentCreate) check() error {
 	if _, ok := gpc.mutation.GoodID(); !ok {
 		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "GoodPayment.good_id"`)}
 	}
-	if _, ok := gpc.mutation.PaymentAccountID(); !ok {
-		return &ValidationError{Name: "payment_account_id", err: errors.New(`ent: missing required field "GoodPayment.payment_account_id"`)}
+	if _, ok := gpc.mutation.AccountID(); !ok {
+		return &ValidationError{Name: "account_id", err: errors.New(`ent: missing required field "GoodPayment.account_id"`)}
 	}
 	if _, ok := gpc.mutation.Idle(); !ok {
 		return &ValidationError{Name: "idle", err: errors.New(`ent: missing required field "GoodPayment.idle"`)}
@@ -251,13 +251,13 @@ func (gpc *GoodPaymentCreate) createSpec() (*GoodPayment, *sqlgraph.CreateSpec) 
 		})
 		_node.GoodID = value
 	}
-	if value, ok := gpc.mutation.PaymentAccountID(); ok {
+	if value, ok := gpc.mutation.AccountID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
-			Column: goodpayment.FieldPaymentAccountID,
+			Column: goodpayment.FieldAccountID,
 		})
-		_node.PaymentAccountID = value
+		_node.AccountID = value
 	}
 	if value, ok := gpc.mutation.Idle(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -357,15 +357,15 @@ func (u *GoodPaymentUpsert) UpdateGoodID() *GoodPaymentUpsert {
 	return u
 }
 
-// SetPaymentAccountID sets the "payment_account_id" field.
-func (u *GoodPaymentUpsert) SetPaymentAccountID(v uuid.UUID) *GoodPaymentUpsert {
-	u.Set(goodpayment.FieldPaymentAccountID, v)
+// SetAccountID sets the "account_id" field.
+func (u *GoodPaymentUpsert) SetAccountID(v uuid.UUID) *GoodPaymentUpsert {
+	u.Set(goodpayment.FieldAccountID, v)
 	return u
 }
 
-// UpdatePaymentAccountID sets the "payment_account_id" field to the value that was provided on create.
-func (u *GoodPaymentUpsert) UpdatePaymentAccountID() *GoodPaymentUpsert {
-	u.SetExcluded(goodpayment.FieldPaymentAccountID)
+// UpdateAccountID sets the "account_id" field to the value that was provided on create.
+func (u *GoodPaymentUpsert) UpdateAccountID() *GoodPaymentUpsert {
+	u.SetExcluded(goodpayment.FieldAccountID)
 	return u
 }
 
@@ -499,17 +499,17 @@ func (u *GoodPaymentUpsertOne) UpdateGoodID() *GoodPaymentUpsertOne {
 	})
 }
 
-// SetPaymentAccountID sets the "payment_account_id" field.
-func (u *GoodPaymentUpsertOne) SetPaymentAccountID(v uuid.UUID) *GoodPaymentUpsertOne {
+// SetAccountID sets the "account_id" field.
+func (u *GoodPaymentUpsertOne) SetAccountID(v uuid.UUID) *GoodPaymentUpsertOne {
 	return u.Update(func(s *GoodPaymentUpsert) {
-		s.SetPaymentAccountID(v)
+		s.SetAccountID(v)
 	})
 }
 
-// UpdatePaymentAccountID sets the "payment_account_id" field to the value that was provided on create.
-func (u *GoodPaymentUpsertOne) UpdatePaymentAccountID() *GoodPaymentUpsertOne {
+// UpdateAccountID sets the "account_id" field to the value that was provided on create.
+func (u *GoodPaymentUpsertOne) UpdateAccountID() *GoodPaymentUpsertOne {
 	return u.Update(func(s *GoodPaymentUpsert) {
-		s.UpdatePaymentAccountID()
+		s.UpdateAccountID()
 	})
 }
 
@@ -820,17 +820,17 @@ func (u *GoodPaymentUpsertBulk) UpdateGoodID() *GoodPaymentUpsertBulk {
 	})
 }
 
-// SetPaymentAccountID sets the "payment_account_id" field.
-func (u *GoodPaymentUpsertBulk) SetPaymentAccountID(v uuid.UUID) *GoodPaymentUpsertBulk {
+// SetAccountID sets the "account_id" field.
+func (u *GoodPaymentUpsertBulk) SetAccountID(v uuid.UUID) *GoodPaymentUpsertBulk {
 	return u.Update(func(s *GoodPaymentUpsert) {
-		s.SetPaymentAccountID(v)
+		s.SetAccountID(v)
 	})
 }
 
-// UpdatePaymentAccountID sets the "payment_account_id" field to the value that was provided on create.
-func (u *GoodPaymentUpsertBulk) UpdatePaymentAccountID() *GoodPaymentUpsertBulk {
+// UpdateAccountID sets the "account_id" field to the value that was provided on create.
+func (u *GoodPaymentUpsertBulk) UpdateAccountID() *GoodPaymentUpsertBulk {
 	return u.Update(func(s *GoodPaymentUpsert) {
-		s.UpdatePaymentAccountID()
+		s.UpdateAccountID()
 	})
 }
 

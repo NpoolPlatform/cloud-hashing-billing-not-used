@@ -112,6 +112,20 @@ func AccountID(v uuid.UUID) predicate.UserWithdraw {
 	})
 }
 
+// Name applies equality check predicate on the "name" field. It's identical to NameEQ.
+func Name(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldName), v))
+	})
+}
+
+// Message applies equality check predicate on the "message" field. It's identical to MessageEQ.
+func Message(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldMessage), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.UserWithdraw {
 	return predicate.UserWithdraw(func(s *sql.Selector) {
@@ -358,6 +372,228 @@ func AccountIDLT(v uuid.UUID) predicate.UserWithdraw {
 func AccountIDLTE(v uuid.UUID) predicate.UserWithdraw {
 	return predicate.UserWithdraw(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldAccountID), v))
+	})
+}
+
+// NameEQ applies the EQ predicate on the "name" field.
+func NameEQ(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldName), v))
+	})
+}
+
+// NameNEQ applies the NEQ predicate on the "name" field.
+func NameNEQ(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldName), v))
+	})
+}
+
+// NameIn applies the In predicate on the "name" field.
+func NameIn(vs ...string) predicate.UserWithdraw {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldName), v...))
+	})
+}
+
+// NameNotIn applies the NotIn predicate on the "name" field.
+func NameNotIn(vs ...string) predicate.UserWithdraw {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldName), v...))
+	})
+}
+
+// NameGT applies the GT predicate on the "name" field.
+func NameGT(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldName), v))
+	})
+}
+
+// NameGTE applies the GTE predicate on the "name" field.
+func NameGTE(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldName), v))
+	})
+}
+
+// NameLT applies the LT predicate on the "name" field.
+func NameLT(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldName), v))
+	})
+}
+
+// NameLTE applies the LTE predicate on the "name" field.
+func NameLTE(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldName), v))
+	})
+}
+
+// NameContains applies the Contains predicate on the "name" field.
+func NameContains(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldName), v))
+	})
+}
+
+// NameHasPrefix applies the HasPrefix predicate on the "name" field.
+func NameHasPrefix(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldName), v))
+	})
+}
+
+// NameHasSuffix applies the HasSuffix predicate on the "name" field.
+func NameHasSuffix(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldName), v))
+	})
+}
+
+// NameEqualFold applies the EqualFold predicate on the "name" field.
+func NameEqualFold(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldName), v))
+	})
+}
+
+// NameContainsFold applies the ContainsFold predicate on the "name" field.
+func NameContainsFold(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldName), v))
+	})
+}
+
+// MessageEQ applies the EQ predicate on the "message" field.
+func MessageEQ(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldMessage), v))
+	})
+}
+
+// MessageNEQ applies the NEQ predicate on the "message" field.
+func MessageNEQ(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldMessage), v))
+	})
+}
+
+// MessageIn applies the In predicate on the "message" field.
+func MessageIn(vs ...string) predicate.UserWithdraw {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldMessage), v...))
+	})
+}
+
+// MessageNotIn applies the NotIn predicate on the "message" field.
+func MessageNotIn(vs ...string) predicate.UserWithdraw {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldMessage), v...))
+	})
+}
+
+// MessageGT applies the GT predicate on the "message" field.
+func MessageGT(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldMessage), v))
+	})
+}
+
+// MessageGTE applies the GTE predicate on the "message" field.
+func MessageGTE(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldMessage), v))
+	})
+}
+
+// MessageLT applies the LT predicate on the "message" field.
+func MessageLT(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldMessage), v))
+	})
+}
+
+// MessageLTE applies the LTE predicate on the "message" field.
+func MessageLTE(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldMessage), v))
+	})
+}
+
+// MessageContains applies the Contains predicate on the "message" field.
+func MessageContains(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldMessage), v))
+	})
+}
+
+// MessageHasPrefix applies the HasPrefix predicate on the "message" field.
+func MessageHasPrefix(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldMessage), v))
+	})
+}
+
+// MessageHasSuffix applies the HasSuffix predicate on the "message" field.
+func MessageHasSuffix(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldMessage), v))
+	})
+}
+
+// MessageEqualFold applies the EqualFold predicate on the "message" field.
+func MessageEqualFold(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldMessage), v))
+	})
+}
+
+// MessageContainsFold applies the ContainsFold predicate on the "message" field.
+func MessageContainsFold(v string) predicate.UserWithdraw {
+	return predicate.UserWithdraw(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldMessage), v))
 	})
 }
 

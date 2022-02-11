@@ -12,7 +12,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/predicate"
-	"github.com/google/uuid"
 )
 
 // PlatformSettingUpdate is the builder for updating PlatformSetting entities.
@@ -25,12 +24,6 @@ type PlatformSettingUpdate struct {
 // Where appends a list predicates to the PlatformSettingUpdate builder.
 func (psu *PlatformSettingUpdate) Where(ps ...predicate.PlatformSetting) *PlatformSettingUpdate {
 	psu.mutation.Where(ps...)
-	return psu
-}
-
-// SetAppID sets the "app_id" field.
-func (psu *PlatformSettingUpdate) SetAppID(u uuid.UUID) *PlatformSettingUpdate {
-	psu.mutation.SetAppID(u)
 	return psu
 }
 
@@ -188,13 +181,6 @@ func (psu *PlatformSettingUpdate) sqlSave(ctx context.Context) (n int, err error
 			}
 		}
 	}
-	if value, ok := psu.mutation.AppID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldAppID,
-		})
-	}
 	if value, ok := psu.mutation.WarmAccountUsdAmount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -268,12 +254,6 @@ type PlatformSettingUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *PlatformSettingMutation
-}
-
-// SetAppID sets the "app_id" field.
-func (psuo *PlatformSettingUpdateOne) SetAppID(u uuid.UUID) *PlatformSettingUpdateOne {
-	psuo.mutation.SetAppID(u)
-	return psuo
 }
 
 // SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
@@ -453,13 +433,6 @@ func (psuo *PlatformSettingUpdateOne) sqlSave(ctx context.Context) (_node *Platf
 				ps[i](selector)
 			}
 		}
-	}
-	if value, ok := psuo.mutation.AppID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldAppID,
-		})
 	}
 	if value, ok := psuo.mutation.WarmAccountUsdAmount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{

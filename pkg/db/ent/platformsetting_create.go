@@ -23,12 +23,6 @@ type PlatformSettingCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetAppID sets the "app_id" field.
-func (psc *PlatformSettingCreate) SetAppID(u uuid.UUID) *PlatformSettingCreate {
-	psc.mutation.SetAppID(u)
-	return psc
-}
-
 // SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
 func (psc *PlatformSettingCreate) SetWarmAccountUsdAmount(u uint64) *PlatformSettingCreate {
 	psc.mutation.SetWarmAccountUsdAmount(u)
@@ -182,9 +176,6 @@ func (psc *PlatformSettingCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (psc *PlatformSettingCreate) check() error {
-	if _, ok := psc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "PlatformSetting.app_id"`)}
-	}
 	if _, ok := psc.mutation.WarmAccountUsdAmount(); !ok {
 		return &ValidationError{Name: "warm_account_usd_amount", err: errors.New(`ent: missing required field "PlatformSetting.warm_account_usd_amount"`)}
 	}
@@ -234,14 +225,6 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 		_node.ID = id
 		_spec.ID.Value = &id
 	}
-	if value, ok := psc.mutation.AppID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldAppID,
-		})
-		_node.AppID = value
-	}
 	if value, ok := psc.mutation.WarmAccountUsdAmount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -281,7 +264,7 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 // of the `INSERT` statement. For example:
 //
 //	client.PlatformSetting.Create().
-//		SetAppID(v).
+//		SetWarmAccountUsdAmount(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -290,7 +273,7 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.PlatformSettingUpsert) {
-//			SetAppID(v+v).
+//			SetWarmAccountUsdAmount(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -327,18 +310,6 @@ type (
 		*sql.UpdateSet
 	}
 )
-
-// SetAppID sets the "app_id" field.
-func (u *PlatformSettingUpsert) SetAppID(v uuid.UUID) *PlatformSettingUpsert {
-	u.Set(platformsetting.FieldAppID, v)
-	return u
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsert) UpdateAppID() *PlatformSettingUpsert {
-	u.SetExcluded(platformsetting.FieldAppID)
-	return u
-}
 
 // SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
 func (u *PlatformSettingUpsert) SetWarmAccountUsdAmount(v uint64) *PlatformSettingUpsert {
@@ -460,20 +431,6 @@ func (u *PlatformSettingUpsertOne) Update(set func(*PlatformSettingUpsert)) *Pla
 		set(&PlatformSettingUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetAppID sets the "app_id" field.
-func (u *PlatformSettingUpsertOne) SetAppID(v uuid.UUID) *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetAppID(v)
-	})
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertOne) UpdateAppID() *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateAppID()
-	})
 }
 
 // SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
@@ -692,7 +649,7 @@ func (pscb *PlatformSettingCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.PlatformSettingUpsert) {
-//			SetAppID(v+v).
+//			SetWarmAccountUsdAmount(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -774,20 +731,6 @@ func (u *PlatformSettingUpsertBulk) Update(set func(*PlatformSettingUpsert)) *Pl
 		set(&PlatformSettingUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetAppID sets the "app_id" field.
-func (u *PlatformSettingUpsertBulk) SetAppID(v uuid.UUID) *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetAppID(v)
-	})
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertBulk) UpdateAppID() *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateAppID()
-	})
 }
 
 // SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.

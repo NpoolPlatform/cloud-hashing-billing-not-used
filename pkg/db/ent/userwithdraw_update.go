@@ -46,6 +46,18 @@ func (uwu *UserWithdrawUpdate) SetAccountID(u uuid.UUID) *UserWithdrawUpdate {
 	return uwu
 }
 
+// SetName sets the "name" field.
+func (uwu *UserWithdrawUpdate) SetName(s string) *UserWithdrawUpdate {
+	uwu.mutation.SetName(s)
+	return uwu
+}
+
+// SetMessage sets the "message" field.
+func (uwu *UserWithdrawUpdate) SetMessage(s string) *UserWithdrawUpdate {
+	uwu.mutation.SetMessage(s)
+	return uwu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (uwu *UserWithdrawUpdate) SetCreateAt(u uint32) *UserWithdrawUpdate {
 	uwu.mutation.ResetCreateAt()
@@ -208,6 +220,20 @@ func (uwu *UserWithdrawUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: userwithdraw.FieldAccountID,
 		})
 	}
+	if value, ok := uwu.mutation.Name(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdraw.FieldName,
+		})
+	}
+	if value, ok := uwu.mutation.Message(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdraw.FieldMessage,
+		})
+	}
 	if value, ok := uwu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -284,6 +310,18 @@ func (uwuo *UserWithdrawUpdateOne) SetUserID(u uuid.UUID) *UserWithdrawUpdateOne
 // SetAccountID sets the "account_id" field.
 func (uwuo *UserWithdrawUpdateOne) SetAccountID(u uuid.UUID) *UserWithdrawUpdateOne {
 	uwuo.mutation.SetAccountID(u)
+	return uwuo
+}
+
+// SetName sets the "name" field.
+func (uwuo *UserWithdrawUpdateOne) SetName(s string) *UserWithdrawUpdateOne {
+	uwuo.mutation.SetName(s)
+	return uwuo
+}
+
+// SetMessage sets the "message" field.
+func (uwuo *UserWithdrawUpdateOne) SetMessage(s string) *UserWithdrawUpdateOne {
+	uwuo.mutation.SetMessage(s)
 	return uwuo
 }
 
@@ -471,6 +509,20 @@ func (uwuo *UserWithdrawUpdateOne) sqlSave(ctx context.Context) (_node *UserWith
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: userwithdraw.FieldAccountID,
+		})
+	}
+	if value, ok := uwuo.mutation.Name(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdraw.FieldName,
+		})
+	}
+	if value, ok := uwuo.mutation.Message(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdraw.FieldMessage,
 		})
 	}
 	if value, ok := uwuo.mutation.CreateAt(); ok {

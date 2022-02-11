@@ -16,8 +16,6 @@ type PlatformSetting struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID uuid.UUID `json:"id,omitempty"`
-	// AppID holds the value of the "app_id" field.
-	AppID uuid.UUID `json:"app_id,omitempty"`
 	// WarmAccountUsdAmount holds the value of the "warm_account_usd_amount" field.
 	WarmAccountUsdAmount uint64 `json:"warm_account_usd_amount,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
@@ -35,7 +33,7 @@ func (*PlatformSetting) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case platformsetting.FieldWarmAccountUsdAmount, platformsetting.FieldCreateAt, platformsetting.FieldUpdateAt, platformsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case platformsetting.FieldID, platformsetting.FieldAppID:
+		case platformsetting.FieldID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type PlatformSetting", columns[i])
@@ -57,12 +55,6 @@ func (ps *PlatformSetting) assignValues(columns []string, values []interface{}) 
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value != nil {
 				ps.ID = *value
-			}
-		case platformsetting.FieldAppID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field app_id", values[i])
-			} else if value != nil {
-				ps.AppID = *value
 			}
 		case platformsetting.FieldWarmAccountUsdAmount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -116,8 +108,6 @@ func (ps *PlatformSetting) String() string {
 	var builder strings.Builder
 	builder.WriteString("PlatformSetting(")
 	builder.WriteString(fmt.Sprintf("id=%v", ps.ID))
-	builder.WriteString(", app_id=")
-	builder.WriteString(fmt.Sprintf("%v", ps.AppID))
 	builder.WriteString(", warm_account_usd_amount=")
 	builder.WriteString(fmt.Sprintf("%v", ps.WarmAccountUsdAmount))
 	builder.WriteString(", create_at=")

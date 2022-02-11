@@ -254,12 +254,12 @@ func (psq *PlatformSettingQuery) Clone() *PlatformSettingQuery {
 // Example:
 //
 //	var v []struct {
-//		AppID uuid.UUID `json:"app_id,omitempty"`
+//		WarmAccountUsdAmount uint64 `json:"warm_account_usd_amount,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.PlatformSetting.Query().
-//		GroupBy(platformsetting.FieldAppID).
+//		GroupBy(platformsetting.FieldWarmAccountUsdAmount).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (psq *PlatformSettingQuery) GroupBy(field string, fields ...string) *Platfo
 // Example:
 //
 //	var v []struct {
-//		AppID uuid.UUID `json:"app_id,omitempty"`
+//		WarmAccountUsdAmount uint64 `json:"warm_account_usd_amount,omitempty"`
 //	}
 //
 //	client.PlatformSetting.Query().
-//		Select(platformsetting.FieldAppID).
+//		Select(platformsetting.FieldWarmAccountUsdAmount).
 //		Scan(ctx, &v)
 //
 func (psq *PlatformSettingQuery) Select(fields ...string) *PlatformSettingSelect {
