@@ -88,5 +88,4 @@ func TestCRUD(t *testing.T) {
 	if assert.Nil(t, err) {
 		assert.NotEqual(t, len(resp4.Infos), 0)
 	}
-
 }

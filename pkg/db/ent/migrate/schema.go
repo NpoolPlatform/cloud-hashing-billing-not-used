@@ -197,10 +197,10 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},
-		{Name: "coin_type_id", Type: field.TypeUUID},
-		{Name: "account_id", Type: field.TypeUUID},
 		{Name: "name", Type: field.TypeString},
 		{Name: "message", Type: field.TypeString},
+		{Name: "coin_type_id", Type: field.TypeUUID},
+		{Name: "account_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -214,7 +214,7 @@ var (
 			{
 				Name:    "userwithdraw_app_id_user_id_coin_type_id_account_id",
 				Unique:  true,
-				Columns: []*schema.Column{UserWithdrawsColumns[1], UserWithdrawsColumns[2], UserWithdrawsColumns[3], UserWithdrawsColumns[4]},
+				Columns: []*schema.Column{UserWithdrawsColumns[1], UserWithdrawsColumns[2], UserWithdrawsColumns[5], UserWithdrawsColumns[6]},
 			},
 		},
 	}

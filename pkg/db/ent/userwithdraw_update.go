@@ -40,18 +40,6 @@ func (uwu *UserWithdrawUpdate) SetUserID(u uuid.UUID) *UserWithdrawUpdate {
 	return uwu
 }
 
-// SetCoinTypeID sets the "coin_type_id" field.
-func (uwu *UserWithdrawUpdate) SetCoinTypeID(u uuid.UUID) *UserWithdrawUpdate {
-	uwu.mutation.SetCoinTypeID(u)
-	return uwu
-}
-
-// SetAccountID sets the "account_id" field.
-func (uwu *UserWithdrawUpdate) SetAccountID(u uuid.UUID) *UserWithdrawUpdate {
-	uwu.mutation.SetAccountID(u)
-	return uwu
-}
-
 // SetName sets the "name" field.
 func (uwu *UserWithdrawUpdate) SetName(s string) *UserWithdrawUpdate {
 	uwu.mutation.SetName(s)
@@ -61,6 +49,18 @@ func (uwu *UserWithdrawUpdate) SetName(s string) *UserWithdrawUpdate {
 // SetMessage sets the "message" field.
 func (uwu *UserWithdrawUpdate) SetMessage(s string) *UserWithdrawUpdate {
 	uwu.mutation.SetMessage(s)
+	return uwu
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (uwu *UserWithdrawUpdate) SetCoinTypeID(u uuid.UUID) *UserWithdrawUpdate {
+	uwu.mutation.SetCoinTypeID(u)
+	return uwu
+}
+
+// SetAccountID sets the "account_id" field.
+func (uwu *UserWithdrawUpdate) SetAccountID(u uuid.UUID) *UserWithdrawUpdate {
+	uwu.mutation.SetAccountID(u)
 	return uwu
 }
 
@@ -219,20 +219,6 @@ func (uwu *UserWithdrawUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: userwithdraw.FieldUserID,
 		})
 	}
-	if value, ok := uwu.mutation.CoinTypeID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userwithdraw.FieldCoinTypeID,
-		})
-	}
-	if value, ok := uwu.mutation.AccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userwithdraw.FieldAccountID,
-		})
-	}
 	if value, ok := uwu.mutation.Name(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -245,6 +231,20 @@ func (uwu *UserWithdrawUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeString,
 			Value:  value,
 			Column: userwithdraw.FieldMessage,
+		})
+	}
+	if value, ok := uwu.mutation.CoinTypeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userwithdraw.FieldCoinTypeID,
+		})
+	}
+	if value, ok := uwu.mutation.AccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userwithdraw.FieldAccountID,
 		})
 	}
 	if value, ok := uwu.mutation.CreateAt(); ok {
@@ -320,18 +320,6 @@ func (uwuo *UserWithdrawUpdateOne) SetUserID(u uuid.UUID) *UserWithdrawUpdateOne
 	return uwuo
 }
 
-// SetCoinTypeID sets the "coin_type_id" field.
-func (uwuo *UserWithdrawUpdateOne) SetCoinTypeID(u uuid.UUID) *UserWithdrawUpdateOne {
-	uwuo.mutation.SetCoinTypeID(u)
-	return uwuo
-}
-
-// SetAccountID sets the "account_id" field.
-func (uwuo *UserWithdrawUpdateOne) SetAccountID(u uuid.UUID) *UserWithdrawUpdateOne {
-	uwuo.mutation.SetAccountID(u)
-	return uwuo
-}
-
 // SetName sets the "name" field.
 func (uwuo *UserWithdrawUpdateOne) SetName(s string) *UserWithdrawUpdateOne {
 	uwuo.mutation.SetName(s)
@@ -341,6 +329,18 @@ func (uwuo *UserWithdrawUpdateOne) SetName(s string) *UserWithdrawUpdateOne {
 // SetMessage sets the "message" field.
 func (uwuo *UserWithdrawUpdateOne) SetMessage(s string) *UserWithdrawUpdateOne {
 	uwuo.mutation.SetMessage(s)
+	return uwuo
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (uwuo *UserWithdrawUpdateOne) SetCoinTypeID(u uuid.UUID) *UserWithdrawUpdateOne {
+	uwuo.mutation.SetCoinTypeID(u)
+	return uwuo
+}
+
+// SetAccountID sets the "account_id" field.
+func (uwuo *UserWithdrawUpdateOne) SetAccountID(u uuid.UUID) *UserWithdrawUpdateOne {
+	uwuo.mutation.SetAccountID(u)
 	return uwuo
 }
 
@@ -523,20 +523,6 @@ func (uwuo *UserWithdrawUpdateOne) sqlSave(ctx context.Context) (_node *UserWith
 			Column: userwithdraw.FieldUserID,
 		})
 	}
-	if value, ok := uwuo.mutation.CoinTypeID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userwithdraw.FieldCoinTypeID,
-		})
-	}
-	if value, ok := uwuo.mutation.AccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userwithdraw.FieldAccountID,
-		})
-	}
 	if value, ok := uwuo.mutation.Name(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -549,6 +535,20 @@ func (uwuo *UserWithdrawUpdateOne) sqlSave(ctx context.Context) (_node *UserWith
 			Type:   field.TypeString,
 			Value:  value,
 			Column: userwithdraw.FieldMessage,
+		})
+	}
+	if value, ok := uwuo.mutation.CoinTypeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userwithdraw.FieldCoinTypeID,
+		})
+	}
+	if value, ok := uwuo.mutation.AccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userwithdraw.FieldAccountID,
 		})
 	}
 	if value, ok := uwuo.mutation.CreateAt(); ok {

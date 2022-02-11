@@ -35,18 +35,6 @@ func (uwc *UserWithdrawCreate) SetUserID(u uuid.UUID) *UserWithdrawCreate {
 	return uwc
 }
 
-// SetCoinTypeID sets the "coin_type_id" field.
-func (uwc *UserWithdrawCreate) SetCoinTypeID(u uuid.UUID) *UserWithdrawCreate {
-	uwc.mutation.SetCoinTypeID(u)
-	return uwc
-}
-
-// SetAccountID sets the "account_id" field.
-func (uwc *UserWithdrawCreate) SetAccountID(u uuid.UUID) *UserWithdrawCreate {
-	uwc.mutation.SetAccountID(u)
-	return uwc
-}
-
 // SetName sets the "name" field.
 func (uwc *UserWithdrawCreate) SetName(s string) *UserWithdrawCreate {
 	uwc.mutation.SetName(s)
@@ -56,6 +44,18 @@ func (uwc *UserWithdrawCreate) SetName(s string) *UserWithdrawCreate {
 // SetMessage sets the "message" field.
 func (uwc *UserWithdrawCreate) SetMessage(s string) *UserWithdrawCreate {
 	uwc.mutation.SetMessage(s)
+	return uwc
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (uwc *UserWithdrawCreate) SetCoinTypeID(u uuid.UUID) *UserWithdrawCreate {
+	uwc.mutation.SetCoinTypeID(u)
+	return uwc
+}
+
+// SetAccountID sets the "account_id" field.
+func (uwc *UserWithdrawCreate) SetAccountID(u uuid.UUID) *UserWithdrawCreate {
+	uwc.mutation.SetAccountID(u)
 	return uwc
 }
 
@@ -212,17 +212,17 @@ func (uwc *UserWithdrawCreate) check() error {
 	if _, ok := uwc.mutation.UserID(); !ok {
 		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "UserWithdraw.user_id"`)}
 	}
-	if _, ok := uwc.mutation.CoinTypeID(); !ok {
-		return &ValidationError{Name: "coin_type_id", err: errors.New(`ent: missing required field "UserWithdraw.coin_type_id"`)}
-	}
-	if _, ok := uwc.mutation.AccountID(); !ok {
-		return &ValidationError{Name: "account_id", err: errors.New(`ent: missing required field "UserWithdraw.account_id"`)}
-	}
 	if _, ok := uwc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "UserWithdraw.name"`)}
 	}
 	if _, ok := uwc.mutation.Message(); !ok {
 		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "UserWithdraw.message"`)}
+	}
+	if _, ok := uwc.mutation.CoinTypeID(); !ok {
+		return &ValidationError{Name: "coin_type_id", err: errors.New(`ent: missing required field "UserWithdraw.coin_type_id"`)}
+	}
+	if _, ok := uwc.mutation.AccountID(); !ok {
+		return &ValidationError{Name: "account_id", err: errors.New(`ent: missing required field "UserWithdraw.account_id"`)}
 	}
 	if _, ok := uwc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserWithdraw.create_at"`)}
@@ -286,22 +286,6 @@ func (uwc *UserWithdrawCreate) createSpec() (*UserWithdraw, *sqlgraph.CreateSpec
 		})
 		_node.UserID = value
 	}
-	if value, ok := uwc.mutation.CoinTypeID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userwithdraw.FieldCoinTypeID,
-		})
-		_node.CoinTypeID = value
-	}
-	if value, ok := uwc.mutation.AccountID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userwithdraw.FieldAccountID,
-		})
-		_node.AccountID = value
-	}
 	if value, ok := uwc.mutation.Name(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -317,6 +301,22 @@ func (uwc *UserWithdrawCreate) createSpec() (*UserWithdraw, *sqlgraph.CreateSpec
 			Column: userwithdraw.FieldMessage,
 		})
 		_node.Message = value
+	}
+	if value, ok := uwc.mutation.CoinTypeID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userwithdraw.FieldCoinTypeID,
+		})
+		_node.CoinTypeID = value
+	}
+	if value, ok := uwc.mutation.AccountID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userwithdraw.FieldAccountID,
+		})
+		_node.AccountID = value
 	}
 	if value, ok := uwc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -420,30 +420,6 @@ func (u *UserWithdrawUpsert) UpdateUserID() *UserWithdrawUpsert {
 	return u
 }
 
-// SetCoinTypeID sets the "coin_type_id" field.
-func (u *UserWithdrawUpsert) SetCoinTypeID(v uuid.UUID) *UserWithdrawUpsert {
-	u.Set(userwithdraw.FieldCoinTypeID, v)
-	return u
-}
-
-// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
-func (u *UserWithdrawUpsert) UpdateCoinTypeID() *UserWithdrawUpsert {
-	u.SetExcluded(userwithdraw.FieldCoinTypeID)
-	return u
-}
-
-// SetAccountID sets the "account_id" field.
-func (u *UserWithdrawUpsert) SetAccountID(v uuid.UUID) *UserWithdrawUpsert {
-	u.Set(userwithdraw.FieldAccountID, v)
-	return u
-}
-
-// UpdateAccountID sets the "account_id" field to the value that was provided on create.
-func (u *UserWithdrawUpsert) UpdateAccountID() *UserWithdrawUpsert {
-	u.SetExcluded(userwithdraw.FieldAccountID)
-	return u
-}
-
 // SetName sets the "name" field.
 func (u *UserWithdrawUpsert) SetName(v string) *UserWithdrawUpsert {
 	u.Set(userwithdraw.FieldName, v)
@@ -465,6 +441,30 @@ func (u *UserWithdrawUpsert) SetMessage(v string) *UserWithdrawUpsert {
 // UpdateMessage sets the "message" field to the value that was provided on create.
 func (u *UserWithdrawUpsert) UpdateMessage() *UserWithdrawUpsert {
 	u.SetExcluded(userwithdraw.FieldMessage)
+	return u
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (u *UserWithdrawUpsert) SetCoinTypeID(v uuid.UUID) *UserWithdrawUpsert {
+	u.Set(userwithdraw.FieldCoinTypeID, v)
+	return u
+}
+
+// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
+func (u *UserWithdrawUpsert) UpdateCoinTypeID() *UserWithdrawUpsert {
+	u.SetExcluded(userwithdraw.FieldCoinTypeID)
+	return u
+}
+
+// SetAccountID sets the "account_id" field.
+func (u *UserWithdrawUpsert) SetAccountID(v uuid.UUID) *UserWithdrawUpsert {
+	u.Set(userwithdraw.FieldAccountID, v)
+	return u
+}
+
+// UpdateAccountID sets the "account_id" field to the value that was provided on create.
+func (u *UserWithdrawUpsert) UpdateAccountID() *UserWithdrawUpsert {
+	u.SetExcluded(userwithdraw.FieldAccountID)
 	return u
 }
 
@@ -600,34 +600,6 @@ func (u *UserWithdrawUpsertOne) UpdateUserID() *UserWithdrawUpsertOne {
 	})
 }
 
-// SetCoinTypeID sets the "coin_type_id" field.
-func (u *UserWithdrawUpsertOne) SetCoinTypeID(v uuid.UUID) *UserWithdrawUpsertOne {
-	return u.Update(func(s *UserWithdrawUpsert) {
-		s.SetCoinTypeID(v)
-	})
-}
-
-// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
-func (u *UserWithdrawUpsertOne) UpdateCoinTypeID() *UserWithdrawUpsertOne {
-	return u.Update(func(s *UserWithdrawUpsert) {
-		s.UpdateCoinTypeID()
-	})
-}
-
-// SetAccountID sets the "account_id" field.
-func (u *UserWithdrawUpsertOne) SetAccountID(v uuid.UUID) *UserWithdrawUpsertOne {
-	return u.Update(func(s *UserWithdrawUpsert) {
-		s.SetAccountID(v)
-	})
-}
-
-// UpdateAccountID sets the "account_id" field to the value that was provided on create.
-func (u *UserWithdrawUpsertOne) UpdateAccountID() *UserWithdrawUpsertOne {
-	return u.Update(func(s *UserWithdrawUpsert) {
-		s.UpdateAccountID()
-	})
-}
-
 // SetName sets the "name" field.
 func (u *UserWithdrawUpsertOne) SetName(v string) *UserWithdrawUpsertOne {
 	return u.Update(func(s *UserWithdrawUpsert) {
@@ -653,6 +625,34 @@ func (u *UserWithdrawUpsertOne) SetMessage(v string) *UserWithdrawUpsertOne {
 func (u *UserWithdrawUpsertOne) UpdateMessage() *UserWithdrawUpsertOne {
 	return u.Update(func(s *UserWithdrawUpsert) {
 		s.UpdateMessage()
+	})
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (u *UserWithdrawUpsertOne) SetCoinTypeID(v uuid.UUID) *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetCoinTypeID(v)
+	})
+}
+
+// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
+func (u *UserWithdrawUpsertOne) UpdateCoinTypeID() *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateCoinTypeID()
+	})
+}
+
+// SetAccountID sets the "account_id" field.
+func (u *UserWithdrawUpsertOne) SetAccountID(v uuid.UUID) *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetAccountID(v)
+	})
+}
+
+// UpdateAccountID sets the "account_id" field to the value that was provided on create.
+func (u *UserWithdrawUpsertOne) UpdateAccountID() *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateAccountID()
 	})
 }
 
@@ -963,34 +963,6 @@ func (u *UserWithdrawUpsertBulk) UpdateUserID() *UserWithdrawUpsertBulk {
 	})
 }
 
-// SetCoinTypeID sets the "coin_type_id" field.
-func (u *UserWithdrawUpsertBulk) SetCoinTypeID(v uuid.UUID) *UserWithdrawUpsertBulk {
-	return u.Update(func(s *UserWithdrawUpsert) {
-		s.SetCoinTypeID(v)
-	})
-}
-
-// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
-func (u *UserWithdrawUpsertBulk) UpdateCoinTypeID() *UserWithdrawUpsertBulk {
-	return u.Update(func(s *UserWithdrawUpsert) {
-		s.UpdateCoinTypeID()
-	})
-}
-
-// SetAccountID sets the "account_id" field.
-func (u *UserWithdrawUpsertBulk) SetAccountID(v uuid.UUID) *UserWithdrawUpsertBulk {
-	return u.Update(func(s *UserWithdrawUpsert) {
-		s.SetAccountID(v)
-	})
-}
-
-// UpdateAccountID sets the "account_id" field to the value that was provided on create.
-func (u *UserWithdrawUpsertBulk) UpdateAccountID() *UserWithdrawUpsertBulk {
-	return u.Update(func(s *UserWithdrawUpsert) {
-		s.UpdateAccountID()
-	})
-}
-
 // SetName sets the "name" field.
 func (u *UserWithdrawUpsertBulk) SetName(v string) *UserWithdrawUpsertBulk {
 	return u.Update(func(s *UserWithdrawUpsert) {
@@ -1016,6 +988,34 @@ func (u *UserWithdrawUpsertBulk) SetMessage(v string) *UserWithdrawUpsertBulk {
 func (u *UserWithdrawUpsertBulk) UpdateMessage() *UserWithdrawUpsertBulk {
 	return u.Update(func(s *UserWithdrawUpsert) {
 		s.UpdateMessage()
+	})
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (u *UserWithdrawUpsertBulk) SetCoinTypeID(v uuid.UUID) *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetCoinTypeID(v)
+	})
+}
+
+// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
+func (u *UserWithdrawUpsertBulk) UpdateCoinTypeID() *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateCoinTypeID()
+	})
+}
+
+// SetAccountID sets the "account_id" field.
+func (u *UserWithdrawUpsertBulk) SetAccountID(v uuid.UUID) *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetAccountID(v)
+	})
+}
+
+// UpdateAccountID sets the "account_id" field to the value that was provided on create.
+func (u *UserWithdrawUpsertBulk) UpdateAccountID() *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateAccountID()
 	})
 }
 

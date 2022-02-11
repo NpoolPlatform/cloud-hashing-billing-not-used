@@ -23,10 +23,10 @@ func (UserWithdraw) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),
-		field.UUID("coin_type_id", uuid.UUID{}),
-		field.UUID("account_id", uuid.UUID{}),
 		field.String("name"),
 		field.String("message"),
+		field.UUID("coin_type_id", uuid.UUID{}),
+		field.UUID("account_id", uuid.UUID{}),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())
