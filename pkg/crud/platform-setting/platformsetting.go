@@ -7,7 +7,6 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent"
-	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/price"
 
@@ -69,11 +68,6 @@ func Update(ctx context.Context, in *npool.UpdatePlatformSettingRequest) (*npool
 }
 
 func Get(ctx context.Context, in *npool.GetPlatformSettingRequest) (*npool.GetPlatformSettingResponse, error) {
-	id, err := uuid.Parse(in.GetID())
-	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
-	}
-
 	cli, err := db.Client()
 	if err != nil {
 		return nil, xerrors.Errorf("fail get db client: %v", err)
@@ -82,11 +76,6 @@ func Get(ctx context.Context, in *npool.GetPlatformSettingRequest) (*npool.GetPl
 	infos, err := cli.
 		PlatformSetting.
 		Query().
-		Where(
-			platformsetting.And(
-				platformsetting.ID(id),
-			),
-		).
 		All(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail query platform setting: %v", err)
