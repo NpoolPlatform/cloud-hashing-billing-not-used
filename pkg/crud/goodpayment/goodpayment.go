@@ -53,7 +53,7 @@ func Create(ctx context.Context, in *npool.CreateGoodPaymentRequest) (*npool.Cre
 		SetGoodID(uuid.MustParse(in.GetInfo().GetGoodID())).
 		SetPaymentCoinTypeID(uuid.MustParse(in.GetInfo().GetPaymentCoinTypeID())).
 		SetAccountID(uuid.MustParse(in.GetInfo().GetAccountID())).
-		SetIdle(in.GetInfo().GetIdle()).
+		SetIdle(true).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create good payment: %v", err)
