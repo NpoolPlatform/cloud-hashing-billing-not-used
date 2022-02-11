@@ -127,7 +127,7 @@ func UserOfflineAccountID(v uuid.UUID) predicate.GoodBenefit {
 }
 
 // BenefitIntervalHours applies equality check predicate on the "benefit_interval_hours" field. It's identical to BenefitIntervalHoursEQ.
-func BenefitIntervalHours(v int32) predicate.GoodBenefit {
+func BenefitIntervalHours(v uint32) predicate.GoodBenefit {
 	return predicate.GoodBenefit(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldBenefitIntervalHours), v))
 	})
@@ -535,21 +535,21 @@ func UserOfflineAccountIDLTE(v uuid.UUID) predicate.GoodBenefit {
 }
 
 // BenefitIntervalHoursEQ applies the EQ predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursEQ(v int32) predicate.GoodBenefit {
+func BenefitIntervalHoursEQ(v uint32) predicate.GoodBenefit {
 	return predicate.GoodBenefit(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldBenefitIntervalHours), v))
 	})
 }
 
 // BenefitIntervalHoursNEQ applies the NEQ predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursNEQ(v int32) predicate.GoodBenefit {
+func BenefitIntervalHoursNEQ(v uint32) predicate.GoodBenefit {
 	return predicate.GoodBenefit(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldBenefitIntervalHours), v))
 	})
 }
 
 // BenefitIntervalHoursIn applies the In predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursIn(vs ...int32) predicate.GoodBenefit {
+func BenefitIntervalHoursIn(vs ...uint32) predicate.GoodBenefit {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -566,7 +566,7 @@ func BenefitIntervalHoursIn(vs ...int32) predicate.GoodBenefit {
 }
 
 // BenefitIntervalHoursNotIn applies the NotIn predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursNotIn(vs ...int32) predicate.GoodBenefit {
+func BenefitIntervalHoursNotIn(vs ...uint32) predicate.GoodBenefit {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -583,28 +583,28 @@ func BenefitIntervalHoursNotIn(vs ...int32) predicate.GoodBenefit {
 }
 
 // BenefitIntervalHoursGT applies the GT predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursGT(v int32) predicate.GoodBenefit {
+func BenefitIntervalHoursGT(v uint32) predicate.GoodBenefit {
 	return predicate.GoodBenefit(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldBenefitIntervalHours), v))
 	})
 }
 
 // BenefitIntervalHoursGTE applies the GTE predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursGTE(v int32) predicate.GoodBenefit {
+func BenefitIntervalHoursGTE(v uint32) predicate.GoodBenefit {
 	return predicate.GoodBenefit(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldBenefitIntervalHours), v))
 	})
 }
 
 // BenefitIntervalHoursLT applies the LT predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursLT(v int32) predicate.GoodBenefit {
+func BenefitIntervalHoursLT(v uint32) predicate.GoodBenefit {
 	return predicate.GoodBenefit(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldBenefitIntervalHours), v))
 	})
 }
 
 // BenefitIntervalHoursLTE applies the LTE predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursLTE(v int32) predicate.GoodBenefit {
+func BenefitIntervalHoursLTE(v uint32) predicate.GoodBenefit {
 	return predicate.GoodBenefit(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldBenefitIntervalHours), v))
 	})

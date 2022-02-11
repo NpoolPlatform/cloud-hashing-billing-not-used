@@ -27,7 +27,7 @@ type GoodBenefit struct {
 	// UserOfflineAccountID holds the value of the "user_offline_account_id" field.
 	UserOfflineAccountID uuid.UUID `json:"user_offline_account_id,omitempty"`
 	// BenefitIntervalHours holds the value of the "benefit_interval_hours" field.
-	BenefitIntervalHours int32 `json:"benefit_interval_hours,omitempty"`
+	BenefitIntervalHours uint32 `json:"benefit_interval_hours,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -100,7 +100,7 @@ func (gb *GoodBenefit) assignValues(columns []string, values []interface{}) erro
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field benefit_interval_hours", values[i])
 			} else if value.Valid {
-				gb.BenefitIntervalHours = int32(value.Int64)
+				gb.BenefitIntervalHours = uint32(value.Int64)
 			}
 		case goodbenefit.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {

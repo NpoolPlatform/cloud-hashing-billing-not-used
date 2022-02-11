@@ -59,15 +59,15 @@ func (gbu *GoodBenefitUpdate) SetUserOfflineAccountID(u uuid.UUID) *GoodBenefitU
 }
 
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (gbu *GoodBenefitUpdate) SetBenefitIntervalHours(i int32) *GoodBenefitUpdate {
+func (gbu *GoodBenefitUpdate) SetBenefitIntervalHours(u uint32) *GoodBenefitUpdate {
 	gbu.mutation.ResetBenefitIntervalHours()
-	gbu.mutation.SetBenefitIntervalHours(i)
+	gbu.mutation.SetBenefitIntervalHours(u)
 	return gbu
 }
 
-// AddBenefitIntervalHours adds i to the "benefit_interval_hours" field.
-func (gbu *GoodBenefitUpdate) AddBenefitIntervalHours(i int32) *GoodBenefitUpdate {
-	gbu.mutation.AddBenefitIntervalHours(i)
+// AddBenefitIntervalHours adds u to the "benefit_interval_hours" field.
+func (gbu *GoodBenefitUpdate) AddBenefitIntervalHours(u int32) *GoodBenefitUpdate {
+	gbu.mutation.AddBenefitIntervalHours(u)
 	return gbu
 }
 
@@ -249,14 +249,14 @@ func (gbu *GoodBenefitUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := gbu.mutation.BenefitIntervalHours(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: goodbenefit.FieldBenefitIntervalHours,
 		})
 	}
 	if value, ok := gbu.mutation.AddedBenefitIntervalHours(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: goodbenefit.FieldBenefitIntervalHours,
 		})
@@ -353,15 +353,15 @@ func (gbuo *GoodBenefitUpdateOne) SetUserOfflineAccountID(u uuid.UUID) *GoodBene
 }
 
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (gbuo *GoodBenefitUpdateOne) SetBenefitIntervalHours(i int32) *GoodBenefitUpdateOne {
+func (gbuo *GoodBenefitUpdateOne) SetBenefitIntervalHours(u uint32) *GoodBenefitUpdateOne {
 	gbuo.mutation.ResetBenefitIntervalHours()
-	gbuo.mutation.SetBenefitIntervalHours(i)
+	gbuo.mutation.SetBenefitIntervalHours(u)
 	return gbuo
 }
 
-// AddBenefitIntervalHours adds i to the "benefit_interval_hours" field.
-func (gbuo *GoodBenefitUpdateOne) AddBenefitIntervalHours(i int32) *GoodBenefitUpdateOne {
-	gbuo.mutation.AddBenefitIntervalHours(i)
+// AddBenefitIntervalHours adds u to the "benefit_interval_hours" field.
+func (gbuo *GoodBenefitUpdateOne) AddBenefitIntervalHours(u int32) *GoodBenefitUpdateOne {
+	gbuo.mutation.AddBenefitIntervalHours(u)
 	return gbuo
 }
 
@@ -567,14 +567,14 @@ func (gbuo *GoodBenefitUpdateOne) sqlSave(ctx context.Context) (_node *GoodBenef
 	}
 	if value, ok := gbuo.mutation.BenefitIntervalHours(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: goodbenefit.FieldBenefitIntervalHours,
 		})
 	}
 	if value, ok := gbuo.mutation.AddedBenefitIntervalHours(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: goodbenefit.FieldBenefitIntervalHours,
 		})

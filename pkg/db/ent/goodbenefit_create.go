@@ -54,8 +54,8 @@ func (gbc *GoodBenefitCreate) SetUserOfflineAccountID(u uuid.UUID) *GoodBenefitC
 }
 
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (gbc *GoodBenefitCreate) SetBenefitIntervalHours(i int32) *GoodBenefitCreate {
-	gbc.mutation.SetBenefitIntervalHours(i)
+func (gbc *GoodBenefitCreate) SetBenefitIntervalHours(u uint32) *GoodBenefitCreate {
+	gbc.mutation.SetBenefitIntervalHours(u)
 	return gbc
 }
 
@@ -312,7 +312,7 @@ func (gbc *GoodBenefitCreate) createSpec() (*GoodBenefit, *sqlgraph.CreateSpec) 
 	}
 	if value, ok := gbc.mutation.BenefitIntervalHours(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: goodbenefit.FieldBenefitIntervalHours,
 		})
@@ -457,7 +457,7 @@ func (u *GoodBenefitUpsert) UpdateUserOfflineAccountID() *GoodBenefitUpsert {
 }
 
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (u *GoodBenefitUpsert) SetBenefitIntervalHours(v int32) *GoodBenefitUpsert {
+func (u *GoodBenefitUpsert) SetBenefitIntervalHours(v uint32) *GoodBenefitUpsert {
 	u.Set(goodbenefit.FieldBenefitIntervalHours, v)
 	return u
 }
@@ -469,7 +469,7 @@ func (u *GoodBenefitUpsert) UpdateBenefitIntervalHours() *GoodBenefitUpsert {
 }
 
 // AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
-func (u *GoodBenefitUpsert) AddBenefitIntervalHours(v int32) *GoodBenefitUpsert {
+func (u *GoodBenefitUpsert) AddBenefitIntervalHours(v uint32) *GoodBenefitUpsert {
 	u.Add(goodbenefit.FieldBenefitIntervalHours, v)
 	return u
 }
@@ -649,14 +649,14 @@ func (u *GoodBenefitUpsertOne) UpdateUserOfflineAccountID() *GoodBenefitUpsertOn
 }
 
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (u *GoodBenefitUpsertOne) SetBenefitIntervalHours(v int32) *GoodBenefitUpsertOne {
+func (u *GoodBenefitUpsertOne) SetBenefitIntervalHours(v uint32) *GoodBenefitUpsertOne {
 	return u.Update(func(s *GoodBenefitUpsert) {
 		s.SetBenefitIntervalHours(v)
 	})
 }
 
 // AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
-func (u *GoodBenefitUpsertOne) AddBenefitIntervalHours(v int32) *GoodBenefitUpsertOne {
+func (u *GoodBenefitUpsertOne) AddBenefitIntervalHours(v uint32) *GoodBenefitUpsertOne {
 	return u.Update(func(s *GoodBenefitUpsert) {
 		s.AddBenefitIntervalHours(v)
 	})
@@ -1019,14 +1019,14 @@ func (u *GoodBenefitUpsertBulk) UpdateUserOfflineAccountID() *GoodBenefitUpsertB
 }
 
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (u *GoodBenefitUpsertBulk) SetBenefitIntervalHours(v int32) *GoodBenefitUpsertBulk {
+func (u *GoodBenefitUpsertBulk) SetBenefitIntervalHours(v uint32) *GoodBenefitUpsertBulk {
 	return u.Update(func(s *GoodBenefitUpsert) {
 		s.SetBenefitIntervalHours(v)
 	})
 }
 
 // AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
-func (u *GoodBenefitUpsertBulk) AddBenefitIntervalHours(v int32) *GoodBenefitUpsertBulk {
+func (u *GoodBenefitUpsertBulk) AddBenefitIntervalHours(v uint32) *GoodBenefitUpsertBulk {
 	return u.Update(func(s *GoodBenefitUpsert) {
 		s.AddBenefitIntervalHours(v)
 	})

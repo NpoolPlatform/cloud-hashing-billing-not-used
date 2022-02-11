@@ -76,7 +76,7 @@ var (
 		{Name: "platform_offline_account_id", Type: field.TypeUUID},
 		{Name: "user_online_account_id", Type: field.TypeUUID},
 		{Name: "user_offline_account_id", Type: field.TypeUUID},
-		{Name: "benefit_interval_hours", Type: field.TypeInt32},
+		{Name: "benefit_interval_hours", Type: field.TypeUint32},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

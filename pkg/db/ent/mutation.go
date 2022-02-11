@@ -2459,7 +2459,7 @@ type GoodBenefitMutation struct {
 	platform_offline_account_id *uuid.UUID
 	user_online_account_id      *uuid.UUID
 	user_offline_account_id     *uuid.UUID
-	benefit_interval_hours      *int32
+	benefit_interval_hours      *uint32
 	addbenefit_interval_hours   *int32
 	create_at                   *uint32
 	addcreate_at                *int32
@@ -2758,13 +2758,13 @@ func (m *GoodBenefitMutation) ResetUserOfflineAccountID() {
 }
 
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (m *GoodBenefitMutation) SetBenefitIntervalHours(i int32) {
-	m.benefit_interval_hours = &i
+func (m *GoodBenefitMutation) SetBenefitIntervalHours(u uint32) {
+	m.benefit_interval_hours = &u
 	m.addbenefit_interval_hours = nil
 }
 
 // BenefitIntervalHours returns the value of the "benefit_interval_hours" field in the mutation.
-func (m *GoodBenefitMutation) BenefitIntervalHours() (r int32, exists bool) {
+func (m *GoodBenefitMutation) BenefitIntervalHours() (r uint32, exists bool) {
 	v := m.benefit_interval_hours
 	if v == nil {
 		return
@@ -2775,7 +2775,7 @@ func (m *GoodBenefitMutation) BenefitIntervalHours() (r int32, exists bool) {
 // OldBenefitIntervalHours returns the old "benefit_interval_hours" field's value of the GoodBenefit entity.
 // If the GoodBenefit object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *GoodBenefitMutation) OldBenefitIntervalHours(ctx context.Context) (v int32, err error) {
+func (m *GoodBenefitMutation) OldBenefitIntervalHours(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBenefitIntervalHours is only allowed on UpdateOne operations")
 	}
@@ -2789,12 +2789,12 @@ func (m *GoodBenefitMutation) OldBenefitIntervalHours(ctx context.Context) (v in
 	return oldValue.BenefitIntervalHours, nil
 }
 
-// AddBenefitIntervalHours adds i to the "benefit_interval_hours" field.
-func (m *GoodBenefitMutation) AddBenefitIntervalHours(i int32) {
+// AddBenefitIntervalHours adds u to the "benefit_interval_hours" field.
+func (m *GoodBenefitMutation) AddBenefitIntervalHours(u int32) {
 	if m.addbenefit_interval_hours != nil {
-		*m.addbenefit_interval_hours += i
+		*m.addbenefit_interval_hours += u
 	} else {
-		m.addbenefit_interval_hours = &i
+		m.addbenefit_interval_hours = &u
 	}
 }
 
@@ -3126,7 +3126,7 @@ func (m *GoodBenefitMutation) SetField(name string, value ent.Value) error {
 		m.SetUserOfflineAccountID(v)
 		return nil
 	case goodbenefit.FieldBenefitIntervalHours:
-		v, ok := value.(int32)
+		v, ok := value.(uint32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
