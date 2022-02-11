@@ -104,17 +104,17 @@ func init() {
 	goodpaymentFields := schema.GoodPayment{}.Fields()
 	_ = goodpaymentFields
 	// goodpaymentDescCreateAt is the schema descriptor for create_at field.
-	goodpaymentDescCreateAt := goodpaymentFields[4].Descriptor()
+	goodpaymentDescCreateAt := goodpaymentFields[5].Descriptor()
 	// goodpayment.DefaultCreateAt holds the default value on creation for the create_at field.
 	goodpayment.DefaultCreateAt = goodpaymentDescCreateAt.Default.(func() uint32)
 	// goodpaymentDescUpdateAt is the schema descriptor for update_at field.
-	goodpaymentDescUpdateAt := goodpaymentFields[5].Descriptor()
+	goodpaymentDescUpdateAt := goodpaymentFields[6].Descriptor()
 	// goodpayment.DefaultUpdateAt holds the default value on creation for the update_at field.
 	goodpayment.DefaultUpdateAt = goodpaymentDescUpdateAt.Default.(func() uint32)
 	// goodpayment.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	goodpayment.UpdateDefaultUpdateAt = goodpaymentDescUpdateAt.UpdateDefault.(func() uint32)
 	// goodpaymentDescDeleteAt is the schema descriptor for delete_at field.
-	goodpaymentDescDeleteAt := goodpaymentFields[6].Descriptor()
+	goodpaymentDescDeleteAt := goodpaymentFields[7].Descriptor()
 	// goodpayment.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	goodpayment.DefaultDeleteAt = goodpaymentDescDeleteAt.Default.(func() uint32)
 	// goodpaymentDescID is the schema descriptor for id field.

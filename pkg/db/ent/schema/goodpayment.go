@@ -5,6 +5,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 
 	"github.com/google/uuid"
 )
@@ -18,7 +19,8 @@ type GoodPayment struct {
 func (GoodPayment) Fields() []ent.Field {
 	return []ent.Field{
 		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
-		field.UUID("good_id", uuid.UUID{}).Unique(),
+		field.UUID("good_id", uuid.UUID{}),
+		field.UUID("payment_coin_type_id", uuid.UUID{}),
 		field.UUID("account_id", uuid.UUID{}),
 		field.Bool("idle"),
 		field.Uint32("create_at").
@@ -42,4 +44,12 @@ func (GoodPayment) Fields() []ent.Field {
 // Edges of the GoodPayment.
 func (GoodPayment) Edges() []ent.Edge {
 	return nil
+}
+
+// Indexes of the GoodPayment.
+func (GoodPayment) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("good_id", "payment_coin_type_id", "account_id").
+			Unique(),
+	}
 }

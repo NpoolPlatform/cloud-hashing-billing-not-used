@@ -18,6 +18,8 @@ type GoodPayment struct {
 	ID uuid.UUID `json:"id,omitempty"`
 	// GoodID holds the value of the "good_id" field.
 	GoodID uuid.UUID `json:"good_id,omitempty"`
+	// PaymentCoinTypeID holds the value of the "payment_coin_type_id" field.
+	PaymentCoinTypeID uuid.UUID `json:"payment_coin_type_id,omitempty"`
 	// AccountID holds the value of the "account_id" field.
 	AccountID uuid.UUID `json:"account_id,omitempty"`
 	// Idle holds the value of the "idle" field.
@@ -39,7 +41,7 @@ func (*GoodPayment) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullBool)
 		case goodpayment.FieldCreateAt, goodpayment.FieldUpdateAt, goodpayment.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case goodpayment.FieldID, goodpayment.FieldGoodID, goodpayment.FieldAccountID:
+		case goodpayment.FieldID, goodpayment.FieldGoodID, goodpayment.FieldPaymentCoinTypeID, goodpayment.FieldAccountID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type GoodPayment", columns[i])
@@ -67,6 +69,12 @@ func (gp *GoodPayment) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field good_id", values[i])
 			} else if value != nil {
 				gp.GoodID = *value
+			}
+		case goodpayment.FieldPaymentCoinTypeID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field payment_coin_type_id", values[i])
+			} else if value != nil {
+				gp.PaymentCoinTypeID = *value
 			}
 		case goodpayment.FieldAccountID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -128,6 +136,8 @@ func (gp *GoodPayment) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", gp.ID))
 	builder.WriteString(", good_id=")
 	builder.WriteString(fmt.Sprintf("%v", gp.GoodID))
+	builder.WriteString(", payment_coin_type_id=")
+	builder.WriteString(fmt.Sprintf("%v", gp.PaymentCoinTypeID))
 	builder.WriteString(", account_id=")
 	builder.WriteString(fmt.Sprintf("%v", gp.AccountID))
 	builder.WriteString(", idle=")

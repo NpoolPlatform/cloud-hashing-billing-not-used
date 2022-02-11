@@ -98,6 +98,13 @@ func GoodID(v uuid.UUID) predicate.GoodPayment {
 	})
 }
 
+// PaymentCoinTypeID applies equality check predicate on the "payment_coin_type_id" field. It's identical to PaymentCoinTypeIDEQ.
+func PaymentCoinTypeID(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPaymentCoinTypeID), v))
+	})
+}
+
 // AccountID applies equality check predicate on the "account_id" field. It's identical to AccountIDEQ.
 func AccountID(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
@@ -206,6 +213,82 @@ func GoodIDLT(v uuid.UUID) predicate.GoodPayment {
 func GoodIDLTE(v uuid.UUID) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldGoodID), v))
+	})
+}
+
+// PaymentCoinTypeIDEQ applies the EQ predicate on the "payment_coin_type_id" field.
+func PaymentCoinTypeIDEQ(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPaymentCoinTypeID), v))
+	})
+}
+
+// PaymentCoinTypeIDNEQ applies the NEQ predicate on the "payment_coin_type_id" field.
+func PaymentCoinTypeIDNEQ(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPaymentCoinTypeID), v))
+	})
+}
+
+// PaymentCoinTypeIDIn applies the In predicate on the "payment_coin_type_id" field.
+func PaymentCoinTypeIDIn(vs ...uuid.UUID) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPaymentCoinTypeID), v...))
+	})
+}
+
+// PaymentCoinTypeIDNotIn applies the NotIn predicate on the "payment_coin_type_id" field.
+func PaymentCoinTypeIDNotIn(vs ...uuid.UUID) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPaymentCoinTypeID), v...))
+	})
+}
+
+// PaymentCoinTypeIDGT applies the GT predicate on the "payment_coin_type_id" field.
+func PaymentCoinTypeIDGT(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPaymentCoinTypeID), v))
+	})
+}
+
+// PaymentCoinTypeIDGTE applies the GTE predicate on the "payment_coin_type_id" field.
+func PaymentCoinTypeIDGTE(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPaymentCoinTypeID), v))
+	})
+}
+
+// PaymentCoinTypeIDLT applies the LT predicate on the "payment_coin_type_id" field.
+func PaymentCoinTypeIDLT(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPaymentCoinTypeID), v))
+	})
+}
+
+// PaymentCoinTypeIDLTE applies the LTE predicate on the "payment_coin_type_id" field.
+func PaymentCoinTypeIDLTE(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPaymentCoinTypeID), v))
 	})
 }
 

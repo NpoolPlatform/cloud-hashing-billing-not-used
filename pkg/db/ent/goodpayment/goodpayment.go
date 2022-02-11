@@ -13,6 +13,8 @@ const (
 	FieldID = "id"
 	// FieldGoodID holds the string denoting the good_id field in the database.
 	FieldGoodID = "good_id"
+	// FieldPaymentCoinTypeID holds the string denoting the payment_coin_type_id field in the database.
+	FieldPaymentCoinTypeID = "payment_coin_type_id"
 	// FieldAccountID holds the string denoting the account_id field in the database.
 	FieldAccountID = "account_id"
 	// FieldIdle holds the string denoting the idle field in the database.
@@ -31,6 +33,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldGoodID,
+	FieldPaymentCoinTypeID,
 	FieldAccountID,
 	FieldIdle,
 	FieldCreateAt,

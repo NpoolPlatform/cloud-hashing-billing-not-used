@@ -90,7 +90,8 @@ var (
 	// GoodPaymentsColumns holds the columns for the "good_payments" table.
 	GoodPaymentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "good_id", Type: field.TypeUUID, Unique: true},
+		{Name: "good_id", Type: field.TypeUUID},
+		{Name: "payment_coin_type_id", Type: field.TypeUUID},
 		{Name: "account_id", Type: field.TypeUUID},
 		{Name: "idle", Type: field.TypeBool},
 		{Name: "create_at", Type: field.TypeUint32},
@@ -102,6 +103,13 @@ var (
 		Name:       "good_payments",
 		Columns:    GoodPaymentsColumns,
 		PrimaryKey: []*schema.Column{GoodPaymentsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "goodpayment_good_id_payment_coin_type_id_account_id",
+				Unique:  true,
+				Columns: []*schema.Column{GoodPaymentsColumns[1], GoodPaymentsColumns[2], GoodPaymentsColumns[3]},
+			},
+		},
 	}
 	// GoodSettingsColumns holds the columns for the "good_settings" table.
 	GoodSettingsColumns = []*schema.Column{

@@ -29,6 +29,12 @@ func (gpc *GoodPaymentCreate) SetGoodID(u uuid.UUID) *GoodPaymentCreate {
 	return gpc
 }
 
+// SetPaymentCoinTypeID sets the "payment_coin_type_id" field.
+func (gpc *GoodPaymentCreate) SetPaymentCoinTypeID(u uuid.UUID) *GoodPaymentCreate {
+	gpc.mutation.SetPaymentCoinTypeID(u)
+	return gpc
+}
+
 // SetAccountID sets the "account_id" field.
 func (gpc *GoodPaymentCreate) SetAccountID(u uuid.UUID) *GoodPaymentCreate {
 	gpc.mutation.SetAccountID(u)
@@ -191,6 +197,9 @@ func (gpc *GoodPaymentCreate) check() error {
 	if _, ok := gpc.mutation.GoodID(); !ok {
 		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "GoodPayment.good_id"`)}
 	}
+	if _, ok := gpc.mutation.PaymentCoinTypeID(); !ok {
+		return &ValidationError{Name: "payment_coin_type_id", err: errors.New(`ent: missing required field "GoodPayment.payment_coin_type_id"`)}
+	}
 	if _, ok := gpc.mutation.AccountID(); !ok {
 		return &ValidationError{Name: "account_id", err: errors.New(`ent: missing required field "GoodPayment.account_id"`)}
 	}
@@ -250,6 +259,14 @@ func (gpc *GoodPaymentCreate) createSpec() (*GoodPayment, *sqlgraph.CreateSpec) 
 			Column: goodpayment.FieldGoodID,
 		})
 		_node.GoodID = value
+	}
+	if value, ok := gpc.mutation.PaymentCoinTypeID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: goodpayment.FieldPaymentCoinTypeID,
+		})
+		_node.PaymentCoinTypeID = value
 	}
 	if value, ok := gpc.mutation.AccountID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -354,6 +371,18 @@ func (u *GoodPaymentUpsert) SetGoodID(v uuid.UUID) *GoodPaymentUpsert {
 // UpdateGoodID sets the "good_id" field to the value that was provided on create.
 func (u *GoodPaymentUpsert) UpdateGoodID() *GoodPaymentUpsert {
 	u.SetExcluded(goodpayment.FieldGoodID)
+	return u
+}
+
+// SetPaymentCoinTypeID sets the "payment_coin_type_id" field.
+func (u *GoodPaymentUpsert) SetPaymentCoinTypeID(v uuid.UUID) *GoodPaymentUpsert {
+	u.Set(goodpayment.FieldPaymentCoinTypeID, v)
+	return u
+}
+
+// UpdatePaymentCoinTypeID sets the "payment_coin_type_id" field to the value that was provided on create.
+func (u *GoodPaymentUpsert) UpdatePaymentCoinTypeID() *GoodPaymentUpsert {
+	u.SetExcluded(goodpayment.FieldPaymentCoinTypeID)
 	return u
 }
 
@@ -496,6 +525,20 @@ func (u *GoodPaymentUpsertOne) SetGoodID(v uuid.UUID) *GoodPaymentUpsertOne {
 func (u *GoodPaymentUpsertOne) UpdateGoodID() *GoodPaymentUpsertOne {
 	return u.Update(func(s *GoodPaymentUpsert) {
 		s.UpdateGoodID()
+	})
+}
+
+// SetPaymentCoinTypeID sets the "payment_coin_type_id" field.
+func (u *GoodPaymentUpsertOne) SetPaymentCoinTypeID(v uuid.UUID) *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetPaymentCoinTypeID(v)
+	})
+}
+
+// UpdatePaymentCoinTypeID sets the "payment_coin_type_id" field to the value that was provided on create.
+func (u *GoodPaymentUpsertOne) UpdatePaymentCoinTypeID() *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdatePaymentCoinTypeID()
 	})
 }
 
@@ -817,6 +860,20 @@ func (u *GoodPaymentUpsertBulk) SetGoodID(v uuid.UUID) *GoodPaymentUpsertBulk {
 func (u *GoodPaymentUpsertBulk) UpdateGoodID() *GoodPaymentUpsertBulk {
 	return u.Update(func(s *GoodPaymentUpsert) {
 		s.UpdateGoodID()
+	})
+}
+
+// SetPaymentCoinTypeID sets the "payment_coin_type_id" field.
+func (u *GoodPaymentUpsertBulk) SetPaymentCoinTypeID(v uuid.UUID) *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetPaymentCoinTypeID(v)
+	})
+}
+
+// UpdatePaymentCoinTypeID sets the "payment_coin_type_id" field to the value that was provided on create.
+func (u *GoodPaymentUpsertBulk) UpdatePaymentCoinTypeID() *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdatePaymentCoinTypeID()
 	})
 }
 

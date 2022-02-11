@@ -3335,22 +3335,23 @@ func (m *GoodBenefitMutation) ResetEdge(name string) error {
 // GoodPaymentMutation represents an operation that mutates the GoodPayment nodes in the graph.
 type GoodPaymentMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *uuid.UUID
-	good_id       *uuid.UUID
-	account_id    *uuid.UUID
-	idle          *bool
-	create_at     *uint32
-	addcreate_at  *int32
-	update_at     *uint32
-	addupdate_at  *int32
-	delete_at     *uint32
-	adddelete_at  *int32
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*GoodPayment, error)
-	predicates    []predicate.GoodPayment
+	op                   Op
+	typ                  string
+	id                   *uuid.UUID
+	good_id              *uuid.UUID
+	payment_coin_type_id *uuid.UUID
+	account_id           *uuid.UUID
+	idle                 *bool
+	create_at            *uint32
+	addcreate_at         *int32
+	update_at            *uint32
+	addupdate_at         *int32
+	delete_at            *uint32
+	adddelete_at         *int32
+	clearedFields        map[string]struct{}
+	done                 bool
+	oldValue             func(context.Context) (*GoodPayment, error)
+	predicates           []predicate.GoodPayment
 }
 
 var _ ent.Mutation = (*GoodPaymentMutation)(nil)
@@ -3491,6 +3492,42 @@ func (m *GoodPaymentMutation) OldGoodID(ctx context.Context) (v uuid.UUID, err e
 // ResetGoodID resets all changes to the "good_id" field.
 func (m *GoodPaymentMutation) ResetGoodID() {
 	m.good_id = nil
+}
+
+// SetPaymentCoinTypeID sets the "payment_coin_type_id" field.
+func (m *GoodPaymentMutation) SetPaymentCoinTypeID(u uuid.UUID) {
+	m.payment_coin_type_id = &u
+}
+
+// PaymentCoinTypeID returns the value of the "payment_coin_type_id" field in the mutation.
+func (m *GoodPaymentMutation) PaymentCoinTypeID() (r uuid.UUID, exists bool) {
+	v := m.payment_coin_type_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPaymentCoinTypeID returns the old "payment_coin_type_id" field's value of the GoodPayment entity.
+// If the GoodPayment object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoodPaymentMutation) OldPaymentCoinTypeID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPaymentCoinTypeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPaymentCoinTypeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPaymentCoinTypeID: %w", err)
+	}
+	return oldValue.PaymentCoinTypeID, nil
+}
+
+// ResetPaymentCoinTypeID resets all changes to the "payment_coin_type_id" field.
+func (m *GoodPaymentMutation) ResetPaymentCoinTypeID() {
+	m.payment_coin_type_id = nil
 }
 
 // SetAccountID sets the "account_id" field.
@@ -3752,9 +3789,12 @@ func (m *GoodPaymentMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *GoodPaymentMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 7)
 	if m.good_id != nil {
 		fields = append(fields, goodpayment.FieldGoodID)
+	}
+	if m.payment_coin_type_id != nil {
+		fields = append(fields, goodpayment.FieldPaymentCoinTypeID)
 	}
 	if m.account_id != nil {
 		fields = append(fields, goodpayment.FieldAccountID)
@@ -3781,6 +3821,8 @@ func (m *GoodPaymentMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case goodpayment.FieldGoodID:
 		return m.GoodID()
+	case goodpayment.FieldPaymentCoinTypeID:
+		return m.PaymentCoinTypeID()
 	case goodpayment.FieldAccountID:
 		return m.AccountID()
 	case goodpayment.FieldIdle:
@@ -3802,6 +3844,8 @@ func (m *GoodPaymentMutation) OldField(ctx context.Context, name string) (ent.Va
 	switch name {
 	case goodpayment.FieldGoodID:
 		return m.OldGoodID(ctx)
+	case goodpayment.FieldPaymentCoinTypeID:
+		return m.OldPaymentCoinTypeID(ctx)
 	case goodpayment.FieldAccountID:
 		return m.OldAccountID(ctx)
 	case goodpayment.FieldIdle:
@@ -3827,6 +3871,13 @@ func (m *GoodPaymentMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetGoodID(v)
+		return nil
+	case goodpayment.FieldPaymentCoinTypeID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPaymentCoinTypeID(v)
 		return nil
 	case goodpayment.FieldAccountID:
 		v, ok := value.(uuid.UUID)
@@ -3953,6 +4004,9 @@ func (m *GoodPaymentMutation) ResetField(name string) error {
 	switch name {
 	case goodpayment.FieldGoodID:
 		m.ResetGoodID()
+		return nil
+	case goodpayment.FieldPaymentCoinTypeID:
+		m.ResetPaymentCoinTypeID()
 		return nil
 	case goodpayment.FieldAccountID:
 		m.ResetAccountID()
