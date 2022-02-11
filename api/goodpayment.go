@@ -64,3 +64,12 @@ func (s *Server) GetIdleGoodPaymentsByGood(ctx context.Context, in *npool.GetIdl
 	}
 	return resp, nil
 }
+
+func (s *Server) GetIdleGoodPaymentsByGoodPaymentCoin(ctx context.Context, in *npool.GetIdleGoodPaymentsByGoodPaymentCoinRequest) (*npool.GetIdleGoodPaymentsByGoodPaymentCoinResponse, error) {
+	resp, err := crud.GetIdleByGoodPaymentCoin(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get good payment error: %v", err)
+		return &npool.GetIdleGoodPaymentsByGoodPaymentCoinResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}

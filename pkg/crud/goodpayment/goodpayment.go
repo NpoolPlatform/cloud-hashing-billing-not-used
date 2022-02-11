@@ -225,3 +225,44 @@ func GetIdleByGood(ctx context.Context, in *npool.GetIdleGoodPaymentsByGoodReque
 		Infos: payments,
 	}, nil
 }
+
+func GetIdleByGoodPaymentCoin(ctx context.Context, in *npool.GetIdleGoodPaymentsByGoodPaymentCoinRequest) (*npool.GetIdleGoodPaymentsByGoodPaymentCoinResponse, error) {
+	goodID, err := uuid.Parse(in.GetGoodID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid good id: %v", err)
+	}
+
+	coinTypeID, err := uuid.Parse(in.GetPaymentCoinTypeID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid payment coin type id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		GoodPayment.
+		Query().
+		Where(
+			goodpayment.And(
+				goodpayment.GoodID(goodID),
+				goodpayment.PaymentCoinTypeID(coinTypeID),
+				goodpayment.Idle(true),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query good payment: %v", err)
+	}
+
+	payments := []*npool.GoodPayment{}
+	for _, info := range infos {
+		payments = append(payments, dbRowToGoodPayment(info))
+	}
+
+	return &npool.GetIdleGoodPaymentsByGoodPaymentCoinResponse{
+		Infos: payments,
+	}, nil
+}
