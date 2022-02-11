@@ -28,18 +28,6 @@ func (caiu *CoinAccountInfoUpdate) Where(ps ...predicate.CoinAccountInfo) *CoinA
 	return caiu
 }
 
-// SetAppID sets the "app_id" field.
-func (caiu *CoinAccountInfoUpdate) SetAppID(u uuid.UUID) *CoinAccountInfoUpdate {
-	caiu.mutation.SetAppID(u)
-	return caiu
-}
-
-// SetUserID sets the "user_id" field.
-func (caiu *CoinAccountInfoUpdate) SetUserID(u uuid.UUID) *CoinAccountInfoUpdate {
-	caiu.mutation.SetUserID(u)
-	return caiu
-}
-
 // SetCoinTypeID sets the "coin_type_id" field.
 func (caiu *CoinAccountInfoUpdate) SetCoinTypeID(u uuid.UUID) *CoinAccountInfoUpdate {
 	caiu.mutation.SetCoinTypeID(u)
@@ -49,12 +37,6 @@ func (caiu *CoinAccountInfoUpdate) SetCoinTypeID(u uuid.UUID) *CoinAccountInfoUp
 // SetAddress sets the "address" field.
 func (caiu *CoinAccountInfoUpdate) SetAddress(s string) *CoinAccountInfoUpdate {
 	caiu.mutation.SetAddress(s)
-	return caiu
-}
-
-// SetGeneratedBy sets the "generated_by" field.
-func (caiu *CoinAccountInfoUpdate) SetGeneratedBy(cb coinaccountinfo.GeneratedBy) *CoinAccountInfoUpdate {
-	caiu.mutation.SetGeneratedBy(cb)
 	return caiu
 }
 
@@ -132,18 +114,12 @@ func (caiu *CoinAccountInfoUpdate) Save(ctx context.Context) (int, error) {
 	)
 	caiu.defaults()
 	if len(caiu.hooks) == 0 {
-		if err = caiu.check(); err != nil {
-			return 0, err
-		}
 		affected, err = caiu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*CoinAccountInfoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
-			}
-			if err = caiu.check(); err != nil {
-				return 0, err
 			}
 			caiu.mutation = mutation
 			affected, err = caiu.sqlSave(ctx)
@@ -193,16 +169,6 @@ func (caiu *CoinAccountInfoUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (caiu *CoinAccountInfoUpdate) check() error {
-	if v, ok := caiu.mutation.GeneratedBy(); ok {
-		if err := coinaccountinfo.GeneratedByValidator(v); err != nil {
-			return &ValidationError{Name: "generated_by", err: fmt.Errorf(`ent: validator failed for field "CoinAccountInfo.generated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (caiu *CoinAccountInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -221,20 +187,6 @@ func (caiu *CoinAccountInfoUpdate) sqlSave(ctx context.Context) (n int, err erro
 			}
 		}
 	}
-	if value, ok := caiu.mutation.AppID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccountinfo.FieldAppID,
-		})
-	}
-	if value, ok := caiu.mutation.UserID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccountinfo.FieldUserID,
-		})
-	}
 	if value, ok := caiu.mutation.CoinTypeID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -247,13 +199,6 @@ func (caiu *CoinAccountInfoUpdate) sqlSave(ctx context.Context) (n int, err erro
 			Type:   field.TypeString,
 			Value:  value,
 			Column: coinaccountinfo.FieldAddress,
-		})
-	}
-	if value, ok := caiu.mutation.GeneratedBy(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeEnum,
-			Value:  value,
-			Column: coinaccountinfo.FieldGeneratedBy,
 		})
 	}
 	if value, ok := caiu.mutation.PlatformHoldPrivateKey(); ok {
@@ -324,18 +269,6 @@ type CoinAccountInfoUpdateOne struct {
 	mutation *CoinAccountInfoMutation
 }
 
-// SetAppID sets the "app_id" field.
-func (caiuo *CoinAccountInfoUpdateOne) SetAppID(u uuid.UUID) *CoinAccountInfoUpdateOne {
-	caiuo.mutation.SetAppID(u)
-	return caiuo
-}
-
-// SetUserID sets the "user_id" field.
-func (caiuo *CoinAccountInfoUpdateOne) SetUserID(u uuid.UUID) *CoinAccountInfoUpdateOne {
-	caiuo.mutation.SetUserID(u)
-	return caiuo
-}
-
 // SetCoinTypeID sets the "coin_type_id" field.
 func (caiuo *CoinAccountInfoUpdateOne) SetCoinTypeID(u uuid.UUID) *CoinAccountInfoUpdateOne {
 	caiuo.mutation.SetCoinTypeID(u)
@@ -345,12 +278,6 @@ func (caiuo *CoinAccountInfoUpdateOne) SetCoinTypeID(u uuid.UUID) *CoinAccountIn
 // SetAddress sets the "address" field.
 func (caiuo *CoinAccountInfoUpdateOne) SetAddress(s string) *CoinAccountInfoUpdateOne {
 	caiuo.mutation.SetAddress(s)
-	return caiuo
-}
-
-// SetGeneratedBy sets the "generated_by" field.
-func (caiuo *CoinAccountInfoUpdateOne) SetGeneratedBy(cb coinaccountinfo.GeneratedBy) *CoinAccountInfoUpdateOne {
-	caiuo.mutation.SetGeneratedBy(cb)
 	return caiuo
 }
 
@@ -435,18 +362,12 @@ func (caiuo *CoinAccountInfoUpdateOne) Save(ctx context.Context) (*CoinAccountIn
 	)
 	caiuo.defaults()
 	if len(caiuo.hooks) == 0 {
-		if err = caiuo.check(); err != nil {
-			return nil, err
-		}
 		node, err = caiuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*CoinAccountInfoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
-			}
-			if err = caiuo.check(); err != nil {
-				return nil, err
 			}
 			caiuo.mutation = mutation
 			node, err = caiuo.sqlSave(ctx)
@@ -496,16 +417,6 @@ func (caiuo *CoinAccountInfoUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (caiuo *CoinAccountInfoUpdateOne) check() error {
-	if v, ok := caiuo.mutation.GeneratedBy(); ok {
-		if err := coinaccountinfo.GeneratedByValidator(v); err != nil {
-			return &ValidationError{Name: "generated_by", err: fmt.Errorf(`ent: validator failed for field "CoinAccountInfo.generated_by": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (caiuo *CoinAccountInfoUpdateOne) sqlSave(ctx context.Context) (_node *CoinAccountInfo, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -541,20 +452,6 @@ func (caiuo *CoinAccountInfoUpdateOne) sqlSave(ctx context.Context) (_node *Coin
 			}
 		}
 	}
-	if value, ok := caiuo.mutation.AppID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccountinfo.FieldAppID,
-		})
-	}
-	if value, ok := caiuo.mutation.UserID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccountinfo.FieldUserID,
-		})
-	}
 	if value, ok := caiuo.mutation.CoinTypeID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -567,13 +464,6 @@ func (caiuo *CoinAccountInfoUpdateOne) sqlSave(ctx context.Context) (_node *Coin
 			Type:   field.TypeString,
 			Value:  value,
 			Column: coinaccountinfo.FieldAddress,
-		})
-	}
-	if value, ok := caiuo.mutation.GeneratedBy(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeEnum,
-			Value:  value,
-			Column: coinaccountinfo.FieldGeneratedBy,
 		})
 	}
 	if value, ok := caiuo.mutation.PlatformHoldPrivateKey(); ok {

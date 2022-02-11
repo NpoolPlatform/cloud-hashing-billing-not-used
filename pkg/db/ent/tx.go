@@ -16,12 +16,22 @@ type Tx struct {
 	CoinAccountInfo *CoinAccountInfoClient
 	// CoinAccountTransaction is the client for interacting with the CoinAccountTransaction builders.
 	CoinAccountTransaction *CoinAccountTransactionClient
+	// CoinSetting is the client for interacting with the CoinSetting builders.
+	CoinSetting *CoinSettingClient
+	// GoodBenefit is the client for interacting with the GoodBenefit builders.
+	GoodBenefit *GoodBenefitClient
+	// GoodPayment is the client for interacting with the GoodPayment builders.
+	GoodPayment *GoodPaymentClient
+	// GoodSetting is the client for interacting with the GoodSetting builders.
+	GoodSetting *GoodSettingClient
 	// PlatformBenefit is the client for interacting with the PlatformBenefit builders.
 	PlatformBenefit *PlatformBenefitClient
 	// PlatformSetting is the client for interacting with the PlatformSetting builders.
 	PlatformSetting *PlatformSettingClient
 	// UserBenefit is the client for interacting with the UserBenefit builders.
 	UserBenefit *UserBenefitClient
+	// UserWithdraw is the client for interacting with the UserWithdraw builders.
+	UserWithdraw *UserWithdrawClient
 
 	// lazily loaded.
 	client     *Client
@@ -159,9 +169,14 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.CoinAccountInfo = NewCoinAccountInfoClient(tx.config)
 	tx.CoinAccountTransaction = NewCoinAccountTransactionClient(tx.config)
+	tx.CoinSetting = NewCoinSettingClient(tx.config)
+	tx.GoodBenefit = NewGoodBenefitClient(tx.config)
+	tx.GoodPayment = NewGoodPaymentClient(tx.config)
+	tx.GoodSetting = NewGoodSettingClient(tx.config)
 	tx.PlatformBenefit = NewPlatformBenefitClient(tx.config)
 	tx.PlatformSetting = NewPlatformSettingClient(tx.config)
 	tx.UserBenefit = NewUserBenefitClient(tx.config)
+	tx.UserWithdraw = NewUserWithdrawClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

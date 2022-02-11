@@ -35,18 +35,12 @@ func TestGet(t *testing.T) {
 	coinTypeID := uuid.New().String()
 
 	account1 := npool.CoinAccountInfo{
-		CoinTypeID:  coinTypeID,
-		Address:     uuid.New().String(),
-		GeneratedBy: "user",
-		AppID:       uuid.New().String(),
-		UserID:      uuid.New().String(),
+		CoinTypeID: coinTypeID,
+		Address:    uuid.New().String(),
 	}
 	account2 := npool.CoinAccountInfo{
-		CoinTypeID:  coinTypeID,
-		Address:     uuid.New().String(),
-		GeneratedBy: "platform",
-		AppID:       uuid.UUID{}.String(),
-		UserID:      uuid.UUID{}.String(),
+		CoinTypeID: coinTypeID,
+		Address:    uuid.New().String(),
 	}
 
 	resp1, err := coinaccountinfo.Create(context.Background(), &npool.CreateCoinAccountRequest{
@@ -60,15 +54,14 @@ func TestGet(t *testing.T) {
 	assert.Nil(t, err)
 
 	transaction := npool.CoinAccountTransaction{
-		UserID:                resp1.Info.UserID,
-		AppID:                 resp1.Info.AppID,
-		FromAddressID:         resp1.Info.ID,
-		ToAddressID:           resp2.Info.ID,
-		CoinTypeID:            coinTypeID,
-		Amount:                0.13,
-		Message:               "test transaction",
-		ChainTransactionID:    "adfjklasjfdlksajf",
-		PlatformTransactionID: uuid.New().String(),
+		UserID:             uuid.New().String(),
+		AppID:              uuid.New().String(),
+		FromAddressID:      resp1.Info.ID,
+		ToAddressID:        resp2.Info.ID,
+		CoinTypeID:         coinTypeID,
+		Amount:             0.13,
+		Message:            "test transaction",
+		ChainTransactionID: "adfjklasjfdlksajf",
 	}
 	resp3, err := coinaccounttransaction.Create(context.Background(), &npool.CreateCoinAccountTransactionRequest{
 		Info: &transaction,
@@ -86,21 +79,14 @@ func TestGet(t *testing.T) {
 		assert.Equal(t, resp4.Detail.FromAddress.ID, resp1.Info.ID)
 		assert.Equal(t, resp4.Detail.FromAddress.CoinTypeID, resp1.Info.CoinTypeID)
 		assert.Equal(t, resp4.Detail.FromAddress.Address, resp1.Info.Address)
-		assert.Equal(t, resp4.Detail.FromAddress.GeneratedBy, resp1.Info.GeneratedBy)
-		assert.Equal(t, resp4.Detail.FromAddress.AppID, resp1.Info.AppID)
-		assert.Equal(t, resp4.Detail.FromAddress.UserID, resp1.Info.UserID)
 
 		assert.Equal(t, resp4.Detail.ToAddress.ID, resp2.Info.ID)
 		assert.Equal(t, resp4.Detail.ToAddress.CoinTypeID, resp2.Info.CoinTypeID)
 		assert.Equal(t, resp4.Detail.ToAddress.Address, resp2.Info.Address)
-		assert.Equal(t, resp4.Detail.ToAddress.GeneratedBy, resp2.Info.GeneratedBy)
-		assert.Equal(t, resp4.Detail.ToAddress.AppID, resp2.Info.AppID)
-		assert.Equal(t, resp4.Detail.ToAddress.UserID, resp2.Info.UserID)
 
 		assert.Equal(t, resp4.Detail.Amount, resp3.Info.Amount)
 		assert.Equal(t, resp4.Detail.Message, resp3.Info.Message)
 		assert.Equal(t, resp4.Detail.ChainTransactionID, resp3.Info.ChainTransactionID)
-		assert.Equal(t, resp4.Detail.PlatformTransactionID, resp3.Info.PlatformTransactionID)
 		assert.Equal(t, resp4.Detail.State, resp3.Info.State)
 	}
 }

@@ -26,9 +26,14 @@ type config struct {
 type hooks struct {
 	CoinAccountInfo        []ent.Hook
 	CoinAccountTransaction []ent.Hook
+	CoinSetting            []ent.Hook
+	GoodBenefit            []ent.Hook
+	GoodPayment            []ent.Hook
+	GoodSetting            []ent.Hook
 	PlatformBenefit        []ent.Hook
 	PlatformSetting        []ent.Hook
 	UserBenefit            []ent.Hook
+	UserWithdraw           []ent.Hook
 }
 
 // Options applies the options on the config object.

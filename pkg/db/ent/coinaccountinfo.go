@@ -16,16 +16,10 @@ type CoinAccountInfo struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID uuid.UUID `json:"id,omitempty"`
-	// AppID holds the value of the "app_id" field.
-	AppID uuid.UUID `json:"app_id,omitempty"`
-	// UserID holds the value of the "user_id" field.
-	UserID uuid.UUID `json:"user_id,omitempty"`
 	// CoinTypeID holds the value of the "coin_type_id" field.
 	CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 	// Address holds the value of the "address" field.
 	Address string `json:"address,omitempty"`
-	// GeneratedBy holds the value of the "generated_by" field.
-	GeneratedBy coinaccountinfo.GeneratedBy `json:"generated_by,omitempty"`
 	// PlatformHoldPrivateKey holds the value of the "platform_hold_private_key" field.
 	PlatformHoldPrivateKey bool `json:"platform_hold_private_key,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
@@ -45,9 +39,9 @@ func (*CoinAccountInfo) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullBool)
 		case coinaccountinfo.FieldCreateAt, coinaccountinfo.FieldUpdateAt, coinaccountinfo.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case coinaccountinfo.FieldAddress, coinaccountinfo.FieldGeneratedBy:
+		case coinaccountinfo.FieldAddress:
 			values[i] = new(sql.NullString)
-		case coinaccountinfo.FieldID, coinaccountinfo.FieldAppID, coinaccountinfo.FieldUserID, coinaccountinfo.FieldCoinTypeID:
+		case coinaccountinfo.FieldID, coinaccountinfo.FieldCoinTypeID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CoinAccountInfo", columns[i])
@@ -70,18 +64,6 @@ func (cai *CoinAccountInfo) assignValues(columns []string, values []interface{})
 			} else if value != nil {
 				cai.ID = *value
 			}
-		case coinaccountinfo.FieldAppID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field app_id", values[i])
-			} else if value != nil {
-				cai.AppID = *value
-			}
-		case coinaccountinfo.FieldUserID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field user_id", values[i])
-			} else if value != nil {
-				cai.UserID = *value
-			}
 		case coinaccountinfo.FieldCoinTypeID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
 				return fmt.Errorf("unexpected type %T for field coin_type_id", values[i])
@@ -93,12 +75,6 @@ func (cai *CoinAccountInfo) assignValues(columns []string, values []interface{})
 				return fmt.Errorf("unexpected type %T for field address", values[i])
 			} else if value.Valid {
 				cai.Address = value.String
-			}
-		case coinaccountinfo.FieldGeneratedBy:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field generated_by", values[i])
-			} else if value.Valid {
-				cai.GeneratedBy = coinaccountinfo.GeneratedBy(value.String)
 			}
 		case coinaccountinfo.FieldPlatformHoldPrivateKey:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -152,16 +128,10 @@ func (cai *CoinAccountInfo) String() string {
 	var builder strings.Builder
 	builder.WriteString("CoinAccountInfo(")
 	builder.WriteString(fmt.Sprintf("id=%v", cai.ID))
-	builder.WriteString(", app_id=")
-	builder.WriteString(fmt.Sprintf("%v", cai.AppID))
-	builder.WriteString(", user_id=")
-	builder.WriteString(fmt.Sprintf("%v", cai.UserID))
 	builder.WriteString(", coin_type_id=")
 	builder.WriteString(fmt.Sprintf("%v", cai.CoinTypeID))
 	builder.WriteString(", address=")
 	builder.WriteString(cai.Address)
-	builder.WriteString(", generated_by=")
-	builder.WriteString(fmt.Sprintf("%v", cai.GeneratedBy))
 	builder.WriteString(", platform_hold_private_key=")
 	builder.WriteString(fmt.Sprintf("%v", cai.PlatformHoldPrivateKey))
 	builder.WriteString(", create_at=")

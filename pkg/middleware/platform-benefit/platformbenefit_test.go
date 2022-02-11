@@ -34,11 +34,8 @@ func TestGet(t *testing.T) {
 	}
 
 	account1 := npool.CoinAccountInfo{
-		CoinTypeID:  uuid.New().String(),
-		Address:     uuid.New().String(),
-		GeneratedBy: "user",
-		AppID:       uuid.New().String(),
-		UserID:      uuid.New().String(),
+		CoinTypeID: uuid.New().String(),
+		Address:    uuid.New().String(),
 	}
 
 	resp1, err := coinaccountinfo.Create(context.Background(), &npool.CreateCoinAccountRequest{
@@ -68,9 +65,6 @@ func TestGet(t *testing.T) {
 		assert.Equal(t, resp3.Detail.BenefitAddress.ID, resp1.Info.ID)
 		assert.Equal(t, resp3.Detail.BenefitAddress.CoinTypeID, resp1.Info.CoinTypeID)
 		assert.Equal(t, resp3.Detail.BenefitAddress.Address, resp1.Info.Address)
-		assert.Equal(t, resp3.Detail.BenefitAddress.GeneratedBy, resp1.Info.GeneratedBy)
-		assert.Equal(t, resp3.Detail.BenefitAddress.AppID, resp1.Info.AppID)
-		assert.Equal(t, resp3.Detail.BenefitAddress.UserID, resp1.Info.UserID)
 
 		assert.Equal(t, resp3.Detail.Amount, resp2.Info.Amount)
 		assert.Equal(t, resp3.Detail.ChainTransactionID, resp2.Info.ChainTransactionID)

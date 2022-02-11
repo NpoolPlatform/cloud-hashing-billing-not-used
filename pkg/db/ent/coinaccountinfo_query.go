@@ -254,12 +254,12 @@ func (caiq *CoinAccountInfoQuery) Clone() *CoinAccountInfoQuery {
 // Example:
 //
 //	var v []struct {
-//		AppID uuid.UUID `json:"app_id,omitempty"`
+//		CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.CoinAccountInfo.Query().
-//		GroupBy(coinaccountinfo.FieldAppID).
+//		GroupBy(coinaccountinfo.FieldCoinTypeID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (caiq *CoinAccountInfoQuery) GroupBy(field string, fields ...string) *CoinA
 // Example:
 //
 //	var v []struct {
-//		AppID uuid.UUID `json:"app_id,omitempty"`
+//		CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 //	}
 //
 //	client.CoinAccountInfo.Query().
-//		Select(coinaccountinfo.FieldAppID).
+//		Select(coinaccountinfo.FieldCoinTypeID).
 //		Scan(ctx, &v)
 //
 func (caiq *CoinAccountInfoQuery) Select(fields ...string) *CoinAccountInfoSelect {

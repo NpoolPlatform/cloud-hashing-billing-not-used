@@ -23,18 +23,6 @@ type CoinAccountInfoCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetAppID sets the "app_id" field.
-func (caic *CoinAccountInfoCreate) SetAppID(u uuid.UUID) *CoinAccountInfoCreate {
-	caic.mutation.SetAppID(u)
-	return caic
-}
-
-// SetUserID sets the "user_id" field.
-func (caic *CoinAccountInfoCreate) SetUserID(u uuid.UUID) *CoinAccountInfoCreate {
-	caic.mutation.SetUserID(u)
-	return caic
-}
-
 // SetCoinTypeID sets the "coin_type_id" field.
 func (caic *CoinAccountInfoCreate) SetCoinTypeID(u uuid.UUID) *CoinAccountInfoCreate {
 	caic.mutation.SetCoinTypeID(u)
@@ -44,12 +32,6 @@ func (caic *CoinAccountInfoCreate) SetCoinTypeID(u uuid.UUID) *CoinAccountInfoCr
 // SetAddress sets the "address" field.
 func (caic *CoinAccountInfoCreate) SetAddress(s string) *CoinAccountInfoCreate {
 	caic.mutation.SetAddress(s)
-	return caic
-}
-
-// SetGeneratedBy sets the "generated_by" field.
-func (caic *CoinAccountInfoCreate) SetGeneratedBy(cb coinaccountinfo.GeneratedBy) *CoinAccountInfoCreate {
-	caic.mutation.SetGeneratedBy(cb)
 	return caic
 }
 
@@ -206,25 +188,11 @@ func (caic *CoinAccountInfoCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (caic *CoinAccountInfoCreate) check() error {
-	if _, ok := caic.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "CoinAccountInfo.app_id"`)}
-	}
-	if _, ok := caic.mutation.UserID(); !ok {
-		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "CoinAccountInfo.user_id"`)}
-	}
 	if _, ok := caic.mutation.CoinTypeID(); !ok {
 		return &ValidationError{Name: "coin_type_id", err: errors.New(`ent: missing required field "CoinAccountInfo.coin_type_id"`)}
 	}
 	if _, ok := caic.mutation.Address(); !ok {
 		return &ValidationError{Name: "address", err: errors.New(`ent: missing required field "CoinAccountInfo.address"`)}
-	}
-	if _, ok := caic.mutation.GeneratedBy(); !ok {
-		return &ValidationError{Name: "generated_by", err: errors.New(`ent: missing required field "CoinAccountInfo.generated_by"`)}
-	}
-	if v, ok := caic.mutation.GeneratedBy(); ok {
-		if err := coinaccountinfo.GeneratedByValidator(v); err != nil {
-			return &ValidationError{Name: "generated_by", err: fmt.Errorf(`ent: validator failed for field "CoinAccountInfo.generated_by": %w`, err)}
-		}
 	}
 	if _, ok := caic.mutation.PlatformHoldPrivateKey(); !ok {
 		return &ValidationError{Name: "platform_hold_private_key", err: errors.New(`ent: missing required field "CoinAccountInfo.platform_hold_private_key"`)}
@@ -275,22 +243,6 @@ func (caic *CoinAccountInfoCreate) createSpec() (*CoinAccountInfo, *sqlgraph.Cre
 		_node.ID = id
 		_spec.ID.Value = &id
 	}
-	if value, ok := caic.mutation.AppID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccountinfo.FieldAppID,
-		})
-		_node.AppID = value
-	}
-	if value, ok := caic.mutation.UserID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccountinfo.FieldUserID,
-		})
-		_node.UserID = value
-	}
 	if value, ok := caic.mutation.CoinTypeID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -306,14 +258,6 @@ func (caic *CoinAccountInfoCreate) createSpec() (*CoinAccountInfo, *sqlgraph.Cre
 			Column: coinaccountinfo.FieldAddress,
 		})
 		_node.Address = value
-	}
-	if value, ok := caic.mutation.GeneratedBy(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeEnum,
-			Value:  value,
-			Column: coinaccountinfo.FieldGeneratedBy,
-		})
-		_node.GeneratedBy = value
 	}
 	if value, ok := caic.mutation.PlatformHoldPrivateKey(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -354,7 +298,7 @@ func (caic *CoinAccountInfoCreate) createSpec() (*CoinAccountInfo, *sqlgraph.Cre
 // of the `INSERT` statement. For example:
 //
 //	client.CoinAccountInfo.Create().
-//		SetAppID(v).
+//		SetCoinTypeID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -363,7 +307,7 @@ func (caic *CoinAccountInfoCreate) createSpec() (*CoinAccountInfo, *sqlgraph.Cre
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.CoinAccountInfoUpsert) {
-//			SetAppID(v+v).
+//			SetCoinTypeID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -401,30 +345,6 @@ type (
 	}
 )
 
-// SetAppID sets the "app_id" field.
-func (u *CoinAccountInfoUpsert) SetAppID(v uuid.UUID) *CoinAccountInfoUpsert {
-	u.Set(coinaccountinfo.FieldAppID, v)
-	return u
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsert) UpdateAppID() *CoinAccountInfoUpsert {
-	u.SetExcluded(coinaccountinfo.FieldAppID)
-	return u
-}
-
-// SetUserID sets the "user_id" field.
-func (u *CoinAccountInfoUpsert) SetUserID(v uuid.UUID) *CoinAccountInfoUpsert {
-	u.Set(coinaccountinfo.FieldUserID, v)
-	return u
-}
-
-// UpdateUserID sets the "user_id" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsert) UpdateUserID() *CoinAccountInfoUpsert {
-	u.SetExcluded(coinaccountinfo.FieldUserID)
-	return u
-}
-
 // SetCoinTypeID sets the "coin_type_id" field.
 func (u *CoinAccountInfoUpsert) SetCoinTypeID(v uuid.UUID) *CoinAccountInfoUpsert {
 	u.Set(coinaccountinfo.FieldCoinTypeID, v)
@@ -446,18 +366,6 @@ func (u *CoinAccountInfoUpsert) SetAddress(v string) *CoinAccountInfoUpsert {
 // UpdateAddress sets the "address" field to the value that was provided on create.
 func (u *CoinAccountInfoUpsert) UpdateAddress() *CoinAccountInfoUpsert {
 	u.SetExcluded(coinaccountinfo.FieldAddress)
-	return u
-}
-
-// SetGeneratedBy sets the "generated_by" field.
-func (u *CoinAccountInfoUpsert) SetGeneratedBy(v coinaccountinfo.GeneratedBy) *CoinAccountInfoUpsert {
-	u.Set(coinaccountinfo.FieldGeneratedBy, v)
-	return u
-}
-
-// UpdateGeneratedBy sets the "generated_by" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsert) UpdateGeneratedBy() *CoinAccountInfoUpsert {
-	u.SetExcluded(coinaccountinfo.FieldGeneratedBy)
 	return u
 }
 
@@ -577,34 +485,6 @@ func (u *CoinAccountInfoUpsertOne) Update(set func(*CoinAccountInfoUpsert)) *Coi
 	return u
 }
 
-// SetAppID sets the "app_id" field.
-func (u *CoinAccountInfoUpsertOne) SetAppID(v uuid.UUID) *CoinAccountInfoUpsertOne {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.SetAppID(v)
-	})
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsertOne) UpdateAppID() *CoinAccountInfoUpsertOne {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.UpdateAppID()
-	})
-}
-
-// SetUserID sets the "user_id" field.
-func (u *CoinAccountInfoUpsertOne) SetUserID(v uuid.UUID) *CoinAccountInfoUpsertOne {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.SetUserID(v)
-	})
-}
-
-// UpdateUserID sets the "user_id" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsertOne) UpdateUserID() *CoinAccountInfoUpsertOne {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.UpdateUserID()
-	})
-}
-
 // SetCoinTypeID sets the "coin_type_id" field.
 func (u *CoinAccountInfoUpsertOne) SetCoinTypeID(v uuid.UUID) *CoinAccountInfoUpsertOne {
 	return u.Update(func(s *CoinAccountInfoUpsert) {
@@ -630,20 +510,6 @@ func (u *CoinAccountInfoUpsertOne) SetAddress(v string) *CoinAccountInfoUpsertOn
 func (u *CoinAccountInfoUpsertOne) UpdateAddress() *CoinAccountInfoUpsertOne {
 	return u.Update(func(s *CoinAccountInfoUpsert) {
 		s.UpdateAddress()
-	})
-}
-
-// SetGeneratedBy sets the "generated_by" field.
-func (u *CoinAccountInfoUpsertOne) SetGeneratedBy(v coinaccountinfo.GeneratedBy) *CoinAccountInfoUpsertOne {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.SetGeneratedBy(v)
-	})
-}
-
-// UpdateGeneratedBy sets the "generated_by" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsertOne) UpdateGeneratedBy() *CoinAccountInfoUpsertOne {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.UpdateGeneratedBy()
 	})
 }
 
@@ -856,7 +722,7 @@ func (caicb *CoinAccountInfoCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.CoinAccountInfoUpsert) {
-//			SetAppID(v+v).
+//			SetCoinTypeID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -940,34 +806,6 @@ func (u *CoinAccountInfoUpsertBulk) Update(set func(*CoinAccountInfoUpsert)) *Co
 	return u
 }
 
-// SetAppID sets the "app_id" field.
-func (u *CoinAccountInfoUpsertBulk) SetAppID(v uuid.UUID) *CoinAccountInfoUpsertBulk {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.SetAppID(v)
-	})
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsertBulk) UpdateAppID() *CoinAccountInfoUpsertBulk {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.UpdateAppID()
-	})
-}
-
-// SetUserID sets the "user_id" field.
-func (u *CoinAccountInfoUpsertBulk) SetUserID(v uuid.UUID) *CoinAccountInfoUpsertBulk {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.SetUserID(v)
-	})
-}
-
-// UpdateUserID sets the "user_id" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsertBulk) UpdateUserID() *CoinAccountInfoUpsertBulk {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.UpdateUserID()
-	})
-}
-
 // SetCoinTypeID sets the "coin_type_id" field.
 func (u *CoinAccountInfoUpsertBulk) SetCoinTypeID(v uuid.UUID) *CoinAccountInfoUpsertBulk {
 	return u.Update(func(s *CoinAccountInfoUpsert) {
@@ -993,20 +831,6 @@ func (u *CoinAccountInfoUpsertBulk) SetAddress(v string) *CoinAccountInfoUpsertB
 func (u *CoinAccountInfoUpsertBulk) UpdateAddress() *CoinAccountInfoUpsertBulk {
 	return u.Update(func(s *CoinAccountInfoUpsert) {
 		s.UpdateAddress()
-	})
-}
-
-// SetGeneratedBy sets the "generated_by" field.
-func (u *CoinAccountInfoUpsertBulk) SetGeneratedBy(v coinaccountinfo.GeneratedBy) *CoinAccountInfoUpsertBulk {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.SetGeneratedBy(v)
-	})
-}
-
-// UpdateGeneratedBy sets the "generated_by" field to the value that was provided on create.
-func (u *CoinAccountInfoUpsertBulk) UpdateGeneratedBy() *CoinAccountInfoUpsertBulk {
-	return u.Update(func(s *CoinAccountInfoUpsert) {
-		s.UpdateGeneratedBy()
 	})
 }
 

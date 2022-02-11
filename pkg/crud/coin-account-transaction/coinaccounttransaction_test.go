@@ -34,7 +34,6 @@ func assertCoinAccountTransaction(t *testing.T, actual, expected *npool.CoinAcco
 	assert.Equal(t, actual.Amount, expected.Amount)
 	assert.Equal(t, actual.Message, expected.Message)
 	assert.Equal(t, actual.ChainTransactionID, expected.ChainTransactionID)
-	assert.Equal(t, actual.PlatformTransactionID, expected.PlatformTransactionID)
 	assert.Equal(t, actual.State, expected.State)
 }
 
@@ -44,15 +43,14 @@ func TestCRUD(t *testing.T) {
 	}
 
 	coinAccountTransaction := npool.CoinAccountTransaction{
-		UserID:                uuid.New().String(),
-		AppID:                 uuid.New().String(),
-		CoinTypeID:            uuid.New().String(),
-		FromAddressID:         uuid.New().String(),
-		ToAddressID:           uuid.New().String(),
-		PlatformTransactionID: uuid.New().String(),
-		Amount:                1.3,
-		Message:               "for transaction test",
-		State:                 constant.CoinTransactionStateCreated,
+		UserID:        uuid.New().String(),
+		AppID:         uuid.New().String(),
+		CoinTypeID:    uuid.New().String(),
+		FromAddressID: uuid.New().String(),
+		ToAddressID:   uuid.New().String(),
+		Amount:        1.3,
+		Message:       "for transaction test",
+		State:         constant.CoinTransactionStateCreated,
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateCoinAccountTransactionRequest{

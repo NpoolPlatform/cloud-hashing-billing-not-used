@@ -27,9 +27,6 @@ func init() {
 func assertCoinAccount(t *testing.T, actual, expected *npool.CoinAccountInfo) {
 	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
 	assert.Equal(t, actual.Address, expected.Address)
-	assert.Equal(t, actual.GeneratedBy, expected.GeneratedBy)
-	assert.Equal(t, actual.AppID, expected.AppID)
-	assert.Equal(t, actual.UserID, expected.UserID)
 }
 
 func TestCRUD(t *testing.T) {
@@ -39,10 +36,7 @@ func TestCRUD(t *testing.T) {
 
 	coinAccount := npool.CoinAccountInfo{
 		CoinTypeID:             uuid.New().String(),
-		AppID:                  uuid.New().String(),
-		UserID:                 uuid.New().String(),
 		Address:                uuid.New().String(),
-		GeneratedBy:            "user",
 		PlatformHoldPrivateKey: false,
 	}
 
@@ -60,14 +54,6 @@ func TestCRUD(t *testing.T) {
 	if assert.Nil(t, err) {
 		assert.Equal(t, resp1.Info.ID, resp.Info.ID)
 		assertCoinAccount(t, resp1.Info, &coinAccount)
-	}
-
-	resp2, err := GetCoinAccountsByAppUser(context.Background(), &npool.GetCoinAccountsByAppUserRequest{
-		AppID:  coinAccount.AppID,
-		UserID: coinAccount.UserID,
-	})
-	if assert.Nil(t, err) {
-		assert.Equal(t, len(resp2.Infos), 1)
 	}
 
 	resp3, err := Delete(context.Background(), &npool.DeleteCoinAccountRequest{

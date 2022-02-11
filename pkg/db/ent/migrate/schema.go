@@ -11,11 +11,8 @@ var (
 	// CoinAccountInfosColumns holds the columns for the "coin_account_infos" table.
 	CoinAccountInfosColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "app_id", Type: field.TypeUUID},
-		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "coin_type_id", Type: field.TypeUUID},
 		{Name: "address", Type: field.TypeString},
-		{Name: "generated_by", Type: field.TypeEnum, Enums: []string{"platform", "user"}},
 		{Name: "platform_hold_private_key", Type: field.TypeBool},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
@@ -30,7 +27,7 @@ var (
 			{
 				Name:    "coinaccountinfo_coin_type_id_address",
 				Unique:  true,
-				Columns: []*schema.Column{CoinAccountInfosColumns[3], CoinAccountInfosColumns[4]},
+				Columns: []*schema.Column{CoinAccountInfosColumns[1], CoinAccountInfosColumns[2]},
 			},
 		},
 	}
@@ -46,7 +43,6 @@ var (
 		{Name: "message", Type: field.TypeString},
 		{Name: "state", Type: field.TypeEnum, Enums: []string{"created", "wait", "paying", "successful", "rejected", "fail"}},
 		{Name: "chain_transaction_id", Type: field.TypeString},
-		{Name: "platform_transaction_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -56,6 +52,71 @@ var (
 		Name:       "coin_account_transactions",
 		Columns:    CoinAccountTransactionsColumns,
 		PrimaryKey: []*schema.Column{CoinAccountTransactionsColumns[0]},
+	}
+	// CoinSettingsColumns holds the columns for the "coin_settings" table.
+	CoinSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "coin_type_id", Type: field.TypeUUID, Unique: true},
+		{Name: "warm_account_coin_amount", Type: field.TypeUint64},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// CoinSettingsTable holds the schema information for the "coin_settings" table.
+	CoinSettingsTable = &schema.Table{
+		Name:       "coin_settings",
+		Columns:    CoinSettingsColumns,
+		PrimaryKey: []*schema.Column{CoinSettingsColumns[0]},
+	}
+	// GoodBenefitsColumns holds the columns for the "good_benefits" table.
+	GoodBenefitsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "good_id", Type: field.TypeUUID, Unique: true},
+		{Name: "benefit_account_id", Type: field.TypeUUID},
+		{Name: "platform_offline_account_id", Type: field.TypeUUID},
+		{Name: "user_online_account_id", Type: field.TypeUUID},
+		{Name: "user_offline_account_id", Type: field.TypeUUID},
+		{Name: "benefit_interval_hours", Type: field.TypeInt32},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// GoodBenefitsTable holds the schema information for the "good_benefits" table.
+	GoodBenefitsTable = &schema.Table{
+		Name:       "good_benefits",
+		Columns:    GoodBenefitsColumns,
+		PrimaryKey: []*schema.Column{GoodBenefitsColumns[0]},
+	}
+	// GoodPaymentsColumns holds the columns for the "good_payments" table.
+	GoodPaymentsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "good_id", Type: field.TypeUUID, Unique: true},
+		{Name: "payment_account_id", Type: field.TypeUUID},
+		{Name: "idle", Type: field.TypeBool},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// GoodPaymentsTable holds the schema information for the "good_payments" table.
+	GoodPaymentsTable = &schema.Table{
+		Name:       "good_payments",
+		Columns:    GoodPaymentsColumns,
+		PrimaryKey: []*schema.Column{GoodPaymentsColumns[0]},
+	}
+	// GoodSettingsColumns holds the columns for the "good_settings" table.
+	GoodSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "good_id", Type: field.TypeUUID},
+		{Name: "warm_account_usd_amount", Type: field.TypeUint64},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// GoodSettingsTable holds the schema information for the "good_settings" table.
+	GoodSettingsTable = &schema.Table{
+		Name:       "good_settings",
+		Columns:    GoodSettingsColumns,
+		PrimaryKey: []*schema.Column{GoodSettingsColumns[0]},
 	}
 	// PlatformBenefitsColumns holds the columns for the "platform_benefits" table.
 	PlatformBenefitsColumns = []*schema.Column{
@@ -85,12 +146,8 @@ var (
 	// PlatformSettingsColumns holds the columns for the "platform_settings" table.
 	PlatformSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "good_id", Type: field.TypeUUID, Unique: true},
-		{Name: "benefit_account_id", Type: field.TypeUUID},
-		{Name: "platform_offline_account_id", Type: field.TypeUUID},
-		{Name: "user_online_account_id", Type: field.TypeUUID},
-		{Name: "user_offline_account_id", Type: field.TypeUUID},
-		{Name: "benefit_interval_hours", Type: field.TypeInt32},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "warm_account_usd_amount", Type: field.TypeUint64},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -127,13 +184,41 @@ var (
 			},
 		},
 	}
+	// UserWithdrawsColumns holds the columns for the "user_withdraws" table.
+	UserWithdrawsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "account_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// UserWithdrawsTable holds the schema information for the "user_withdraws" table.
+	UserWithdrawsTable = &schema.Table{
+		Name:       "user_withdraws",
+		Columns:    UserWithdrawsColumns,
+		PrimaryKey: []*schema.Column{UserWithdrawsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userwithdraw_app_id_user_id_account_id",
+				Unique:  true,
+				Columns: []*schema.Column{UserWithdrawsColumns[1], UserWithdrawsColumns[2], UserWithdrawsColumns[3]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		CoinAccountInfosTable,
 		CoinAccountTransactionsTable,
+		CoinSettingsTable,
+		GoodBenefitsTable,
+		GoodPaymentsTable,
+		GoodSettingsTable,
 		PlatformBenefitsTable,
 		PlatformSettingsTable,
 		UserBenefitsTable,
+		UserWithdrawsTable,
 	}
 )
 

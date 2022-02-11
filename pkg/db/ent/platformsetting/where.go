@@ -91,45 +91,17 @@ func IDLTE(id uuid.UUID) predicate.PlatformSetting {
 	})
 }
 
-// GoodID applies equality check predicate on the "good_id" field. It's identical to GoodIDEQ.
-func GoodID(v uuid.UUID) predicate.PlatformSetting {
+// AppID applies equality check predicate on the "app_id" field. It's identical to AppIDEQ.
+func AppID(v uuid.UUID) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldGoodID), v))
+		s.Where(sql.EQ(s.C(FieldAppID), v))
 	})
 }
 
-// BenefitAccountID applies equality check predicate on the "benefit_account_id" field. It's identical to BenefitAccountIDEQ.
-func BenefitAccountID(v uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmount applies equality check predicate on the "warm_account_usd_amount" field. It's identical to WarmAccountUsdAmountEQ.
+func WarmAccountUsdAmount(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBenefitAccountID), v))
-	})
-}
-
-// PlatformOfflineAccountID applies equality check predicate on the "platform_offline_account_id" field. It's identical to PlatformOfflineAccountIDEQ.
-func PlatformOfflineAccountID(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPlatformOfflineAccountID), v))
-	})
-}
-
-// UserOnlineAccountID applies equality check predicate on the "user_online_account_id" field. It's identical to UserOnlineAccountIDEQ.
-func UserOnlineAccountID(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUserOnlineAccountID), v))
-	})
-}
-
-// UserOfflineAccountID applies equality check predicate on the "user_offline_account_id" field. It's identical to UserOfflineAccountIDEQ.
-func UserOfflineAccountID(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUserOfflineAccountID), v))
-	})
-}
-
-// BenefitIntervalHours applies equality check predicate on the "benefit_interval_hours" field. It's identical to BenefitIntervalHoursEQ.
-func BenefitIntervalHours(v int32) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBenefitIntervalHours), v))
+		s.Where(sql.EQ(s.C(FieldWarmAccountUsdAmount), v))
 	})
 }
 
@@ -154,22 +126,22 @@ func DeleteAt(v uint32) predicate.PlatformSetting {
 	})
 }
 
-// GoodIDEQ applies the EQ predicate on the "good_id" field.
-func GoodIDEQ(v uuid.UUID) predicate.PlatformSetting {
+// AppIDEQ applies the EQ predicate on the "app_id" field.
+func AppIDEQ(v uuid.UUID) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldGoodID), v))
+		s.Where(sql.EQ(s.C(FieldAppID), v))
 	})
 }
 
-// GoodIDNEQ applies the NEQ predicate on the "good_id" field.
-func GoodIDNEQ(v uuid.UUID) predicate.PlatformSetting {
+// AppIDNEQ applies the NEQ predicate on the "app_id" field.
+func AppIDNEQ(v uuid.UUID) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldGoodID), v))
+		s.Where(sql.NEQ(s.C(FieldAppID), v))
 	})
 }
 
-// GoodIDIn applies the In predicate on the "good_id" field.
-func GoodIDIn(vs ...uuid.UUID) predicate.PlatformSetting {
+// AppIDIn applies the In predicate on the "app_id" field.
+func AppIDIn(vs ...uuid.UUID) predicate.PlatformSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -181,12 +153,12 @@ func GoodIDIn(vs ...uuid.UUID) predicate.PlatformSetting {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldGoodID), v...))
+		s.Where(sql.In(s.C(FieldAppID), v...))
 	})
 }
 
-// GoodIDNotIn applies the NotIn predicate on the "good_id" field.
-func GoodIDNotIn(vs ...uuid.UUID) predicate.PlatformSetting {
+// AppIDNotIn applies the NotIn predicate on the "app_id" field.
+func AppIDNotIn(vs ...uuid.UUID) predicate.PlatformSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -198,54 +170,54 @@ func GoodIDNotIn(vs ...uuid.UUID) predicate.PlatformSetting {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldGoodID), v...))
+		s.Where(sql.NotIn(s.C(FieldAppID), v...))
 	})
 }
 
-// GoodIDGT applies the GT predicate on the "good_id" field.
-func GoodIDGT(v uuid.UUID) predicate.PlatformSetting {
+// AppIDGT applies the GT predicate on the "app_id" field.
+func AppIDGT(v uuid.UUID) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldGoodID), v))
+		s.Where(sql.GT(s.C(FieldAppID), v))
 	})
 }
 
-// GoodIDGTE applies the GTE predicate on the "good_id" field.
-func GoodIDGTE(v uuid.UUID) predicate.PlatformSetting {
+// AppIDGTE applies the GTE predicate on the "app_id" field.
+func AppIDGTE(v uuid.UUID) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldGoodID), v))
+		s.Where(sql.GTE(s.C(FieldAppID), v))
 	})
 }
 
-// GoodIDLT applies the LT predicate on the "good_id" field.
-func GoodIDLT(v uuid.UUID) predicate.PlatformSetting {
+// AppIDLT applies the LT predicate on the "app_id" field.
+func AppIDLT(v uuid.UUID) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldGoodID), v))
+		s.Where(sql.LT(s.C(FieldAppID), v))
 	})
 }
 
-// GoodIDLTE applies the LTE predicate on the "good_id" field.
-func GoodIDLTE(v uuid.UUID) predicate.PlatformSetting {
+// AppIDLTE applies the LTE predicate on the "app_id" field.
+func AppIDLTE(v uuid.UUID) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldGoodID), v))
+		s.Where(sql.LTE(s.C(FieldAppID), v))
 	})
 }
 
-// BenefitAccountIDEQ applies the EQ predicate on the "benefit_account_id" field.
-func BenefitAccountIDEQ(v uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmountEQ applies the EQ predicate on the "warm_account_usd_amount" field.
+func WarmAccountUsdAmountEQ(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBenefitAccountID), v))
+		s.Where(sql.EQ(s.C(FieldWarmAccountUsdAmount), v))
 	})
 }
 
-// BenefitAccountIDNEQ applies the NEQ predicate on the "benefit_account_id" field.
-func BenefitAccountIDNEQ(v uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmountNEQ applies the NEQ predicate on the "warm_account_usd_amount" field.
+func WarmAccountUsdAmountNEQ(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldBenefitAccountID), v))
+		s.Where(sql.NEQ(s.C(FieldWarmAccountUsdAmount), v))
 	})
 }
 
-// BenefitAccountIDIn applies the In predicate on the "benefit_account_id" field.
-func BenefitAccountIDIn(vs ...uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmountIn applies the In predicate on the "warm_account_usd_amount" field.
+func WarmAccountUsdAmountIn(vs ...uint64) predicate.PlatformSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -257,12 +229,12 @@ func BenefitAccountIDIn(vs ...uuid.UUID) predicate.PlatformSetting {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldBenefitAccountID), v...))
+		s.Where(sql.In(s.C(FieldWarmAccountUsdAmount), v...))
 	})
 }
 
-// BenefitAccountIDNotIn applies the NotIn predicate on the "benefit_account_id" field.
-func BenefitAccountIDNotIn(vs ...uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmountNotIn applies the NotIn predicate on the "warm_account_usd_amount" field.
+func WarmAccountUsdAmountNotIn(vs ...uint64) predicate.PlatformSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -274,339 +246,35 @@ func BenefitAccountIDNotIn(vs ...uuid.UUID) predicate.PlatformSetting {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldBenefitAccountID), v...))
+		s.Where(sql.NotIn(s.C(FieldWarmAccountUsdAmount), v...))
 	})
 }
 
-// BenefitAccountIDGT applies the GT predicate on the "benefit_account_id" field.
-func BenefitAccountIDGT(v uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmountGT applies the GT predicate on the "warm_account_usd_amount" field.
+func WarmAccountUsdAmountGT(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldBenefitAccountID), v))
+		s.Where(sql.GT(s.C(FieldWarmAccountUsdAmount), v))
 	})
 }
 
-// BenefitAccountIDGTE applies the GTE predicate on the "benefit_account_id" field.
-func BenefitAccountIDGTE(v uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmountGTE applies the GTE predicate on the "warm_account_usd_amount" field.
+func WarmAccountUsdAmountGTE(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldBenefitAccountID), v))
+		s.Where(sql.GTE(s.C(FieldWarmAccountUsdAmount), v))
 	})
 }
 
-// BenefitAccountIDLT applies the LT predicate on the "benefit_account_id" field.
-func BenefitAccountIDLT(v uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmountLT applies the LT predicate on the "warm_account_usd_amount" field.
+func WarmAccountUsdAmountLT(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldBenefitAccountID), v))
+		s.Where(sql.LT(s.C(FieldWarmAccountUsdAmount), v))
 	})
 }
 
-// BenefitAccountIDLTE applies the LTE predicate on the "benefit_account_id" field.
-func BenefitAccountIDLTE(v uuid.UUID) predicate.PlatformSetting {
+// WarmAccountUsdAmountLTE applies the LTE predicate on the "warm_account_usd_amount" field.
+func WarmAccountUsdAmountLTE(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldBenefitAccountID), v))
-	})
-}
-
-// PlatformOfflineAccountIDEQ applies the EQ predicate on the "platform_offline_account_id" field.
-func PlatformOfflineAccountIDEQ(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPlatformOfflineAccountID), v))
-	})
-}
-
-// PlatformOfflineAccountIDNEQ applies the NEQ predicate on the "platform_offline_account_id" field.
-func PlatformOfflineAccountIDNEQ(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldPlatformOfflineAccountID), v))
-	})
-}
-
-// PlatformOfflineAccountIDIn applies the In predicate on the "platform_offline_account_id" field.
-func PlatformOfflineAccountIDIn(vs ...uuid.UUID) predicate.PlatformSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldPlatformOfflineAccountID), v...))
-	})
-}
-
-// PlatformOfflineAccountIDNotIn applies the NotIn predicate on the "platform_offline_account_id" field.
-func PlatformOfflineAccountIDNotIn(vs ...uuid.UUID) predicate.PlatformSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldPlatformOfflineAccountID), v...))
-	})
-}
-
-// PlatformOfflineAccountIDGT applies the GT predicate on the "platform_offline_account_id" field.
-func PlatformOfflineAccountIDGT(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldPlatformOfflineAccountID), v))
-	})
-}
-
-// PlatformOfflineAccountIDGTE applies the GTE predicate on the "platform_offline_account_id" field.
-func PlatformOfflineAccountIDGTE(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldPlatformOfflineAccountID), v))
-	})
-}
-
-// PlatformOfflineAccountIDLT applies the LT predicate on the "platform_offline_account_id" field.
-func PlatformOfflineAccountIDLT(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldPlatformOfflineAccountID), v))
-	})
-}
-
-// PlatformOfflineAccountIDLTE applies the LTE predicate on the "platform_offline_account_id" field.
-func PlatformOfflineAccountIDLTE(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldPlatformOfflineAccountID), v))
-	})
-}
-
-// UserOnlineAccountIDEQ applies the EQ predicate on the "user_online_account_id" field.
-func UserOnlineAccountIDEQ(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUserOnlineAccountID), v))
-	})
-}
-
-// UserOnlineAccountIDNEQ applies the NEQ predicate on the "user_online_account_id" field.
-func UserOnlineAccountIDNEQ(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldUserOnlineAccountID), v))
-	})
-}
-
-// UserOnlineAccountIDIn applies the In predicate on the "user_online_account_id" field.
-func UserOnlineAccountIDIn(vs ...uuid.UUID) predicate.PlatformSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldUserOnlineAccountID), v...))
-	})
-}
-
-// UserOnlineAccountIDNotIn applies the NotIn predicate on the "user_online_account_id" field.
-func UserOnlineAccountIDNotIn(vs ...uuid.UUID) predicate.PlatformSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldUserOnlineAccountID), v...))
-	})
-}
-
-// UserOnlineAccountIDGT applies the GT predicate on the "user_online_account_id" field.
-func UserOnlineAccountIDGT(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldUserOnlineAccountID), v))
-	})
-}
-
-// UserOnlineAccountIDGTE applies the GTE predicate on the "user_online_account_id" field.
-func UserOnlineAccountIDGTE(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldUserOnlineAccountID), v))
-	})
-}
-
-// UserOnlineAccountIDLT applies the LT predicate on the "user_online_account_id" field.
-func UserOnlineAccountIDLT(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldUserOnlineAccountID), v))
-	})
-}
-
-// UserOnlineAccountIDLTE applies the LTE predicate on the "user_online_account_id" field.
-func UserOnlineAccountIDLTE(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldUserOnlineAccountID), v))
-	})
-}
-
-// UserOfflineAccountIDEQ applies the EQ predicate on the "user_offline_account_id" field.
-func UserOfflineAccountIDEQ(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUserOfflineAccountID), v))
-	})
-}
-
-// UserOfflineAccountIDNEQ applies the NEQ predicate on the "user_offline_account_id" field.
-func UserOfflineAccountIDNEQ(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldUserOfflineAccountID), v))
-	})
-}
-
-// UserOfflineAccountIDIn applies the In predicate on the "user_offline_account_id" field.
-func UserOfflineAccountIDIn(vs ...uuid.UUID) predicate.PlatformSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldUserOfflineAccountID), v...))
-	})
-}
-
-// UserOfflineAccountIDNotIn applies the NotIn predicate on the "user_offline_account_id" field.
-func UserOfflineAccountIDNotIn(vs ...uuid.UUID) predicate.PlatformSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldUserOfflineAccountID), v...))
-	})
-}
-
-// UserOfflineAccountIDGT applies the GT predicate on the "user_offline_account_id" field.
-func UserOfflineAccountIDGT(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldUserOfflineAccountID), v))
-	})
-}
-
-// UserOfflineAccountIDGTE applies the GTE predicate on the "user_offline_account_id" field.
-func UserOfflineAccountIDGTE(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldUserOfflineAccountID), v))
-	})
-}
-
-// UserOfflineAccountIDLT applies the LT predicate on the "user_offline_account_id" field.
-func UserOfflineAccountIDLT(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldUserOfflineAccountID), v))
-	})
-}
-
-// UserOfflineAccountIDLTE applies the LTE predicate on the "user_offline_account_id" field.
-func UserOfflineAccountIDLTE(v uuid.UUID) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldUserOfflineAccountID), v))
-	})
-}
-
-// BenefitIntervalHoursEQ applies the EQ predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursEQ(v int32) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBenefitIntervalHours), v))
-	})
-}
-
-// BenefitIntervalHoursNEQ applies the NEQ predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursNEQ(v int32) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldBenefitIntervalHours), v))
-	})
-}
-
-// BenefitIntervalHoursIn applies the In predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursIn(vs ...int32) predicate.PlatformSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldBenefitIntervalHours), v...))
-	})
-}
-
-// BenefitIntervalHoursNotIn applies the NotIn predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursNotIn(vs ...int32) predicate.PlatformSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldBenefitIntervalHours), v...))
-	})
-}
-
-// BenefitIntervalHoursGT applies the GT predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursGT(v int32) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldBenefitIntervalHours), v))
-	})
-}
-
-// BenefitIntervalHoursGTE applies the GTE predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursGTE(v int32) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldBenefitIntervalHours), v))
-	})
-}
-
-// BenefitIntervalHoursLT applies the LT predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursLT(v int32) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldBenefitIntervalHours), v))
-	})
-}
-
-// BenefitIntervalHoursLTE applies the LTE predicate on the "benefit_interval_hours" field.
-func BenefitIntervalHoursLTE(v int32) predicate.PlatformSetting {
-	return predicate.PlatformSetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldBenefitIntervalHours), v))
+		s.Where(sql.LTE(s.C(FieldWarmAccountUsdAmount), v))
 	})
 }
 

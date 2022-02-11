@@ -35,6 +35,58 @@ func (f CoinAccountTransactionFunc) Mutate(ctx context.Context, m ent.Mutation) 
 	return f(ctx, mv)
 }
 
+// The CoinSettingFunc type is an adapter to allow the use of ordinary
+// function as CoinSetting mutator.
+type CoinSettingFunc func(context.Context, *ent.CoinSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CoinSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.CoinSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CoinSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The GoodBenefitFunc type is an adapter to allow the use of ordinary
+// function as GoodBenefit mutator.
+type GoodBenefitFunc func(context.Context, *ent.GoodBenefitMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f GoodBenefitFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.GoodBenefitMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GoodBenefitMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The GoodPaymentFunc type is an adapter to allow the use of ordinary
+// function as GoodPayment mutator.
+type GoodPaymentFunc func(context.Context, *ent.GoodPaymentMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f GoodPaymentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.GoodPaymentMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GoodPaymentMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The GoodSettingFunc type is an adapter to allow the use of ordinary
+// function as GoodSetting mutator.
+type GoodSettingFunc func(context.Context, *ent.GoodSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f GoodSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.GoodSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GoodSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The PlatformBenefitFunc type is an adapter to allow the use of ordinary
 // function as PlatformBenefit mutator.
 type PlatformBenefitFunc func(context.Context, *ent.PlatformBenefitMutation) (ent.Value, error)
@@ -70,6 +122,19 @@ func (f UserBenefitFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	mv, ok := m.(*ent.UserBenefitMutation)
 	if !ok {
 		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserBenefitMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The UserWithdrawFunc type is an adapter to allow the use of ordinary
+// function as UserWithdraw mutator.
+type UserWithdrawFunc func(context.Context, *ent.UserWithdrawMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserWithdrawFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.UserWithdrawMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserWithdrawMutation", m)
 	}
 	return f(ctx, mv)
 }

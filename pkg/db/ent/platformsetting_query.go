@@ -254,12 +254,12 @@ func (psq *PlatformSettingQuery) Clone() *PlatformSettingQuery {
 // Example:
 //
 //	var v []struct {
-//		GoodID uuid.UUID `json:"good_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.PlatformSetting.Query().
-//		GroupBy(platformsetting.FieldGoodID).
+//		GroupBy(platformsetting.FieldAppID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (psq *PlatformSettingQuery) GroupBy(field string, fields ...string) *Platfo
 // Example:
 //
 //	var v []struct {
-//		GoodID uuid.UUID `json:"good_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //	}
 //
 //	client.PlatformSetting.Query().
-//		Select(platformsetting.FieldGoodID).
+//		Select(platformsetting.FieldAppID).
 //		Scan(ctx, &v)
 //
 func (psq *PlatformSettingQuery) Select(fields ...string) *PlatformSettingSelect {

@@ -34,26 +34,22 @@ func validateCoinAccountTransaction(info *npool.CoinAccountTransaction) error {
 	if _, err := uuid.Parse(info.ToAddressID); err != nil {
 		return xerrors.Errorf("invalid to address id: %v", err)
 	}
-	if _, err := uuid.Parse(info.PlatformTransactionID); err != nil {
-		return xerrors.Errorf("invalid platform transaction id: %v", err)
-	}
 	return nil
 }
 
 func dbRowToCoinAccountTransaction(row *ent.CoinAccountTransaction) *npool.CoinAccountTransaction {
 	return &npool.CoinAccountTransaction{
-		ID:                    row.ID.String(),
-		UserID:                row.UserID.String(),
-		AppID:                 row.AppID.String(),
-		FromAddressID:         row.FromAddressID.String(),
-		ToAddressID:           row.ToAddressID.String(),
-		CoinTypeID:            row.CoinTypeID.String(),
-		Amount:                price.DBPriceToVisualPrice(row.Amount),
-		Message:               row.Message,
-		ChainTransactionID:    row.ChainTransactionID,
-		PlatformTransactionID: row.PlatformTransactionID.String(),
-		CreateAt:              row.CreateAt,
-		State:                 string(row.State),
+		ID:                 row.ID.String(),
+		UserID:             row.UserID.String(),
+		AppID:              row.AppID.String(),
+		FromAddressID:      row.FromAddressID.String(),
+		ToAddressID:        row.ToAddressID.String(),
+		CoinTypeID:         row.CoinTypeID.String(),
+		Amount:             price.DBPriceToVisualPrice(row.Amount),
+		Message:            row.Message,
+		ChainTransactionID: row.ChainTransactionID,
+		CreateAt:           row.CreateAt,
+		State:              string(row.State),
 	}
 }
 
@@ -78,7 +74,6 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountTransactionRequest) 
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetMessage(in.GetInfo().GetMessage()).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
-		SetPlatformTransactionID(uuid.MustParse(in.GetInfo().GetPlatformTransactionID())).
 		SetState(constant.CoinTransactionStateCreated).
 		Save(ctx)
 	if err != nil {
@@ -243,7 +238,6 @@ func Update(ctx context.Context, in *npool.UpdateCoinAccountTransactionRequest) 
 		UpdateOneID(uuid.MustParse(in.GetInfo().GetID())).
 		SetState(coinaccounttransaction.State(in.GetInfo().GetState())).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
-		SetPlatformTransactionID(uuid.MustParse(in.GetInfo().GetPlatformTransactionID())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update coin account: %v", err)

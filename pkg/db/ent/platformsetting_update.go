@@ -28,46 +28,22 @@ func (psu *PlatformSettingUpdate) Where(ps ...predicate.PlatformSetting) *Platfo
 	return psu
 }
 
-// SetGoodID sets the "good_id" field.
-func (psu *PlatformSettingUpdate) SetGoodID(u uuid.UUID) *PlatformSettingUpdate {
-	psu.mutation.SetGoodID(u)
+// SetAppID sets the "app_id" field.
+func (psu *PlatformSettingUpdate) SetAppID(u uuid.UUID) *PlatformSettingUpdate {
+	psu.mutation.SetAppID(u)
 	return psu
 }
 
-// SetBenefitAccountID sets the "benefit_account_id" field.
-func (psu *PlatformSettingUpdate) SetBenefitAccountID(u uuid.UUID) *PlatformSettingUpdate {
-	psu.mutation.SetBenefitAccountID(u)
+// SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
+func (psu *PlatformSettingUpdate) SetWarmAccountUsdAmount(u uint64) *PlatformSettingUpdate {
+	psu.mutation.ResetWarmAccountUsdAmount()
+	psu.mutation.SetWarmAccountUsdAmount(u)
 	return psu
 }
 
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (psu *PlatformSettingUpdate) SetPlatformOfflineAccountID(u uuid.UUID) *PlatformSettingUpdate {
-	psu.mutation.SetPlatformOfflineAccountID(u)
-	return psu
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (psu *PlatformSettingUpdate) SetUserOnlineAccountID(u uuid.UUID) *PlatformSettingUpdate {
-	psu.mutation.SetUserOnlineAccountID(u)
-	return psu
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (psu *PlatformSettingUpdate) SetUserOfflineAccountID(u uuid.UUID) *PlatformSettingUpdate {
-	psu.mutation.SetUserOfflineAccountID(u)
-	return psu
-}
-
-// SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (psu *PlatformSettingUpdate) SetBenefitIntervalHours(i int32) *PlatformSettingUpdate {
-	psu.mutation.ResetBenefitIntervalHours()
-	psu.mutation.SetBenefitIntervalHours(i)
-	return psu
-}
-
-// AddBenefitIntervalHours adds i to the "benefit_interval_hours" field.
-func (psu *PlatformSettingUpdate) AddBenefitIntervalHours(i int32) *PlatformSettingUpdate {
-	psu.mutation.AddBenefitIntervalHours(i)
+// AddWarmAccountUsdAmount adds u to the "warm_account_usd_amount" field.
+func (psu *PlatformSettingUpdate) AddWarmAccountUsdAmount(u int64) *PlatformSettingUpdate {
+	psu.mutation.AddWarmAccountUsdAmount(u)
 	return psu
 }
 
@@ -212,53 +188,25 @@ func (psu *PlatformSettingUpdate) sqlSave(ctx context.Context) (n int, err error
 			}
 		}
 	}
-	if value, ok := psu.mutation.GoodID(); ok {
+	if value, ok := psu.mutation.AppID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
-			Column: platformsetting.FieldGoodID,
+			Column: platformsetting.FieldAppID,
 		})
 	}
-	if value, ok := psu.mutation.BenefitAccountID(); ok {
+	if value, ok := psu.mutation.WarmAccountUsdAmount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
+			Type:   field.TypeUint64,
 			Value:  value,
-			Column: platformsetting.FieldBenefitAccountID,
+			Column: platformsetting.FieldWarmAccountUsdAmount,
 		})
 	}
-	if value, ok := psu.mutation.PlatformOfflineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldPlatformOfflineAccountID,
-		})
-	}
-	if value, ok := psu.mutation.UserOnlineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldUserOnlineAccountID,
-		})
-	}
-	if value, ok := psu.mutation.UserOfflineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldUserOfflineAccountID,
-		})
-	}
-	if value, ok := psu.mutation.BenefitIntervalHours(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
-			Value:  value,
-			Column: platformsetting.FieldBenefitIntervalHours,
-		})
-	}
-	if value, ok := psu.mutation.AddedBenefitIntervalHours(); ok {
+	if value, ok := psu.mutation.AddedWarmAccountUsdAmount(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeUint64,
 			Value:  value,
-			Column: platformsetting.FieldBenefitIntervalHours,
+			Column: platformsetting.FieldWarmAccountUsdAmount,
 		})
 	}
 	if value, ok := psu.mutation.CreateAt(); ok {
@@ -322,46 +270,22 @@ type PlatformSettingUpdateOne struct {
 	mutation *PlatformSettingMutation
 }
 
-// SetGoodID sets the "good_id" field.
-func (psuo *PlatformSettingUpdateOne) SetGoodID(u uuid.UUID) *PlatformSettingUpdateOne {
-	psuo.mutation.SetGoodID(u)
+// SetAppID sets the "app_id" field.
+func (psuo *PlatformSettingUpdateOne) SetAppID(u uuid.UUID) *PlatformSettingUpdateOne {
+	psuo.mutation.SetAppID(u)
 	return psuo
 }
 
-// SetBenefitAccountID sets the "benefit_account_id" field.
-func (psuo *PlatformSettingUpdateOne) SetBenefitAccountID(u uuid.UUID) *PlatformSettingUpdateOne {
-	psuo.mutation.SetBenefitAccountID(u)
+// SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
+func (psuo *PlatformSettingUpdateOne) SetWarmAccountUsdAmount(u uint64) *PlatformSettingUpdateOne {
+	psuo.mutation.ResetWarmAccountUsdAmount()
+	psuo.mutation.SetWarmAccountUsdAmount(u)
 	return psuo
 }
 
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (psuo *PlatformSettingUpdateOne) SetPlatformOfflineAccountID(u uuid.UUID) *PlatformSettingUpdateOne {
-	psuo.mutation.SetPlatformOfflineAccountID(u)
-	return psuo
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (psuo *PlatformSettingUpdateOne) SetUserOnlineAccountID(u uuid.UUID) *PlatformSettingUpdateOne {
-	psuo.mutation.SetUserOnlineAccountID(u)
-	return psuo
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (psuo *PlatformSettingUpdateOne) SetUserOfflineAccountID(u uuid.UUID) *PlatformSettingUpdateOne {
-	psuo.mutation.SetUserOfflineAccountID(u)
-	return psuo
-}
-
-// SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (psuo *PlatformSettingUpdateOne) SetBenefitIntervalHours(i int32) *PlatformSettingUpdateOne {
-	psuo.mutation.ResetBenefitIntervalHours()
-	psuo.mutation.SetBenefitIntervalHours(i)
-	return psuo
-}
-
-// AddBenefitIntervalHours adds i to the "benefit_interval_hours" field.
-func (psuo *PlatformSettingUpdateOne) AddBenefitIntervalHours(i int32) *PlatformSettingUpdateOne {
-	psuo.mutation.AddBenefitIntervalHours(i)
+// AddWarmAccountUsdAmount adds u to the "warm_account_usd_amount" field.
+func (psuo *PlatformSettingUpdateOne) AddWarmAccountUsdAmount(u int64) *PlatformSettingUpdateOne {
+	psuo.mutation.AddWarmAccountUsdAmount(u)
 	return psuo
 }
 
@@ -530,53 +454,25 @@ func (psuo *PlatformSettingUpdateOne) sqlSave(ctx context.Context) (_node *Platf
 			}
 		}
 	}
-	if value, ok := psuo.mutation.GoodID(); ok {
+	if value, ok := psuo.mutation.AppID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
-			Column: platformsetting.FieldGoodID,
+			Column: platformsetting.FieldAppID,
 		})
 	}
-	if value, ok := psuo.mutation.BenefitAccountID(); ok {
+	if value, ok := psuo.mutation.WarmAccountUsdAmount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
+			Type:   field.TypeUint64,
 			Value:  value,
-			Column: platformsetting.FieldBenefitAccountID,
+			Column: platformsetting.FieldWarmAccountUsdAmount,
 		})
 	}
-	if value, ok := psuo.mutation.PlatformOfflineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldPlatformOfflineAccountID,
-		})
-	}
-	if value, ok := psuo.mutation.UserOnlineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldUserOnlineAccountID,
-		})
-	}
-	if value, ok := psuo.mutation.UserOfflineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldUserOfflineAccountID,
-		})
-	}
-	if value, ok := psuo.mutation.BenefitIntervalHours(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
-			Value:  value,
-			Column: platformsetting.FieldBenefitIntervalHours,
-		})
-	}
-	if value, ok := psuo.mutation.AddedBenefitIntervalHours(); ok {
+	if value, ok := psuo.mutation.AddedWarmAccountUsdAmount(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeUint64,
 			Value:  value,
-			Column: platformsetting.FieldBenefitIntervalHours,
+			Column: platformsetting.FieldWarmAccountUsdAmount,
 		})
 	}
 	if value, ok := psuo.mutation.CreateAt(); ok {

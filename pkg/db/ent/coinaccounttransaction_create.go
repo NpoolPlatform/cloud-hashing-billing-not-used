@@ -77,12 +77,6 @@ func (catc *CoinAccountTransactionCreate) SetChainTransactionID(s string) *CoinA
 	return catc
 }
 
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (catc *CoinAccountTransactionCreate) SetPlatformTransactionID(u uuid.UUID) *CoinAccountTransactionCreate {
-	catc.mutation.SetPlatformTransactionID(u)
-	return catc
-}
-
 // SetCreateAt sets the "create_at" field.
 func (catc *CoinAccountTransactionCreate) SetCreateAt(u uint32) *CoinAccountTransactionCreate {
 	catc.mutation.SetCreateAt(u)
@@ -262,9 +256,6 @@ func (catc *CoinAccountTransactionCreate) check() error {
 	if _, ok := catc.mutation.ChainTransactionID(); !ok {
 		return &ValidationError{Name: "chain_transaction_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.chain_transaction_id"`)}
 	}
-	if _, ok := catc.mutation.PlatformTransactionID(); !ok {
-		return &ValidationError{Name: "platform_transaction_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.platform_transaction_id"`)}
-	}
 	if _, ok := catc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CoinAccountTransaction.create_at"`)}
 	}
@@ -382,14 +373,6 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 			Column: coinaccounttransaction.FieldChainTransactionID,
 		})
 		_node.ChainTransactionID = value
-	}
-	if value, ok := catc.mutation.PlatformTransactionID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccounttransaction.FieldPlatformTransactionID,
-		})
-		_node.PlatformTransactionID = value
 	}
 	if value, ok := catc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -580,18 +563,6 @@ func (u *CoinAccountTransactionUpsert) SetChainTransactionID(v string) *CoinAcco
 // UpdateChainTransactionID sets the "chain_transaction_id" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsert) UpdateChainTransactionID() *CoinAccountTransactionUpsert {
 	u.SetExcluded(coinaccounttransaction.FieldChainTransactionID)
-	return u
-}
-
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (u *CoinAccountTransactionUpsert) SetPlatformTransactionID(v uuid.UUID) *CoinAccountTransactionUpsert {
-	u.Set(coinaccounttransaction.FieldPlatformTransactionID, v)
-	return u
-}
-
-// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
-func (u *CoinAccountTransactionUpsert) UpdatePlatformTransactionID() *CoinAccountTransactionUpsert {
-	u.SetExcluded(coinaccounttransaction.FieldPlatformTransactionID)
 	return u
 }
 
@@ -829,20 +800,6 @@ func (u *CoinAccountTransactionUpsertOne) SetChainTransactionID(v string) *CoinA
 func (u *CoinAccountTransactionUpsertOne) UpdateChainTransactionID() *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateChainTransactionID()
-	})
-}
-
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (u *CoinAccountTransactionUpsertOne) SetPlatformTransactionID(v uuid.UUID) *CoinAccountTransactionUpsertOne {
-	return u.Update(func(s *CoinAccountTransactionUpsert) {
-		s.SetPlatformTransactionID(v)
-	})
-}
-
-// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
-func (u *CoinAccountTransactionUpsertOne) UpdatePlatformTransactionID() *CoinAccountTransactionUpsertOne {
-	return u.Update(func(s *CoinAccountTransactionUpsert) {
-		s.UpdatePlatformTransactionID()
 	})
 }
 
@@ -1255,20 +1212,6 @@ func (u *CoinAccountTransactionUpsertBulk) SetChainTransactionID(v string) *Coin
 func (u *CoinAccountTransactionUpsertBulk) UpdateChainTransactionID() *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateChainTransactionID()
-	})
-}
-
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (u *CoinAccountTransactionUpsertBulk) SetPlatformTransactionID(v uuid.UUID) *CoinAccountTransactionUpsertBulk {
-	return u.Update(func(s *CoinAccountTransactionUpsert) {
-		s.SetPlatformTransactionID(v)
-	})
-}
-
-// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
-func (u *CoinAccountTransactionUpsertBulk) UpdatePlatformTransactionID() *CoinAccountTransactionUpsertBulk {
-	return u.Update(func(s *CoinAccountTransactionUpsert) {
-		s.UpdatePlatformTransactionID()
 	})
 }
 

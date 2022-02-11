@@ -16,9 +16,7 @@ import (
 func assertCoinAccount(t *testing.T, actual, expected *npool.CoinAccountInfo) {
 	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
 	assert.Equal(t, actual.Address, expected.Address)
-	assert.Equal(t, actual.GeneratedBy, expected.GeneratedBy)
-	assert.Equal(t, actual.AppID, expected.AppID)
-	assert.Equal(t, actual.UserID, expected.UserID)
+	assert.Equal(t, actual.PlatformHoldPrivateKey, expected.PlatformHoldPrivateKey)
 }
 
 func TestCoinAccountInfoCRUD(t *testing.T) { //nolint
@@ -27,11 +25,8 @@ func TestCoinAccountInfoCRUD(t *testing.T) { //nolint
 	}
 
 	coinAccount := npool.CoinAccountInfo{
-		CoinTypeID:  uuid.New().String(),
-		AppID:       uuid.New().String(),
-		UserID:      uuid.New().String(),
-		Address:     uuid.New().String(),
-		GeneratedBy: "user",
+		CoinTypeID: uuid.New().String(),
+		Address:    uuid.New().String(),
 	}
 	firstCreateInfo := npool.CreateCoinAccountResponse{}
 
@@ -65,22 +60,6 @@ func TestCoinAccountInfoCRUD(t *testing.T) { //nolint
 		if assert.Nil(t, err) {
 			assert.Equal(t, info.Info.ID, firstCreateInfo.Info.ID)
 			assertCoinAccount(t, info.Info, &coinAccount)
-		}
-	}
-
-	resp, err = cli.R().
-		SetHeader("Content-Type", "application/json").
-		SetBody(npool.GetCoinAccountsByAppUserRequest{
-			AppID:  firstCreateInfo.Info.AppID,
-			UserID: firstCreateInfo.Info.UserID,
-		}).
-		Post("http://localhost:50030/v1/get/coin/accounts/by/app/user")
-	if assert.Nil(t, err) {
-		assert.Equal(t, 200, resp.StatusCode())
-		info := npool.GetCoinAccountsByAppUserResponse{}
-		err := json.Unmarshal(resp.Body(), &info)
-		if assert.Nil(t, err) {
-			assert.Equal(t, len(info.Infos), 1)
 		}
 	}
 

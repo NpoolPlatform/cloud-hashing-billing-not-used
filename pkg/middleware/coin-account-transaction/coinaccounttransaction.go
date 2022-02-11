@@ -35,18 +35,17 @@ func Get(ctx context.Context, in *npool.GetCoinAccountTransactionDetailRequest) 
 
 	return &npool.GetCoinAccountTransactionDetailResponse{
 		Detail: &npool.CoinAccountTransactionDetail{
-			ID:                    transaction.Info.ID,
-			UserID:                transaction.Info.UserID,
-			AppID:                 transaction.Info.AppID,
-			FromAddress:           fromAccount.Info,
-			ToAddress:             toAccount.Info,
-			CoinTypeID:            transaction.Info.CoinTypeID,
-			Amount:                transaction.Info.Amount,
-			Message:               transaction.Info.Message,
-			ChainTransactionID:    transaction.Info.ChainTransactionID,
-			PlatformTransactionID: transaction.Info.PlatformTransactionID,
-			CreateAt:              transaction.Info.CreateAt,
-			State:                 transaction.Info.State,
+			ID:                 transaction.Info.ID,
+			AppID:              transaction.Info.AppID,
+			UserID:             transaction.Info.UserID,
+			FromAddress:        fromAccount.Info,
+			ToAddress:          toAccount.Info,
+			CoinTypeID:         transaction.Info.CoinTypeID,
+			Amount:             transaction.Info.Amount,
+			Message:            transaction.Info.Message,
+			ChainTransactionID: transaction.Info.ChainTransactionID,
+			CreateAt:           transaction.Info.CreateAt,
+			State:              transaction.Info.State,
 		},
 	}, nil
 }

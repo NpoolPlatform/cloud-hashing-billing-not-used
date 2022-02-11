@@ -16,18 +16,10 @@ type PlatformSetting struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID uuid.UUID `json:"id,omitempty"`
-	// GoodID holds the value of the "good_id" field.
-	GoodID uuid.UUID `json:"good_id,omitempty"`
-	// BenefitAccountID holds the value of the "benefit_account_id" field.
-	BenefitAccountID uuid.UUID `json:"benefit_account_id,omitempty"`
-	// PlatformOfflineAccountID holds the value of the "platform_offline_account_id" field.
-	PlatformOfflineAccountID uuid.UUID `json:"platform_offline_account_id,omitempty"`
-	// UserOnlineAccountID holds the value of the "user_online_account_id" field.
-	UserOnlineAccountID uuid.UUID `json:"user_online_account_id,omitempty"`
-	// UserOfflineAccountID holds the value of the "user_offline_account_id" field.
-	UserOfflineAccountID uuid.UUID `json:"user_offline_account_id,omitempty"`
-	// BenefitIntervalHours holds the value of the "benefit_interval_hours" field.
-	BenefitIntervalHours int32 `json:"benefit_interval_hours,omitempty"`
+	// AppID holds the value of the "app_id" field.
+	AppID uuid.UUID `json:"app_id,omitempty"`
+	// WarmAccountUsdAmount holds the value of the "warm_account_usd_amount" field.
+	WarmAccountUsdAmount uint64 `json:"warm_account_usd_amount,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -41,9 +33,9 @@ func (*PlatformSetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case platformsetting.FieldBenefitIntervalHours, platformsetting.FieldCreateAt, platformsetting.FieldUpdateAt, platformsetting.FieldDeleteAt:
+		case platformsetting.FieldWarmAccountUsdAmount, platformsetting.FieldCreateAt, platformsetting.FieldUpdateAt, platformsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case platformsetting.FieldID, platformsetting.FieldGoodID, platformsetting.FieldBenefitAccountID, platformsetting.FieldPlatformOfflineAccountID, platformsetting.FieldUserOnlineAccountID, platformsetting.FieldUserOfflineAccountID:
+		case platformsetting.FieldID, platformsetting.FieldAppID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type PlatformSetting", columns[i])
@@ -66,41 +58,17 @@ func (ps *PlatformSetting) assignValues(columns []string, values []interface{}) 
 			} else if value != nil {
 				ps.ID = *value
 			}
-		case platformsetting.FieldGoodID:
+		case platformsetting.FieldAppID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field good_id", values[i])
+				return fmt.Errorf("unexpected type %T for field app_id", values[i])
 			} else if value != nil {
-				ps.GoodID = *value
+				ps.AppID = *value
 			}
-		case platformsetting.FieldBenefitAccountID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field benefit_account_id", values[i])
-			} else if value != nil {
-				ps.BenefitAccountID = *value
-			}
-		case platformsetting.FieldPlatformOfflineAccountID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field platform_offline_account_id", values[i])
-			} else if value != nil {
-				ps.PlatformOfflineAccountID = *value
-			}
-		case platformsetting.FieldUserOnlineAccountID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field user_online_account_id", values[i])
-			} else if value != nil {
-				ps.UserOnlineAccountID = *value
-			}
-		case platformsetting.FieldUserOfflineAccountID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field user_offline_account_id", values[i])
-			} else if value != nil {
-				ps.UserOfflineAccountID = *value
-			}
-		case platformsetting.FieldBenefitIntervalHours:
+		case platformsetting.FieldWarmAccountUsdAmount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field benefit_interval_hours", values[i])
+				return fmt.Errorf("unexpected type %T for field warm_account_usd_amount", values[i])
 			} else if value.Valid {
-				ps.BenefitIntervalHours = int32(value.Int64)
+				ps.WarmAccountUsdAmount = uint64(value.Int64)
 			}
 		case platformsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -148,18 +116,10 @@ func (ps *PlatformSetting) String() string {
 	var builder strings.Builder
 	builder.WriteString("PlatformSetting(")
 	builder.WriteString(fmt.Sprintf("id=%v", ps.ID))
-	builder.WriteString(", good_id=")
-	builder.WriteString(fmt.Sprintf("%v", ps.GoodID))
-	builder.WriteString(", benefit_account_id=")
-	builder.WriteString(fmt.Sprintf("%v", ps.BenefitAccountID))
-	builder.WriteString(", platform_offline_account_id=")
-	builder.WriteString(fmt.Sprintf("%v", ps.PlatformOfflineAccountID))
-	builder.WriteString(", user_online_account_id=")
-	builder.WriteString(fmt.Sprintf("%v", ps.UserOnlineAccountID))
-	builder.WriteString(", user_offline_account_id=")
-	builder.WriteString(fmt.Sprintf("%v", ps.UserOfflineAccountID))
-	builder.WriteString(", benefit_interval_hours=")
-	builder.WriteString(fmt.Sprintf("%v", ps.BenefitIntervalHours))
+	builder.WriteString(", app_id=")
+	builder.WriteString(fmt.Sprintf("%v", ps.AppID))
+	builder.WriteString(", warm_account_usd_amount=")
+	builder.WriteString(fmt.Sprintf("%v", ps.WarmAccountUsdAmount))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", ps.CreateAt))
 	builder.WriteString(", update_at=")

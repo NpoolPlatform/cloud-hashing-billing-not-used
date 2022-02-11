@@ -21,12 +21,8 @@ func (CoinAccountInfo) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).
 			Default(uuid.New).
 			Unique(),
-		field.UUID("app_id", uuid.UUID{}),
-		field.UUID("user_id", uuid.UUID{}),
 		field.UUID("coin_type_id", uuid.UUID{}),
 		field.String("address"),
-		field.Enum("generated_by").
-			Values("platform", "user"),
 		field.Bool("platform_hold_private_key"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {

@@ -11,18 +11,10 @@ const (
 	Label = "platform_setting"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldGoodID holds the string denoting the good_id field in the database.
-	FieldGoodID = "good_id"
-	// FieldBenefitAccountID holds the string denoting the benefit_account_id field in the database.
-	FieldBenefitAccountID = "benefit_account_id"
-	// FieldPlatformOfflineAccountID holds the string denoting the platform_offline_account_id field in the database.
-	FieldPlatformOfflineAccountID = "platform_offline_account_id"
-	// FieldUserOnlineAccountID holds the string denoting the user_online_account_id field in the database.
-	FieldUserOnlineAccountID = "user_online_account_id"
-	// FieldUserOfflineAccountID holds the string denoting the user_offline_account_id field in the database.
-	FieldUserOfflineAccountID = "user_offline_account_id"
-	// FieldBenefitIntervalHours holds the string denoting the benefit_interval_hours field in the database.
-	FieldBenefitIntervalHours = "benefit_interval_hours"
+	// FieldAppID holds the string denoting the app_id field in the database.
+	FieldAppID = "app_id"
+	// FieldWarmAccountUsdAmount holds the string denoting the warm_account_usd_amount field in the database.
+	FieldWarmAccountUsdAmount = "warm_account_usd_amount"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -36,12 +28,8 @@ const (
 // Columns holds all SQL columns for platformsetting fields.
 var Columns = []string{
 	FieldID,
-	FieldGoodID,
-	FieldBenefitAccountID,
-	FieldPlatformOfflineAccountID,
-	FieldUserOnlineAccountID,
-	FieldUserOfflineAccountID,
-	FieldBenefitIntervalHours,
+	FieldAppID,
+	FieldWarmAccountUsdAmount,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

@@ -3,8 +3,6 @@
 package coinaccountinfo
 
 import (
-	"fmt"
-
 	"github.com/google/uuid"
 )
 
@@ -13,16 +11,10 @@ const (
 	Label = "coin_account_info"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldAppID holds the string denoting the app_id field in the database.
-	FieldAppID = "app_id"
-	// FieldUserID holds the string denoting the user_id field in the database.
-	FieldUserID = "user_id"
 	// FieldCoinTypeID holds the string denoting the coin_type_id field in the database.
 	FieldCoinTypeID = "coin_type_id"
 	// FieldAddress holds the string denoting the address field in the database.
 	FieldAddress = "address"
-	// FieldGeneratedBy holds the string denoting the generated_by field in the database.
-	FieldGeneratedBy = "generated_by"
 	// FieldPlatformHoldPrivateKey holds the string denoting the platform_hold_private_key field in the database.
 	FieldPlatformHoldPrivateKey = "platform_hold_private_key"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
@@ -38,11 +30,8 @@ const (
 // Columns holds all SQL columns for coinaccountinfo fields.
 var Columns = []string{
 	FieldID,
-	FieldAppID,
-	FieldUserID,
 	FieldCoinTypeID,
 	FieldAddress,
-	FieldGeneratedBy,
 	FieldPlatformHoldPrivateKey,
 	FieldCreateAt,
 	FieldUpdateAt,
@@ -71,26 +60,3 @@ var (
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() uuid.UUID
 )
-
-// GeneratedBy defines the type for the "generated_by" enum field.
-type GeneratedBy string
-
-// GeneratedBy values.
-const (
-	GeneratedByPlatform GeneratedBy = "platform"
-	GeneratedByUser     GeneratedBy = "user"
-)
-
-func (gb GeneratedBy) String() string {
-	return string(gb)
-}
-
-// GeneratedByValidator is a validator for the "generated_by" field enum values. It is called by the builders before save.
-func GeneratedByValidator(gb GeneratedBy) error {
-	switch gb {
-	case GeneratedByPlatform, GeneratedByUser:
-		return nil
-	default:
-		return fmt.Errorf("coinaccountinfo: invalid enum value for generated_by field: %q", gb)
-	}
-}

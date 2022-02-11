@@ -25,12 +25,8 @@ func init() {
 }
 
 func assertPlatformSetting(t *testing.T, actual, expected *npool.PlatformSetting) {
-	assert.Equal(t, actual.GoodID, expected.GoodID)
-	assert.Equal(t, actual.BenefitAccountID, expected.BenefitAccountID)
-	assert.Equal(t, actual.PlatformOfflineAccountID, expected.PlatformOfflineAccountID)
-	assert.Equal(t, actual.UserOnlineAccountID, expected.UserOnlineAccountID)
-	assert.Equal(t, actual.UserOfflineAccountID, expected.UserOfflineAccountID)
-	assert.Equal(t, actual.BenefitIntervalHours, expected.BenefitIntervalHours)
+	assert.Equal(t, actual.AppID, expected.AppID)
+	assert.Equal(t, actual.WarmAccountUSDAmount, expected.WarmAccountUSDAmount)
 }
 
 func TestCRUD(t *testing.T) {
@@ -39,12 +35,8 @@ func TestCRUD(t *testing.T) {
 	}
 
 	platformSetting := npool.PlatformSetting{
-		GoodID:                   uuid.New().String(),
-		BenefitAccountID:         uuid.New().String(),
-		PlatformOfflineAccountID: uuid.New().String(),
-		UserOnlineAccountID:      uuid.New().String(),
-		UserOfflineAccountID:     uuid.New().String(),
-		BenefitIntervalHours:     24,
+		AppID:                uuid.New().String(),
+		WarmAccountUSDAmount: 100,
 	}
 
 	resp, err := Create(context.Background(), &npool.CreatePlatformSettingRequest{
@@ -65,8 +57,8 @@ func TestCRUD(t *testing.T) {
 		assertPlatformSetting(t, resp1.Info, &platformSetting)
 	}
 
-	resp2, err := GetByGood(context.Background(), &npool.GetPlatformSettingByGoodRequest{
-		GoodID: platformSetting.GoodID,
+	resp2, err := GetByApp(context.Background(), &npool.GetPlatformSettingByAppRequest{
+		AppID: platformSetting.AppID,
 	})
 	if assert.Nil(t, err) {
 		assert.Equal(t, resp2.Info.ID, resp.Info.ID)

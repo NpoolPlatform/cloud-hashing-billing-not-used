@@ -23,39 +23,15 @@ type PlatformSettingCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetGoodID sets the "good_id" field.
-func (psc *PlatformSettingCreate) SetGoodID(u uuid.UUID) *PlatformSettingCreate {
-	psc.mutation.SetGoodID(u)
+// SetAppID sets the "app_id" field.
+func (psc *PlatformSettingCreate) SetAppID(u uuid.UUID) *PlatformSettingCreate {
+	psc.mutation.SetAppID(u)
 	return psc
 }
 
-// SetBenefitAccountID sets the "benefit_account_id" field.
-func (psc *PlatformSettingCreate) SetBenefitAccountID(u uuid.UUID) *PlatformSettingCreate {
-	psc.mutation.SetBenefitAccountID(u)
-	return psc
-}
-
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (psc *PlatformSettingCreate) SetPlatformOfflineAccountID(u uuid.UUID) *PlatformSettingCreate {
-	psc.mutation.SetPlatformOfflineAccountID(u)
-	return psc
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (psc *PlatformSettingCreate) SetUserOnlineAccountID(u uuid.UUID) *PlatformSettingCreate {
-	psc.mutation.SetUserOnlineAccountID(u)
-	return psc
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (psc *PlatformSettingCreate) SetUserOfflineAccountID(u uuid.UUID) *PlatformSettingCreate {
-	psc.mutation.SetUserOfflineAccountID(u)
-	return psc
-}
-
-// SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (psc *PlatformSettingCreate) SetBenefitIntervalHours(i int32) *PlatformSettingCreate {
-	psc.mutation.SetBenefitIntervalHours(i)
+// SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
+func (psc *PlatformSettingCreate) SetWarmAccountUsdAmount(u uint64) *PlatformSettingCreate {
+	psc.mutation.SetWarmAccountUsdAmount(u)
 	return psc
 }
 
@@ -206,23 +182,11 @@ func (psc *PlatformSettingCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (psc *PlatformSettingCreate) check() error {
-	if _, ok := psc.mutation.GoodID(); !ok {
-		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "PlatformSetting.good_id"`)}
+	if _, ok := psc.mutation.AppID(); !ok {
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "PlatformSetting.app_id"`)}
 	}
-	if _, ok := psc.mutation.BenefitAccountID(); !ok {
-		return &ValidationError{Name: "benefit_account_id", err: errors.New(`ent: missing required field "PlatformSetting.benefit_account_id"`)}
-	}
-	if _, ok := psc.mutation.PlatformOfflineAccountID(); !ok {
-		return &ValidationError{Name: "platform_offline_account_id", err: errors.New(`ent: missing required field "PlatformSetting.platform_offline_account_id"`)}
-	}
-	if _, ok := psc.mutation.UserOnlineAccountID(); !ok {
-		return &ValidationError{Name: "user_online_account_id", err: errors.New(`ent: missing required field "PlatformSetting.user_online_account_id"`)}
-	}
-	if _, ok := psc.mutation.UserOfflineAccountID(); !ok {
-		return &ValidationError{Name: "user_offline_account_id", err: errors.New(`ent: missing required field "PlatformSetting.user_offline_account_id"`)}
-	}
-	if _, ok := psc.mutation.BenefitIntervalHours(); !ok {
-		return &ValidationError{Name: "benefit_interval_hours", err: errors.New(`ent: missing required field "PlatformSetting.benefit_interval_hours"`)}
+	if _, ok := psc.mutation.WarmAccountUsdAmount(); !ok {
+		return &ValidationError{Name: "warm_account_usd_amount", err: errors.New(`ent: missing required field "PlatformSetting.warm_account_usd_amount"`)}
 	}
 	if _, ok := psc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "PlatformSetting.create_at"`)}
@@ -270,53 +234,21 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 		_node.ID = id
 		_spec.ID.Value = &id
 	}
-	if value, ok := psc.mutation.GoodID(); ok {
+	if value, ok := psc.mutation.AppID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
-			Column: platformsetting.FieldGoodID,
+			Column: platformsetting.FieldAppID,
 		})
-		_node.GoodID = value
+		_node.AppID = value
 	}
-	if value, ok := psc.mutation.BenefitAccountID(); ok {
+	if value, ok := psc.mutation.WarmAccountUsdAmount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
+			Type:   field.TypeUint64,
 			Value:  value,
-			Column: platformsetting.FieldBenefitAccountID,
+			Column: platformsetting.FieldWarmAccountUsdAmount,
 		})
-		_node.BenefitAccountID = value
-	}
-	if value, ok := psc.mutation.PlatformOfflineAccountID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldPlatformOfflineAccountID,
-		})
-		_node.PlatformOfflineAccountID = value
-	}
-	if value, ok := psc.mutation.UserOnlineAccountID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldUserOnlineAccountID,
-		})
-		_node.UserOnlineAccountID = value
-	}
-	if value, ok := psc.mutation.UserOfflineAccountID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformsetting.FieldUserOfflineAccountID,
-		})
-		_node.UserOfflineAccountID = value
-	}
-	if value, ok := psc.mutation.BenefitIntervalHours(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
-			Value:  value,
-			Column: platformsetting.FieldBenefitIntervalHours,
-		})
-		_node.BenefitIntervalHours = value
+		_node.WarmAccountUsdAmount = value
 	}
 	if value, ok := psc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -349,7 +281,7 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 // of the `INSERT` statement. For example:
 //
 //	client.PlatformSetting.Create().
-//		SetGoodID(v).
+//		SetAppID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -358,7 +290,7 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.PlatformSettingUpsert) {
-//			SetGoodID(v+v).
+//			SetAppID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -396,81 +328,33 @@ type (
 	}
 )
 
-// SetGoodID sets the "good_id" field.
-func (u *PlatformSettingUpsert) SetGoodID(v uuid.UUID) *PlatformSettingUpsert {
-	u.Set(platformsetting.FieldGoodID, v)
+// SetAppID sets the "app_id" field.
+func (u *PlatformSettingUpsert) SetAppID(v uuid.UUID) *PlatformSettingUpsert {
+	u.Set(platformsetting.FieldAppID, v)
 	return u
 }
 
-// UpdateGoodID sets the "good_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsert) UpdateGoodID() *PlatformSettingUpsert {
-	u.SetExcluded(platformsetting.FieldGoodID)
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *PlatformSettingUpsert) UpdateAppID() *PlatformSettingUpsert {
+	u.SetExcluded(platformsetting.FieldAppID)
 	return u
 }
 
-// SetBenefitAccountID sets the "benefit_account_id" field.
-func (u *PlatformSettingUpsert) SetBenefitAccountID(v uuid.UUID) *PlatformSettingUpsert {
-	u.Set(platformsetting.FieldBenefitAccountID, v)
+// SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
+func (u *PlatformSettingUpsert) SetWarmAccountUsdAmount(v uint64) *PlatformSettingUpsert {
+	u.Set(platformsetting.FieldWarmAccountUsdAmount, v)
 	return u
 }
 
-// UpdateBenefitAccountID sets the "benefit_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsert) UpdateBenefitAccountID() *PlatformSettingUpsert {
-	u.SetExcluded(platformsetting.FieldBenefitAccountID)
+// UpdateWarmAccountUsdAmount sets the "warm_account_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsert) UpdateWarmAccountUsdAmount() *PlatformSettingUpsert {
+	u.SetExcluded(platformsetting.FieldWarmAccountUsdAmount)
 	return u
 }
 
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (u *PlatformSettingUpsert) SetPlatformOfflineAccountID(v uuid.UUID) *PlatformSettingUpsert {
-	u.Set(platformsetting.FieldPlatformOfflineAccountID, v)
-	return u
-}
-
-// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsert) UpdatePlatformOfflineAccountID() *PlatformSettingUpsert {
-	u.SetExcluded(platformsetting.FieldPlatformOfflineAccountID)
-	return u
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (u *PlatformSettingUpsert) SetUserOnlineAccountID(v uuid.UUID) *PlatformSettingUpsert {
-	u.Set(platformsetting.FieldUserOnlineAccountID, v)
-	return u
-}
-
-// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsert) UpdateUserOnlineAccountID() *PlatformSettingUpsert {
-	u.SetExcluded(platformsetting.FieldUserOnlineAccountID)
-	return u
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (u *PlatformSettingUpsert) SetUserOfflineAccountID(v uuid.UUID) *PlatformSettingUpsert {
-	u.Set(platformsetting.FieldUserOfflineAccountID, v)
-	return u
-}
-
-// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsert) UpdateUserOfflineAccountID() *PlatformSettingUpsert {
-	u.SetExcluded(platformsetting.FieldUserOfflineAccountID)
-	return u
-}
-
-// SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (u *PlatformSettingUpsert) SetBenefitIntervalHours(v int32) *PlatformSettingUpsert {
-	u.Set(platformsetting.FieldBenefitIntervalHours, v)
-	return u
-}
-
-// UpdateBenefitIntervalHours sets the "benefit_interval_hours" field to the value that was provided on create.
-func (u *PlatformSettingUpsert) UpdateBenefitIntervalHours() *PlatformSettingUpsert {
-	u.SetExcluded(platformsetting.FieldBenefitIntervalHours)
-	return u
-}
-
-// AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
-func (u *PlatformSettingUpsert) AddBenefitIntervalHours(v int32) *PlatformSettingUpsert {
-	u.Add(platformsetting.FieldBenefitIntervalHours, v)
+// AddWarmAccountUsdAmount adds v to the "warm_account_usd_amount" field.
+func (u *PlatformSettingUpsert) AddWarmAccountUsdAmount(v uint64) *PlatformSettingUpsert {
+	u.Add(platformsetting.FieldWarmAccountUsdAmount, v)
 	return u
 }
 
@@ -578,94 +462,38 @@ func (u *PlatformSettingUpsertOne) Update(set func(*PlatformSettingUpsert)) *Pla
 	return u
 }
 
-// SetGoodID sets the "good_id" field.
-func (u *PlatformSettingUpsertOne) SetGoodID(v uuid.UUID) *PlatformSettingUpsertOne {
+// SetAppID sets the "app_id" field.
+func (u *PlatformSettingUpsertOne) SetAppID(v uuid.UUID) *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetGoodID(v)
+		s.SetAppID(v)
 	})
 }
 
-// UpdateGoodID sets the "good_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertOne) UpdateGoodID() *PlatformSettingUpsertOne {
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *PlatformSettingUpsertOne) UpdateAppID() *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateGoodID()
+		s.UpdateAppID()
 	})
 }
 
-// SetBenefitAccountID sets the "benefit_account_id" field.
-func (u *PlatformSettingUpsertOne) SetBenefitAccountID(v uuid.UUID) *PlatformSettingUpsertOne {
+// SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
+func (u *PlatformSettingUpsertOne) SetWarmAccountUsdAmount(v uint64) *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetBenefitAccountID(v)
+		s.SetWarmAccountUsdAmount(v)
 	})
 }
 
-// UpdateBenefitAccountID sets the "benefit_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertOne) UpdateBenefitAccountID() *PlatformSettingUpsertOne {
+// AddWarmAccountUsdAmount adds v to the "warm_account_usd_amount" field.
+func (u *PlatformSettingUpsertOne) AddWarmAccountUsdAmount(v uint64) *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateBenefitAccountID()
+		s.AddWarmAccountUsdAmount(v)
 	})
 }
 
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (u *PlatformSettingUpsertOne) SetPlatformOfflineAccountID(v uuid.UUID) *PlatformSettingUpsertOne {
+// UpdateWarmAccountUsdAmount sets the "warm_account_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsertOne) UpdateWarmAccountUsdAmount() *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetPlatformOfflineAccountID(v)
-	})
-}
-
-// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertOne) UpdatePlatformOfflineAccountID() *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdatePlatformOfflineAccountID()
-	})
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (u *PlatformSettingUpsertOne) SetUserOnlineAccountID(v uuid.UUID) *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetUserOnlineAccountID(v)
-	})
-}
-
-// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertOne) UpdateUserOnlineAccountID() *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateUserOnlineAccountID()
-	})
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (u *PlatformSettingUpsertOne) SetUserOfflineAccountID(v uuid.UUID) *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetUserOfflineAccountID(v)
-	})
-}
-
-// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertOne) UpdateUserOfflineAccountID() *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateUserOfflineAccountID()
-	})
-}
-
-// SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (u *PlatformSettingUpsertOne) SetBenefitIntervalHours(v int32) *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetBenefitIntervalHours(v)
-	})
-}
-
-// AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
-func (u *PlatformSettingUpsertOne) AddBenefitIntervalHours(v int32) *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.AddBenefitIntervalHours(v)
-	})
-}
-
-// UpdateBenefitIntervalHours sets the "benefit_interval_hours" field to the value that was provided on create.
-func (u *PlatformSettingUpsertOne) UpdateBenefitIntervalHours() *PlatformSettingUpsertOne {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateBenefitIntervalHours()
+		s.UpdateWarmAccountUsdAmount()
 	})
 }
 
@@ -864,7 +692,7 @@ func (pscb *PlatformSettingCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.PlatformSettingUpsert) {
-//			SetGoodID(v+v).
+//			SetAppID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -948,94 +776,38 @@ func (u *PlatformSettingUpsertBulk) Update(set func(*PlatformSettingUpsert)) *Pl
 	return u
 }
 
-// SetGoodID sets the "good_id" field.
-func (u *PlatformSettingUpsertBulk) SetGoodID(v uuid.UUID) *PlatformSettingUpsertBulk {
+// SetAppID sets the "app_id" field.
+func (u *PlatformSettingUpsertBulk) SetAppID(v uuid.UUID) *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetGoodID(v)
+		s.SetAppID(v)
 	})
 }
 
-// UpdateGoodID sets the "good_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertBulk) UpdateGoodID() *PlatformSettingUpsertBulk {
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *PlatformSettingUpsertBulk) UpdateAppID() *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateGoodID()
+		s.UpdateAppID()
 	})
 }
 
-// SetBenefitAccountID sets the "benefit_account_id" field.
-func (u *PlatformSettingUpsertBulk) SetBenefitAccountID(v uuid.UUID) *PlatformSettingUpsertBulk {
+// SetWarmAccountUsdAmount sets the "warm_account_usd_amount" field.
+func (u *PlatformSettingUpsertBulk) SetWarmAccountUsdAmount(v uint64) *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetBenefitAccountID(v)
+		s.SetWarmAccountUsdAmount(v)
 	})
 }
 
-// UpdateBenefitAccountID sets the "benefit_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertBulk) UpdateBenefitAccountID() *PlatformSettingUpsertBulk {
+// AddWarmAccountUsdAmount adds v to the "warm_account_usd_amount" field.
+func (u *PlatformSettingUpsertBulk) AddWarmAccountUsdAmount(v uint64) *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateBenefitAccountID()
+		s.AddWarmAccountUsdAmount(v)
 	})
 }
 
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (u *PlatformSettingUpsertBulk) SetPlatformOfflineAccountID(v uuid.UUID) *PlatformSettingUpsertBulk {
+// UpdateWarmAccountUsdAmount sets the "warm_account_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsertBulk) UpdateWarmAccountUsdAmount() *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetPlatformOfflineAccountID(v)
-	})
-}
-
-// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertBulk) UpdatePlatformOfflineAccountID() *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdatePlatformOfflineAccountID()
-	})
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (u *PlatformSettingUpsertBulk) SetUserOnlineAccountID(v uuid.UUID) *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetUserOnlineAccountID(v)
-	})
-}
-
-// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertBulk) UpdateUserOnlineAccountID() *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateUserOnlineAccountID()
-	})
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (u *PlatformSettingUpsertBulk) SetUserOfflineAccountID(v uuid.UUID) *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetUserOfflineAccountID(v)
-	})
-}
-
-// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
-func (u *PlatformSettingUpsertBulk) UpdateUserOfflineAccountID() *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateUserOfflineAccountID()
-	})
-}
-
-// SetBenefitIntervalHours sets the "benefit_interval_hours" field.
-func (u *PlatformSettingUpsertBulk) SetBenefitIntervalHours(v int32) *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.SetBenefitIntervalHours(v)
-	})
-}
-
-// AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
-func (u *PlatformSettingUpsertBulk) AddBenefitIntervalHours(v int32) *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.AddBenefitIntervalHours(v)
-	})
-}
-
-// UpdateBenefitIntervalHours sets the "benefit_interval_hours" field to the value that was provided on create.
-func (u *PlatformSettingUpsertBulk) UpdateBenefitIntervalHours() *PlatformSettingUpsertBulk {
-	return u.Update(func(s *PlatformSettingUpsert) {
-		s.UpdateBenefitIntervalHours()
+		s.UpdateWarmAccountUsdAmount()
 	})
 }
 

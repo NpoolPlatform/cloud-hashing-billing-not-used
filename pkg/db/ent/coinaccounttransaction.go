@@ -34,8 +34,6 @@ type CoinAccountTransaction struct {
 	State coinaccounttransaction.State `json:"state,omitempty"`
 	// ChainTransactionID holds the value of the "chain_transaction_id" field.
 	ChainTransactionID string `json:"chain_transaction_id,omitempty"`
-	// PlatformTransactionID holds the value of the "platform_transaction_id" field.
-	PlatformTransactionID uuid.UUID `json:"platform_transaction_id,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -53,7 +51,7 @@ func (*CoinAccountTransaction) scanValues(columns []string) ([]interface{}, erro
 			values[i] = new(sql.NullInt64)
 		case coinaccounttransaction.FieldMessage, coinaccounttransaction.FieldState, coinaccounttransaction.FieldChainTransactionID:
 			values[i] = new(sql.NullString)
-		case coinaccounttransaction.FieldID, coinaccounttransaction.FieldAppID, coinaccounttransaction.FieldUserID, coinaccounttransaction.FieldFromAddressID, coinaccounttransaction.FieldToAddressID, coinaccounttransaction.FieldCoinTypeID, coinaccounttransaction.FieldPlatformTransactionID:
+		case coinaccounttransaction.FieldID, coinaccounttransaction.FieldAppID, coinaccounttransaction.FieldUserID, coinaccounttransaction.FieldFromAddressID, coinaccounttransaction.FieldToAddressID, coinaccounttransaction.FieldCoinTypeID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CoinAccountTransaction", columns[i])
@@ -130,12 +128,6 @@ func (cat *CoinAccountTransaction) assignValues(columns []string, values []inter
 			} else if value.Valid {
 				cat.ChainTransactionID = value.String
 			}
-		case coinaccounttransaction.FieldPlatformTransactionID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field platform_transaction_id", values[i])
-			} else if value != nil {
-				cat.PlatformTransactionID = *value
-			}
 		case coinaccounttransaction.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -200,8 +192,6 @@ func (cat *CoinAccountTransaction) String() string {
 	builder.WriteString(fmt.Sprintf("%v", cat.State))
 	builder.WriteString(", chain_transaction_id=")
 	builder.WriteString(cat.ChainTransactionID)
-	builder.WriteString(", platform_transaction_id=")
-	builder.WriteString(fmt.Sprintf("%v", cat.PlatformTransactionID))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", cat.CreateAt))
 	builder.WriteString(", update_at=")

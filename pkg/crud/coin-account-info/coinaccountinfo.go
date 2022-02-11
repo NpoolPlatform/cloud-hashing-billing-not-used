@@ -19,12 +19,6 @@ func validateCoinAccount(info *npool.CoinAccountInfo) error {
 	if _, err := uuid.Parse(info.GetCoinTypeID()); err != nil {
 		return xerrors.Errorf("invalid coin type id: %v", err)
 	}
-	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
-	}
-	if _, err := uuid.Parse(info.GetUserID()); err != nil {
-		return xerrors.Errorf("invalid user id: %v", err)
-	}
 	if info.GetAddress() == "" {
 		return xerrors.Errorf("invalid coin address")
 	}
@@ -36,9 +30,6 @@ func dbRowToCoinAccount(row *ent.CoinAccountInfo) *npool.CoinAccountInfo {
 		ID:                     row.ID.String(),
 		CoinTypeID:             row.CoinTypeID.String(),
 		Address:                row.Address,
-		GeneratedBy:            string(row.GeneratedBy),
-		AppID:                  row.AppID.String(),
-		UserID:                 row.UserID.String(),
 		PlatformHoldPrivateKey: row.PlatformHoldPrivateKey,
 	}
 }
@@ -58,9 +49,6 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountRequest) (*npool.Cre
 		Create().
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetAddress(in.GetInfo().GetAddress()).
-		SetGeneratedBy(coinaccountinfo.GeneratedBy(in.GetInfo().GetGeneratedBy())).
-		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
-		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
 		SetPlatformHoldPrivateKey(in.GetInfo().GetPlatformHoldPrivateKey()).
 		Save(ctx)
 	if err != nil {
@@ -142,46 +130,6 @@ func GetByCoinAddress(ctx context.Context, in *npool.GetCoinAccountByCoinAddress
 
 	return &npool.GetCoinAccountByCoinAddressResponse{
 		Info: account,
-	}, nil
-}
-
-func GetCoinAccountsByAppUser(ctx context.Context, in *npool.GetCoinAccountsByAppUserRequest) (*npool.GetCoinAccountsByAppUserResponse, error) {
-	if _, err := uuid.Parse(in.GetAppID()); err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
-	}
-	if _, err := uuid.Parse(in.GetUserID()); err != nil {
-		return nil, xerrors.Errorf("invalid user id: %v", err)
-	}
-
-	cli, err := db.Client()
-	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
-	}
-
-	infos, err := cli.
-		CoinAccountInfo.
-		Query().
-		Where(
-			coinaccountinfo.And(
-				coinaccountinfo.AppID(uuid.MustParse(in.GetAppID())),
-				coinaccountinfo.UserID(uuid.MustParse(in.GetUserID())),
-			),
-		).
-		All(ctx)
-	if err != nil {
-		return nil, xerrors.Errorf("fail query coin account: %v", err)
-	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coin account")
-	}
-
-	accounts := []*npool.CoinAccountInfo{}
-	for _, info := range infos {
-		accounts = append(accounts, dbRowToCoinAccount(info))
-	}
-
-	return &npool.GetCoinAccountsByAppUserResponse{
-		Infos: accounts,
 	}, nil
 }
 

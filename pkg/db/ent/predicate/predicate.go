@@ -12,6 +12,18 @@ type CoinAccountInfo func(*sql.Selector)
 // CoinAccountTransaction is the predicate function for coinaccounttransaction builders.
 type CoinAccountTransaction func(*sql.Selector)
 
+// CoinSetting is the predicate function for coinsetting builders.
+type CoinSetting func(*sql.Selector)
+
+// GoodBenefit is the predicate function for goodbenefit builders.
+type GoodBenefit func(*sql.Selector)
+
+// GoodPayment is the predicate function for goodpayment builders.
+type GoodPayment func(*sql.Selector)
+
+// GoodSetting is the predicate function for goodsetting builders.
+type GoodSetting func(*sql.Selector)
+
 // PlatformBenefit is the predicate function for platformbenefit builders.
 type PlatformBenefit func(*sql.Selector)
 
@@ -20,3 +32,6 @@ type PlatformSetting func(*sql.Selector)
 
 // UserBenefit is the predicate function for userbenefit builders.
 type UserBenefit func(*sql.Selector)
+
+// UserWithdraw is the predicate function for userwithdraw builders.
+type UserWithdraw func(*sql.Selector)

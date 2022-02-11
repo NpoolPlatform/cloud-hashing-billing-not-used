@@ -89,12 +89,6 @@ func (catu *CoinAccountTransactionUpdate) SetChainTransactionID(s string) *CoinA
 	return catu
 }
 
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (catu *CoinAccountTransactionUpdate) SetPlatformTransactionID(u uuid.UUID) *CoinAccountTransactionUpdate {
-	catu.mutation.SetPlatformTransactionID(u)
-	return catu
-}
-
 // SetCreateAt sets the "create_at" field.
 func (catu *CoinAccountTransactionUpdate) SetCreateAt(u uint32) *CoinAccountTransactionUpdate {
 	catu.mutation.ResetCreateAt()
@@ -322,13 +316,6 @@ func (catu *CoinAccountTransactionUpdate) sqlSave(ctx context.Context) (n int, e
 			Column: coinaccounttransaction.FieldChainTransactionID,
 		})
 	}
-	if value, ok := catu.mutation.PlatformTransactionID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccounttransaction.FieldPlatformTransactionID,
-		})
-	}
 	if value, ok := catu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -448,12 +435,6 @@ func (catuo *CoinAccountTransactionUpdateOne) SetState(c coinaccounttransaction.
 // SetChainTransactionID sets the "chain_transaction_id" field.
 func (catuo *CoinAccountTransactionUpdateOne) SetChainTransactionID(s string) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.SetChainTransactionID(s)
-	return catuo
-}
-
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (catuo *CoinAccountTransactionUpdateOne) SetPlatformTransactionID(u uuid.UUID) *CoinAccountTransactionUpdateOne {
-	catuo.mutation.SetPlatformTransactionID(u)
 	return catuo
 }
 
@@ -706,13 +687,6 @@ func (catuo *CoinAccountTransactionUpdateOne) sqlSave(ctx context.Context) (_nod
 			Type:   field.TypeString,
 			Value:  value,
 			Column: coinaccounttransaction.FieldChainTransactionID,
-		})
-	}
-	if value, ok := catuo.mutation.PlatformTransactionID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccounttransaction.FieldPlatformTransactionID,
 		})
 	}
 	if value, ok := catuo.mutation.CreateAt(); ok {

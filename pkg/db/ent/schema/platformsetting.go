@@ -20,13 +20,8 @@ func (PlatformSetting) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).
 			Default(uuid.New).
 			Unique(),
-		field.UUID("good_id", uuid.UUID{}).
-			Unique(),
-		field.UUID("benefit_account_id", uuid.UUID{}),
-		field.UUID("platform_offline_account_id", uuid.UUID{}),
-		field.UUID("user_online_account_id", uuid.UUID{}),
-		field.UUID("user_offline_account_id", uuid.UUID{}),
-		field.Int32("benefit_interval_hours"),
+		field.UUID("app_id", uuid.UUID{}),
+		field.Uint64("warm_account_usd_amount"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())
