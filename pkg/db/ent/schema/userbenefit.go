@@ -21,9 +21,9 @@ func (UserBenefit) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).
 			Default(uuid.New).
 			Unique(),
-		field.UUID("good_id", uuid.UUID{}),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),
+		field.UUID("good_id", uuid.UUID{}),
 		field.UUID("order_id", uuid.UUID{}),
 		field.Uint64("amount"),
 		field.Uint32("last_benefit_timestamp"),

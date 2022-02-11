@@ -23,15 +23,15 @@ type CoinAccountTransactionCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetUserID sets the "user_id" field.
-func (catc *CoinAccountTransactionCreate) SetUserID(u uuid.UUID) *CoinAccountTransactionCreate {
-	catc.mutation.SetUserID(u)
-	return catc
-}
-
 // SetAppID sets the "app_id" field.
 func (catc *CoinAccountTransactionCreate) SetAppID(u uuid.UUID) *CoinAccountTransactionCreate {
 	catc.mutation.SetAppID(u)
+	return catc
+}
+
+// SetUserID sets the "user_id" field.
+func (catc *CoinAccountTransactionCreate) SetUserID(u uuid.UUID) *CoinAccountTransactionCreate {
+	catc.mutation.SetUserID(u)
 	return catc
 }
 
@@ -131,6 +131,14 @@ func (catc *CoinAccountTransactionCreate) SetID(u uuid.UUID) *CoinAccountTransac
 	return catc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (catc *CoinAccountTransactionCreate) SetNillableID(u *uuid.UUID) *CoinAccountTransactionCreate {
+	if u != nil {
+		catc.SetID(*u)
+	}
+	return catc
+}
+
 // Mutation returns the CoinAccountTransactionMutation object of the builder.
 func (catc *CoinAccountTransactionCreate) Mutation() *CoinAccountTransactionMutation {
 	return catc.mutation
@@ -222,49 +230,49 @@ func (catc *CoinAccountTransactionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (catc *CoinAccountTransactionCreate) check() error {
-	if _, ok := catc.mutation.UserID(); !ok {
-		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "user_id"`)}
-	}
 	if _, ok := catc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.app_id"`)}
+	}
+	if _, ok := catc.mutation.UserID(); !ok {
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.user_id"`)}
 	}
 	if _, ok := catc.mutation.FromAddressID(); !ok {
-		return &ValidationError{Name: "from_address_id", err: errors.New(`ent: missing required field "from_address_id"`)}
+		return &ValidationError{Name: "from_address_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.from_address_id"`)}
 	}
 	if _, ok := catc.mutation.ToAddressID(); !ok {
-		return &ValidationError{Name: "to_address_id", err: errors.New(`ent: missing required field "to_address_id"`)}
+		return &ValidationError{Name: "to_address_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.to_address_id"`)}
 	}
 	if _, ok := catc.mutation.CoinTypeID(); !ok {
-		return &ValidationError{Name: "coin_type_id", err: errors.New(`ent: missing required field "coin_type_id"`)}
+		return &ValidationError{Name: "coin_type_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.coin_type_id"`)}
 	}
 	if _, ok := catc.mutation.Amount(); !ok {
-		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "amount"`)}
+		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "CoinAccountTransaction.amount"`)}
 	}
 	if _, ok := catc.mutation.Message(); !ok {
-		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "message"`)}
+		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "CoinAccountTransaction.message"`)}
 	}
 	if _, ok := catc.mutation.State(); !ok {
-		return &ValidationError{Name: "state", err: errors.New(`ent: missing required field "state"`)}
+		return &ValidationError{Name: "state", err: errors.New(`ent: missing required field "CoinAccountTransaction.state"`)}
 	}
 	if v, ok := catc.mutation.State(); ok {
 		if err := coinaccounttransaction.StateValidator(v); err != nil {
-			return &ValidationError{Name: "state", err: fmt.Errorf(`ent: validator failed for field "state": %w`, err)}
+			return &ValidationError{Name: "state", err: fmt.Errorf(`ent: validator failed for field "CoinAccountTransaction.state": %w`, err)}
 		}
 	}
 	if _, ok := catc.mutation.ChainTransactionID(); !ok {
-		return &ValidationError{Name: "chain_transaction_id", err: errors.New(`ent: missing required field "chain_transaction_id"`)}
+		return &ValidationError{Name: "chain_transaction_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.chain_transaction_id"`)}
 	}
 	if _, ok := catc.mutation.PlatformTransactionID(); !ok {
-		return &ValidationError{Name: "platform_transaction_id", err: errors.New(`ent: missing required field "platform_transaction_id"`)}
+		return &ValidationError{Name: "platform_transaction_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.platform_transaction_id"`)}
 	}
 	if _, ok := catc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CoinAccountTransaction.create_at"`)}
 	}
 	if _, ok := catc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "CoinAccountTransaction.update_at"`)}
 	}
 	if _, ok := catc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "CoinAccountTransaction.delete_at"`)}
 	}
 	return nil
 }
@@ -278,7 +286,11 @@ func (catc *CoinAccountTransactionCreate) sqlSave(ctx context.Context) (*CoinAcc
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -297,15 +309,7 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 	_spec.OnConflict = catc.conflict
 	if id, ok := catc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
-	}
-	if value, ok := catc.mutation.UserID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccounttransaction.FieldUserID,
-		})
-		_node.UserID = value
+		_spec.ID.Value = &id
 	}
 	if value, ok := catc.mutation.AppID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -314,6 +318,14 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 			Column: coinaccounttransaction.FieldAppID,
 		})
 		_node.AppID = value
+	}
+	if value, ok := catc.mutation.UserID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinaccounttransaction.FieldUserID,
+		})
+		_node.UserID = value
 	}
 	if value, ok := catc.mutation.FromAddressID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -410,7 +422,7 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 // of the `INSERT` statement. For example:
 //
 //	client.CoinAccountTransaction.Create().
-//		SetUserID(v).
+//		SetAppID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -419,7 +431,7 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.CoinAccountTransactionUpsert) {
-//			SetUserID(v+v).
+//			SetAppID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -457,18 +469,6 @@ type (
 	}
 )
 
-// SetUserID sets the "user_id" field.
-func (u *CoinAccountTransactionUpsert) SetUserID(v uuid.UUID) *CoinAccountTransactionUpsert {
-	u.Set(coinaccounttransaction.FieldUserID, v)
-	return u
-}
-
-// UpdateUserID sets the "user_id" field to the value that was provided on create.
-func (u *CoinAccountTransactionUpsert) UpdateUserID() *CoinAccountTransactionUpsert {
-	u.SetExcluded(coinaccounttransaction.FieldUserID)
-	return u
-}
-
 // SetAppID sets the "app_id" field.
 func (u *CoinAccountTransactionUpsert) SetAppID(v uuid.UUID) *CoinAccountTransactionUpsert {
 	u.Set(coinaccounttransaction.FieldAppID, v)
@@ -478,6 +478,18 @@ func (u *CoinAccountTransactionUpsert) SetAppID(v uuid.UUID) *CoinAccountTransac
 // UpdateAppID sets the "app_id" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsert) UpdateAppID() *CoinAccountTransactionUpsert {
 	u.SetExcluded(coinaccounttransaction.FieldAppID)
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *CoinAccountTransactionUpsert) SetUserID(v uuid.UUID) *CoinAccountTransactionUpsert {
+	u.Set(coinaccounttransaction.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsert) UpdateUserID() *CoinAccountTransactionUpsert {
+	u.SetExcluded(coinaccounttransaction.FieldUserID)
 	return u
 }
 
@@ -526,6 +538,12 @@ func (u *CoinAccountTransactionUpsert) SetAmount(v uint64) *CoinAccountTransacti
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsert) UpdateAmount() *CoinAccountTransactionUpsert {
 	u.SetExcluded(coinaccounttransaction.FieldAmount)
+	return u
+}
+
+// AddAmount adds v to the "amount" field.
+func (u *CoinAccountTransactionUpsert) AddAmount(v uint64) *CoinAccountTransactionUpsert {
+	u.Add(coinaccounttransaction.FieldAmount, v)
 	return u
 }
 
@@ -589,6 +607,12 @@ func (u *CoinAccountTransactionUpsert) UpdateCreateAt() *CoinAccountTransactionU
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *CoinAccountTransactionUpsert) AddCreateAt(v uint32) *CoinAccountTransactionUpsert {
+	u.Add(coinaccounttransaction.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *CoinAccountTransactionUpsert) SetUpdateAt(v uint32) *CoinAccountTransactionUpsert {
 	u.Set(coinaccounttransaction.FieldUpdateAt, v)
@@ -598,6 +622,12 @@ func (u *CoinAccountTransactionUpsert) SetUpdateAt(v uint32) *CoinAccountTransac
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsert) UpdateUpdateAt() *CoinAccountTransactionUpsert {
 	u.SetExcluded(coinaccounttransaction.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *CoinAccountTransactionUpsert) AddUpdateAt(v uint32) *CoinAccountTransactionUpsert {
+	u.Add(coinaccounttransaction.FieldUpdateAt, v)
 	return u
 }
 
@@ -613,7 +643,13 @@ func (u *CoinAccountTransactionUpsert) UpdateDeleteAt() *CoinAccountTransactionU
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *CoinAccountTransactionUpsert) AddDeleteAt(v uint32) *CoinAccountTransactionUpsert {
+	u.Add(coinaccounttransaction.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.CoinAccountTransaction.Create().
@@ -663,20 +699,6 @@ func (u *CoinAccountTransactionUpsertOne) Update(set func(*CoinAccountTransactio
 	return u
 }
 
-// SetUserID sets the "user_id" field.
-func (u *CoinAccountTransactionUpsertOne) SetUserID(v uuid.UUID) *CoinAccountTransactionUpsertOne {
-	return u.Update(func(s *CoinAccountTransactionUpsert) {
-		s.SetUserID(v)
-	})
-}
-
-// UpdateUserID sets the "user_id" field to the value that was provided on create.
-func (u *CoinAccountTransactionUpsertOne) UpdateUserID() *CoinAccountTransactionUpsertOne {
-	return u.Update(func(s *CoinAccountTransactionUpsert) {
-		s.UpdateUserID()
-	})
-}
-
 // SetAppID sets the "app_id" field.
 func (u *CoinAccountTransactionUpsertOne) SetAppID(v uuid.UUID) *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
@@ -688,6 +710,20 @@ func (u *CoinAccountTransactionUpsertOne) SetAppID(v uuid.UUID) *CoinAccountTran
 func (u *CoinAccountTransactionUpsertOne) UpdateAppID() *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateAppID()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *CoinAccountTransactionUpsertOne) SetUserID(v uuid.UUID) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertOne) UpdateUserID() *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateUserID()
 	})
 }
 
@@ -737,6 +773,13 @@ func (u *CoinAccountTransactionUpsertOne) UpdateCoinTypeID() *CoinAccountTransac
 func (u *CoinAccountTransactionUpsertOne) SetAmount(v uint64) *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.SetAmount(v)
+	})
+}
+
+// AddAmount adds v to the "amount" field.
+func (u *CoinAccountTransactionUpsertOne) AddAmount(v uint64) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddAmount(v)
 	})
 }
 
@@ -810,6 +853,13 @@ func (u *CoinAccountTransactionUpsertOne) SetCreateAt(v uint32) *CoinAccountTran
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *CoinAccountTransactionUpsertOne) AddCreateAt(v uint32) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsertOne) UpdateCreateAt() *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
@@ -824,6 +874,13 @@ func (u *CoinAccountTransactionUpsertOne) SetUpdateAt(v uint32) *CoinAccountTran
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *CoinAccountTransactionUpsertOne) AddUpdateAt(v uint32) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsertOne) UpdateUpdateAt() *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
@@ -835,6 +892,13 @@ func (u *CoinAccountTransactionUpsertOne) UpdateUpdateAt() *CoinAccountTransacti
 func (u *CoinAccountTransactionUpsertOne) SetDeleteAt(v uint32) *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *CoinAccountTransactionUpsertOne) AddDeleteAt(v uint32) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -977,7 +1041,7 @@ func (catcb *CoinAccountTransactionCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.CoinAccountTransactionUpsert) {
-//			SetUserID(v+v).
+//			SetAppID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -1008,7 +1072,7 @@ type CoinAccountTransactionUpsertBulk struct {
 	create *CoinAccountTransactionCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.CoinAccountTransaction.Create().
@@ -1061,20 +1125,6 @@ func (u *CoinAccountTransactionUpsertBulk) Update(set func(*CoinAccountTransacti
 	return u
 }
 
-// SetUserID sets the "user_id" field.
-func (u *CoinAccountTransactionUpsertBulk) SetUserID(v uuid.UUID) *CoinAccountTransactionUpsertBulk {
-	return u.Update(func(s *CoinAccountTransactionUpsert) {
-		s.SetUserID(v)
-	})
-}
-
-// UpdateUserID sets the "user_id" field to the value that was provided on create.
-func (u *CoinAccountTransactionUpsertBulk) UpdateUserID() *CoinAccountTransactionUpsertBulk {
-	return u.Update(func(s *CoinAccountTransactionUpsert) {
-		s.UpdateUserID()
-	})
-}
-
 // SetAppID sets the "app_id" field.
 func (u *CoinAccountTransactionUpsertBulk) SetAppID(v uuid.UUID) *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
@@ -1086,6 +1136,20 @@ func (u *CoinAccountTransactionUpsertBulk) SetAppID(v uuid.UUID) *CoinAccountTra
 func (u *CoinAccountTransactionUpsertBulk) UpdateAppID() *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateAppID()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *CoinAccountTransactionUpsertBulk) SetUserID(v uuid.UUID) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertBulk) UpdateUserID() *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateUserID()
 	})
 }
 
@@ -1135,6 +1199,13 @@ func (u *CoinAccountTransactionUpsertBulk) UpdateCoinTypeID() *CoinAccountTransa
 func (u *CoinAccountTransactionUpsertBulk) SetAmount(v uint64) *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.SetAmount(v)
+	})
+}
+
+// AddAmount adds v to the "amount" field.
+func (u *CoinAccountTransactionUpsertBulk) AddAmount(v uint64) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddAmount(v)
 	})
 }
 
@@ -1208,6 +1279,13 @@ func (u *CoinAccountTransactionUpsertBulk) SetCreateAt(v uint32) *CoinAccountTra
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *CoinAccountTransactionUpsertBulk) AddCreateAt(v uint32) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsertBulk) UpdateCreateAt() *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
@@ -1222,6 +1300,13 @@ func (u *CoinAccountTransactionUpsertBulk) SetUpdateAt(v uint32) *CoinAccountTra
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *CoinAccountTransactionUpsertBulk) AddUpdateAt(v uint32) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsertBulk) UpdateUpdateAt() *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
@@ -1233,6 +1318,13 @@ func (u *CoinAccountTransactionUpsertBulk) UpdateUpdateAt() *CoinAccountTransact
 func (u *CoinAccountTransactionUpsertBulk) SetDeleteAt(v uint32) *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *CoinAccountTransactionUpsertBulk) AddDeleteAt(v uint32) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

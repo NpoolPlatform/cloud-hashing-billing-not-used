@@ -173,7 +173,6 @@ func TestGetCoinAccountTransactionDetail(t *testing.T) {
 		CoinTypeID:  coinTypeID,
 		Address:     uuid.New().String(),
 		GeneratedBy: "user",
-		UsedFor:     "withdraw",
 		AppID:       uuid.New().String(),
 		UserID:      uuid.New().String(),
 	}
@@ -181,7 +180,6 @@ func TestGetCoinAccountTransactionDetail(t *testing.T) {
 		CoinTypeID:  coinTypeID,
 		Address:     uuid.New().String(),
 		GeneratedBy: "platform",
-		UsedFor:     "benefit",
 		AppID:       uuid.UUID{}.String(),
 		UserID:      uuid.UUID{}.String(),
 	}
@@ -233,8 +231,6 @@ func TestGetCoinAccountTransactionDetail(t *testing.T) {
 			assert.Equal(t, info.Detail.FromAddress.CoinTypeID, resp1.Info.CoinTypeID)
 			assert.Equal(t, info.Detail.FromAddress.Address, resp1.Info.Address)
 			assert.Equal(t, info.Detail.FromAddress.GeneratedBy, resp1.Info.GeneratedBy)
-			assert.Equal(t, info.Detail.FromAddress.UsedFor, resp1.Info.UsedFor)
-			assert.Equal(t, info.Detail.FromAddress.Idle, resp1.Info.Idle)
 			assert.Equal(t, info.Detail.FromAddress.AppID, resp1.Info.AppID)
 			assert.Equal(t, info.Detail.FromAddress.UserID, resp1.Info.UserID)
 
@@ -242,8 +238,6 @@ func TestGetCoinAccountTransactionDetail(t *testing.T) {
 			assert.Equal(t, info.Detail.ToAddress.CoinTypeID, resp2.Info.CoinTypeID)
 			assert.Equal(t, info.Detail.ToAddress.Address, resp2.Info.Address)
 			assert.Equal(t, info.Detail.ToAddress.GeneratedBy, resp2.Info.GeneratedBy)
-			assert.Equal(t, info.Detail.ToAddress.UsedFor, resp2.Info.UsedFor)
-			assert.Equal(t, info.Detail.ToAddress.Idle, resp2.Info.Idle)
 			assert.Equal(t, info.Detail.ToAddress.AppID, resp2.Info.AppID)
 			assert.Equal(t, info.Detail.ToAddress.UserID, resp2.Info.UserID)
 

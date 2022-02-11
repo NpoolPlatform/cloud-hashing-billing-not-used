@@ -254,12 +254,12 @@ func (caiq *CoinAccountInfoQuery) Clone() *CoinAccountInfoQuery {
 // Example:
 //
 //	var v []struct {
-//		CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.CoinAccountInfo.Query().
-//		GroupBy(coinaccountinfo.FieldCoinTypeID).
+//		GroupBy(coinaccountinfo.FieldAppID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (caiq *CoinAccountInfoQuery) GroupBy(field string, fields ...string) *CoinA
 // Example:
 //
 //	var v []struct {
-//		CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //	}
 //
 //	client.CoinAccountInfo.Query().
-//		Select(coinaccountinfo.FieldCoinTypeID).
+//		Select(coinaccountinfo.FieldAppID).
 //		Scan(ctx, &v)
 //
 func (caiq *CoinAccountInfoQuery) Select(fields ...string) *CoinAccountInfoSelect {
@@ -337,6 +337,10 @@ func (caiq *CoinAccountInfoQuery) sqlAll(ctx context.Context) ([]*CoinAccountInf
 
 func (caiq *CoinAccountInfoQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := caiq.querySpec()
+	_spec.Node.Columns = caiq.fields
+	if len(caiq.fields) > 0 {
+		_spec.Unique = caiq.unique != nil && *caiq.unique
+	}
 	return sqlgraph.CountNodes(ctx, caiq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (caiq *CoinAccountInfoQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if caiq.sql != nil {
 		selector = caiq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if caiq.unique != nil && *caiq.unique {
+		selector.Distinct()
 	}
 	for _, p := range caiq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (caigb *CoinAccountInfoGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range caigb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(caigb.fields...)...)

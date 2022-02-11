@@ -337,6 +337,10 @@ func (pbq *PlatformBenefitQuery) sqlAll(ctx context.Context) ([]*PlatformBenefit
 
 func (pbq *PlatformBenefitQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := pbq.querySpec()
+	_spec.Node.Columns = pbq.fields
+	if len(pbq.fields) > 0 {
+		_spec.Unique = pbq.unique != nil && *pbq.unique
+	}
 	return sqlgraph.CountNodes(ctx, pbq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (pbq *PlatformBenefitQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if pbq.sql != nil {
 		selector = pbq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if pbq.unique != nil && *pbq.unique {
+		selector.Distinct()
 	}
 	for _, p := range pbq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (pbgb *PlatformBenefitGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range pbgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(pbgb.fields...)...)

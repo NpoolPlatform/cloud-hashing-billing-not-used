@@ -16,12 +16,12 @@ type UserBenefit struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID uuid.UUID `json:"id,omitempty"`
-	// GoodID holds the value of the "good_id" field.
-	GoodID uuid.UUID `json:"good_id,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// UserID holds the value of the "user_id" field.
 	UserID uuid.UUID `json:"user_id,omitempty"`
+	// GoodID holds the value of the "good_id" field.
+	GoodID uuid.UUID `json:"good_id,omitempty"`
 	// OrderID holds the value of the "order_id" field.
 	OrderID uuid.UUID `json:"order_id,omitempty"`
 	// Amount holds the value of the "amount" field.
@@ -43,7 +43,7 @@ func (*UserBenefit) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case userbenefit.FieldAmount, userbenefit.FieldLastBenefitTimestamp, userbenefit.FieldCreateAt, userbenefit.FieldUpdateAt, userbenefit.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case userbenefit.FieldID, userbenefit.FieldGoodID, userbenefit.FieldAppID, userbenefit.FieldUserID, userbenefit.FieldOrderID:
+		case userbenefit.FieldID, userbenefit.FieldAppID, userbenefit.FieldUserID, userbenefit.FieldGoodID, userbenefit.FieldOrderID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type UserBenefit", columns[i])
@@ -66,12 +66,6 @@ func (ub *UserBenefit) assignValues(columns []string, values []interface{}) erro
 			} else if value != nil {
 				ub.ID = *value
 			}
-		case userbenefit.FieldGoodID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field good_id", values[i])
-			} else if value != nil {
-				ub.GoodID = *value
-			}
 		case userbenefit.FieldAppID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
 				return fmt.Errorf("unexpected type %T for field app_id", values[i])
@@ -83,6 +77,12 @@ func (ub *UserBenefit) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value != nil {
 				ub.UserID = *value
+			}
+		case userbenefit.FieldGoodID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field good_id", values[i])
+			} else if value != nil {
+				ub.GoodID = *value
 			}
 		case userbenefit.FieldOrderID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -148,12 +148,12 @@ func (ub *UserBenefit) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserBenefit(")
 	builder.WriteString(fmt.Sprintf("id=%v", ub.ID))
-	builder.WriteString(", good_id=")
-	builder.WriteString(fmt.Sprintf("%v", ub.GoodID))
 	builder.WriteString(", app_id=")
 	builder.WriteString(fmt.Sprintf("%v", ub.AppID))
 	builder.WriteString(", user_id=")
 	builder.WriteString(fmt.Sprintf("%v", ub.UserID))
+	builder.WriteString(", good_id=")
+	builder.WriteString(fmt.Sprintf("%v", ub.GoodID))
 	builder.WriteString(", order_id=")
 	builder.WriteString(fmt.Sprintf("%v", ub.OrderID))
 	builder.WriteString(", amount=")

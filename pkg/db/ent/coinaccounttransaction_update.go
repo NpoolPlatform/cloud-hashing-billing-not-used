@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -27,15 +28,15 @@ func (catu *CoinAccountTransactionUpdate) Where(ps ...predicate.CoinAccountTrans
 	return catu
 }
 
-// SetUserID sets the "user_id" field.
-func (catu *CoinAccountTransactionUpdate) SetUserID(u uuid.UUID) *CoinAccountTransactionUpdate {
-	catu.mutation.SetUserID(u)
-	return catu
-}
-
 // SetAppID sets the "app_id" field.
 func (catu *CoinAccountTransactionUpdate) SetAppID(u uuid.UUID) *CoinAccountTransactionUpdate {
 	catu.mutation.SetAppID(u)
+	return catu
+}
+
+// SetUserID sets the "user_id" field.
+func (catu *CoinAccountTransactionUpdate) SetUserID(u uuid.UUID) *CoinAccountTransactionUpdate {
+	catu.mutation.SetUserID(u)
 	return catu
 }
 
@@ -65,7 +66,7 @@ func (catu *CoinAccountTransactionUpdate) SetAmount(u uint64) *CoinAccountTransa
 }
 
 // AddAmount adds u to the "amount" field.
-func (catu *CoinAccountTransactionUpdate) AddAmount(u uint64) *CoinAccountTransactionUpdate {
+func (catu *CoinAccountTransactionUpdate) AddAmount(u int64) *CoinAccountTransactionUpdate {
 	catu.mutation.AddAmount(u)
 	return catu
 }
@@ -110,7 +111,7 @@ func (catu *CoinAccountTransactionUpdate) SetNillableCreateAt(u *uint32) *CoinAc
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (catu *CoinAccountTransactionUpdate) AddCreateAt(u uint32) *CoinAccountTransactionUpdate {
+func (catu *CoinAccountTransactionUpdate) AddCreateAt(u int32) *CoinAccountTransactionUpdate {
 	catu.mutation.AddCreateAt(u)
 	return catu
 }
@@ -123,7 +124,7 @@ func (catu *CoinAccountTransactionUpdate) SetUpdateAt(u uint32) *CoinAccountTran
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (catu *CoinAccountTransactionUpdate) AddUpdateAt(u uint32) *CoinAccountTransactionUpdate {
+func (catu *CoinAccountTransactionUpdate) AddUpdateAt(u int32) *CoinAccountTransactionUpdate {
 	catu.mutation.AddUpdateAt(u)
 	return catu
 }
@@ -144,7 +145,7 @@ func (catu *CoinAccountTransactionUpdate) SetNillableDeleteAt(u *uint32) *CoinAc
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (catu *CoinAccountTransactionUpdate) AddDeleteAt(u uint32) *CoinAccountTransactionUpdate {
+func (catu *CoinAccountTransactionUpdate) AddDeleteAt(u int32) *CoinAccountTransactionUpdate {
 	catu.mutation.AddDeleteAt(u)
 	return catu
 }
@@ -227,7 +228,7 @@ func (catu *CoinAccountTransactionUpdate) defaults() {
 func (catu *CoinAccountTransactionUpdate) check() error {
 	if v, ok := catu.mutation.State(); ok {
 		if err := coinaccounttransaction.StateValidator(v); err != nil {
-			return &ValidationError{Name: "state", err: fmt.Errorf("ent: validator failed for field \"state\": %w", err)}
+			return &ValidationError{Name: "state", err: fmt.Errorf(`ent: validator failed for field "CoinAccountTransaction.state": %w`, err)}
 		}
 	}
 	return nil
@@ -251,18 +252,18 @@ func (catu *CoinAccountTransactionUpdate) sqlSave(ctx context.Context) (n int, e
 			}
 		}
 	}
-	if value, ok := catu.mutation.UserID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccounttransaction.FieldUserID,
-		})
-	}
 	if value, ok := catu.mutation.AppID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: coinaccounttransaction.FieldAppID,
+		})
+	}
+	if value, ok := catu.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinaccounttransaction.FieldUserID,
 		})
 	}
 	if value, ok := catu.mutation.FromAddressID(); ok {
@@ -389,15 +390,15 @@ type CoinAccountTransactionUpdateOne struct {
 	mutation *CoinAccountTransactionMutation
 }
 
-// SetUserID sets the "user_id" field.
-func (catuo *CoinAccountTransactionUpdateOne) SetUserID(u uuid.UUID) *CoinAccountTransactionUpdateOne {
-	catuo.mutation.SetUserID(u)
-	return catuo
-}
-
 // SetAppID sets the "app_id" field.
 func (catuo *CoinAccountTransactionUpdateOne) SetAppID(u uuid.UUID) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.SetAppID(u)
+	return catuo
+}
+
+// SetUserID sets the "user_id" field.
+func (catuo *CoinAccountTransactionUpdateOne) SetUserID(u uuid.UUID) *CoinAccountTransactionUpdateOne {
+	catuo.mutation.SetUserID(u)
 	return catuo
 }
 
@@ -427,7 +428,7 @@ func (catuo *CoinAccountTransactionUpdateOne) SetAmount(u uint64) *CoinAccountTr
 }
 
 // AddAmount adds u to the "amount" field.
-func (catuo *CoinAccountTransactionUpdateOne) AddAmount(u uint64) *CoinAccountTransactionUpdateOne {
+func (catuo *CoinAccountTransactionUpdateOne) AddAmount(u int64) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.AddAmount(u)
 	return catuo
 }
@@ -472,7 +473,7 @@ func (catuo *CoinAccountTransactionUpdateOne) SetNillableCreateAt(u *uint32) *Co
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (catuo *CoinAccountTransactionUpdateOne) AddCreateAt(u uint32) *CoinAccountTransactionUpdateOne {
+func (catuo *CoinAccountTransactionUpdateOne) AddCreateAt(u int32) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.AddCreateAt(u)
 	return catuo
 }
@@ -485,7 +486,7 @@ func (catuo *CoinAccountTransactionUpdateOne) SetUpdateAt(u uint32) *CoinAccount
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (catuo *CoinAccountTransactionUpdateOne) AddUpdateAt(u uint32) *CoinAccountTransactionUpdateOne {
+func (catuo *CoinAccountTransactionUpdateOne) AddUpdateAt(u int32) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.AddUpdateAt(u)
 	return catuo
 }
@@ -506,7 +507,7 @@ func (catuo *CoinAccountTransactionUpdateOne) SetNillableDeleteAt(u *uint32) *Co
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (catuo *CoinAccountTransactionUpdateOne) AddDeleteAt(u uint32) *CoinAccountTransactionUpdateOne {
+func (catuo *CoinAccountTransactionUpdateOne) AddDeleteAt(u int32) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.AddDeleteAt(u)
 	return catuo
 }
@@ -596,7 +597,7 @@ func (catuo *CoinAccountTransactionUpdateOne) defaults() {
 func (catuo *CoinAccountTransactionUpdateOne) check() error {
 	if v, ok := catuo.mutation.State(); ok {
 		if err := coinaccounttransaction.StateValidator(v); err != nil {
-			return &ValidationError{Name: "state", err: fmt.Errorf("ent: validator failed for field \"state\": %w", err)}
+			return &ValidationError{Name: "state", err: fmt.Errorf(`ent: validator failed for field "CoinAccountTransaction.state": %w`, err)}
 		}
 	}
 	return nil
@@ -615,7 +616,7 @@ func (catuo *CoinAccountTransactionUpdateOne) sqlSave(ctx context.Context) (_nod
 	}
 	id, ok := catuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing CoinAccountTransaction.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "CoinAccountTransaction.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := catuo.fields; len(fields) > 0 {
@@ -637,18 +638,18 @@ func (catuo *CoinAccountTransactionUpdateOne) sqlSave(ctx context.Context) (_nod
 			}
 		}
 	}
-	if value, ok := catuo.mutation.UserID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: coinaccounttransaction.FieldUserID,
-		})
-	}
 	if value, ok := catuo.mutation.AppID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: coinaccounttransaction.FieldAppID,
+		})
+	}
+	if value, ok := catuo.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinaccounttransaction.FieldUserID,
 		})
 	}
 	if value, ok := catuo.mutation.FromAddressID(); ok {

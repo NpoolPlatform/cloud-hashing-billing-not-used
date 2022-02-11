@@ -101,6 +101,14 @@ func (pbc *PlatformBenefitCreate) SetID(u uuid.UUID) *PlatformBenefitCreate {
 	return pbc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (pbc *PlatformBenefitCreate) SetNillableID(u *uuid.UUID) *PlatformBenefitCreate {
+	if u != nil {
+		pbc.SetID(*u)
+	}
+	return pbc
+}
+
 // Mutation returns the PlatformBenefitMutation object of the builder.
 func (pbc *PlatformBenefitCreate) Mutation() *PlatformBenefitMutation {
 	return pbc.mutation
@@ -193,28 +201,28 @@ func (pbc *PlatformBenefitCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (pbc *PlatformBenefitCreate) check() error {
 	if _, ok := pbc.mutation.GoodID(); !ok {
-		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "good_id"`)}
+		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "PlatformBenefit.good_id"`)}
 	}
 	if _, ok := pbc.mutation.BenefitAccountID(); !ok {
-		return &ValidationError{Name: "benefit_account_id", err: errors.New(`ent: missing required field "benefit_account_id"`)}
+		return &ValidationError{Name: "benefit_account_id", err: errors.New(`ent: missing required field "PlatformBenefit.benefit_account_id"`)}
 	}
 	if _, ok := pbc.mutation.Amount(); !ok {
-		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "amount"`)}
+		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "PlatformBenefit.amount"`)}
 	}
 	if _, ok := pbc.mutation.LastBenefitTimestamp(); !ok {
-		return &ValidationError{Name: "last_benefit_timestamp", err: errors.New(`ent: missing required field "last_benefit_timestamp"`)}
+		return &ValidationError{Name: "last_benefit_timestamp", err: errors.New(`ent: missing required field "PlatformBenefit.last_benefit_timestamp"`)}
 	}
 	if _, ok := pbc.mutation.ChainTransactionID(); !ok {
-		return &ValidationError{Name: "chain_transaction_id", err: errors.New(`ent: missing required field "chain_transaction_id"`)}
+		return &ValidationError{Name: "chain_transaction_id", err: errors.New(`ent: missing required field "PlatformBenefit.chain_transaction_id"`)}
 	}
 	if _, ok := pbc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "PlatformBenefit.create_at"`)}
 	}
 	if _, ok := pbc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "PlatformBenefit.update_at"`)}
 	}
 	if _, ok := pbc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "PlatformBenefit.delete_at"`)}
 	}
 	return nil
 }
@@ -228,7 +236,11 @@ func (pbc *PlatformBenefitCreate) sqlSave(ctx context.Context) (*PlatformBenefit
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -247,7 +259,7 @@ func (pbc *PlatformBenefitCreate) createSpec() (*PlatformBenefit, *sqlgraph.Crea
 	_spec.OnConflict = pbc.conflict
 	if id, ok := pbc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := pbc.mutation.GoodID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -403,6 +415,12 @@ func (u *PlatformBenefitUpsert) UpdateAmount() *PlatformBenefitUpsert {
 	return u
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *PlatformBenefitUpsert) AddAmount(v uint64) *PlatformBenefitUpsert {
+	u.Add(platformbenefit.FieldAmount, v)
+	return u
+}
+
 // SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
 func (u *PlatformBenefitUpsert) SetLastBenefitTimestamp(v uint32) *PlatformBenefitUpsert {
 	u.Set(platformbenefit.FieldLastBenefitTimestamp, v)
@@ -412,6 +430,12 @@ func (u *PlatformBenefitUpsert) SetLastBenefitTimestamp(v uint32) *PlatformBenef
 // UpdateLastBenefitTimestamp sets the "last_benefit_timestamp" field to the value that was provided on create.
 func (u *PlatformBenefitUpsert) UpdateLastBenefitTimestamp() *PlatformBenefitUpsert {
 	u.SetExcluded(platformbenefit.FieldLastBenefitTimestamp)
+	return u
+}
+
+// AddLastBenefitTimestamp adds v to the "last_benefit_timestamp" field.
+func (u *PlatformBenefitUpsert) AddLastBenefitTimestamp(v uint32) *PlatformBenefitUpsert {
+	u.Add(platformbenefit.FieldLastBenefitTimestamp, v)
 	return u
 }
 
@@ -439,6 +463,12 @@ func (u *PlatformBenefitUpsert) UpdateCreateAt() *PlatformBenefitUpsert {
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *PlatformBenefitUpsert) AddCreateAt(v uint32) *PlatformBenefitUpsert {
+	u.Add(platformbenefit.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *PlatformBenefitUpsert) SetUpdateAt(v uint32) *PlatformBenefitUpsert {
 	u.Set(platformbenefit.FieldUpdateAt, v)
@@ -448,6 +478,12 @@ func (u *PlatformBenefitUpsert) SetUpdateAt(v uint32) *PlatformBenefitUpsert {
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *PlatformBenefitUpsert) UpdateUpdateAt() *PlatformBenefitUpsert {
 	u.SetExcluded(platformbenefit.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PlatformBenefitUpsert) AddUpdateAt(v uint32) *PlatformBenefitUpsert {
+	u.Add(platformbenefit.FieldUpdateAt, v)
 	return u
 }
 
@@ -463,7 +499,13 @@ func (u *PlatformBenefitUpsert) UpdateDeleteAt() *PlatformBenefitUpsert {
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PlatformBenefitUpsert) AddDeleteAt(v uint32) *PlatformBenefitUpsert {
+	u.Add(platformbenefit.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.PlatformBenefit.Create().
@@ -548,6 +590,13 @@ func (u *PlatformBenefitUpsertOne) SetAmount(v uint64) *PlatformBenefitUpsertOne
 	})
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *PlatformBenefitUpsertOne) AddAmount(v uint64) *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddAmount(v)
+	})
+}
+
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *PlatformBenefitUpsertOne) UpdateAmount() *PlatformBenefitUpsertOne {
 	return u.Update(func(s *PlatformBenefitUpsert) {
@@ -559,6 +608,13 @@ func (u *PlatformBenefitUpsertOne) UpdateAmount() *PlatformBenefitUpsertOne {
 func (u *PlatformBenefitUpsertOne) SetLastBenefitTimestamp(v uint32) *PlatformBenefitUpsertOne {
 	return u.Update(func(s *PlatformBenefitUpsert) {
 		s.SetLastBenefitTimestamp(v)
+	})
+}
+
+// AddLastBenefitTimestamp adds v to the "last_benefit_timestamp" field.
+func (u *PlatformBenefitUpsertOne) AddLastBenefitTimestamp(v uint32) *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddLastBenefitTimestamp(v)
 	})
 }
 
@@ -590,6 +646,13 @@ func (u *PlatformBenefitUpsertOne) SetCreateAt(v uint32) *PlatformBenefitUpsertO
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *PlatformBenefitUpsertOne) AddCreateAt(v uint32) *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *PlatformBenefitUpsertOne) UpdateCreateAt() *PlatformBenefitUpsertOne {
 	return u.Update(func(s *PlatformBenefitUpsert) {
@@ -604,6 +667,13 @@ func (u *PlatformBenefitUpsertOne) SetUpdateAt(v uint32) *PlatformBenefitUpsertO
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PlatformBenefitUpsertOne) AddUpdateAt(v uint32) *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *PlatformBenefitUpsertOne) UpdateUpdateAt() *PlatformBenefitUpsertOne {
 	return u.Update(func(s *PlatformBenefitUpsert) {
@@ -615,6 +685,13 @@ func (u *PlatformBenefitUpsertOne) UpdateUpdateAt() *PlatformBenefitUpsertOne {
 func (u *PlatformBenefitUpsertOne) SetDeleteAt(v uint32) *PlatformBenefitUpsertOne {
 	return u.Update(func(s *PlatformBenefitUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PlatformBenefitUpsertOne) AddDeleteAt(v uint32) *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -788,7 +865,7 @@ type PlatformBenefitUpsertBulk struct {
 	create *PlatformBenefitCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.PlatformBenefit.Create().
@@ -876,6 +953,13 @@ func (u *PlatformBenefitUpsertBulk) SetAmount(v uint64) *PlatformBenefitUpsertBu
 	})
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *PlatformBenefitUpsertBulk) AddAmount(v uint64) *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddAmount(v)
+	})
+}
+
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *PlatformBenefitUpsertBulk) UpdateAmount() *PlatformBenefitUpsertBulk {
 	return u.Update(func(s *PlatformBenefitUpsert) {
@@ -887,6 +971,13 @@ func (u *PlatformBenefitUpsertBulk) UpdateAmount() *PlatformBenefitUpsertBulk {
 func (u *PlatformBenefitUpsertBulk) SetLastBenefitTimestamp(v uint32) *PlatformBenefitUpsertBulk {
 	return u.Update(func(s *PlatformBenefitUpsert) {
 		s.SetLastBenefitTimestamp(v)
+	})
+}
+
+// AddLastBenefitTimestamp adds v to the "last_benefit_timestamp" field.
+func (u *PlatformBenefitUpsertBulk) AddLastBenefitTimestamp(v uint32) *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddLastBenefitTimestamp(v)
 	})
 }
 
@@ -918,6 +1009,13 @@ func (u *PlatformBenefitUpsertBulk) SetCreateAt(v uint32) *PlatformBenefitUpsert
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *PlatformBenefitUpsertBulk) AddCreateAt(v uint32) *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *PlatformBenefitUpsertBulk) UpdateCreateAt() *PlatformBenefitUpsertBulk {
 	return u.Update(func(s *PlatformBenefitUpsert) {
@@ -932,6 +1030,13 @@ func (u *PlatformBenefitUpsertBulk) SetUpdateAt(v uint32) *PlatformBenefitUpsert
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PlatformBenefitUpsertBulk) AddUpdateAt(v uint32) *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *PlatformBenefitUpsertBulk) UpdateUpdateAt() *PlatformBenefitUpsertBulk {
 	return u.Update(func(s *PlatformBenefitUpsert) {
@@ -943,6 +1048,13 @@ func (u *PlatformBenefitUpsertBulk) UpdateUpdateAt() *PlatformBenefitUpsertBulk 
 func (u *PlatformBenefitUpsertBulk) SetDeleteAt(v uint32) *PlatformBenefitUpsertBulk {
 	return u.Update(func(s *PlatformBenefitUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PlatformBenefitUpsertBulk) AddDeleteAt(v uint32) *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

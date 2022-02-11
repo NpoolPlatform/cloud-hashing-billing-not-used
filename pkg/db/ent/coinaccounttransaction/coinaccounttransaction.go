@@ -13,10 +13,10 @@ const (
 	Label = "coin_account_transaction"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldUserID holds the string denoting the user_id field in the database.
-	FieldUserID = "user_id"
 	// FieldAppID holds the string denoting the app_id field in the database.
 	FieldAppID = "app_id"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
 	// FieldFromAddressID holds the string denoting the from_address_id field in the database.
 	FieldFromAddressID = "from_address_id"
 	// FieldToAddressID holds the string denoting the to_address_id field in the database.
@@ -46,8 +46,8 @@ const (
 // Columns holds all SQL columns for coinaccounttransaction fields.
 var Columns = []string{
 	FieldID,
-	FieldUserID,
 	FieldAppID,
+	FieldUserID,
 	FieldFromAddressID,
 	FieldToAddressID,
 	FieldCoinTypeID,

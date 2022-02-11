@@ -11,12 +11,12 @@ const (
 	Label = "user_benefit"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldGoodID holds the string denoting the good_id field in the database.
-	FieldGoodID = "good_id"
 	// FieldAppID holds the string denoting the app_id field in the database.
 	FieldAppID = "app_id"
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
+	// FieldGoodID holds the string denoting the good_id field in the database.
+	FieldGoodID = "good_id"
 	// FieldOrderID holds the string denoting the order_id field in the database.
 	FieldOrderID = "order_id"
 	// FieldAmount holds the string denoting the amount field in the database.
@@ -36,9 +36,9 @@ const (
 // Columns holds all SQL columns for userbenefit fields.
 var Columns = []string{
 	FieldID,
-	FieldGoodID,
 	FieldAppID,
 	FieldUserID,
+	FieldGoodID,
 	FieldOrderID,
 	FieldAmount,
 	FieldLastBenefitTimestamp,

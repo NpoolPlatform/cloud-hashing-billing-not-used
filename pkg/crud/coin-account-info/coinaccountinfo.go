@@ -33,14 +33,13 @@ func validateCoinAccount(info *npool.CoinAccountInfo) error {
 
 func dbRowToCoinAccount(row *ent.CoinAccountInfo) *npool.CoinAccountInfo {
 	return &npool.CoinAccountInfo{
-		ID:          row.ID.String(),
-		CoinTypeID:  row.CoinTypeID.String(),
-		Address:     row.Address,
-		GeneratedBy: string(row.GeneratedBy),
-		UsedFor:     string(row.UsedFor),
-		Idle:        row.Idle,
-		AppID:       row.AppID.String(),
-		UserID:      row.UserID.String(),
+		ID:                     row.ID.String(),
+		CoinTypeID:             row.CoinTypeID.String(),
+		Address:                row.Address,
+		GeneratedBy:            string(row.GeneratedBy),
+		AppID:                  row.AppID.String(),
+		UserID:                 row.UserID.String(),
+		PlatformHoldPrivateKey: row.PlatformHoldPrivateKey,
 	}
 }
 
@@ -60,10 +59,9 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountRequest) (*npool.Cre
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetAddress(in.GetInfo().GetAddress()).
 		SetGeneratedBy(coinaccountinfo.GeneratedBy(in.GetInfo().GetGeneratedBy())).
-		SetUsedFor(coinaccountinfo.UsedFor(in.GetInfo().GetUsedFor())).
-		SetIdle(true).
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
+		SetPlatformHoldPrivateKey(in.GetInfo().GetPlatformHoldPrivateKey()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create coin account: %v", err)

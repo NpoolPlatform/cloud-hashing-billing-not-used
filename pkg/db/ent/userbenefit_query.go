@@ -254,12 +254,12 @@ func (ubq *UserBenefitQuery) Clone() *UserBenefitQuery {
 // Example:
 //
 //	var v []struct {
-//		GoodID uuid.UUID `json:"good_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.UserBenefit.Query().
-//		GroupBy(userbenefit.FieldGoodID).
+//		GroupBy(userbenefit.FieldAppID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (ubq *UserBenefitQuery) GroupBy(field string, fields ...string) *UserBenefi
 // Example:
 //
 //	var v []struct {
-//		GoodID uuid.UUID `json:"good_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //	}
 //
 //	client.UserBenefit.Query().
-//		Select(userbenefit.FieldGoodID).
+//		Select(userbenefit.FieldAppID).
 //		Scan(ctx, &v)
 //
 func (ubq *UserBenefitQuery) Select(fields ...string) *UserBenefitSelect {
@@ -337,6 +337,10 @@ func (ubq *UserBenefitQuery) sqlAll(ctx context.Context) ([]*UserBenefit, error)
 
 func (ubq *UserBenefitQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := ubq.querySpec()
+	_spec.Node.Columns = ubq.fields
+	if len(ubq.fields) > 0 {
+		_spec.Unique = ubq.unique != nil && *ubq.unique
+	}
 	return sqlgraph.CountNodes(ctx, ubq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (ubq *UserBenefitQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if ubq.sql != nil {
 		selector = ubq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if ubq.unique != nil && *ubq.unique {
+		selector.Distinct()
 	}
 	for _, p := range ubq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (ubgb *UserBenefitGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range ubgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(ubgb.fields...)...)

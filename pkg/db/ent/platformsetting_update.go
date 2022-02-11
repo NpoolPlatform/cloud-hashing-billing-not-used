@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -86,7 +87,7 @@ func (psu *PlatformSettingUpdate) SetNillableCreateAt(u *uint32) *PlatformSettin
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (psu *PlatformSettingUpdate) AddCreateAt(u uint32) *PlatformSettingUpdate {
+func (psu *PlatformSettingUpdate) AddCreateAt(u int32) *PlatformSettingUpdate {
 	psu.mutation.AddCreateAt(u)
 	return psu
 }
@@ -99,7 +100,7 @@ func (psu *PlatformSettingUpdate) SetUpdateAt(u uint32) *PlatformSettingUpdate {
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (psu *PlatformSettingUpdate) AddUpdateAt(u uint32) *PlatformSettingUpdate {
+func (psu *PlatformSettingUpdate) AddUpdateAt(u int32) *PlatformSettingUpdate {
 	psu.mutation.AddUpdateAt(u)
 	return psu
 }
@@ -120,7 +121,7 @@ func (psu *PlatformSettingUpdate) SetNillableDeleteAt(u *uint32) *PlatformSettin
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (psu *PlatformSettingUpdate) AddDeleteAt(u uint32) *PlatformSettingUpdate {
+func (psu *PlatformSettingUpdate) AddDeleteAt(u int32) *PlatformSettingUpdate {
 	psu.mutation.AddDeleteAt(u)
 	return psu
 }
@@ -380,7 +381,7 @@ func (psuo *PlatformSettingUpdateOne) SetNillableCreateAt(u *uint32) *PlatformSe
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (psuo *PlatformSettingUpdateOne) AddCreateAt(u uint32) *PlatformSettingUpdateOne {
+func (psuo *PlatformSettingUpdateOne) AddCreateAt(u int32) *PlatformSettingUpdateOne {
 	psuo.mutation.AddCreateAt(u)
 	return psuo
 }
@@ -393,7 +394,7 @@ func (psuo *PlatformSettingUpdateOne) SetUpdateAt(u uint32) *PlatformSettingUpda
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (psuo *PlatformSettingUpdateOne) AddUpdateAt(u uint32) *PlatformSettingUpdateOne {
+func (psuo *PlatformSettingUpdateOne) AddUpdateAt(u int32) *PlatformSettingUpdateOne {
 	psuo.mutation.AddUpdateAt(u)
 	return psuo
 }
@@ -414,7 +415,7 @@ func (psuo *PlatformSettingUpdateOne) SetNillableDeleteAt(u *uint32) *PlatformSe
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (psuo *PlatformSettingUpdateOne) AddDeleteAt(u uint32) *PlatformSettingUpdateOne {
+func (psuo *PlatformSettingUpdateOne) AddDeleteAt(u int32) *PlatformSettingUpdateOne {
 	psuo.mutation.AddDeleteAt(u)
 	return psuo
 }
@@ -507,7 +508,7 @@ func (psuo *PlatformSettingUpdateOne) sqlSave(ctx context.Context) (_node *Platf
 	}
 	id, ok := psuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing PlatformSetting.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "PlatformSetting.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := psuo.fields; len(fields) > 0 {

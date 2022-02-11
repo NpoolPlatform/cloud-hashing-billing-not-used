@@ -16,10 +16,10 @@ type CoinAccountTransaction struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID uuid.UUID `json:"id,omitempty"`
-	// UserID holds the value of the "user_id" field.
-	UserID uuid.UUID `json:"user_id,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
+	// UserID holds the value of the "user_id" field.
+	UserID uuid.UUID `json:"user_id,omitempty"`
 	// FromAddressID holds the value of the "from_address_id" field.
 	FromAddressID uuid.UUID `json:"from_address_id,omitempty"`
 	// ToAddressID holds the value of the "to_address_id" field.
@@ -53,7 +53,7 @@ func (*CoinAccountTransaction) scanValues(columns []string) ([]interface{}, erro
 			values[i] = new(sql.NullInt64)
 		case coinaccounttransaction.FieldMessage, coinaccounttransaction.FieldState, coinaccounttransaction.FieldChainTransactionID:
 			values[i] = new(sql.NullString)
-		case coinaccounttransaction.FieldID, coinaccounttransaction.FieldUserID, coinaccounttransaction.FieldAppID, coinaccounttransaction.FieldFromAddressID, coinaccounttransaction.FieldToAddressID, coinaccounttransaction.FieldCoinTypeID, coinaccounttransaction.FieldPlatformTransactionID:
+		case coinaccounttransaction.FieldID, coinaccounttransaction.FieldAppID, coinaccounttransaction.FieldUserID, coinaccounttransaction.FieldFromAddressID, coinaccounttransaction.FieldToAddressID, coinaccounttransaction.FieldCoinTypeID, coinaccounttransaction.FieldPlatformTransactionID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CoinAccountTransaction", columns[i])
@@ -76,17 +76,17 @@ func (cat *CoinAccountTransaction) assignValues(columns []string, values []inter
 			} else if value != nil {
 				cat.ID = *value
 			}
-		case coinaccounttransaction.FieldUserID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field user_id", values[i])
-			} else if value != nil {
-				cat.UserID = *value
-			}
 		case coinaccounttransaction.FieldAppID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
 				return fmt.Errorf("unexpected type %T for field app_id", values[i])
 			} else if value != nil {
 				cat.AppID = *value
+			}
+		case coinaccounttransaction.FieldUserID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
+			} else if value != nil {
+				cat.UserID = *value
 			}
 		case coinaccounttransaction.FieldFromAddressID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -182,10 +182,10 @@ func (cat *CoinAccountTransaction) String() string {
 	var builder strings.Builder
 	builder.WriteString("CoinAccountTransaction(")
 	builder.WriteString(fmt.Sprintf("id=%v", cat.ID))
-	builder.WriteString(", user_id=")
-	builder.WriteString(fmt.Sprintf("%v", cat.UserID))
 	builder.WriteString(", app_id=")
 	builder.WriteString(fmt.Sprintf("%v", cat.AppID))
+	builder.WriteString(", user_id=")
+	builder.WriteString(fmt.Sprintf("%v", cat.UserID))
 	builder.WriteString(", from_address_id=")
 	builder.WriteString(fmt.Sprintf("%v", cat.FromAddressID))
 	builder.WriteString(", to_address_id=")

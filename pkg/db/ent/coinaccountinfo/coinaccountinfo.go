@@ -13,20 +13,18 @@ const (
 	Label = "coin_account_info"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldAppID holds the string denoting the app_id field in the database.
+	FieldAppID = "app_id"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
 	// FieldCoinTypeID holds the string denoting the coin_type_id field in the database.
 	FieldCoinTypeID = "coin_type_id"
 	// FieldAddress holds the string denoting the address field in the database.
 	FieldAddress = "address"
 	// FieldGeneratedBy holds the string denoting the generated_by field in the database.
 	FieldGeneratedBy = "generated_by"
-	// FieldUsedFor holds the string denoting the used_for field in the database.
-	FieldUsedFor = "used_for"
-	// FieldIdle holds the string denoting the idle field in the database.
-	FieldIdle = "idle"
-	// FieldAppID holds the string denoting the app_id field in the database.
-	FieldAppID = "app_id"
-	// FieldUserID holds the string denoting the user_id field in the database.
-	FieldUserID = "user_id"
+	// FieldPlatformHoldPrivateKey holds the string denoting the platform_hold_private_key field in the database.
+	FieldPlatformHoldPrivateKey = "platform_hold_private_key"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -40,13 +38,12 @@ const (
 // Columns holds all SQL columns for coinaccountinfo fields.
 var Columns = []string{
 	FieldID,
+	FieldAppID,
+	FieldUserID,
 	FieldCoinTypeID,
 	FieldAddress,
 	FieldGeneratedBy,
-	FieldUsedFor,
-	FieldIdle,
-	FieldAppID,
-	FieldUserID,
+	FieldPlatformHoldPrivateKey,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
@@ -95,31 +92,5 @@ func GeneratedByValidator(gb GeneratedBy) error {
 		return nil
 	default:
 		return fmt.Errorf("coinaccountinfo: invalid enum value for generated_by field: %q", gb)
-	}
-}
-
-// UsedFor defines the type for the "used_for" enum field.
-type UsedFor string
-
-// UsedFor values.
-const (
-	UsedForBenefit  UsedFor = "benefit"
-	UsedForOffline  UsedFor = "offline"
-	UsedForUser     UsedFor = "user"
-	UsedForPaying   UsedFor = "paying"
-	UsedForWithdraw UsedFor = "withdraw"
-)
-
-func (uf UsedFor) String() string {
-	return string(uf)
-}
-
-// UsedForValidator is a validator for the "used_for" field enum values. It is called by the builders before save.
-func UsedForValidator(uf UsedFor) error {
-	switch uf {
-	case UsedForBenefit, UsedForOffline, UsedForUser, UsedForPaying, UsedForWithdraw:
-		return nil
-	default:
-		return fmt.Errorf("coinaccountinfo: invalid enum value for used_for field: %q", uf)
 	}
 }

@@ -11,13 +11,12 @@ var (
 	// CoinAccountInfosColumns holds the columns for the "coin_account_infos" table.
 	CoinAccountInfosColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "coin_type_id", Type: field.TypeUUID},
 		{Name: "address", Type: field.TypeString},
 		{Name: "generated_by", Type: field.TypeEnum, Enums: []string{"platform", "user"}},
-		{Name: "used_for", Type: field.TypeEnum, Enums: []string{"benefit", "offline", "user", "paying", "withdraw"}},
-		{Name: "idle", Type: field.TypeBool},
-		{Name: "app_id", Type: field.TypeUUID},
-		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "platform_hold_private_key", Type: field.TypeBool},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -31,15 +30,15 @@ var (
 			{
 				Name:    "coinaccountinfo_coin_type_id_address",
 				Unique:  true,
-				Columns: []*schema.Column{CoinAccountInfosColumns[1], CoinAccountInfosColumns[2]},
+				Columns: []*schema.Column{CoinAccountInfosColumns[3], CoinAccountInfosColumns[4]},
 			},
 		},
 	}
 	// CoinAccountTransactionsColumns holds the columns for the "coin_account_transactions" table.
 	CoinAccountTransactionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "from_address_id", Type: field.TypeUUID},
 		{Name: "to_address_id", Type: field.TypeUUID},
 		{Name: "coin_type_id", Type: field.TypeUUID},
@@ -105,9 +104,9 @@ var (
 	// UserBenefitsColumns holds the columns for the "user_benefits" table.
 	UserBenefitsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "order_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
 		{Name: "last_benefit_timestamp", Type: field.TypeUint32},
@@ -124,7 +123,7 @@ var (
 			{
 				Name:    "userbenefit_good_id_last_benefit_timestamp_app_id_user_id_order_id",
 				Unique:  true,
-				Columns: []*schema.Column{UserBenefitsColumns[1], UserBenefitsColumns[6], UserBenefitsColumns[2], UserBenefitsColumns[3], UserBenefitsColumns[4]},
+				Columns: []*schema.Column{UserBenefitsColumns[3], UserBenefitsColumns[6], UserBenefitsColumns[1], UserBenefitsColumns[2], UserBenefitsColumns[4]},
 			},
 		},
 	}

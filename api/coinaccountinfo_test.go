@@ -17,7 +17,6 @@ func assertCoinAccount(t *testing.T, actual, expected *npool.CoinAccountInfo) {
 	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
 	assert.Equal(t, actual.Address, expected.Address)
 	assert.Equal(t, actual.GeneratedBy, expected.GeneratedBy)
-	assert.Equal(t, actual.UsedFor, expected.UsedFor)
 	assert.Equal(t, actual.AppID, expected.AppID)
 	assert.Equal(t, actual.UserID, expected.UserID)
 }
@@ -33,7 +32,6 @@ func TestCoinAccountInfoCRUD(t *testing.T) { //nolint
 		UserID:      uuid.New().String(),
 		Address:     uuid.New().String(),
 		GeneratedBy: "user",
-		UsedFor:     "benefit",
 	}
 	firstCreateInfo := npool.CreateCoinAccountResponse{}
 

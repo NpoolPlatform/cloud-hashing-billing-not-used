@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -27,12 +28,6 @@ func (ubu *UserBenefitUpdate) Where(ps ...predicate.UserBenefit) *UserBenefitUpd
 	return ubu
 }
 
-// SetGoodID sets the "good_id" field.
-func (ubu *UserBenefitUpdate) SetGoodID(u uuid.UUID) *UserBenefitUpdate {
-	ubu.mutation.SetGoodID(u)
-	return ubu
-}
-
 // SetAppID sets the "app_id" field.
 func (ubu *UserBenefitUpdate) SetAppID(u uuid.UUID) *UserBenefitUpdate {
 	ubu.mutation.SetAppID(u)
@@ -42,6 +37,12 @@ func (ubu *UserBenefitUpdate) SetAppID(u uuid.UUID) *UserBenefitUpdate {
 // SetUserID sets the "user_id" field.
 func (ubu *UserBenefitUpdate) SetUserID(u uuid.UUID) *UserBenefitUpdate {
 	ubu.mutation.SetUserID(u)
+	return ubu
+}
+
+// SetGoodID sets the "good_id" field.
+func (ubu *UserBenefitUpdate) SetGoodID(u uuid.UUID) *UserBenefitUpdate {
+	ubu.mutation.SetGoodID(u)
 	return ubu
 }
 
@@ -59,7 +60,7 @@ func (ubu *UserBenefitUpdate) SetAmount(u uint64) *UserBenefitUpdate {
 }
 
 // AddAmount adds u to the "amount" field.
-func (ubu *UserBenefitUpdate) AddAmount(u uint64) *UserBenefitUpdate {
+func (ubu *UserBenefitUpdate) AddAmount(u int64) *UserBenefitUpdate {
 	ubu.mutation.AddAmount(u)
 	return ubu
 }
@@ -72,7 +73,7 @@ func (ubu *UserBenefitUpdate) SetLastBenefitTimestamp(u uint32) *UserBenefitUpda
 }
 
 // AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
-func (ubu *UserBenefitUpdate) AddLastBenefitTimestamp(u uint32) *UserBenefitUpdate {
+func (ubu *UserBenefitUpdate) AddLastBenefitTimestamp(u int32) *UserBenefitUpdate {
 	ubu.mutation.AddLastBenefitTimestamp(u)
 	return ubu
 }
@@ -93,7 +94,7 @@ func (ubu *UserBenefitUpdate) SetNillableCreateAt(u *uint32) *UserBenefitUpdate 
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (ubu *UserBenefitUpdate) AddCreateAt(u uint32) *UserBenefitUpdate {
+func (ubu *UserBenefitUpdate) AddCreateAt(u int32) *UserBenefitUpdate {
 	ubu.mutation.AddCreateAt(u)
 	return ubu
 }
@@ -106,7 +107,7 @@ func (ubu *UserBenefitUpdate) SetUpdateAt(u uint32) *UserBenefitUpdate {
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (ubu *UserBenefitUpdate) AddUpdateAt(u uint32) *UserBenefitUpdate {
+func (ubu *UserBenefitUpdate) AddUpdateAt(u int32) *UserBenefitUpdate {
 	ubu.mutation.AddUpdateAt(u)
 	return ubu
 }
@@ -127,7 +128,7 @@ func (ubu *UserBenefitUpdate) SetNillableDeleteAt(u *uint32) *UserBenefitUpdate 
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (ubu *UserBenefitUpdate) AddDeleteAt(u uint32) *UserBenefitUpdate {
+func (ubu *UserBenefitUpdate) AddDeleteAt(u int32) *UserBenefitUpdate {
 	ubu.mutation.AddDeleteAt(u)
 	return ubu
 }
@@ -218,13 +219,6 @@ func (ubu *UserBenefitUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := ubu.mutation.GoodID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userbenefit.FieldGoodID,
-		})
-	}
 	if value, ok := ubu.mutation.AppID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -237,6 +231,13 @@ func (ubu *UserBenefitUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: userbenefit.FieldUserID,
+		})
+	}
+	if value, ok := ubu.mutation.GoodID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldGoodID,
 		})
 	}
 	if value, ok := ubu.mutation.OrderID(); ok {
@@ -335,12 +336,6 @@ type UserBenefitUpdateOne struct {
 	mutation *UserBenefitMutation
 }
 
-// SetGoodID sets the "good_id" field.
-func (ubuo *UserBenefitUpdateOne) SetGoodID(u uuid.UUID) *UserBenefitUpdateOne {
-	ubuo.mutation.SetGoodID(u)
-	return ubuo
-}
-
 // SetAppID sets the "app_id" field.
 func (ubuo *UserBenefitUpdateOne) SetAppID(u uuid.UUID) *UserBenefitUpdateOne {
 	ubuo.mutation.SetAppID(u)
@@ -350,6 +345,12 @@ func (ubuo *UserBenefitUpdateOne) SetAppID(u uuid.UUID) *UserBenefitUpdateOne {
 // SetUserID sets the "user_id" field.
 func (ubuo *UserBenefitUpdateOne) SetUserID(u uuid.UUID) *UserBenefitUpdateOne {
 	ubuo.mutation.SetUserID(u)
+	return ubuo
+}
+
+// SetGoodID sets the "good_id" field.
+func (ubuo *UserBenefitUpdateOne) SetGoodID(u uuid.UUID) *UserBenefitUpdateOne {
+	ubuo.mutation.SetGoodID(u)
 	return ubuo
 }
 
@@ -367,7 +368,7 @@ func (ubuo *UserBenefitUpdateOne) SetAmount(u uint64) *UserBenefitUpdateOne {
 }
 
 // AddAmount adds u to the "amount" field.
-func (ubuo *UserBenefitUpdateOne) AddAmount(u uint64) *UserBenefitUpdateOne {
+func (ubuo *UserBenefitUpdateOne) AddAmount(u int64) *UserBenefitUpdateOne {
 	ubuo.mutation.AddAmount(u)
 	return ubuo
 }
@@ -380,7 +381,7 @@ func (ubuo *UserBenefitUpdateOne) SetLastBenefitTimestamp(u uint32) *UserBenefit
 }
 
 // AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
-func (ubuo *UserBenefitUpdateOne) AddLastBenefitTimestamp(u uint32) *UserBenefitUpdateOne {
+func (ubuo *UserBenefitUpdateOne) AddLastBenefitTimestamp(u int32) *UserBenefitUpdateOne {
 	ubuo.mutation.AddLastBenefitTimestamp(u)
 	return ubuo
 }
@@ -401,7 +402,7 @@ func (ubuo *UserBenefitUpdateOne) SetNillableCreateAt(u *uint32) *UserBenefitUpd
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (ubuo *UserBenefitUpdateOne) AddCreateAt(u uint32) *UserBenefitUpdateOne {
+func (ubuo *UserBenefitUpdateOne) AddCreateAt(u int32) *UserBenefitUpdateOne {
 	ubuo.mutation.AddCreateAt(u)
 	return ubuo
 }
@@ -414,7 +415,7 @@ func (ubuo *UserBenefitUpdateOne) SetUpdateAt(u uint32) *UserBenefitUpdateOne {
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (ubuo *UserBenefitUpdateOne) AddUpdateAt(u uint32) *UserBenefitUpdateOne {
+func (ubuo *UserBenefitUpdateOne) AddUpdateAt(u int32) *UserBenefitUpdateOne {
 	ubuo.mutation.AddUpdateAt(u)
 	return ubuo
 }
@@ -435,7 +436,7 @@ func (ubuo *UserBenefitUpdateOne) SetNillableDeleteAt(u *uint32) *UserBenefitUpd
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (ubuo *UserBenefitUpdateOne) AddDeleteAt(u uint32) *UserBenefitUpdateOne {
+func (ubuo *UserBenefitUpdateOne) AddDeleteAt(u int32) *UserBenefitUpdateOne {
 	ubuo.mutation.AddDeleteAt(u)
 	return ubuo
 }
@@ -528,7 +529,7 @@ func (ubuo *UserBenefitUpdateOne) sqlSave(ctx context.Context) (_node *UserBenef
 	}
 	id, ok := ubuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing UserBenefit.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "UserBenefit.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := ubuo.fields; len(fields) > 0 {
@@ -550,13 +551,6 @@ func (ubuo *UserBenefitUpdateOne) sqlSave(ctx context.Context) (_node *UserBenef
 			}
 		}
 	}
-	if value, ok := ubuo.mutation.GoodID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userbenefit.FieldGoodID,
-		})
-	}
 	if value, ok := ubuo.mutation.AppID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -569,6 +563,13 @@ func (ubuo *UserBenefitUpdateOne) sqlSave(ctx context.Context) (_node *UserBenef
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: userbenefit.FieldUserID,
+		})
+	}
+	if value, ok := ubuo.mutation.GoodID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldGoodID,
 		})
 	}
 	if value, ok := ubuo.mutation.OrderID(); ok {

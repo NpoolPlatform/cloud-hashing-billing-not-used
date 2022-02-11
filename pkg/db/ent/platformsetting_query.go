@@ -337,6 +337,10 @@ func (psq *PlatformSettingQuery) sqlAll(ctx context.Context) ([]*PlatformSetting
 
 func (psq *PlatformSettingQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := psq.querySpec()
+	_spec.Node.Columns = psq.fields
+	if len(psq.fields) > 0 {
+		_spec.Unique = psq.unique != nil && *psq.unique
+	}
 	return sqlgraph.CountNodes(ctx, psq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (psq *PlatformSettingQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if psq.sql != nil {
 		selector = psq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if psq.unique != nil && *psq.unique {
+		selector.Distinct()
 	}
 	for _, p := range psq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (psgb *PlatformSettingGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range psgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(psgb.fields...)...)

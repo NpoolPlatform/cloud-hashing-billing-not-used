@@ -107,6 +107,14 @@ func (psc *PlatformSettingCreate) SetID(u uuid.UUID) *PlatformSettingCreate {
 	return psc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (psc *PlatformSettingCreate) SetNillableID(u *uuid.UUID) *PlatformSettingCreate {
+	if u != nil {
+		psc.SetID(*u)
+	}
+	return psc
+}
+
 // Mutation returns the PlatformSettingMutation object of the builder.
 func (psc *PlatformSettingCreate) Mutation() *PlatformSettingMutation {
 	return psc.mutation
@@ -199,31 +207,31 @@ func (psc *PlatformSettingCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (psc *PlatformSettingCreate) check() error {
 	if _, ok := psc.mutation.GoodID(); !ok {
-		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "good_id"`)}
+		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "PlatformSetting.good_id"`)}
 	}
 	if _, ok := psc.mutation.BenefitAccountID(); !ok {
-		return &ValidationError{Name: "benefit_account_id", err: errors.New(`ent: missing required field "benefit_account_id"`)}
+		return &ValidationError{Name: "benefit_account_id", err: errors.New(`ent: missing required field "PlatformSetting.benefit_account_id"`)}
 	}
 	if _, ok := psc.mutation.PlatformOfflineAccountID(); !ok {
-		return &ValidationError{Name: "platform_offline_account_id", err: errors.New(`ent: missing required field "platform_offline_account_id"`)}
+		return &ValidationError{Name: "platform_offline_account_id", err: errors.New(`ent: missing required field "PlatformSetting.platform_offline_account_id"`)}
 	}
 	if _, ok := psc.mutation.UserOnlineAccountID(); !ok {
-		return &ValidationError{Name: "user_online_account_id", err: errors.New(`ent: missing required field "user_online_account_id"`)}
+		return &ValidationError{Name: "user_online_account_id", err: errors.New(`ent: missing required field "PlatformSetting.user_online_account_id"`)}
 	}
 	if _, ok := psc.mutation.UserOfflineAccountID(); !ok {
-		return &ValidationError{Name: "user_offline_account_id", err: errors.New(`ent: missing required field "user_offline_account_id"`)}
+		return &ValidationError{Name: "user_offline_account_id", err: errors.New(`ent: missing required field "PlatformSetting.user_offline_account_id"`)}
 	}
 	if _, ok := psc.mutation.BenefitIntervalHours(); !ok {
-		return &ValidationError{Name: "benefit_interval_hours", err: errors.New(`ent: missing required field "benefit_interval_hours"`)}
+		return &ValidationError{Name: "benefit_interval_hours", err: errors.New(`ent: missing required field "PlatformSetting.benefit_interval_hours"`)}
 	}
 	if _, ok := psc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "PlatformSetting.create_at"`)}
 	}
 	if _, ok := psc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "PlatformSetting.update_at"`)}
 	}
 	if _, ok := psc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "PlatformSetting.delete_at"`)}
 	}
 	return nil
 }
@@ -237,7 +245,11 @@ func (psc *PlatformSettingCreate) sqlSave(ctx context.Context) (*PlatformSetting
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -256,7 +268,7 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 	_spec.OnConflict = psc.conflict
 	if id, ok := psc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := psc.mutation.GoodID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -456,6 +468,12 @@ func (u *PlatformSettingUpsert) UpdateBenefitIntervalHours() *PlatformSettingUps
 	return u
 }
 
+// AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
+func (u *PlatformSettingUpsert) AddBenefitIntervalHours(v int32) *PlatformSettingUpsert {
+	u.Add(platformsetting.FieldBenefitIntervalHours, v)
+	return u
+}
+
 // SetCreateAt sets the "create_at" field.
 func (u *PlatformSettingUpsert) SetCreateAt(v uint32) *PlatformSettingUpsert {
 	u.Set(platformsetting.FieldCreateAt, v)
@@ -465,6 +483,12 @@ func (u *PlatformSettingUpsert) SetCreateAt(v uint32) *PlatformSettingUpsert {
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *PlatformSettingUpsert) UpdateCreateAt() *PlatformSettingUpsert {
 	u.SetExcluded(platformsetting.FieldCreateAt)
+	return u
+}
+
+// AddCreateAt adds v to the "create_at" field.
+func (u *PlatformSettingUpsert) AddCreateAt(v uint32) *PlatformSettingUpsert {
+	u.Add(platformsetting.FieldCreateAt, v)
 	return u
 }
 
@@ -480,6 +504,12 @@ func (u *PlatformSettingUpsert) UpdateUpdateAt() *PlatformSettingUpsert {
 	return u
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PlatformSettingUpsert) AddUpdateAt(v uint32) *PlatformSettingUpsert {
+	u.Add(platformsetting.FieldUpdateAt, v)
+	return u
+}
+
 // SetDeleteAt sets the "delete_at" field.
 func (u *PlatformSettingUpsert) SetDeleteAt(v uint32) *PlatformSettingUpsert {
 	u.Set(platformsetting.FieldDeleteAt, v)
@@ -492,7 +522,13 @@ func (u *PlatformSettingUpsert) UpdateDeleteAt() *PlatformSettingUpsert {
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PlatformSettingUpsert) AddDeleteAt(v uint32) *PlatformSettingUpsert {
+	u.Add(platformsetting.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.PlatformSetting.Create().
@@ -619,6 +655,13 @@ func (u *PlatformSettingUpsertOne) SetBenefitIntervalHours(v int32) *PlatformSet
 	})
 }
 
+// AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
+func (u *PlatformSettingUpsertOne) AddBenefitIntervalHours(v int32) *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddBenefitIntervalHours(v)
+	})
+}
+
 // UpdateBenefitIntervalHours sets the "benefit_interval_hours" field to the value that was provided on create.
 func (u *PlatformSettingUpsertOne) UpdateBenefitIntervalHours() *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
@@ -630,6 +673,13 @@ func (u *PlatformSettingUpsertOne) UpdateBenefitIntervalHours() *PlatformSetting
 func (u *PlatformSettingUpsertOne) SetCreateAt(v uint32) *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
 		s.SetCreateAt(v)
+	})
+}
+
+// AddCreateAt adds v to the "create_at" field.
+func (u *PlatformSettingUpsertOne) AddCreateAt(v uint32) *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddCreateAt(v)
 	})
 }
 
@@ -647,6 +697,13 @@ func (u *PlatformSettingUpsertOne) SetUpdateAt(v uint32) *PlatformSettingUpsertO
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PlatformSettingUpsertOne) AddUpdateAt(v uint32) *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *PlatformSettingUpsertOne) UpdateUpdateAt() *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
@@ -658,6 +715,13 @@ func (u *PlatformSettingUpsertOne) UpdateUpdateAt() *PlatformSettingUpsertOne {
 func (u *PlatformSettingUpsertOne) SetDeleteAt(v uint32) *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PlatformSettingUpsertOne) AddDeleteAt(v uint32) *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -831,7 +895,7 @@ type PlatformSettingUpsertBulk struct {
 	create *PlatformSettingCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.PlatformSetting.Create().
@@ -961,6 +1025,13 @@ func (u *PlatformSettingUpsertBulk) SetBenefitIntervalHours(v int32) *PlatformSe
 	})
 }
 
+// AddBenefitIntervalHours adds v to the "benefit_interval_hours" field.
+func (u *PlatformSettingUpsertBulk) AddBenefitIntervalHours(v int32) *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddBenefitIntervalHours(v)
+	})
+}
+
 // UpdateBenefitIntervalHours sets the "benefit_interval_hours" field to the value that was provided on create.
 func (u *PlatformSettingUpsertBulk) UpdateBenefitIntervalHours() *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
@@ -972,6 +1043,13 @@ func (u *PlatformSettingUpsertBulk) UpdateBenefitIntervalHours() *PlatformSettin
 func (u *PlatformSettingUpsertBulk) SetCreateAt(v uint32) *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
 		s.SetCreateAt(v)
+	})
+}
+
+// AddCreateAt adds v to the "create_at" field.
+func (u *PlatformSettingUpsertBulk) AddCreateAt(v uint32) *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddCreateAt(v)
 	})
 }
 
@@ -989,6 +1067,13 @@ func (u *PlatformSettingUpsertBulk) SetUpdateAt(v uint32) *PlatformSettingUpsert
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PlatformSettingUpsertBulk) AddUpdateAt(v uint32) *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *PlatformSettingUpsertBulk) UpdateUpdateAt() *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
@@ -1000,6 +1085,13 @@ func (u *PlatformSettingUpsertBulk) UpdateUpdateAt() *PlatformSettingUpsertBulk 
 func (u *PlatformSettingUpsertBulk) SetDeleteAt(v uint32) *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PlatformSettingUpsertBulk) AddDeleteAt(v uint32) *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

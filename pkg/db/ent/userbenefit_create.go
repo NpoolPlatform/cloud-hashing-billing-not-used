@@ -23,12 +23,6 @@ type UserBenefitCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetGoodID sets the "good_id" field.
-func (ubc *UserBenefitCreate) SetGoodID(u uuid.UUID) *UserBenefitCreate {
-	ubc.mutation.SetGoodID(u)
-	return ubc
-}
-
 // SetAppID sets the "app_id" field.
 func (ubc *UserBenefitCreate) SetAppID(u uuid.UUID) *UserBenefitCreate {
 	ubc.mutation.SetAppID(u)
@@ -38,6 +32,12 @@ func (ubc *UserBenefitCreate) SetAppID(u uuid.UUID) *UserBenefitCreate {
 // SetUserID sets the "user_id" field.
 func (ubc *UserBenefitCreate) SetUserID(u uuid.UUID) *UserBenefitCreate {
 	ubc.mutation.SetUserID(u)
+	return ubc
+}
+
+// SetGoodID sets the "good_id" field.
+func (ubc *UserBenefitCreate) SetGoodID(u uuid.UUID) *UserBenefitCreate {
+	ubc.mutation.SetGoodID(u)
 	return ubc
 }
 
@@ -104,6 +104,14 @@ func (ubc *UserBenefitCreate) SetNillableDeleteAt(u *uint32) *UserBenefitCreate 
 // SetID sets the "id" field.
 func (ubc *UserBenefitCreate) SetID(u uuid.UUID) *UserBenefitCreate {
 	ubc.mutation.SetID(u)
+	return ubc
+}
+
+// SetNillableID sets the "id" field if the given value is not nil.
+func (ubc *UserBenefitCreate) SetNillableID(u *uuid.UUID) *UserBenefitCreate {
+	if u != nil {
+		ubc.SetID(*u)
+	}
 	return ubc
 }
 
@@ -198,32 +206,32 @@ func (ubc *UserBenefitCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ubc *UserBenefitCreate) check() error {
-	if _, ok := ubc.mutation.GoodID(); !ok {
-		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "good_id"`)}
-	}
 	if _, ok := ubc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "UserBenefit.app_id"`)}
 	}
 	if _, ok := ubc.mutation.UserID(); !ok {
-		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "user_id"`)}
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "UserBenefit.user_id"`)}
+	}
+	if _, ok := ubc.mutation.GoodID(); !ok {
+		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "UserBenefit.good_id"`)}
 	}
 	if _, ok := ubc.mutation.OrderID(); !ok {
-		return &ValidationError{Name: "order_id", err: errors.New(`ent: missing required field "order_id"`)}
+		return &ValidationError{Name: "order_id", err: errors.New(`ent: missing required field "UserBenefit.order_id"`)}
 	}
 	if _, ok := ubc.mutation.Amount(); !ok {
-		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "amount"`)}
+		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "UserBenefit.amount"`)}
 	}
 	if _, ok := ubc.mutation.LastBenefitTimestamp(); !ok {
-		return &ValidationError{Name: "last_benefit_timestamp", err: errors.New(`ent: missing required field "last_benefit_timestamp"`)}
+		return &ValidationError{Name: "last_benefit_timestamp", err: errors.New(`ent: missing required field "UserBenefit.last_benefit_timestamp"`)}
 	}
 	if _, ok := ubc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserBenefit.create_at"`)}
 	}
 	if _, ok := ubc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "UserBenefit.update_at"`)}
 	}
 	if _, ok := ubc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "UserBenefit.delete_at"`)}
 	}
 	return nil
 }
@@ -237,7 +245,11 @@ func (ubc *UserBenefitCreate) sqlSave(ctx context.Context) (*UserBenefit, error)
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -256,15 +268,7 @@ func (ubc *UserBenefitCreate) createSpec() (*UserBenefit, *sqlgraph.CreateSpec) 
 	_spec.OnConflict = ubc.conflict
 	if id, ok := ubc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
-	}
-	if value, ok := ubc.mutation.GoodID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: userbenefit.FieldGoodID,
-		})
-		_node.GoodID = value
+		_spec.ID.Value = &id
 	}
 	if value, ok := ubc.mutation.AppID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -281,6 +285,14 @@ func (ubc *UserBenefitCreate) createSpec() (*UserBenefit, *sqlgraph.CreateSpec) 
 			Column: userbenefit.FieldUserID,
 		})
 		_node.UserID = value
+	}
+	if value, ok := ubc.mutation.GoodID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldGoodID,
+		})
+		_node.GoodID = value
 	}
 	if value, ok := ubc.mutation.OrderID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -337,7 +349,7 @@ func (ubc *UserBenefitCreate) createSpec() (*UserBenefit, *sqlgraph.CreateSpec) 
 // of the `INSERT` statement. For example:
 //
 //	client.UserBenefit.Create().
-//		SetGoodID(v).
+//		SetAppID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -346,7 +358,7 @@ func (ubc *UserBenefitCreate) createSpec() (*UserBenefit, *sqlgraph.CreateSpec) 
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.UserBenefitUpsert) {
-//			SetGoodID(v+v).
+//			SetAppID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -384,18 +396,6 @@ type (
 	}
 )
 
-// SetGoodID sets the "good_id" field.
-func (u *UserBenefitUpsert) SetGoodID(v uuid.UUID) *UserBenefitUpsert {
-	u.Set(userbenefit.FieldGoodID, v)
-	return u
-}
-
-// UpdateGoodID sets the "good_id" field to the value that was provided on create.
-func (u *UserBenefitUpsert) UpdateGoodID() *UserBenefitUpsert {
-	u.SetExcluded(userbenefit.FieldGoodID)
-	return u
-}
-
 // SetAppID sets the "app_id" field.
 func (u *UserBenefitUpsert) SetAppID(v uuid.UUID) *UserBenefitUpsert {
 	u.Set(userbenefit.FieldAppID, v)
@@ -417,6 +417,18 @@ func (u *UserBenefitUpsert) SetUserID(v uuid.UUID) *UserBenefitUpsert {
 // UpdateUserID sets the "user_id" field to the value that was provided on create.
 func (u *UserBenefitUpsert) UpdateUserID() *UserBenefitUpsert {
 	u.SetExcluded(userbenefit.FieldUserID)
+	return u
+}
+
+// SetGoodID sets the "good_id" field.
+func (u *UserBenefitUpsert) SetGoodID(v uuid.UUID) *UserBenefitUpsert {
+	u.Set(userbenefit.FieldGoodID, v)
+	return u
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *UserBenefitUpsert) UpdateGoodID() *UserBenefitUpsert {
+	u.SetExcluded(userbenefit.FieldGoodID)
 	return u
 }
 
@@ -444,6 +456,12 @@ func (u *UserBenefitUpsert) UpdateAmount() *UserBenefitUpsert {
 	return u
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *UserBenefitUpsert) AddAmount(v uint64) *UserBenefitUpsert {
+	u.Add(userbenefit.FieldAmount, v)
+	return u
+}
+
 // SetLastBenefitTimestamp sets the "last_benefit_timestamp" field.
 func (u *UserBenefitUpsert) SetLastBenefitTimestamp(v uint32) *UserBenefitUpsert {
 	u.Set(userbenefit.FieldLastBenefitTimestamp, v)
@@ -453,6 +471,12 @@ func (u *UserBenefitUpsert) SetLastBenefitTimestamp(v uint32) *UserBenefitUpsert
 // UpdateLastBenefitTimestamp sets the "last_benefit_timestamp" field to the value that was provided on create.
 func (u *UserBenefitUpsert) UpdateLastBenefitTimestamp() *UserBenefitUpsert {
 	u.SetExcluded(userbenefit.FieldLastBenefitTimestamp)
+	return u
+}
+
+// AddLastBenefitTimestamp adds v to the "last_benefit_timestamp" field.
+func (u *UserBenefitUpsert) AddLastBenefitTimestamp(v uint32) *UserBenefitUpsert {
+	u.Add(userbenefit.FieldLastBenefitTimestamp, v)
 	return u
 }
 
@@ -468,6 +492,12 @@ func (u *UserBenefitUpsert) UpdateCreateAt() *UserBenefitUpsert {
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserBenefitUpsert) AddCreateAt(v uint32) *UserBenefitUpsert {
+	u.Add(userbenefit.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *UserBenefitUpsert) SetUpdateAt(v uint32) *UserBenefitUpsert {
 	u.Set(userbenefit.FieldUpdateAt, v)
@@ -477,6 +507,12 @@ func (u *UserBenefitUpsert) SetUpdateAt(v uint32) *UserBenefitUpsert {
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserBenefitUpsert) UpdateUpdateAt() *UserBenefitUpsert {
 	u.SetExcluded(userbenefit.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserBenefitUpsert) AddUpdateAt(v uint32) *UserBenefitUpsert {
+	u.Add(userbenefit.FieldUpdateAt, v)
 	return u
 }
 
@@ -492,7 +528,13 @@ func (u *UserBenefitUpsert) UpdateDeleteAt() *UserBenefitUpsert {
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserBenefitUpsert) AddDeleteAt(v uint32) *UserBenefitUpsert {
+	u.Add(userbenefit.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.UserBenefit.Create().
@@ -542,20 +584,6 @@ func (u *UserBenefitUpsertOne) Update(set func(*UserBenefitUpsert)) *UserBenefit
 	return u
 }
 
-// SetGoodID sets the "good_id" field.
-func (u *UserBenefitUpsertOne) SetGoodID(v uuid.UUID) *UserBenefitUpsertOne {
-	return u.Update(func(s *UserBenefitUpsert) {
-		s.SetGoodID(v)
-	})
-}
-
-// UpdateGoodID sets the "good_id" field to the value that was provided on create.
-func (u *UserBenefitUpsertOne) UpdateGoodID() *UserBenefitUpsertOne {
-	return u.Update(func(s *UserBenefitUpsert) {
-		s.UpdateGoodID()
-	})
-}
-
 // SetAppID sets the "app_id" field.
 func (u *UserBenefitUpsertOne) SetAppID(v uuid.UUID) *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -584,6 +612,20 @@ func (u *UserBenefitUpsertOne) UpdateUserID() *UserBenefitUpsertOne {
 	})
 }
 
+// SetGoodID sets the "good_id" field.
+func (u *UserBenefitUpsertOne) SetGoodID(v uuid.UUID) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.SetGoodID(v)
+	})
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *UserBenefitUpsertOne) UpdateGoodID() *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.UpdateGoodID()
+	})
+}
+
 // SetOrderID sets the "order_id" field.
 func (u *UserBenefitUpsertOne) SetOrderID(v uuid.UUID) *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -605,6 +647,13 @@ func (u *UserBenefitUpsertOne) SetAmount(v uint64) *UserBenefitUpsertOne {
 	})
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *UserBenefitUpsertOne) AddAmount(v uint64) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddAmount(v)
+	})
+}
+
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *UserBenefitUpsertOne) UpdateAmount() *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -616,6 +665,13 @@ func (u *UserBenefitUpsertOne) UpdateAmount() *UserBenefitUpsertOne {
 func (u *UserBenefitUpsertOne) SetLastBenefitTimestamp(v uint32) *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.SetLastBenefitTimestamp(v)
+	})
+}
+
+// AddLastBenefitTimestamp adds v to the "last_benefit_timestamp" field.
+func (u *UserBenefitUpsertOne) AddLastBenefitTimestamp(v uint32) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddLastBenefitTimestamp(v)
 	})
 }
 
@@ -633,6 +689,13 @@ func (u *UserBenefitUpsertOne) SetCreateAt(v uint32) *UserBenefitUpsertOne {
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserBenefitUpsertOne) AddCreateAt(v uint32) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *UserBenefitUpsertOne) UpdateCreateAt() *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -647,6 +710,13 @@ func (u *UserBenefitUpsertOne) SetUpdateAt(v uint32) *UserBenefitUpsertOne {
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserBenefitUpsertOne) AddUpdateAt(v uint32) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserBenefitUpsertOne) UpdateUpdateAt() *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -658,6 +728,13 @@ func (u *UserBenefitUpsertOne) UpdateUpdateAt() *UserBenefitUpsertOne {
 func (u *UserBenefitUpsertOne) SetDeleteAt(v uint32) *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserBenefitUpsertOne) AddDeleteAt(v uint32) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -800,7 +877,7 @@ func (ubcb *UserBenefitCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.UserBenefitUpsert) {
-//			SetGoodID(v+v).
+//			SetAppID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -831,7 +908,7 @@ type UserBenefitUpsertBulk struct {
 	create *UserBenefitCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.UserBenefit.Create().
@@ -884,20 +961,6 @@ func (u *UserBenefitUpsertBulk) Update(set func(*UserBenefitUpsert)) *UserBenefi
 	return u
 }
 
-// SetGoodID sets the "good_id" field.
-func (u *UserBenefitUpsertBulk) SetGoodID(v uuid.UUID) *UserBenefitUpsertBulk {
-	return u.Update(func(s *UserBenefitUpsert) {
-		s.SetGoodID(v)
-	})
-}
-
-// UpdateGoodID sets the "good_id" field to the value that was provided on create.
-func (u *UserBenefitUpsertBulk) UpdateGoodID() *UserBenefitUpsertBulk {
-	return u.Update(func(s *UserBenefitUpsert) {
-		s.UpdateGoodID()
-	})
-}
-
 // SetAppID sets the "app_id" field.
 func (u *UserBenefitUpsertBulk) SetAppID(v uuid.UUID) *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -926,6 +989,20 @@ func (u *UserBenefitUpsertBulk) UpdateUserID() *UserBenefitUpsertBulk {
 	})
 }
 
+// SetGoodID sets the "good_id" field.
+func (u *UserBenefitUpsertBulk) SetGoodID(v uuid.UUID) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.SetGoodID(v)
+	})
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *UserBenefitUpsertBulk) UpdateGoodID() *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.UpdateGoodID()
+	})
+}
+
 // SetOrderID sets the "order_id" field.
 func (u *UserBenefitUpsertBulk) SetOrderID(v uuid.UUID) *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -947,6 +1024,13 @@ func (u *UserBenefitUpsertBulk) SetAmount(v uint64) *UserBenefitUpsertBulk {
 	})
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *UserBenefitUpsertBulk) AddAmount(v uint64) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddAmount(v)
+	})
+}
+
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *UserBenefitUpsertBulk) UpdateAmount() *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -958,6 +1042,13 @@ func (u *UserBenefitUpsertBulk) UpdateAmount() *UserBenefitUpsertBulk {
 func (u *UserBenefitUpsertBulk) SetLastBenefitTimestamp(v uint32) *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.SetLastBenefitTimestamp(v)
+	})
+}
+
+// AddLastBenefitTimestamp adds v to the "last_benefit_timestamp" field.
+func (u *UserBenefitUpsertBulk) AddLastBenefitTimestamp(v uint32) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddLastBenefitTimestamp(v)
 	})
 }
 
@@ -975,6 +1066,13 @@ func (u *UserBenefitUpsertBulk) SetCreateAt(v uint32) *UserBenefitUpsertBulk {
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserBenefitUpsertBulk) AddCreateAt(v uint32) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *UserBenefitUpsertBulk) UpdateCreateAt() *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -989,6 +1087,13 @@ func (u *UserBenefitUpsertBulk) SetUpdateAt(v uint32) *UserBenefitUpsertBulk {
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserBenefitUpsertBulk) AddUpdateAt(v uint32) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserBenefitUpsertBulk) UpdateUpdateAt() *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
@@ -1000,6 +1105,13 @@ func (u *UserBenefitUpsertBulk) UpdateUpdateAt() *UserBenefitUpsertBulk {
 func (u *UserBenefitUpsertBulk) SetDeleteAt(v uint32) *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserBenefitUpsertBulk) AddDeleteAt(v uint32) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

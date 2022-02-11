@@ -36,7 +36,6 @@ func TestGet(t *testing.T) {
 		CoinTypeID:  uuid.New().String(),
 		Address:     uuid.New().String(),
 		GeneratedBy: "platform",
-		UsedFor:     "benefit",
 		AppID:       uuid.New().String(),
 		UserID:      uuid.New().String(),
 	}
@@ -70,8 +69,6 @@ func TestGet(t *testing.T) {
 		assert.Equal(t, resp3.Detail.BenefitAddress.CoinTypeID, resp1.Info.CoinTypeID)
 		assert.Equal(t, resp3.Detail.BenefitAddress.Address, resp1.Info.Address)
 		assert.Equal(t, resp3.Detail.BenefitAddress.GeneratedBy, resp1.Info.GeneratedBy)
-		assert.Equal(t, resp3.Detail.BenefitAddress.UsedFor, resp1.Info.UsedFor)
-		assert.Equal(t, resp3.Detail.BenefitAddress.Idle, resp1.Info.Idle)
 		assert.Equal(t, resp3.Detail.BenefitAddress.AppID, resp1.Info.AppID)
 		assert.Equal(t, resp3.Detail.BenefitAddress.UserID, resp1.Info.UserID)
 
@@ -79,8 +76,6 @@ func TestGet(t *testing.T) {
 		assert.Equal(t, resp3.Detail.PlatformOfflineAddress.CoinTypeID, resp1.Info.CoinTypeID)
 		assert.Equal(t, resp3.Detail.PlatformOfflineAddress.Address, resp1.Info.Address)
 		assert.Equal(t, resp3.Detail.PlatformOfflineAddress.GeneratedBy, resp1.Info.GeneratedBy)
-		assert.Equal(t, resp3.Detail.PlatformOfflineAddress.UsedFor, resp1.Info.UsedFor)
-		assert.Equal(t, resp3.Detail.PlatformOfflineAddress.Idle, resp1.Info.Idle)
 		assert.Equal(t, resp3.Detail.PlatformOfflineAddress.AppID, resp1.Info.AppID)
 		assert.Equal(t, resp3.Detail.PlatformOfflineAddress.UserID, resp1.Info.UserID)
 
@@ -88,8 +83,6 @@ func TestGet(t *testing.T) {
 		assert.Equal(t, resp3.Detail.UserOnlineAddress.CoinTypeID, resp1.Info.CoinTypeID)
 		assert.Equal(t, resp3.Detail.UserOnlineAddress.Address, resp1.Info.Address)
 		assert.Equal(t, resp3.Detail.UserOnlineAddress.GeneratedBy, resp1.Info.GeneratedBy)
-		assert.Equal(t, resp3.Detail.UserOnlineAddress.UsedFor, resp1.Info.UsedFor)
-		assert.Equal(t, resp3.Detail.UserOnlineAddress.Idle, resp1.Info.Idle)
 		assert.Equal(t, resp3.Detail.UserOnlineAddress.AppID, resp1.Info.AppID)
 		assert.Equal(t, resp3.Detail.UserOnlineAddress.UserID, resp1.Info.UserID)
 
@@ -97,8 +90,6 @@ func TestGet(t *testing.T) {
 		assert.Equal(t, resp3.Detail.UserOfflineAddress.CoinTypeID, resp1.Info.CoinTypeID)
 		assert.Equal(t, resp3.Detail.UserOfflineAddress.Address, resp1.Info.Address)
 		assert.Equal(t, resp3.Detail.UserOfflineAddress.GeneratedBy, resp1.Info.GeneratedBy)
-		assert.Equal(t, resp3.Detail.UserOfflineAddress.UsedFor, resp1.Info.UsedFor)
-		assert.Equal(t, resp3.Detail.UserOfflineAddress.Idle, resp1.Info.Idle)
 		assert.Equal(t, resp3.Detail.UserOfflineAddress.AppID, resp1.Info.AppID)
 		assert.Equal(t, resp3.Detail.UserOfflineAddress.UserID, resp1.Info.UserID)
 

@@ -38,7 +38,6 @@ func TestGet(t *testing.T) {
 		CoinTypeID:  coinTypeID,
 		Address:     uuid.New().String(),
 		GeneratedBy: "user",
-		UsedFor:     "withdraw",
 		AppID:       uuid.New().String(),
 		UserID:      uuid.New().String(),
 	}
@@ -46,7 +45,6 @@ func TestGet(t *testing.T) {
 		CoinTypeID:  coinTypeID,
 		Address:     uuid.New().String(),
 		GeneratedBy: "platform",
-		UsedFor:     "benefit",
 		AppID:       uuid.UUID{}.String(),
 		UserID:      uuid.UUID{}.String(),
 	}
@@ -89,8 +87,6 @@ func TestGet(t *testing.T) {
 		assert.Equal(t, resp4.Detail.FromAddress.CoinTypeID, resp1.Info.CoinTypeID)
 		assert.Equal(t, resp4.Detail.FromAddress.Address, resp1.Info.Address)
 		assert.Equal(t, resp4.Detail.FromAddress.GeneratedBy, resp1.Info.GeneratedBy)
-		assert.Equal(t, resp4.Detail.FromAddress.UsedFor, resp1.Info.UsedFor)
-		assert.Equal(t, resp4.Detail.FromAddress.Idle, resp1.Info.Idle)
 		assert.Equal(t, resp4.Detail.FromAddress.AppID, resp1.Info.AppID)
 		assert.Equal(t, resp4.Detail.FromAddress.UserID, resp1.Info.UserID)
 
@@ -98,8 +94,6 @@ func TestGet(t *testing.T) {
 		assert.Equal(t, resp4.Detail.ToAddress.CoinTypeID, resp2.Info.CoinTypeID)
 		assert.Equal(t, resp4.Detail.ToAddress.Address, resp2.Info.Address)
 		assert.Equal(t, resp4.Detail.ToAddress.GeneratedBy, resp2.Info.GeneratedBy)
-		assert.Equal(t, resp4.Detail.ToAddress.UsedFor, resp2.Info.UsedFor)
-		assert.Equal(t, resp4.Detail.ToAddress.Idle, resp2.Info.Idle)
 		assert.Equal(t, resp4.Detail.ToAddress.AppID, resp2.Info.AppID)
 		assert.Equal(t, resp4.Detail.ToAddress.UserID, resp2.Info.UserID)
 

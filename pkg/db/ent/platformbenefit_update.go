@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -47,7 +48,7 @@ func (pbu *PlatformBenefitUpdate) SetAmount(u uint64) *PlatformBenefitUpdate {
 }
 
 // AddAmount adds u to the "amount" field.
-func (pbu *PlatformBenefitUpdate) AddAmount(u uint64) *PlatformBenefitUpdate {
+func (pbu *PlatformBenefitUpdate) AddAmount(u int64) *PlatformBenefitUpdate {
 	pbu.mutation.AddAmount(u)
 	return pbu
 }
@@ -60,7 +61,7 @@ func (pbu *PlatformBenefitUpdate) SetLastBenefitTimestamp(u uint32) *PlatformBen
 }
 
 // AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
-func (pbu *PlatformBenefitUpdate) AddLastBenefitTimestamp(u uint32) *PlatformBenefitUpdate {
+func (pbu *PlatformBenefitUpdate) AddLastBenefitTimestamp(u int32) *PlatformBenefitUpdate {
 	pbu.mutation.AddLastBenefitTimestamp(u)
 	return pbu
 }
@@ -87,7 +88,7 @@ func (pbu *PlatformBenefitUpdate) SetNillableCreateAt(u *uint32) *PlatformBenefi
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (pbu *PlatformBenefitUpdate) AddCreateAt(u uint32) *PlatformBenefitUpdate {
+func (pbu *PlatformBenefitUpdate) AddCreateAt(u int32) *PlatformBenefitUpdate {
 	pbu.mutation.AddCreateAt(u)
 	return pbu
 }
@@ -100,7 +101,7 @@ func (pbu *PlatformBenefitUpdate) SetUpdateAt(u uint32) *PlatformBenefitUpdate {
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (pbu *PlatformBenefitUpdate) AddUpdateAt(u uint32) *PlatformBenefitUpdate {
+func (pbu *PlatformBenefitUpdate) AddUpdateAt(u int32) *PlatformBenefitUpdate {
 	pbu.mutation.AddUpdateAt(u)
 	return pbu
 }
@@ -121,7 +122,7 @@ func (pbu *PlatformBenefitUpdate) SetNillableDeleteAt(u *uint32) *PlatformBenefi
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (pbu *PlatformBenefitUpdate) AddDeleteAt(u uint32) *PlatformBenefitUpdate {
+func (pbu *PlatformBenefitUpdate) AddDeleteAt(u int32) *PlatformBenefitUpdate {
 	pbu.mutation.AddDeleteAt(u)
 	return pbu
 }
@@ -342,7 +343,7 @@ func (pbuo *PlatformBenefitUpdateOne) SetAmount(u uint64) *PlatformBenefitUpdate
 }
 
 // AddAmount adds u to the "amount" field.
-func (pbuo *PlatformBenefitUpdateOne) AddAmount(u uint64) *PlatformBenefitUpdateOne {
+func (pbuo *PlatformBenefitUpdateOne) AddAmount(u int64) *PlatformBenefitUpdateOne {
 	pbuo.mutation.AddAmount(u)
 	return pbuo
 }
@@ -355,7 +356,7 @@ func (pbuo *PlatformBenefitUpdateOne) SetLastBenefitTimestamp(u uint32) *Platfor
 }
 
 // AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
-func (pbuo *PlatformBenefitUpdateOne) AddLastBenefitTimestamp(u uint32) *PlatformBenefitUpdateOne {
+func (pbuo *PlatformBenefitUpdateOne) AddLastBenefitTimestamp(u int32) *PlatformBenefitUpdateOne {
 	pbuo.mutation.AddLastBenefitTimestamp(u)
 	return pbuo
 }
@@ -382,7 +383,7 @@ func (pbuo *PlatformBenefitUpdateOne) SetNillableCreateAt(u *uint32) *PlatformBe
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (pbuo *PlatformBenefitUpdateOne) AddCreateAt(u uint32) *PlatformBenefitUpdateOne {
+func (pbuo *PlatformBenefitUpdateOne) AddCreateAt(u int32) *PlatformBenefitUpdateOne {
 	pbuo.mutation.AddCreateAt(u)
 	return pbuo
 }
@@ -395,7 +396,7 @@ func (pbuo *PlatformBenefitUpdateOne) SetUpdateAt(u uint32) *PlatformBenefitUpda
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (pbuo *PlatformBenefitUpdateOne) AddUpdateAt(u uint32) *PlatformBenefitUpdateOne {
+func (pbuo *PlatformBenefitUpdateOne) AddUpdateAt(u int32) *PlatformBenefitUpdateOne {
 	pbuo.mutation.AddUpdateAt(u)
 	return pbuo
 }
@@ -416,7 +417,7 @@ func (pbuo *PlatformBenefitUpdateOne) SetNillableDeleteAt(u *uint32) *PlatformBe
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (pbuo *PlatformBenefitUpdateOne) AddDeleteAt(u uint32) *PlatformBenefitUpdateOne {
+func (pbuo *PlatformBenefitUpdateOne) AddDeleteAt(u int32) *PlatformBenefitUpdateOne {
 	pbuo.mutation.AddDeleteAt(u)
 	return pbuo
 }
@@ -509,7 +510,7 @@ func (pbuo *PlatformBenefitUpdateOne) sqlSave(ctx context.Context) (_node *Platf
 	}
 	id, ok := pbuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing PlatformBenefit.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "PlatformBenefit.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := pbuo.fields; len(fields) > 0 {

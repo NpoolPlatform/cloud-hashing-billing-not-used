@@ -91,6 +91,20 @@ func IDLTE(id uuid.UUID) predicate.CoinAccountInfo {
 	})
 }
 
+// AppID applies equality check predicate on the "app_id" field. It's identical to AppIDEQ.
+func AppID(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAppID), v))
+	})
+}
+
+// UserID applies equality check predicate on the "user_id" field. It's identical to UserIDEQ.
+func UserID(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUserID), v))
+	})
+}
+
 // CoinTypeID applies equality check predicate on the "coin_type_id" field. It's identical to CoinTypeIDEQ.
 func CoinTypeID(v uuid.UUID) predicate.CoinAccountInfo {
 	return predicate.CoinAccountInfo(func(s *sql.Selector) {
@@ -105,24 +119,10 @@ func Address(v string) predicate.CoinAccountInfo {
 	})
 }
 
-// Idle applies equality check predicate on the "idle" field. It's identical to IdleEQ.
-func Idle(v bool) predicate.CoinAccountInfo {
+// PlatformHoldPrivateKey applies equality check predicate on the "platform_hold_private_key" field. It's identical to PlatformHoldPrivateKeyEQ.
+func PlatformHoldPrivateKey(v bool) predicate.CoinAccountInfo {
 	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldIdle), v))
-	})
-}
-
-// AppID applies equality check predicate on the "app_id" field. It's identical to AppIDEQ.
-func AppID(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAppID), v))
-	})
-}
-
-// UserID applies equality check predicate on the "user_id" field. It's identical to UserIDEQ.
-func UserID(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUserID), v))
+		s.Where(sql.EQ(s.C(FieldPlatformHoldPrivateKey), v))
 	})
 }
 
@@ -144,6 +144,158 @@ func UpdateAt(v uint32) predicate.CoinAccountInfo {
 func DeleteAt(v uint32) predicate.CoinAccountInfo {
 	return predicate.CoinAccountInfo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldDeleteAt), v))
+	})
+}
+
+// AppIDEQ applies the EQ predicate on the "app_id" field.
+func AppIDEQ(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAppID), v))
+	})
+}
+
+// AppIDNEQ applies the NEQ predicate on the "app_id" field.
+func AppIDNEQ(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldAppID), v))
+	})
+}
+
+// AppIDIn applies the In predicate on the "app_id" field.
+func AppIDIn(vs ...uuid.UUID) predicate.CoinAccountInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldAppID), v...))
+	})
+}
+
+// AppIDNotIn applies the NotIn predicate on the "app_id" field.
+func AppIDNotIn(vs ...uuid.UUID) predicate.CoinAccountInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldAppID), v...))
+	})
+}
+
+// AppIDGT applies the GT predicate on the "app_id" field.
+func AppIDGT(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldAppID), v))
+	})
+}
+
+// AppIDGTE applies the GTE predicate on the "app_id" field.
+func AppIDGTE(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldAppID), v))
+	})
+}
+
+// AppIDLT applies the LT predicate on the "app_id" field.
+func AppIDLT(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldAppID), v))
+	})
+}
+
+// AppIDLTE applies the LTE predicate on the "app_id" field.
+func AppIDLTE(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldAppID), v))
+	})
+}
+
+// UserIDEQ applies the EQ predicate on the "user_id" field.
+func UserIDEQ(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDNEQ applies the NEQ predicate on the "user_id" field.
+func UserIDNEQ(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDIn applies the In predicate on the "user_id" field.
+func UserIDIn(vs ...uuid.UUID) predicate.CoinAccountInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldUserID), v...))
+	})
+}
+
+// UserIDNotIn applies the NotIn predicate on the "user_id" field.
+func UserIDNotIn(vs ...uuid.UUID) predicate.CoinAccountInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldUserID), v...))
+	})
+}
+
+// UserIDGT applies the GT predicate on the "user_id" field.
+func UserIDGT(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDGTE applies the GTE predicate on the "user_id" field.
+func UserIDGTE(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDLT applies the LT predicate on the "user_id" field.
+func UserIDLT(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDLTE applies the LTE predicate on the "user_id" field.
+func UserIDLTE(v uuid.UUID) predicate.CoinAccountInfo {
+	return predicate.CoinAccountInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUserID), v))
 	})
 }
 
@@ -382,217 +534,17 @@ func GeneratedByNotIn(vs ...GeneratedBy) predicate.CoinAccountInfo {
 	})
 }
 
-// UsedForEQ applies the EQ predicate on the "used_for" field.
-func UsedForEQ(v UsedFor) predicate.CoinAccountInfo {
+// PlatformHoldPrivateKeyEQ applies the EQ predicate on the "platform_hold_private_key" field.
+func PlatformHoldPrivateKeyEQ(v bool) predicate.CoinAccountInfo {
 	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUsedFor), v))
+		s.Where(sql.EQ(s.C(FieldPlatformHoldPrivateKey), v))
 	})
 }
 
-// UsedForNEQ applies the NEQ predicate on the "used_for" field.
-func UsedForNEQ(v UsedFor) predicate.CoinAccountInfo {
+// PlatformHoldPrivateKeyNEQ applies the NEQ predicate on the "platform_hold_private_key" field.
+func PlatformHoldPrivateKeyNEQ(v bool) predicate.CoinAccountInfo {
 	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldUsedFor), v))
-	})
-}
-
-// UsedForIn applies the In predicate on the "used_for" field.
-func UsedForIn(vs ...UsedFor) predicate.CoinAccountInfo {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldUsedFor), v...))
-	})
-}
-
-// UsedForNotIn applies the NotIn predicate on the "used_for" field.
-func UsedForNotIn(vs ...UsedFor) predicate.CoinAccountInfo {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldUsedFor), v...))
-	})
-}
-
-// IdleEQ applies the EQ predicate on the "idle" field.
-func IdleEQ(v bool) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldIdle), v))
-	})
-}
-
-// IdleNEQ applies the NEQ predicate on the "idle" field.
-func IdleNEQ(v bool) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldIdle), v))
-	})
-}
-
-// AppIDEQ applies the EQ predicate on the "app_id" field.
-func AppIDEQ(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAppID), v))
-	})
-}
-
-// AppIDNEQ applies the NEQ predicate on the "app_id" field.
-func AppIDNEQ(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldAppID), v))
-	})
-}
-
-// AppIDIn applies the In predicate on the "app_id" field.
-func AppIDIn(vs ...uuid.UUID) predicate.CoinAccountInfo {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldAppID), v...))
-	})
-}
-
-// AppIDNotIn applies the NotIn predicate on the "app_id" field.
-func AppIDNotIn(vs ...uuid.UUID) predicate.CoinAccountInfo {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldAppID), v...))
-	})
-}
-
-// AppIDGT applies the GT predicate on the "app_id" field.
-func AppIDGT(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldAppID), v))
-	})
-}
-
-// AppIDGTE applies the GTE predicate on the "app_id" field.
-func AppIDGTE(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldAppID), v))
-	})
-}
-
-// AppIDLT applies the LT predicate on the "app_id" field.
-func AppIDLT(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldAppID), v))
-	})
-}
-
-// AppIDLTE applies the LTE predicate on the "app_id" field.
-func AppIDLTE(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldAppID), v))
-	})
-}
-
-// UserIDEQ applies the EQ predicate on the "user_id" field.
-func UserIDEQ(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUserID), v))
-	})
-}
-
-// UserIDNEQ applies the NEQ predicate on the "user_id" field.
-func UserIDNEQ(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldUserID), v))
-	})
-}
-
-// UserIDIn applies the In predicate on the "user_id" field.
-func UserIDIn(vs ...uuid.UUID) predicate.CoinAccountInfo {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldUserID), v...))
-	})
-}
-
-// UserIDNotIn applies the NotIn predicate on the "user_id" field.
-func UserIDNotIn(vs ...uuid.UUID) predicate.CoinAccountInfo {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldUserID), v...))
-	})
-}
-
-// UserIDGT applies the GT predicate on the "user_id" field.
-func UserIDGT(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldUserID), v))
-	})
-}
-
-// UserIDGTE applies the GTE predicate on the "user_id" field.
-func UserIDGTE(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldUserID), v))
-	})
-}
-
-// UserIDLT applies the LT predicate on the "user_id" field.
-func UserIDLT(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldUserID), v))
-	})
-}
-
-// UserIDLTE applies the LTE predicate on the "user_id" field.
-func UserIDLTE(v uuid.UUID) predicate.CoinAccountInfo {
-	return predicate.CoinAccountInfo(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldUserID), v))
+		s.Where(sql.NEQ(s.C(FieldPlatformHoldPrivateKey), v))
 	})
 }
 

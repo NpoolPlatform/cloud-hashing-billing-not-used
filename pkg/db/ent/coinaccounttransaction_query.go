@@ -254,12 +254,12 @@ func (catq *CoinAccountTransactionQuery) Clone() *CoinAccountTransactionQuery {
 // Example:
 //
 //	var v []struct {
-//		UserID uuid.UUID `json:"user_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.CoinAccountTransaction.Query().
-//		GroupBy(coinaccounttransaction.FieldUserID).
+//		GroupBy(coinaccounttransaction.FieldAppID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (catq *CoinAccountTransactionQuery) GroupBy(field string, fields ...string)
 // Example:
 //
 //	var v []struct {
-//		UserID uuid.UUID `json:"user_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //	}
 //
 //	client.CoinAccountTransaction.Query().
-//		Select(coinaccounttransaction.FieldUserID).
+//		Select(coinaccounttransaction.FieldAppID).
 //		Scan(ctx, &v)
 //
 func (catq *CoinAccountTransactionQuery) Select(fields ...string) *CoinAccountTransactionSelect {
@@ -337,6 +337,10 @@ func (catq *CoinAccountTransactionQuery) sqlAll(ctx context.Context) ([]*CoinAcc
 
 func (catq *CoinAccountTransactionQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := catq.querySpec()
+	_spec.Node.Columns = catq.fields
+	if len(catq.fields) > 0 {
+		_spec.Unique = catq.unique != nil && *catq.unique
+	}
 	return sqlgraph.CountNodes(ctx, catq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (catq *CoinAccountTransactionQuery) sqlQuery(ctx context.Context) *sql.Sele
 	if catq.sql != nil {
 		selector = catq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if catq.unique != nil && *catq.unique {
+		selector.Distinct()
 	}
 	for _, p := range catq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (catgb *CoinAccountTransactionGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range catgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(catgb.fields...)...)

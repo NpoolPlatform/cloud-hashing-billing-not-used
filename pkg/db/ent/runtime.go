@@ -19,17 +19,17 @@ func init() {
 	coinaccountinfoFields := schema.CoinAccountInfo{}.Fields()
 	_ = coinaccountinfoFields
 	// coinaccountinfoDescCreateAt is the schema descriptor for create_at field.
-	coinaccountinfoDescCreateAt := coinaccountinfoFields[8].Descriptor()
+	coinaccountinfoDescCreateAt := coinaccountinfoFields[7].Descriptor()
 	// coinaccountinfo.DefaultCreateAt holds the default value on creation for the create_at field.
 	coinaccountinfo.DefaultCreateAt = coinaccountinfoDescCreateAt.Default.(func() uint32)
 	// coinaccountinfoDescUpdateAt is the schema descriptor for update_at field.
-	coinaccountinfoDescUpdateAt := coinaccountinfoFields[9].Descriptor()
+	coinaccountinfoDescUpdateAt := coinaccountinfoFields[8].Descriptor()
 	// coinaccountinfo.DefaultUpdateAt holds the default value on creation for the update_at field.
 	coinaccountinfo.DefaultUpdateAt = coinaccountinfoDescUpdateAt.Default.(func() uint32)
 	// coinaccountinfo.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	coinaccountinfo.UpdateDefaultUpdateAt = coinaccountinfoDescUpdateAt.UpdateDefault.(func() uint32)
 	// coinaccountinfoDescDeleteAt is the schema descriptor for delete_at field.
-	coinaccountinfoDescDeleteAt := coinaccountinfoFields[10].Descriptor()
+	coinaccountinfoDescDeleteAt := coinaccountinfoFields[9].Descriptor()
 	// coinaccountinfo.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	coinaccountinfo.DefaultDeleteAt = coinaccountinfoDescDeleteAt.Default.(func() uint32)
 	// coinaccountinfoDescID is the schema descriptor for id field.
