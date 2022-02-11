@@ -23,6 +23,7 @@ func (UserWithdraw) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),
+		field.UUID("coin_type_id", uuid.UUID{}),
 		field.UUID("account_id", uuid.UUID{}),
 		field.String("name"),
 		field.String("message"),
@@ -52,7 +53,7 @@ func (UserWithdraw) Edges() []ent.Edge {
 // Indexes of the UserWithdraw.
 func (UserWithdraw) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("app_id", "user_id", "account_id").
+		index.Fields("app_id", "user_id", "coin_type_id", "account_id").
 			Unique(),
 	}
 }

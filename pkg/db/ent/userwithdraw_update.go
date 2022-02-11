@@ -40,6 +40,12 @@ func (uwu *UserWithdrawUpdate) SetUserID(u uuid.UUID) *UserWithdrawUpdate {
 	return uwu
 }
 
+// SetCoinTypeID sets the "coin_type_id" field.
+func (uwu *UserWithdrawUpdate) SetCoinTypeID(u uuid.UUID) *UserWithdrawUpdate {
+	uwu.mutation.SetCoinTypeID(u)
+	return uwu
+}
+
 // SetAccountID sets the "account_id" field.
 func (uwu *UserWithdrawUpdate) SetAccountID(u uuid.UUID) *UserWithdrawUpdate {
 	uwu.mutation.SetAccountID(u)
@@ -213,6 +219,13 @@ func (uwu *UserWithdrawUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: userwithdraw.FieldUserID,
 		})
 	}
+	if value, ok := uwu.mutation.CoinTypeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userwithdraw.FieldCoinTypeID,
+		})
+	}
 	if value, ok := uwu.mutation.AccountID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -304,6 +317,12 @@ func (uwuo *UserWithdrawUpdateOne) SetAppID(u uuid.UUID) *UserWithdrawUpdateOne 
 // SetUserID sets the "user_id" field.
 func (uwuo *UserWithdrawUpdateOne) SetUserID(u uuid.UUID) *UserWithdrawUpdateOne {
 	uwuo.mutation.SetUserID(u)
+	return uwuo
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (uwuo *UserWithdrawUpdateOne) SetCoinTypeID(u uuid.UUID) *UserWithdrawUpdateOne {
+	uwuo.mutation.SetCoinTypeID(u)
 	return uwuo
 }
 
@@ -502,6 +521,13 @@ func (uwuo *UserWithdrawUpdateOne) sqlSave(ctx context.Context) (_node *UserWith
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: userwithdraw.FieldUserID,
+		})
+	}
+	if value, ok := uwuo.mutation.CoinTypeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userwithdraw.FieldCoinTypeID,
 		})
 	}
 	if value, ok := uwuo.mutation.AccountID(); ok {

@@ -197,6 +197,7 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "coin_type_id", Type: field.TypeUUID},
 		{Name: "account_id", Type: field.TypeUUID},
 		{Name: "name", Type: field.TypeString},
 		{Name: "message", Type: field.TypeString},
@@ -211,9 +212,9 @@ var (
 		PrimaryKey: []*schema.Column{UserWithdrawsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "userwithdraw_app_id_user_id_account_id",
+				Name:    "userwithdraw_app_id_user_id_coin_type_id_account_id",
 				Unique:  true,
-				Columns: []*schema.Column{UserWithdrawsColumns[1], UserWithdrawsColumns[2], UserWithdrawsColumns[3]},
+				Columns: []*schema.Column{UserWithdrawsColumns[1], UserWithdrawsColumns[2], UserWithdrawsColumns[3], UserWithdrawsColumns[4]},
 			},
 		},
 	}

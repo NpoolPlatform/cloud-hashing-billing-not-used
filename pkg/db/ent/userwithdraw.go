@@ -20,6 +20,8 @@ type UserWithdraw struct {
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// UserID holds the value of the "user_id" field.
 	UserID uuid.UUID `json:"user_id,omitempty"`
+	// CoinTypeID holds the value of the "coin_type_id" field.
+	CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 	// AccountID holds the value of the "account_id" field.
 	AccountID uuid.UUID `json:"account_id,omitempty"`
 	// Name holds the value of the "name" field.
@@ -43,7 +45,7 @@ func (*UserWithdraw) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullInt64)
 		case userwithdraw.FieldName, userwithdraw.FieldMessage:
 			values[i] = new(sql.NullString)
-		case userwithdraw.FieldID, userwithdraw.FieldAppID, userwithdraw.FieldUserID, userwithdraw.FieldAccountID:
+		case userwithdraw.FieldID, userwithdraw.FieldAppID, userwithdraw.FieldUserID, userwithdraw.FieldCoinTypeID, userwithdraw.FieldAccountID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type UserWithdraw", columns[i])
@@ -77,6 +79,12 @@ func (uw *UserWithdraw) assignValues(columns []string, values []interface{}) err
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value != nil {
 				uw.UserID = *value
+			}
+		case userwithdraw.FieldCoinTypeID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field coin_type_id", values[i])
+			} else if value != nil {
+				uw.CoinTypeID = *value
 			}
 		case userwithdraw.FieldAccountID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -146,6 +154,8 @@ func (uw *UserWithdraw) String() string {
 	builder.WriteString(fmt.Sprintf("%v", uw.AppID))
 	builder.WriteString(", user_id=")
 	builder.WriteString(fmt.Sprintf("%v", uw.UserID))
+	builder.WriteString(", coin_type_id=")
+	builder.WriteString(fmt.Sprintf("%v", uw.CoinTypeID))
 	builder.WriteString(", account_id=")
 	builder.WriteString(fmt.Sprintf("%v", uw.AccountID))
 	builder.WriteString(", name=")

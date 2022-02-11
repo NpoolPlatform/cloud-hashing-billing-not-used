@@ -7232,6 +7232,7 @@ type UserWithdrawMutation struct {
 	id            *uuid.UUID
 	app_id        *uuid.UUID
 	user_id       *uuid.UUID
+	coin_type_id  *uuid.UUID
 	account_id    *uuid.UUID
 	name          *string
 	message       *string
@@ -7421,6 +7422,42 @@ func (m *UserWithdrawMutation) OldUserID(ctx context.Context) (v uuid.UUID, err 
 // ResetUserID resets all changes to the "user_id" field.
 func (m *UserWithdrawMutation) ResetUserID() {
 	m.user_id = nil
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (m *UserWithdrawMutation) SetCoinTypeID(u uuid.UUID) {
+	m.coin_type_id = &u
+}
+
+// CoinTypeID returns the value of the "coin_type_id" field in the mutation.
+func (m *UserWithdrawMutation) CoinTypeID() (r uuid.UUID, exists bool) {
+	v := m.coin_type_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCoinTypeID returns the old "coin_type_id" field's value of the UserWithdraw entity.
+// If the UserWithdraw object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserWithdrawMutation) OldCoinTypeID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCoinTypeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCoinTypeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCoinTypeID: %w", err)
+	}
+	return oldValue.CoinTypeID, nil
+}
+
+// ResetCoinTypeID resets all changes to the "coin_type_id" field.
+func (m *UserWithdrawMutation) ResetCoinTypeID() {
+	m.coin_type_id = nil
 }
 
 // SetAccountID sets the "account_id" field.
@@ -7718,12 +7755,15 @@ func (m *UserWithdrawMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserWithdrawMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.app_id != nil {
 		fields = append(fields, userwithdraw.FieldAppID)
 	}
 	if m.user_id != nil {
 		fields = append(fields, userwithdraw.FieldUserID)
+	}
+	if m.coin_type_id != nil {
+		fields = append(fields, userwithdraw.FieldCoinTypeID)
 	}
 	if m.account_id != nil {
 		fields = append(fields, userwithdraw.FieldAccountID)
@@ -7755,6 +7795,8 @@ func (m *UserWithdrawMutation) Field(name string) (ent.Value, bool) {
 		return m.AppID()
 	case userwithdraw.FieldUserID:
 		return m.UserID()
+	case userwithdraw.FieldCoinTypeID:
+		return m.CoinTypeID()
 	case userwithdraw.FieldAccountID:
 		return m.AccountID()
 	case userwithdraw.FieldName:
@@ -7780,6 +7822,8 @@ func (m *UserWithdrawMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldAppID(ctx)
 	case userwithdraw.FieldUserID:
 		return m.OldUserID(ctx)
+	case userwithdraw.FieldCoinTypeID:
+		return m.OldCoinTypeID(ctx)
 	case userwithdraw.FieldAccountID:
 		return m.OldAccountID(ctx)
 	case userwithdraw.FieldName:
@@ -7814,6 +7858,13 @@ func (m *UserWithdrawMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUserID(v)
+		return nil
+	case userwithdraw.FieldCoinTypeID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCoinTypeID(v)
 		return nil
 	case userwithdraw.FieldAccountID:
 		v, ok := value.(uuid.UUID)
@@ -7950,6 +8001,9 @@ func (m *UserWithdrawMutation) ResetField(name string) error {
 		return nil
 	case userwithdraw.FieldUserID:
 		m.ResetUserID()
+		return nil
+	case userwithdraw.FieldCoinTypeID:
+		m.ResetCoinTypeID()
 		return nil
 	case userwithdraw.FieldAccountID:
 		m.ResetAccountID()
