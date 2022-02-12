@@ -83,12 +83,15 @@ func Get(ctx context.Context, in *npool.GetCoinAccountRequest) (*npool.GetCoinAc
 	if err != nil {
 		return nil, xerrors.Errorf("fail query coin account: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coin account")
+
+	var account *npool.CoinAccountInfo
+	for _, info := range infos {
+		account = dbRowToCoinAccount(info)
+		break
 	}
 
 	return &npool.GetCoinAccountResponse{
-		Info: dbRowToCoinAccount(infos[0]),
+		Info: account,
 	}, nil
 }
 
@@ -130,6 +133,30 @@ func GetByCoinAddress(ctx context.Context, in *npool.GetCoinAccountByCoinAddress
 
 	return &npool.GetCoinAccountByCoinAddressResponse{
 		Info: account,
+	}, nil
+}
+
+func GetAll(ctx context.Context, in *npool.GetCoinAccountsRequest) (*npool.GetCoinAccountsResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		CoinAccountInfo.
+		Query().
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account: %v", err)
+	}
+
+	accounts := []*npool.CoinAccountInfo{}
+	for _, info := range infos {
+		accounts = append(accounts, dbRowToCoinAccount(info))
+	}
+
+	return &npool.GetCoinAccountsResponse{
+		Infos: accounts,
 	}, nil
 }
 

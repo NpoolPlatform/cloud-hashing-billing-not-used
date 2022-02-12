@@ -42,6 +42,15 @@ func (s *Server) GetCoinAccountByCoinAddress(ctx context.Context, in *npool.GetC
 	return resp, nil
 }
 
+func (s *Server) GetCoinAccounts(ctx context.Context, in *npool.GetCoinAccountsRequest) (*npool.GetCoinAccountsResponse, error) {
+	resp, err := coinaccountinfo.GetAll(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get coin accounts info error: %v", err)
+		return &npool.GetCoinAccountsResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
 func (s *Server) DeleteCoinAccount(ctx context.Context, in *npool.DeleteCoinAccountRequest) (*npool.DeleteCoinAccountResponse, error) {
 	resp, err := coinaccountinfo.Delete(ctx, in)
 	if err != nil {
