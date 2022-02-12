@@ -266,3 +266,27 @@ func GetIdleByGoodPaymentCoin(ctx context.Context, in *npool.GetIdleGoodPayments
 		Infos: payments,
 	}, nil
 }
+
+func GetAll(ctx context.Context, in *npool.GetGoodPaymentsRequest) (*npool.GetGoodPaymentsResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		GoodPayment.
+		Query().
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query good payment: %v", err)
+	}
+
+	payments := []*npool.GoodPayment{}
+	for _, info := range infos {
+		payments = append(payments, dbRowToGoodPayment(info))
+	}
+
+	return &npool.GetGoodPaymentsResponse{
+		Infos: payments,
+	}, nil
+}

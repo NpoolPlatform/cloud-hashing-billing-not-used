@@ -38,6 +38,15 @@ func (s *Server) GetGoodPayment(ctx context.Context, in *npool.GetGoodPaymentReq
 	return resp, nil
 }
 
+func (s *Server) GetGoodPayments(ctx context.Context, in *npool.GetGoodPaymentsRequest) (*npool.GetGoodPaymentsResponse, error) {
+	resp, err := crud.GetAll(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get good payments error: %v", err)
+		return &npool.GetGoodPaymentsResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
 func (s *Server) GetGoodPaymentByAccount(ctx context.Context, in *npool.GetGoodPaymentByAccountRequest) (*npool.GetGoodPaymentByAccountResponse, error) {
 	resp, err := crud.GetByAccount(ctx, in)
 	if err != nil {
