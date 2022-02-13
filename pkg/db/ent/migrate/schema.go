@@ -108,6 +108,11 @@ var (
 				Unique:  true,
 				Columns: []*schema.Column{GoodIncomingsColumns[1], GoodIncomingsColumns[2]},
 			},
+			{
+				Name:    "goodincoming_coin_type_id_account_id",
+				Unique:  true,
+				Columns: []*schema.Column{GoodIncomingsColumns[2], GoodIncomingsColumns[3]},
+			},
 		},
 	}
 	// GoodPaymentsColumns holds the columns for the "good_payments" table.

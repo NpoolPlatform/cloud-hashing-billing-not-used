@@ -6,6 +6,7 @@ import (
 	"context"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/goodincoming"
+	mw "github.com/NpoolPlatform/cloud-hashing-billing/pkg/middleware/goodincoming"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
@@ -14,7 +15,7 @@ import (
 )
 
 func (s *Server) CreateGoodIncoming(ctx context.Context, in *npool.CreateGoodIncomingRequest) (*npool.CreateGoodIncomingResponse, error) {
-	resp, err := crud.Create(ctx, in)
+	resp, err := mw.Create(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create good incoming error: %v", err)
 		return &npool.CreateGoodIncomingResponse{}, status.Error(codes.Internal, err.Error())
@@ -23,7 +24,7 @@ func (s *Server) CreateGoodIncoming(ctx context.Context, in *npool.CreateGoodInc
 }
 
 func (s *Server) UpdateGoodIncoming(ctx context.Context, in *npool.UpdateGoodIncomingRequest) (*npool.UpdateGoodIncomingResponse, error) {
-	resp, err := crud.Update(ctx, in)
+	resp, err := mw.Update(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("update good incoming error: %v", err)
 		return &npool.UpdateGoodIncomingResponse{}, status.Error(codes.Internal, err.Error())

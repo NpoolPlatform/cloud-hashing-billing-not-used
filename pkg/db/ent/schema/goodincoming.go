@@ -50,5 +50,7 @@ func (GoodIncoming) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("good_id", "coin_type_id").
 			Unique(),
+		index.Fields("coin_type_id", "account_id").
+			Unique(),
 	}
 }
