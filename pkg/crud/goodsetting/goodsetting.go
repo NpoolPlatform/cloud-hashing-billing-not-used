@@ -18,7 +18,7 @@ import (
 
 func validateGoodSetting(info *npool.GoodSetting) error {
 	if _, err := uuid.Parse(info.GetGoodID()); err != nil {
-		return xerrors.Errorf("invalid coin type id: %v", err)
+		return xerrors.Errorf("invalid good id: %v", err)
 	}
 	return nil
 }
@@ -122,9 +122,9 @@ func Get(ctx context.Context, in *npool.GetGoodSettingRequest) (*npool.GetGoodSe
 }
 
 func GetByGood(ctx context.Context, in *npool.GetGoodSettingByGoodRequest) (*npool.GetGoodSettingByGoodResponse, error) {
-	coinID, err := uuid.Parse(in.GetGoodID())
+	goodID, err := uuid.Parse(in.GetGoodID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid coin id: %v", err)
+		return nil, xerrors.Errorf("invalid good id: %v", err)
 	}
 
 	cli, err := db.Client()
@@ -136,7 +136,7 @@ func GetByGood(ctx context.Context, in *npool.GetGoodSettingByGoodRequest) (*npo
 		GoodSetting.
 		Query().
 		Where(
-			goodsetting.GoodID(coinID),
+			goodsetting.GoodID(goodID),
 		).
 		All(ctx)
 	if err != nil {
