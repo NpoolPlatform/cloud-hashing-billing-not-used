@@ -21,7 +21,8 @@ func validateGoodBenefitAccount(ctx context.Context, accountID string, platformH
 		return xerrors.Errorf("fail get account")
 	}
 	if resp.Info.PlatformHoldPrivateKey == platformHoldPrivateKey {
-		return xerrors.Errorf("different hold private key by platform %v", accountID)
+		return xerrors.Errorf("different hold private key by platform %v [%v != %v]",
+			accountID, resp.Info.PlatformHoldPrivateKey, platformHoldPrivateKey)
 	}
 
 	// TODO: check of account is used for other
