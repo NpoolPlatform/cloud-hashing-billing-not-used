@@ -21,7 +21,7 @@ func (GoodPayment) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
 		field.UUID("good_id", uuid.UUID{}),
 		field.UUID("payment_coin_type_id", uuid.UUID{}),
-		field.UUID("account_id", uuid.UUID{}),
+		field.UUID("account_id", uuid.UUID{}).Unique(),
 		field.Bool("idle"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {

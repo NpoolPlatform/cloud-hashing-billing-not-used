@@ -92,7 +92,7 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "payment_coin_type_id", Type: field.TypeUUID},
-		{Name: "account_id", Type: field.TypeUUID},
+		{Name: "account_id", Type: field.TypeUUID, Unique: true},
 		{Name: "idle", Type: field.TypeBool},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},

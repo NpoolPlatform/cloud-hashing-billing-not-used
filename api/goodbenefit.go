@@ -6,6 +6,7 @@ import (
 	"context"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/goodbenefit"
+	mw "github.com/NpoolPlatform/cloud-hashing-billing/pkg/middleware/goodbenefit"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
@@ -14,7 +15,7 @@ import (
 )
 
 func (s *Server) CreateGoodBenefit(ctx context.Context, in *npool.CreateGoodBenefitRequest) (*npool.CreateGoodBenefitResponse, error) {
-	resp, err := crud.Create(ctx, in)
+	resp, err := mw.Create(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create good benefit error: %v", err)
 		return &npool.CreateGoodBenefitResponse{}, status.Error(codes.Internal, err.Error())
@@ -23,7 +24,7 @@ func (s *Server) CreateGoodBenefit(ctx context.Context, in *npool.CreateGoodBene
 }
 
 func (s *Server) UpdateGoodBenefit(ctx context.Context, in *npool.UpdateGoodBenefitRequest) (*npool.UpdateGoodBenefitResponse, error) {
-	resp, err := crud.Update(ctx, in)
+	resp, err := mw.Update(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("update good benefit error: %v", err)
 		return &npool.UpdateGoodBenefitResponse{}, status.Error(codes.Internal, err.Error())
