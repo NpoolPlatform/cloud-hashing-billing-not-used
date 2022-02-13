@@ -10,7 +10,7 @@ import (
 	"golang.org/x/xerrors"
 )
 
-func validateGoodBenefitAccount(ctx context.Context, accountID string) error {
+func validateGoodBenefitAccount(ctx context.Context, accountID string, platformHoldPrivateKey bool) error {
 	resp, err := accountcrud.Get(ctx, &npool.GetCoinAccountRequest{
 		ID: accountID,
 	})
@@ -20,8 +20,8 @@ func validateGoodBenefitAccount(ctx context.Context, accountID string) error {
 	if resp.Info == nil {
 		return xerrors.Errorf("fail get account")
 	}
-	if !resp.Info.PlatformHoldPrivateKey {
-		return xerrors.Errorf("should hold private key by platform")
+	if resp.Info.PlatformHoldPrivateKey == platformHoldPrivateKey {
+		return xerrors.Errorf("different hold private key by platform")
 	}
 
 	// TODO: check of account is used for other
@@ -30,16 +30,16 @@ func validateGoodBenefitAccount(ctx context.Context, accountID string) error {
 }
 
 func validateGoodBenefit(ctx context.Context, info *npool.GoodBenefit) error {
-	if err := validateGoodBenefitAccount(ctx, info.GetBenefitAccountID()); err != nil {
+	if err := validateGoodBenefitAccount(ctx, info.GetBenefitAccountID(), true); err != nil {
 		return xerrors.Errorf("invalid good benefit account: %v", err)
 	}
-	if err := validateGoodBenefitAccount(ctx, info.GetPlatformOfflineAccountID()); err != nil {
+	if err := validateGoodBenefitAccount(ctx, info.GetPlatformOfflineAccountID(), false); err != nil {
 		return xerrors.Errorf("invalid good benefit account: %v", err)
 	}
-	if err := validateGoodBenefitAccount(ctx, info.GetUserOfflineAccountID()); err != nil {
+	if err := validateGoodBenefitAccount(ctx, info.GetUserOfflineAccountID(), false); err != nil {
 		return xerrors.Errorf("invalid good benefit account: %v", err)
 	}
-	if err := validateGoodBenefitAccount(ctx, info.GetUserOnlineAccountID()); err != nil {
+	if err := validateGoodBenefitAccount(ctx, info.GetUserOnlineAccountID(), true); err != nil {
 		return xerrors.Errorf("invalid good benefit account: %v", err)
 	}
 	return nil
