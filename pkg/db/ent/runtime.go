@@ -7,12 +7,14 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodincoming"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodpayment"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/schema"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
 	"github.com/google/uuid"
 )
@@ -101,6 +103,26 @@ func init() {
 	goodbenefitDescID := goodbenefitFields[0].Descriptor()
 	// goodbenefit.DefaultID holds the default value on creation for the id field.
 	goodbenefit.DefaultID = goodbenefitDescID.Default.(func() uuid.UUID)
+	goodincomingFields := schema.GoodIncoming{}.Fields()
+	_ = goodincomingFields
+	// goodincomingDescCreateAt is the schema descriptor for create_at field.
+	goodincomingDescCreateAt := goodincomingFields[4].Descriptor()
+	// goodincoming.DefaultCreateAt holds the default value on creation for the create_at field.
+	goodincoming.DefaultCreateAt = goodincomingDescCreateAt.Default.(func() uint32)
+	// goodincomingDescUpdateAt is the schema descriptor for update_at field.
+	goodincomingDescUpdateAt := goodincomingFields[5].Descriptor()
+	// goodincoming.DefaultUpdateAt holds the default value on creation for the update_at field.
+	goodincoming.DefaultUpdateAt = goodincomingDescUpdateAt.Default.(func() uint32)
+	// goodincoming.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	goodincoming.UpdateDefaultUpdateAt = goodincomingDescUpdateAt.UpdateDefault.(func() uint32)
+	// goodincomingDescDeleteAt is the schema descriptor for delete_at field.
+	goodincomingDescDeleteAt := goodincomingFields[6].Descriptor()
+	// goodincoming.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	goodincoming.DefaultDeleteAt = goodincomingDescDeleteAt.Default.(func() uint32)
+	// goodincomingDescID is the schema descriptor for id field.
+	goodincomingDescID := goodincomingFields[0].Descriptor()
+	// goodincoming.DefaultID holds the default value on creation for the id field.
+	goodincoming.DefaultID = goodincomingDescID.Default.(func() uuid.UUID)
 	goodpaymentFields := schema.GoodPayment{}.Fields()
 	_ = goodpaymentFields
 	// goodpaymentDescCreateAt is the schema descriptor for create_at field.
@@ -201,6 +223,26 @@ func init() {
 	userbenefitDescID := userbenefitFields[0].Descriptor()
 	// userbenefit.DefaultID holds the default value on creation for the id field.
 	userbenefit.DefaultID = userbenefitDescID.Default.(func() uuid.UUID)
+	userdirectbenefitFields := schema.UserDirectBenefit{}.Fields()
+	_ = userdirectbenefitFields
+	// userdirectbenefitDescCreateAt is the schema descriptor for create_at field.
+	userdirectbenefitDescCreateAt := userdirectbenefitFields[5].Descriptor()
+	// userdirectbenefit.DefaultCreateAt holds the default value on creation for the create_at field.
+	userdirectbenefit.DefaultCreateAt = userdirectbenefitDescCreateAt.Default.(func() uint32)
+	// userdirectbenefitDescUpdateAt is the schema descriptor for update_at field.
+	userdirectbenefitDescUpdateAt := userdirectbenefitFields[6].Descriptor()
+	// userdirectbenefit.DefaultUpdateAt holds the default value on creation for the update_at field.
+	userdirectbenefit.DefaultUpdateAt = userdirectbenefitDescUpdateAt.Default.(func() uint32)
+	// userdirectbenefit.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	userdirectbenefit.UpdateDefaultUpdateAt = userdirectbenefitDescUpdateAt.UpdateDefault.(func() uint32)
+	// userdirectbenefitDescDeleteAt is the schema descriptor for delete_at field.
+	userdirectbenefitDescDeleteAt := userdirectbenefitFields[7].Descriptor()
+	// userdirectbenefit.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	userdirectbenefit.DefaultDeleteAt = userdirectbenefitDescDeleteAt.Default.(func() uint32)
+	// userdirectbenefitDescID is the schema descriptor for id field.
+	userdirectbenefitDescID := userdirectbenefitFields[0].Descriptor()
+	// userdirectbenefit.DefaultID holds the default value on creation for the id field.
+	userdirectbenefit.DefaultID = userdirectbenefitDescID.Default.(func() uuid.UUID)
 	userwithdrawFields := schema.UserWithdraw{}.Fields()
 	_ = userwithdrawFields
 	// userwithdrawDescCreateAt is the schema descriptor for create_at field.

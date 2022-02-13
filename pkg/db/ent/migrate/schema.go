@@ -87,6 +87,29 @@ var (
 		Columns:    GoodBenefitsColumns,
 		PrimaryKey: []*schema.Column{GoodBenefitsColumns[0]},
 	}
+	// GoodIncomingsColumns holds the columns for the "good_incomings" table.
+	GoodIncomingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "good_id", Type: field.TypeUUID},
+		{Name: "coin_type_id", Type: field.TypeUUID},
+		{Name: "account_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// GoodIncomingsTable holds the schema information for the "good_incomings" table.
+	GoodIncomingsTable = &schema.Table{
+		Name:       "good_incomings",
+		Columns:    GoodIncomingsColumns,
+		PrimaryKey: []*schema.Column{GoodIncomingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "goodincoming_good_id_coin_type_id",
+				Unique:  true,
+				Columns: []*schema.Column{GoodIncomingsColumns[1], GoodIncomingsColumns[2]},
+			},
+		},
+	}
 	// GoodPaymentsColumns holds the columns for the "good_payments" table.
 	GoodPaymentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -192,6 +215,30 @@ var (
 			},
 		},
 	}
+	// UserDirectBenefitsColumns holds the columns for the "user_direct_benefits" table.
+	UserDirectBenefitsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "coin_type_id", Type: field.TypeUUID},
+		{Name: "account_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// UserDirectBenefitsTable holds the schema information for the "user_direct_benefits" table.
+	UserDirectBenefitsTable = &schema.Table{
+		Name:       "user_direct_benefits",
+		Columns:    UserDirectBenefitsColumns,
+		PrimaryKey: []*schema.Column{UserDirectBenefitsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userdirectbenefit_app_id_user_id_coin_type_id_account_id",
+				Unique:  true,
+				Columns: []*schema.Column{UserDirectBenefitsColumns[1], UserDirectBenefitsColumns[2], UserDirectBenefitsColumns[3], UserDirectBenefitsColumns[4]},
+			},
+		},
+	}
 	// UserWithdrawsColumns holds the columns for the "user_withdraws" table.
 	UserWithdrawsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -224,11 +271,13 @@ var (
 		CoinAccountTransactionsTable,
 		CoinSettingsTable,
 		GoodBenefitsTable,
+		GoodIncomingsTable,
 		GoodPaymentsTable,
 		GoodSettingsTable,
 		PlatformBenefitsTable,
 		PlatformSettingsTable,
 		UserBenefitsTable,
+		UserDirectBenefitsTable,
 		UserWithdrawsTable,
 	}
 )

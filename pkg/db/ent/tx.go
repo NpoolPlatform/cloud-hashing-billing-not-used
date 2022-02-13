@@ -20,6 +20,8 @@ type Tx struct {
 	CoinSetting *CoinSettingClient
 	// GoodBenefit is the client for interacting with the GoodBenefit builders.
 	GoodBenefit *GoodBenefitClient
+	// GoodIncoming is the client for interacting with the GoodIncoming builders.
+	GoodIncoming *GoodIncomingClient
 	// GoodPayment is the client for interacting with the GoodPayment builders.
 	GoodPayment *GoodPaymentClient
 	// GoodSetting is the client for interacting with the GoodSetting builders.
@@ -30,6 +32,8 @@ type Tx struct {
 	PlatformSetting *PlatformSettingClient
 	// UserBenefit is the client for interacting with the UserBenefit builders.
 	UserBenefit *UserBenefitClient
+	// UserDirectBenefit is the client for interacting with the UserDirectBenefit builders.
+	UserDirectBenefit *UserDirectBenefitClient
 	// UserWithdraw is the client for interacting with the UserWithdraw builders.
 	UserWithdraw *UserWithdrawClient
 
@@ -171,11 +175,13 @@ func (tx *Tx) init() {
 	tx.CoinAccountTransaction = NewCoinAccountTransactionClient(tx.config)
 	tx.CoinSetting = NewCoinSettingClient(tx.config)
 	tx.GoodBenefit = NewGoodBenefitClient(tx.config)
+	tx.GoodIncoming = NewGoodIncomingClient(tx.config)
 	tx.GoodPayment = NewGoodPaymentClient(tx.config)
 	tx.GoodSetting = NewGoodSettingClient(tx.config)
 	tx.PlatformBenefit = NewPlatformBenefitClient(tx.config)
 	tx.PlatformSetting = NewPlatformSettingClient(tx.config)
 	tx.UserBenefit = NewUserBenefitClient(tx.config)
+	tx.UserDirectBenefit = NewUserDirectBenefitClient(tx.config)
 	tx.UserWithdraw = NewUserWithdrawClient(tx.config)
 }
 

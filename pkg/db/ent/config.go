@@ -28,11 +28,13 @@ type hooks struct {
 	CoinAccountTransaction []ent.Hook
 	CoinSetting            []ent.Hook
 	GoodBenefit            []ent.Hook
+	GoodIncoming           []ent.Hook
 	GoodPayment            []ent.Hook
 	GoodSetting            []ent.Hook
 	PlatformBenefit        []ent.Hook
 	PlatformSetting        []ent.Hook
 	UserBenefit            []ent.Hook
+	UserDirectBenefit      []ent.Hook
 	UserWithdraw           []ent.Hook
 }
 

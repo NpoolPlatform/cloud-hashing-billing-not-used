@@ -12,11 +12,13 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodincoming"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodpayment"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
 )
 
@@ -42,11 +44,13 @@ func columnChecker(table string) func(string) error {
 		coinaccounttransaction.Table: coinaccounttransaction.ValidColumn,
 		coinsetting.Table:            coinsetting.ValidColumn,
 		goodbenefit.Table:            goodbenefit.ValidColumn,
+		goodincoming.Table:           goodincoming.ValidColumn,
 		goodpayment.Table:            goodpayment.ValidColumn,
 		goodsetting.Table:            goodsetting.ValidColumn,
 		platformbenefit.Table:        platformbenefit.ValidColumn,
 		platformsetting.Table:        platformsetting.ValidColumn,
 		userbenefit.Table:            userbenefit.ValidColumn,
+		userdirectbenefit.Table:      userdirectbenefit.ValidColumn,
 		userwithdraw.Table:           userwithdraw.ValidColumn,
 	}
 	check, ok := checks[table]

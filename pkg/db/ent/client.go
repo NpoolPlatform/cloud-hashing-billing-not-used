@@ -14,11 +14,13 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodincoming"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodpayment"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
 
 	"entgo.io/ent/dialect"
@@ -38,6 +40,8 @@ type Client struct {
 	CoinSetting *CoinSettingClient
 	// GoodBenefit is the client for interacting with the GoodBenefit builders.
 	GoodBenefit *GoodBenefitClient
+	// GoodIncoming is the client for interacting with the GoodIncoming builders.
+	GoodIncoming *GoodIncomingClient
 	// GoodPayment is the client for interacting with the GoodPayment builders.
 	GoodPayment *GoodPaymentClient
 	// GoodSetting is the client for interacting with the GoodSetting builders.
@@ -48,6 +52,8 @@ type Client struct {
 	PlatformSetting *PlatformSettingClient
 	// UserBenefit is the client for interacting with the UserBenefit builders.
 	UserBenefit *UserBenefitClient
+	// UserDirectBenefit is the client for interacting with the UserDirectBenefit builders.
+	UserDirectBenefit *UserDirectBenefitClient
 	// UserWithdraw is the client for interacting with the UserWithdraw builders.
 	UserWithdraw *UserWithdrawClient
 }
@@ -67,11 +73,13 @@ func (c *Client) init() {
 	c.CoinAccountTransaction = NewCoinAccountTransactionClient(c.config)
 	c.CoinSetting = NewCoinSettingClient(c.config)
 	c.GoodBenefit = NewGoodBenefitClient(c.config)
+	c.GoodIncoming = NewGoodIncomingClient(c.config)
 	c.GoodPayment = NewGoodPaymentClient(c.config)
 	c.GoodSetting = NewGoodSettingClient(c.config)
 	c.PlatformBenefit = NewPlatformBenefitClient(c.config)
 	c.PlatformSetting = NewPlatformSettingClient(c.config)
 	c.UserBenefit = NewUserBenefitClient(c.config)
+	c.UserDirectBenefit = NewUserDirectBenefitClient(c.config)
 	c.UserWithdraw = NewUserWithdrawClient(c.config)
 }
 
@@ -110,11 +118,13 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
 		CoinSetting:            NewCoinSettingClient(cfg),
 		GoodBenefit:            NewGoodBenefitClient(cfg),
+		GoodIncoming:           NewGoodIncomingClient(cfg),
 		GoodPayment:            NewGoodPaymentClient(cfg),
 		GoodSetting:            NewGoodSettingClient(cfg),
 		PlatformBenefit:        NewPlatformBenefitClient(cfg),
 		PlatformSetting:        NewPlatformSettingClient(cfg),
 		UserBenefit:            NewUserBenefitClient(cfg),
+		UserDirectBenefit:      NewUserDirectBenefitClient(cfg),
 		UserWithdraw:           NewUserWithdrawClient(cfg),
 	}, nil
 }
@@ -139,11 +149,13 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
 		CoinSetting:            NewCoinSettingClient(cfg),
 		GoodBenefit:            NewGoodBenefitClient(cfg),
+		GoodIncoming:           NewGoodIncomingClient(cfg),
 		GoodPayment:            NewGoodPaymentClient(cfg),
 		GoodSetting:            NewGoodSettingClient(cfg),
 		PlatformBenefit:        NewPlatformBenefitClient(cfg),
 		PlatformSetting:        NewPlatformSettingClient(cfg),
 		UserBenefit:            NewUserBenefitClient(cfg),
+		UserDirectBenefit:      NewUserDirectBenefitClient(cfg),
 		UserWithdraw:           NewUserWithdrawClient(cfg),
 	}, nil
 }
@@ -178,11 +190,13 @@ func (c *Client) Use(hooks ...Hook) {
 	c.CoinAccountTransaction.Use(hooks...)
 	c.CoinSetting.Use(hooks...)
 	c.GoodBenefit.Use(hooks...)
+	c.GoodIncoming.Use(hooks...)
 	c.GoodPayment.Use(hooks...)
 	c.GoodSetting.Use(hooks...)
 	c.PlatformBenefit.Use(hooks...)
 	c.PlatformSetting.Use(hooks...)
 	c.UserBenefit.Use(hooks...)
+	c.UserDirectBenefit.Use(hooks...)
 	c.UserWithdraw.Use(hooks...)
 }
 
@@ -544,6 +558,96 @@ func (c *GoodBenefitClient) GetX(ctx context.Context, id uuid.UUID) *GoodBenefit
 // Hooks returns the client hooks.
 func (c *GoodBenefitClient) Hooks() []Hook {
 	return c.hooks.GoodBenefit
+}
+
+// GoodIncomingClient is a client for the GoodIncoming schema.
+type GoodIncomingClient struct {
+	config
+}
+
+// NewGoodIncomingClient returns a client for the GoodIncoming from the given config.
+func NewGoodIncomingClient(c config) *GoodIncomingClient {
+	return &GoodIncomingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `goodincoming.Hooks(f(g(h())))`.
+func (c *GoodIncomingClient) Use(hooks ...Hook) {
+	c.hooks.GoodIncoming = append(c.hooks.GoodIncoming, hooks...)
+}
+
+// Create returns a create builder for GoodIncoming.
+func (c *GoodIncomingClient) Create() *GoodIncomingCreate {
+	mutation := newGoodIncomingMutation(c.config, OpCreate)
+	return &GoodIncomingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of GoodIncoming entities.
+func (c *GoodIncomingClient) CreateBulk(builders ...*GoodIncomingCreate) *GoodIncomingCreateBulk {
+	return &GoodIncomingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for GoodIncoming.
+func (c *GoodIncomingClient) Update() *GoodIncomingUpdate {
+	mutation := newGoodIncomingMutation(c.config, OpUpdate)
+	return &GoodIncomingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *GoodIncomingClient) UpdateOne(gi *GoodIncoming) *GoodIncomingUpdateOne {
+	mutation := newGoodIncomingMutation(c.config, OpUpdateOne, withGoodIncoming(gi))
+	return &GoodIncomingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *GoodIncomingClient) UpdateOneID(id uuid.UUID) *GoodIncomingUpdateOne {
+	mutation := newGoodIncomingMutation(c.config, OpUpdateOne, withGoodIncomingID(id))
+	return &GoodIncomingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for GoodIncoming.
+func (c *GoodIncomingClient) Delete() *GoodIncomingDelete {
+	mutation := newGoodIncomingMutation(c.config, OpDelete)
+	return &GoodIncomingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *GoodIncomingClient) DeleteOne(gi *GoodIncoming) *GoodIncomingDeleteOne {
+	return c.DeleteOneID(gi.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *GoodIncomingClient) DeleteOneID(id uuid.UUID) *GoodIncomingDeleteOne {
+	builder := c.Delete().Where(goodincoming.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &GoodIncomingDeleteOne{builder}
+}
+
+// Query returns a query builder for GoodIncoming.
+func (c *GoodIncomingClient) Query() *GoodIncomingQuery {
+	return &GoodIncomingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a GoodIncoming entity by its id.
+func (c *GoodIncomingClient) Get(ctx context.Context, id uuid.UUID) (*GoodIncoming, error) {
+	return c.Query().Where(goodincoming.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *GoodIncomingClient) GetX(ctx context.Context, id uuid.UUID) *GoodIncoming {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *GoodIncomingClient) Hooks() []Hook {
+	return c.hooks.GoodIncoming
 }
 
 // GoodPaymentClient is a client for the GoodPayment schema.
@@ -994,6 +1098,96 @@ func (c *UserBenefitClient) GetX(ctx context.Context, id uuid.UUID) *UserBenefit
 // Hooks returns the client hooks.
 func (c *UserBenefitClient) Hooks() []Hook {
 	return c.hooks.UserBenefit
+}
+
+// UserDirectBenefitClient is a client for the UserDirectBenefit schema.
+type UserDirectBenefitClient struct {
+	config
+}
+
+// NewUserDirectBenefitClient returns a client for the UserDirectBenefit from the given config.
+func NewUserDirectBenefitClient(c config) *UserDirectBenefitClient {
+	return &UserDirectBenefitClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `userdirectbenefit.Hooks(f(g(h())))`.
+func (c *UserDirectBenefitClient) Use(hooks ...Hook) {
+	c.hooks.UserDirectBenefit = append(c.hooks.UserDirectBenefit, hooks...)
+}
+
+// Create returns a create builder for UserDirectBenefit.
+func (c *UserDirectBenefitClient) Create() *UserDirectBenefitCreate {
+	mutation := newUserDirectBenefitMutation(c.config, OpCreate)
+	return &UserDirectBenefitCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserDirectBenefit entities.
+func (c *UserDirectBenefitClient) CreateBulk(builders ...*UserDirectBenefitCreate) *UserDirectBenefitCreateBulk {
+	return &UserDirectBenefitCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserDirectBenefit.
+func (c *UserDirectBenefitClient) Update() *UserDirectBenefitUpdate {
+	mutation := newUserDirectBenefitMutation(c.config, OpUpdate)
+	return &UserDirectBenefitUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserDirectBenefitClient) UpdateOne(udb *UserDirectBenefit) *UserDirectBenefitUpdateOne {
+	mutation := newUserDirectBenefitMutation(c.config, OpUpdateOne, withUserDirectBenefit(udb))
+	return &UserDirectBenefitUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserDirectBenefitClient) UpdateOneID(id uuid.UUID) *UserDirectBenefitUpdateOne {
+	mutation := newUserDirectBenefitMutation(c.config, OpUpdateOne, withUserDirectBenefitID(id))
+	return &UserDirectBenefitUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserDirectBenefit.
+func (c *UserDirectBenefitClient) Delete() *UserDirectBenefitDelete {
+	mutation := newUserDirectBenefitMutation(c.config, OpDelete)
+	return &UserDirectBenefitDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *UserDirectBenefitClient) DeleteOne(udb *UserDirectBenefit) *UserDirectBenefitDeleteOne {
+	return c.DeleteOneID(udb.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *UserDirectBenefitClient) DeleteOneID(id uuid.UUID) *UserDirectBenefitDeleteOne {
+	builder := c.Delete().Where(userdirectbenefit.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserDirectBenefitDeleteOne{builder}
+}
+
+// Query returns a query builder for UserDirectBenefit.
+func (c *UserDirectBenefitClient) Query() *UserDirectBenefitQuery {
+	return &UserDirectBenefitQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a UserDirectBenefit entity by its id.
+func (c *UserDirectBenefitClient) Get(ctx context.Context, id uuid.UUID) (*UserDirectBenefit, error) {
+	return c.Query().Where(userdirectbenefit.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserDirectBenefitClient) GetX(ctx context.Context, id uuid.UUID) *UserDirectBenefit {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserDirectBenefitClient) Hooks() []Hook {
+	return c.hooks.UserDirectBenefit
 }
 
 // UserWithdrawClient is a client for the UserWithdraw schema.
