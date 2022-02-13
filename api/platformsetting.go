@@ -20,6 +20,15 @@ func (s *Server) CreatePlatformSetting(ctx context.Context, in *npool.CreatePlat
 	return resp, nil
 }
 
+func (s *Server) UpdatePlatformSetting(ctx context.Context, in *npool.UpdatePlatformSettingRequest) (*npool.UpdatePlatformSettingResponse, error) {
+	resp, err := crud.Update(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("update platform setting error: %v", err)
+		return &npool.UpdatePlatformSettingResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
 func (s *Server) GetPlatformSetting(ctx context.Context, in *npool.GetPlatformSettingRequest) (*npool.GetPlatformSettingResponse, error) {
 	resp, err := crud.Get(ctx, in)
 	if err != nil {
