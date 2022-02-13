@@ -61,6 +61,14 @@ spec:
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
+          - path: /api/cloud-hashing-billing/v1/create/coin
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
+          - path: /api/cloud-hashing-billing/v1/update/coin
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
           - path: /api/cloud-hashing-billing/v1/get/good
             backend:
               serviceName: cloud-hashing-billing
