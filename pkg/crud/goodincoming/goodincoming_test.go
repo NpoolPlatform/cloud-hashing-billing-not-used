@@ -59,7 +59,7 @@ func TestCRUD(t *testing.T) {
 		assertGoodIncoming(t, resp1.Info, &goodIncoming)
 	}
 
-	resp2, err := GetByGood(context.Background(), &npool.GetGoodIncomingByGoodRequest{
+	resp2, err := GetByGood(context.Background(), &npool.GetGoodIncomingsByGoodRequest{
 		GoodID: goodIncoming.GoodID,
 	})
 	if assert.Nil(t, err) {

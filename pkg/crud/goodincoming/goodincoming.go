@@ -124,7 +124,7 @@ func Get(ctx context.Context, in *npool.GetGoodIncomingRequest) (*npool.GetGoodI
 	}, nil
 }
 
-func GetByGood(ctx context.Context, in *npool.GetGoodIncomingByGoodRequest) (*npool.GetGoodIncomingByGoodResponse, error) {
+func GetByGood(ctx context.Context, in *npool.GetGoodIncomingsByGoodRequest) (*npool.GetGoodIncomingsByGoodResponse, error) {
 	goodID, err := uuid.Parse(in.GetGoodID())
 	if err != nil {
 		return nil, xerrors.Errorf("invalid good id: %v", err)
@@ -151,7 +151,7 @@ func GetByGood(ctx context.Context, in *npool.GetGoodIncomingByGoodRequest) (*np
 		settings = append(settings, dbRowToGoodIncoming(info))
 	}
 
-	return &npool.GetGoodIncomingByGoodResponse{
+	return &npool.GetGoodIncomingsByGoodResponse{
 		Infos: settings,
 	}, nil
 }

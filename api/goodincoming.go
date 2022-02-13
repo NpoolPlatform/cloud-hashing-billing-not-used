@@ -40,11 +40,11 @@ func (s *Server) GetGoodIncoming(ctx context.Context, in *npool.GetGoodIncomingR
 	return resp, nil
 }
 
-func (s *Server) GetGoodIncomingByGood(ctx context.Context, in *npool.GetGoodIncomingByGoodRequest) (*npool.GetGoodIncomingByGoodResponse, error) {
+func (s *Server) GetGoodIncomingsByGood(ctx context.Context, in *npool.GetGoodIncomingsByGoodRequest) (*npool.GetGoodIncomingsByGoodResponse, error) {
 	resp, err := crud.GetByGood(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorf("get good incoming error: %v", err)
-		return &npool.GetGoodIncomingByGoodResponse{}, status.Error(codes.Internal, err.Error())
+		logger.Sugar().Errorf("get good incomings error: %v", err)
+		return &npool.GetGoodIncomingsByGoodResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
