@@ -21,15 +21,6 @@ func validateGoodBenefit(info *npool.GoodBenefit) error {
 	if _, err := uuid.Parse(info.GetBenefitAccountID()); err != nil {
 		return xerrors.Errorf("invalid benefit account id: %v", err)
 	}
-	if _, err := uuid.Parse(info.GetPlatformOfflineAccountID()); err != nil {
-		return xerrors.Errorf("invalid platform offline account id: %v", err)
-	}
-	if _, err := uuid.Parse(info.GetUserOfflineAccountID()); err != nil {
-		return xerrors.Errorf("invalid user offline account id: %v", err)
-	}
-	if _, err := uuid.Parse(info.GetUserOnlineAccountID()); err != nil {
-		return xerrors.Errorf("invalid user online account id: %v", err)
-	}
 	if info.GetBenefitIntervalHours() == 0 {
 		return xerrors.Errorf("invalid benefit interval")
 	}
@@ -38,13 +29,10 @@ func validateGoodBenefit(info *npool.GoodBenefit) error {
 
 func dbRowToGoodBenefit(row *ent.GoodBenefit) *npool.GoodBenefit {
 	return &npool.GoodBenefit{
-		ID:                       row.ID.String(),
-		GoodID:                   row.GoodID.String(),
-		BenefitAccountID:         row.BenefitAccountID.String(),
-		PlatformOfflineAccountID: row.PlatformOfflineAccountID.String(),
-		UserOfflineAccountID:     row.UserOfflineAccountID.String(),
-		UserOnlineAccountID:      row.UserOnlineAccountID.String(),
-		BenefitIntervalHours:     row.BenefitIntervalHours,
+		ID:                   row.ID.String(),
+		GoodID:               row.GoodID.String(),
+		BenefitAccountID:     row.BenefitAccountID.String(),
+		BenefitIntervalHours: row.BenefitIntervalHours,
 	}
 }
 
@@ -63,9 +51,6 @@ func Create(ctx context.Context, in *npool.CreateGoodBenefitRequest) (*npool.Cre
 		Create().
 		SetGoodID(uuid.MustParse(in.GetInfo().GetGoodID())).
 		SetBenefitAccountID(uuid.MustParse(in.GetInfo().GetBenefitAccountID())).
-		SetPlatformOfflineAccountID(uuid.MustParse(in.GetInfo().GetPlatformOfflineAccountID())).
-		SetUserOfflineAccountID(uuid.MustParse(in.GetInfo().GetUserOfflineAccountID())).
-		SetUserOnlineAccountID(uuid.MustParse(in.GetInfo().GetUserOnlineAccountID())).
 		SetBenefitIntervalHours(in.GetInfo().GetBenefitIntervalHours()).
 		Save(ctx)
 	if err != nil {
@@ -96,9 +81,6 @@ func Update(ctx context.Context, in *npool.UpdateGoodBenefitRequest) (*npool.Upd
 		GoodBenefit.
 		UpdateOneID(id).
 		SetBenefitAccountID(uuid.MustParse(in.GetInfo().GetBenefitAccountID())).
-		SetPlatformOfflineAccountID(uuid.MustParse(in.GetInfo().GetPlatformOfflineAccountID())).
-		SetUserOfflineAccountID(uuid.MustParse(in.GetInfo().GetUserOfflineAccountID())).
-		SetUserOnlineAccountID(uuid.MustParse(in.GetInfo().GetUserOnlineAccountID())).
 		SetBenefitIntervalHours(in.GetInfo().GetBenefitIntervalHours()).
 		Save(ctx)
 	if err != nil {

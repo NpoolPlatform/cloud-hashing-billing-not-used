@@ -15,12 +15,6 @@ const (
 	FieldGoodID = "good_id"
 	// FieldBenefitAccountID holds the string denoting the benefit_account_id field in the database.
 	FieldBenefitAccountID = "benefit_account_id"
-	// FieldPlatformOfflineAccountID holds the string denoting the platform_offline_account_id field in the database.
-	FieldPlatformOfflineAccountID = "platform_offline_account_id"
-	// FieldUserOnlineAccountID holds the string denoting the user_online_account_id field in the database.
-	FieldUserOnlineAccountID = "user_online_account_id"
-	// FieldUserOfflineAccountID holds the string denoting the user_offline_account_id field in the database.
-	FieldUserOfflineAccountID = "user_offline_account_id"
 	// FieldBenefitIntervalHours holds the string denoting the benefit_interval_hours field in the database.
 	FieldBenefitIntervalHours = "benefit_interval_hours"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
@@ -38,9 +32,6 @@ var Columns = []string{
 	FieldID,
 	FieldGoodID,
 	FieldBenefitAccountID,
-	FieldPlatformOfflineAccountID,
-	FieldUserOnlineAccountID,
-	FieldUserOfflineAccountID,
 	FieldBenefitIntervalHours,
 	FieldCreateAt,
 	FieldUpdateAt,

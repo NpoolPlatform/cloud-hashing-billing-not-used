@@ -26,6 +26,10 @@ func init() {
 
 func assertCoinSetting(t *testing.T, actual, expected *npool.CoinSetting) {
 	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
+	assert.Equal(t, actual.PlatformOfflineAccountID, expected.PlatformOfflineAccountID)
+	assert.Equal(t, actual.UserOfflineAccountID, expected.UserOfflineAccountID)
+	assert.Equal(t, actual.UserOnlineAccountID, expected.UserOnlineAccountID)
+	assert.Equal(t, actual.GoodIncomingAccountID, expected.GoodIncomingAccountID)
 	assert.Equal(t, actual.WarmAccountCoinAmount, expected.WarmAccountCoinAmount)
 }
 
@@ -35,8 +39,12 @@ func TestCRUD(t *testing.T) {
 	}
 
 	platformSetting := npool.CoinSetting{
-		CoinTypeID:            uuid.New().String(),
-		WarmAccountCoinAmount: 100,
+		CoinTypeID:               uuid.New().String(),
+		WarmAccountCoinAmount:    100,
+		PlatformOfflineAccountID: uuid.New().String(),
+		UserOfflineAccountID:     uuid.New().String(),
+		UserOnlineAccountID:      uuid.New().String(),
+		GoodIncomingAccountID:    uuid.New().String(),
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateCoinSettingRequest{

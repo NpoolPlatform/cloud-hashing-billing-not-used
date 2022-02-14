@@ -20,9 +20,6 @@ func (GoodBenefit) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
 		field.UUID("good_id", uuid.UUID{}).Unique(),
 		field.UUID("benefit_account_id", uuid.UUID{}),
-		field.UUID("platform_offline_account_id", uuid.UUID{}),
-		field.UUID("user_online_account_id", uuid.UUID{}),
-		field.UUID("user_offline_account_id", uuid.UUID{}),
 		field.Uint32("benefit_interval_hours"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {

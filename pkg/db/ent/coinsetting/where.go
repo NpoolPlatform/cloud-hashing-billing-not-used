@@ -112,6 +112,34 @@ func PaymentAccountCoinAmount(v uint64) predicate.CoinSetting {
 	})
 }
 
+// PlatformOfflineAccountID applies equality check predicate on the "platform_offline_account_id" field. It's identical to PlatformOfflineAccountIDEQ.
+func PlatformOfflineAccountID(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPlatformOfflineAccountID), v))
+	})
+}
+
+// UserOnlineAccountID applies equality check predicate on the "user_online_account_id" field. It's identical to UserOnlineAccountIDEQ.
+func UserOnlineAccountID(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUserOnlineAccountID), v))
+	})
+}
+
+// UserOfflineAccountID applies equality check predicate on the "user_offline_account_id" field. It's identical to UserOfflineAccountIDEQ.
+func UserOfflineAccountID(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUserOfflineAccountID), v))
+	})
+}
+
+// GoodIncomingAccountID applies equality check predicate on the "good_incoming_account_id" field. It's identical to GoodIncomingAccountIDEQ.
+func GoodIncomingAccountID(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldGoodIncomingAccountID), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.CoinSetting {
 	return predicate.CoinSetting(func(s *sql.Selector) {
@@ -358,6 +386,310 @@ func PaymentAccountCoinAmountLT(v uint64) predicate.CoinSetting {
 func PaymentAccountCoinAmountLTE(v uint64) predicate.CoinSetting {
 	return predicate.CoinSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldPaymentAccountCoinAmount), v))
+	})
+}
+
+// PlatformOfflineAccountIDEQ applies the EQ predicate on the "platform_offline_account_id" field.
+func PlatformOfflineAccountIDEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPlatformOfflineAccountID), v))
+	})
+}
+
+// PlatformOfflineAccountIDNEQ applies the NEQ predicate on the "platform_offline_account_id" field.
+func PlatformOfflineAccountIDNEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPlatformOfflineAccountID), v))
+	})
+}
+
+// PlatformOfflineAccountIDIn applies the In predicate on the "platform_offline_account_id" field.
+func PlatformOfflineAccountIDIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPlatformOfflineAccountID), v...))
+	})
+}
+
+// PlatformOfflineAccountIDNotIn applies the NotIn predicate on the "platform_offline_account_id" field.
+func PlatformOfflineAccountIDNotIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPlatformOfflineAccountID), v...))
+	})
+}
+
+// PlatformOfflineAccountIDGT applies the GT predicate on the "platform_offline_account_id" field.
+func PlatformOfflineAccountIDGT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPlatformOfflineAccountID), v))
+	})
+}
+
+// PlatformOfflineAccountIDGTE applies the GTE predicate on the "platform_offline_account_id" field.
+func PlatformOfflineAccountIDGTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPlatformOfflineAccountID), v))
+	})
+}
+
+// PlatformOfflineAccountIDLT applies the LT predicate on the "platform_offline_account_id" field.
+func PlatformOfflineAccountIDLT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPlatformOfflineAccountID), v))
+	})
+}
+
+// PlatformOfflineAccountIDLTE applies the LTE predicate on the "platform_offline_account_id" field.
+func PlatformOfflineAccountIDLTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPlatformOfflineAccountID), v))
+	})
+}
+
+// UserOnlineAccountIDEQ applies the EQ predicate on the "user_online_account_id" field.
+func UserOnlineAccountIDEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUserOnlineAccountID), v))
+	})
+}
+
+// UserOnlineAccountIDNEQ applies the NEQ predicate on the "user_online_account_id" field.
+func UserOnlineAccountIDNEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUserOnlineAccountID), v))
+	})
+}
+
+// UserOnlineAccountIDIn applies the In predicate on the "user_online_account_id" field.
+func UserOnlineAccountIDIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldUserOnlineAccountID), v...))
+	})
+}
+
+// UserOnlineAccountIDNotIn applies the NotIn predicate on the "user_online_account_id" field.
+func UserOnlineAccountIDNotIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldUserOnlineAccountID), v...))
+	})
+}
+
+// UserOnlineAccountIDGT applies the GT predicate on the "user_online_account_id" field.
+func UserOnlineAccountIDGT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUserOnlineAccountID), v))
+	})
+}
+
+// UserOnlineAccountIDGTE applies the GTE predicate on the "user_online_account_id" field.
+func UserOnlineAccountIDGTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUserOnlineAccountID), v))
+	})
+}
+
+// UserOnlineAccountIDLT applies the LT predicate on the "user_online_account_id" field.
+func UserOnlineAccountIDLT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUserOnlineAccountID), v))
+	})
+}
+
+// UserOnlineAccountIDLTE applies the LTE predicate on the "user_online_account_id" field.
+func UserOnlineAccountIDLTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUserOnlineAccountID), v))
+	})
+}
+
+// UserOfflineAccountIDEQ applies the EQ predicate on the "user_offline_account_id" field.
+func UserOfflineAccountIDEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUserOfflineAccountID), v))
+	})
+}
+
+// UserOfflineAccountIDNEQ applies the NEQ predicate on the "user_offline_account_id" field.
+func UserOfflineAccountIDNEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUserOfflineAccountID), v))
+	})
+}
+
+// UserOfflineAccountIDIn applies the In predicate on the "user_offline_account_id" field.
+func UserOfflineAccountIDIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldUserOfflineAccountID), v...))
+	})
+}
+
+// UserOfflineAccountIDNotIn applies the NotIn predicate on the "user_offline_account_id" field.
+func UserOfflineAccountIDNotIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldUserOfflineAccountID), v...))
+	})
+}
+
+// UserOfflineAccountIDGT applies the GT predicate on the "user_offline_account_id" field.
+func UserOfflineAccountIDGT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUserOfflineAccountID), v))
+	})
+}
+
+// UserOfflineAccountIDGTE applies the GTE predicate on the "user_offline_account_id" field.
+func UserOfflineAccountIDGTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUserOfflineAccountID), v))
+	})
+}
+
+// UserOfflineAccountIDLT applies the LT predicate on the "user_offline_account_id" field.
+func UserOfflineAccountIDLT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUserOfflineAccountID), v))
+	})
+}
+
+// UserOfflineAccountIDLTE applies the LTE predicate on the "user_offline_account_id" field.
+func UserOfflineAccountIDLTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUserOfflineAccountID), v))
+	})
+}
+
+// GoodIncomingAccountIDEQ applies the EQ predicate on the "good_incoming_account_id" field.
+func GoodIncomingAccountIDEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldGoodIncomingAccountID), v))
+	})
+}
+
+// GoodIncomingAccountIDNEQ applies the NEQ predicate on the "good_incoming_account_id" field.
+func GoodIncomingAccountIDNEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldGoodIncomingAccountID), v))
+	})
+}
+
+// GoodIncomingAccountIDIn applies the In predicate on the "good_incoming_account_id" field.
+func GoodIncomingAccountIDIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldGoodIncomingAccountID), v...))
+	})
+}
+
+// GoodIncomingAccountIDNotIn applies the NotIn predicate on the "good_incoming_account_id" field.
+func GoodIncomingAccountIDNotIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldGoodIncomingAccountID), v...))
+	})
+}
+
+// GoodIncomingAccountIDGT applies the GT predicate on the "good_incoming_account_id" field.
+func GoodIncomingAccountIDGT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldGoodIncomingAccountID), v))
+	})
+}
+
+// GoodIncomingAccountIDGTE applies the GTE predicate on the "good_incoming_account_id" field.
+func GoodIncomingAccountIDGTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldGoodIncomingAccountID), v))
+	})
+}
+
+// GoodIncomingAccountIDLT applies the LT predicate on the "good_incoming_account_id" field.
+func GoodIncomingAccountIDLT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldGoodIncomingAccountID), v))
+	})
+}
+
+// GoodIncomingAccountIDLTE applies the LTE predicate on the "good_incoming_account_id" field.
+func GoodIncomingAccountIDLTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldGoodIncomingAccountID), v))
 	})
 }
 

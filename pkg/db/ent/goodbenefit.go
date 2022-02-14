@@ -20,12 +20,6 @@ type GoodBenefit struct {
 	GoodID uuid.UUID `json:"good_id,omitempty"`
 	// BenefitAccountID holds the value of the "benefit_account_id" field.
 	BenefitAccountID uuid.UUID `json:"benefit_account_id,omitempty"`
-	// PlatformOfflineAccountID holds the value of the "platform_offline_account_id" field.
-	PlatformOfflineAccountID uuid.UUID `json:"platform_offline_account_id,omitempty"`
-	// UserOnlineAccountID holds the value of the "user_online_account_id" field.
-	UserOnlineAccountID uuid.UUID `json:"user_online_account_id,omitempty"`
-	// UserOfflineAccountID holds the value of the "user_offline_account_id" field.
-	UserOfflineAccountID uuid.UUID `json:"user_offline_account_id,omitempty"`
 	// BenefitIntervalHours holds the value of the "benefit_interval_hours" field.
 	BenefitIntervalHours uint32 `json:"benefit_interval_hours,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
@@ -43,7 +37,7 @@ func (*GoodBenefit) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case goodbenefit.FieldBenefitIntervalHours, goodbenefit.FieldCreateAt, goodbenefit.FieldUpdateAt, goodbenefit.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case goodbenefit.FieldID, goodbenefit.FieldGoodID, goodbenefit.FieldBenefitAccountID, goodbenefit.FieldPlatformOfflineAccountID, goodbenefit.FieldUserOnlineAccountID, goodbenefit.FieldUserOfflineAccountID:
+		case goodbenefit.FieldID, goodbenefit.FieldGoodID, goodbenefit.FieldBenefitAccountID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type GoodBenefit", columns[i])
@@ -77,24 +71,6 @@ func (gb *GoodBenefit) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field benefit_account_id", values[i])
 			} else if value != nil {
 				gb.BenefitAccountID = *value
-			}
-		case goodbenefit.FieldPlatformOfflineAccountID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field platform_offline_account_id", values[i])
-			} else if value != nil {
-				gb.PlatformOfflineAccountID = *value
-			}
-		case goodbenefit.FieldUserOnlineAccountID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field user_online_account_id", values[i])
-			} else if value != nil {
-				gb.UserOnlineAccountID = *value
-			}
-		case goodbenefit.FieldUserOfflineAccountID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field user_offline_account_id", values[i])
-			} else if value != nil {
-				gb.UserOfflineAccountID = *value
 			}
 		case goodbenefit.FieldBenefitIntervalHours:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -152,12 +128,6 @@ func (gb *GoodBenefit) String() string {
 	builder.WriteString(fmt.Sprintf("%v", gb.GoodID))
 	builder.WriteString(", benefit_account_id=")
 	builder.WriteString(fmt.Sprintf("%v", gb.BenefitAccountID))
-	builder.WriteString(", platform_offline_account_id=")
-	builder.WriteString(fmt.Sprintf("%v", gb.PlatformOfflineAccountID))
-	builder.WriteString(", user_online_account_id=")
-	builder.WriteString(fmt.Sprintf("%v", gb.UserOnlineAccountID))
-	builder.WriteString(", user_offline_account_id=")
-	builder.WriteString(fmt.Sprintf("%v", gb.UserOfflineAccountID))
 	builder.WriteString(", benefit_interval_hours=")
 	builder.WriteString(fmt.Sprintf("%v", gb.BenefitIntervalHours))
 	builder.WriteString(", create_at=")

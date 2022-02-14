@@ -26,6 +26,8 @@ func init() {
 
 func assertGoodBenefit(t *testing.T, actual, expected *npool.GoodBenefit) {
 	assert.Equal(t, actual.GoodID, expected.GoodID)
+	assert.Equal(t, actual.BenefitAccountID, expected.BenefitAccountID)
+	assert.Equal(t, actual.BenefitIntervalHours, expected.BenefitIntervalHours)
 }
 
 func TestCRUD(t *testing.T) {
@@ -34,12 +36,9 @@ func TestCRUD(t *testing.T) {
 	}
 
 	platformSetting := npool.GoodBenefit{
-		GoodID:                   uuid.New().String(),
-		BenefitAccountID:         uuid.New().String(),
-		PlatformOfflineAccountID: uuid.New().String(),
-		UserOfflineAccountID:     uuid.New().String(),
-		UserOnlineAccountID:      uuid.New().String(),
-		BenefitIntervalHours:     24,
+		GoodID:               uuid.New().String(),
+		BenefitAccountID:     uuid.New().String(),
+		BenefitIntervalHours: 24,
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateGoodBenefitRequest{

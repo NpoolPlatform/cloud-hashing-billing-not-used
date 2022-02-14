@@ -74,19 +74,6 @@ func (f GoodBenefitFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	return f(ctx, mv)
 }
 
-// The GoodIncomingFunc type is an adapter to allow the use of ordinary
-// function as GoodIncoming mutator.
-type GoodIncomingFunc func(context.Context, *ent.GoodIncomingMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f GoodIncomingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.GoodIncomingMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GoodIncomingMutation", m)
-	}
-	return f(ctx, mv)
-}
-
 // The GoodPaymentFunc type is an adapter to allow the use of ordinary
 // function as GoodPayment mutator.
 type GoodPaymentFunc func(context.Context, *ent.GoodPaymentMutation) (ent.Value, error)

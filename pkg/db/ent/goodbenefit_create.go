@@ -35,24 +35,6 @@ func (gbc *GoodBenefitCreate) SetBenefitAccountID(u uuid.UUID) *GoodBenefitCreat
 	return gbc
 }
 
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (gbc *GoodBenefitCreate) SetPlatformOfflineAccountID(u uuid.UUID) *GoodBenefitCreate {
-	gbc.mutation.SetPlatformOfflineAccountID(u)
-	return gbc
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (gbc *GoodBenefitCreate) SetUserOnlineAccountID(u uuid.UUID) *GoodBenefitCreate {
-	gbc.mutation.SetUserOnlineAccountID(u)
-	return gbc
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (gbc *GoodBenefitCreate) SetUserOfflineAccountID(u uuid.UUID) *GoodBenefitCreate {
-	gbc.mutation.SetUserOfflineAccountID(u)
-	return gbc
-}
-
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
 func (gbc *GoodBenefitCreate) SetBenefitIntervalHours(u uint32) *GoodBenefitCreate {
 	gbc.mutation.SetBenefitIntervalHours(u)
@@ -212,15 +194,6 @@ func (gbc *GoodBenefitCreate) check() error {
 	if _, ok := gbc.mutation.BenefitAccountID(); !ok {
 		return &ValidationError{Name: "benefit_account_id", err: errors.New(`ent: missing required field "GoodBenefit.benefit_account_id"`)}
 	}
-	if _, ok := gbc.mutation.PlatformOfflineAccountID(); !ok {
-		return &ValidationError{Name: "platform_offline_account_id", err: errors.New(`ent: missing required field "GoodBenefit.platform_offline_account_id"`)}
-	}
-	if _, ok := gbc.mutation.UserOnlineAccountID(); !ok {
-		return &ValidationError{Name: "user_online_account_id", err: errors.New(`ent: missing required field "GoodBenefit.user_online_account_id"`)}
-	}
-	if _, ok := gbc.mutation.UserOfflineAccountID(); !ok {
-		return &ValidationError{Name: "user_offline_account_id", err: errors.New(`ent: missing required field "GoodBenefit.user_offline_account_id"`)}
-	}
 	if _, ok := gbc.mutation.BenefitIntervalHours(); !ok {
 		return &ValidationError{Name: "benefit_interval_hours", err: errors.New(`ent: missing required field "GoodBenefit.benefit_interval_hours"`)}
 	}
@@ -285,30 +258,6 @@ func (gbc *GoodBenefitCreate) createSpec() (*GoodBenefit, *sqlgraph.CreateSpec) 
 			Column: goodbenefit.FieldBenefitAccountID,
 		})
 		_node.BenefitAccountID = value
-	}
-	if value, ok := gbc.mutation.PlatformOfflineAccountID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldPlatformOfflineAccountID,
-		})
-		_node.PlatformOfflineAccountID = value
-	}
-	if value, ok := gbc.mutation.UserOnlineAccountID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldUserOnlineAccountID,
-		})
-		_node.UserOnlineAccountID = value
-	}
-	if value, ok := gbc.mutation.UserOfflineAccountID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldUserOfflineAccountID,
-		})
-		_node.UserOfflineAccountID = value
 	}
 	if value, ok := gbc.mutation.BenefitIntervalHours(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -417,42 +366,6 @@ func (u *GoodBenefitUpsert) SetBenefitAccountID(v uuid.UUID) *GoodBenefitUpsert 
 // UpdateBenefitAccountID sets the "benefit_account_id" field to the value that was provided on create.
 func (u *GoodBenefitUpsert) UpdateBenefitAccountID() *GoodBenefitUpsert {
 	u.SetExcluded(goodbenefit.FieldBenefitAccountID)
-	return u
-}
-
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (u *GoodBenefitUpsert) SetPlatformOfflineAccountID(v uuid.UUID) *GoodBenefitUpsert {
-	u.Set(goodbenefit.FieldPlatformOfflineAccountID, v)
-	return u
-}
-
-// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsert) UpdatePlatformOfflineAccountID() *GoodBenefitUpsert {
-	u.SetExcluded(goodbenefit.FieldPlatformOfflineAccountID)
-	return u
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (u *GoodBenefitUpsert) SetUserOnlineAccountID(v uuid.UUID) *GoodBenefitUpsert {
-	u.Set(goodbenefit.FieldUserOnlineAccountID, v)
-	return u
-}
-
-// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsert) UpdateUserOnlineAccountID() *GoodBenefitUpsert {
-	u.SetExcluded(goodbenefit.FieldUserOnlineAccountID)
-	return u
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (u *GoodBenefitUpsert) SetUserOfflineAccountID(v uuid.UUID) *GoodBenefitUpsert {
-	u.Set(goodbenefit.FieldUserOfflineAccountID, v)
-	return u
-}
-
-// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsert) UpdateUserOfflineAccountID() *GoodBenefitUpsert {
-	u.SetExcluded(goodbenefit.FieldUserOfflineAccountID)
 	return u
 }
 
@@ -603,48 +516,6 @@ func (u *GoodBenefitUpsertOne) SetBenefitAccountID(v uuid.UUID) *GoodBenefitUpse
 func (u *GoodBenefitUpsertOne) UpdateBenefitAccountID() *GoodBenefitUpsertOne {
 	return u.Update(func(s *GoodBenefitUpsert) {
 		s.UpdateBenefitAccountID()
-	})
-}
-
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (u *GoodBenefitUpsertOne) SetPlatformOfflineAccountID(v uuid.UUID) *GoodBenefitUpsertOne {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.SetPlatformOfflineAccountID(v)
-	})
-}
-
-// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsertOne) UpdatePlatformOfflineAccountID() *GoodBenefitUpsertOne {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.UpdatePlatformOfflineAccountID()
-	})
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (u *GoodBenefitUpsertOne) SetUserOnlineAccountID(v uuid.UUID) *GoodBenefitUpsertOne {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.SetUserOnlineAccountID(v)
-	})
-}
-
-// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsertOne) UpdateUserOnlineAccountID() *GoodBenefitUpsertOne {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.UpdateUserOnlineAccountID()
-	})
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (u *GoodBenefitUpsertOne) SetUserOfflineAccountID(v uuid.UUID) *GoodBenefitUpsertOne {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.SetUserOfflineAccountID(v)
-	})
-}
-
-// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsertOne) UpdateUserOfflineAccountID() *GoodBenefitUpsertOne {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.UpdateUserOfflineAccountID()
 	})
 }
 
@@ -973,48 +844,6 @@ func (u *GoodBenefitUpsertBulk) SetBenefitAccountID(v uuid.UUID) *GoodBenefitUps
 func (u *GoodBenefitUpsertBulk) UpdateBenefitAccountID() *GoodBenefitUpsertBulk {
 	return u.Update(func(s *GoodBenefitUpsert) {
 		s.UpdateBenefitAccountID()
-	})
-}
-
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (u *GoodBenefitUpsertBulk) SetPlatformOfflineAccountID(v uuid.UUID) *GoodBenefitUpsertBulk {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.SetPlatformOfflineAccountID(v)
-	})
-}
-
-// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsertBulk) UpdatePlatformOfflineAccountID() *GoodBenefitUpsertBulk {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.UpdatePlatformOfflineAccountID()
-	})
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (u *GoodBenefitUpsertBulk) SetUserOnlineAccountID(v uuid.UUID) *GoodBenefitUpsertBulk {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.SetUserOnlineAccountID(v)
-	})
-}
-
-// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsertBulk) UpdateUserOnlineAccountID() *GoodBenefitUpsertBulk {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.UpdateUserOnlineAccountID()
-	})
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (u *GoodBenefitUpsertBulk) SetUserOfflineAccountID(v uuid.UUID) *GoodBenefitUpsertBulk {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.SetUserOfflineAccountID(v)
-	})
-}
-
-// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
-func (u *GoodBenefitUpsertBulk) UpdateUserOfflineAccountID() *GoodBenefitUpsertBulk {
-	return u.Update(func(s *GoodBenefitUpsert) {
-		s.UpdateUserOfflineAccountID()
 	})
 }
 

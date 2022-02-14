@@ -60,6 +60,30 @@ func (csu *CoinSettingUpdate) AddPaymentAccountCoinAmount(u int64) *CoinSettingU
 	return csu
 }
 
+// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
+func (csu *CoinSettingUpdate) SetPlatformOfflineAccountID(u uuid.UUID) *CoinSettingUpdate {
+	csu.mutation.SetPlatformOfflineAccountID(u)
+	return csu
+}
+
+// SetUserOnlineAccountID sets the "user_online_account_id" field.
+func (csu *CoinSettingUpdate) SetUserOnlineAccountID(u uuid.UUID) *CoinSettingUpdate {
+	csu.mutation.SetUserOnlineAccountID(u)
+	return csu
+}
+
+// SetUserOfflineAccountID sets the "user_offline_account_id" field.
+func (csu *CoinSettingUpdate) SetUserOfflineAccountID(u uuid.UUID) *CoinSettingUpdate {
+	csu.mutation.SetUserOfflineAccountID(u)
+	return csu
+}
+
+// SetGoodIncomingAccountID sets the "good_incoming_account_id" field.
+func (csu *CoinSettingUpdate) SetGoodIncomingAccountID(u uuid.UUID) *CoinSettingUpdate {
+	csu.mutation.SetGoodIncomingAccountID(u)
+	return csu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (csu *CoinSettingUpdate) SetCreateAt(u uint32) *CoinSettingUpdate {
 	csu.mutation.ResetCreateAt()
@@ -236,6 +260,34 @@ func (csu *CoinSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: coinsetting.FieldPaymentAccountCoinAmount,
 		})
 	}
+	if value, ok := csu.mutation.PlatformOfflineAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldPlatformOfflineAccountID,
+		})
+	}
+	if value, ok := csu.mutation.UserOnlineAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldUserOnlineAccountID,
+		})
+	}
+	if value, ok := csu.mutation.UserOfflineAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldUserOfflineAccountID,
+		})
+	}
+	if value, ok := csu.mutation.GoodIncomingAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldGoodIncomingAccountID,
+		})
+	}
 	if value, ok := csu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -326,6 +378,30 @@ func (csuo *CoinSettingUpdateOne) SetPaymentAccountCoinAmount(u uint64) *CoinSet
 // AddPaymentAccountCoinAmount adds u to the "payment_account_coin_amount" field.
 func (csuo *CoinSettingUpdateOne) AddPaymentAccountCoinAmount(u int64) *CoinSettingUpdateOne {
 	csuo.mutation.AddPaymentAccountCoinAmount(u)
+	return csuo
+}
+
+// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
+func (csuo *CoinSettingUpdateOne) SetPlatformOfflineAccountID(u uuid.UUID) *CoinSettingUpdateOne {
+	csuo.mutation.SetPlatformOfflineAccountID(u)
+	return csuo
+}
+
+// SetUserOnlineAccountID sets the "user_online_account_id" field.
+func (csuo *CoinSettingUpdateOne) SetUserOnlineAccountID(u uuid.UUID) *CoinSettingUpdateOne {
+	csuo.mutation.SetUserOnlineAccountID(u)
+	return csuo
+}
+
+// SetUserOfflineAccountID sets the "user_offline_account_id" field.
+func (csuo *CoinSettingUpdateOne) SetUserOfflineAccountID(u uuid.UUID) *CoinSettingUpdateOne {
+	csuo.mutation.SetUserOfflineAccountID(u)
+	return csuo
+}
+
+// SetGoodIncomingAccountID sets the "good_incoming_account_id" field.
+func (csuo *CoinSettingUpdateOne) SetGoodIncomingAccountID(u uuid.UUID) *CoinSettingUpdateOne {
+	csuo.mutation.SetGoodIncomingAccountID(u)
 	return csuo
 }
 
@@ -527,6 +603,34 @@ func (csuo *CoinSettingUpdateOne) sqlSave(ctx context.Context) (_node *CoinSetti
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinsetting.FieldPaymentAccountCoinAmount,
+		})
+	}
+	if value, ok := csuo.mutation.PlatformOfflineAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldPlatformOfflineAccountID,
+		})
+	}
+	if value, ok := csuo.mutation.UserOnlineAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldUserOnlineAccountID,
+		})
+	}
+	if value, ok := csuo.mutation.UserOfflineAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldUserOfflineAccountID,
+		})
+	}
+	if value, ok := csuo.mutation.GoodIncomingAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldGoodIncomingAccountID,
 		})
 	}
 	if value, ok := csuo.mutation.CreateAt(); ok {

@@ -21,9 +21,6 @@ type CoinSetting func(*sql.Selector)
 // GoodBenefit is the predicate function for goodbenefit builders.
 type GoodBenefit func(*sql.Selector)
 
-// GoodIncoming is the predicate function for goodincoming builders.
-type GoodIncoming func(*sql.Selector)
-
 // GoodPayment is the predicate function for goodpayment builders.
 type GoodPayment func(*sql.Selector)
 

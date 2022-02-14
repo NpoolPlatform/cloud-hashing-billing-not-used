@@ -29,7 +29,6 @@ type hooks struct {
 	CoinAccountTransaction []ent.Hook
 	CoinSetting            []ent.Hook
 	GoodBenefit            []ent.Hook
-	GoodIncoming           []ent.Hook
 	GoodPayment            []ent.Hook
 	PlatformBenefit        []ent.Hook
 	PlatformSetting        []ent.Hook

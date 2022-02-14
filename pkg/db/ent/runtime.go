@@ -8,7 +8,6 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodbenefit"
-	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodincoming"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodpayment"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
@@ -87,17 +86,17 @@ func init() {
 	coinsettingFields := schema.CoinSetting{}.Fields()
 	_ = coinsettingFields
 	// coinsettingDescCreateAt is the schema descriptor for create_at field.
-	coinsettingDescCreateAt := coinsettingFields[4].Descriptor()
+	coinsettingDescCreateAt := coinsettingFields[8].Descriptor()
 	// coinsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	coinsetting.DefaultCreateAt = coinsettingDescCreateAt.Default.(func() uint32)
 	// coinsettingDescUpdateAt is the schema descriptor for update_at field.
-	coinsettingDescUpdateAt := coinsettingFields[5].Descriptor()
+	coinsettingDescUpdateAt := coinsettingFields[9].Descriptor()
 	// coinsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	coinsetting.DefaultUpdateAt = coinsettingDescUpdateAt.Default.(func() uint32)
 	// coinsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	coinsetting.UpdateDefaultUpdateAt = coinsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// coinsettingDescDeleteAt is the schema descriptor for delete_at field.
-	coinsettingDescDeleteAt := coinsettingFields[6].Descriptor()
+	coinsettingDescDeleteAt := coinsettingFields[10].Descriptor()
 	// coinsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	coinsetting.DefaultDeleteAt = coinsettingDescDeleteAt.Default.(func() uint32)
 	// coinsettingDescID is the schema descriptor for id field.
@@ -107,43 +106,23 @@ func init() {
 	goodbenefitFields := schema.GoodBenefit{}.Fields()
 	_ = goodbenefitFields
 	// goodbenefitDescCreateAt is the schema descriptor for create_at field.
-	goodbenefitDescCreateAt := goodbenefitFields[7].Descriptor()
+	goodbenefitDescCreateAt := goodbenefitFields[4].Descriptor()
 	// goodbenefit.DefaultCreateAt holds the default value on creation for the create_at field.
 	goodbenefit.DefaultCreateAt = goodbenefitDescCreateAt.Default.(func() uint32)
 	// goodbenefitDescUpdateAt is the schema descriptor for update_at field.
-	goodbenefitDescUpdateAt := goodbenefitFields[8].Descriptor()
+	goodbenefitDescUpdateAt := goodbenefitFields[5].Descriptor()
 	// goodbenefit.DefaultUpdateAt holds the default value on creation for the update_at field.
 	goodbenefit.DefaultUpdateAt = goodbenefitDescUpdateAt.Default.(func() uint32)
 	// goodbenefit.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	goodbenefit.UpdateDefaultUpdateAt = goodbenefitDescUpdateAt.UpdateDefault.(func() uint32)
 	// goodbenefitDescDeleteAt is the schema descriptor for delete_at field.
-	goodbenefitDescDeleteAt := goodbenefitFields[9].Descriptor()
+	goodbenefitDescDeleteAt := goodbenefitFields[6].Descriptor()
 	// goodbenefit.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	goodbenefit.DefaultDeleteAt = goodbenefitDescDeleteAt.Default.(func() uint32)
 	// goodbenefitDescID is the schema descriptor for id field.
 	goodbenefitDescID := goodbenefitFields[0].Descriptor()
 	// goodbenefit.DefaultID holds the default value on creation for the id field.
 	goodbenefit.DefaultID = goodbenefitDescID.Default.(func() uuid.UUID)
-	goodincomingFields := schema.GoodIncoming{}.Fields()
-	_ = goodincomingFields
-	// goodincomingDescCreateAt is the schema descriptor for create_at field.
-	goodincomingDescCreateAt := goodincomingFields[4].Descriptor()
-	// goodincoming.DefaultCreateAt holds the default value on creation for the create_at field.
-	goodincoming.DefaultCreateAt = goodincomingDescCreateAt.Default.(func() uint32)
-	// goodincomingDescUpdateAt is the schema descriptor for update_at field.
-	goodincomingDescUpdateAt := goodincomingFields[5].Descriptor()
-	// goodincoming.DefaultUpdateAt holds the default value on creation for the update_at field.
-	goodincoming.DefaultUpdateAt = goodincomingDescUpdateAt.Default.(func() uint32)
-	// goodincoming.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
-	goodincoming.UpdateDefaultUpdateAt = goodincomingDescUpdateAt.UpdateDefault.(func() uint32)
-	// goodincomingDescDeleteAt is the schema descriptor for delete_at field.
-	goodincomingDescDeleteAt := goodincomingFields[6].Descriptor()
-	// goodincoming.DefaultDeleteAt holds the default value on creation for the delete_at field.
-	goodincoming.DefaultDeleteAt = goodincomingDescDeleteAt.Default.(func() uint32)
-	// goodincomingDescID is the schema descriptor for id field.
-	goodincomingDescID := goodincomingFields[0].Descriptor()
-	// goodincoming.DefaultID holds the default value on creation for the id field.
-	goodincoming.DefaultID = goodincomingDescID.Default.(func() uuid.UUID)
 	goodpaymentFields := schema.GoodPayment{}.Fields()
 	_ = goodpaymentFields
 	// goodpaymentDescCreateAt is the schema descriptor for create_at field.

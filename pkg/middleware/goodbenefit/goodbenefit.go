@@ -33,25 +33,6 @@ func validateGoodBenefit(ctx context.Context, info *npool.GoodBenefit) error {
 	if err := validateGoodBenefitAccount(ctx, info.GetBenefitAccountID(), true); err != nil {
 		return xerrors.Errorf("invalid good benefit account: %v", err)
 	}
-	if err := validateGoodBenefitAccount(ctx, info.GetPlatformOfflineAccountID(), false); err != nil {
-		return xerrors.Errorf("invalid good benefit account: %v", err)
-	}
-	if err := validateGoodBenefitAccount(ctx, info.GetUserOfflineAccountID(), false); err != nil {
-		return xerrors.Errorf("invalid good benefit account: %v", err)
-	}
-	if err := validateGoodBenefitAccount(ctx, info.GetUserOnlineAccountID(), true); err != nil {
-		return xerrors.Errorf("invalid good benefit account: %v", err)
-	}
-
-	validates := map[string]struct{}{}
-	validates[info.GetBenefitAccountID()] = struct{}{}
-	validates[info.GetPlatformOfflineAccountID()] = struct{}{}
-	validates[info.GetUserOfflineAccountID()] = struct{}{}
-	validates[info.GetUserOnlineAccountID()] = struct{}{}
-
-	if len(validates) < 4 {
-		return xerrors.Errorf("cannot use same account for different usage")
-	}
 
 	return nil
 }

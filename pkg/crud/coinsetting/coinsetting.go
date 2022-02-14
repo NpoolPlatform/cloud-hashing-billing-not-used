@@ -20,6 +20,18 @@ func validateCoinSetting(info *npool.CoinSetting) error {
 	if _, err := uuid.Parse(info.GetCoinTypeID()); err != nil {
 		return xerrors.Errorf("invalid coin type id: %v", err)
 	}
+	if _, err := uuid.Parse(info.GetPlatformOfflineAccountID()); err != nil {
+		return xerrors.Errorf("invalid platform offline account id: %v", err)
+	}
+	if _, err := uuid.Parse(info.GetUserOfflineAccountID()); err != nil {
+		return xerrors.Errorf("invalid user offline account id: %v", err)
+	}
+	if _, err := uuid.Parse(info.GetUserOnlineAccountID()); err != nil {
+		return xerrors.Errorf("invalid user online account id: %v", err)
+	}
+	if _, err := uuid.Parse(info.GetGoodIncomingAccountID()); err != nil {
+		return xerrors.Errorf("invalid good incoming account id: %v", err)
+	}
 	return nil
 }
 
@@ -29,6 +41,10 @@ func dbRowToCoinSetting(row *ent.CoinSetting) *npool.CoinSetting {
 		CoinTypeID:               row.CoinTypeID.String(),
 		WarmAccountCoinAmount:    price.DBPriceToVisualPrice(row.WarmAccountCoinAmount),
 		PaymentAccountCoinAmount: price.DBPriceToVisualPrice(row.PaymentAccountCoinAmount),
+		PlatformOfflineAccountID: row.PlatformOfflineAccountID.String(),
+		UserOfflineAccountID:     row.UserOfflineAccountID.String(),
+		UserOnlineAccountID:      row.UserOnlineAccountID.String(),
+		GoodIncomingAccountID:    row.GoodIncomingAccountID.String(),
 	}
 }
 
@@ -48,6 +64,10 @@ func Create(ctx context.Context, in *npool.CreateCoinSettingRequest) (*npool.Cre
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetWarmAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountCoinAmount())).
 		SetPaymentAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountCoinAmount())).
+		SetPlatformOfflineAccountID(uuid.MustParse(in.GetInfo().GetPlatformOfflineAccountID())).
+		SetUserOfflineAccountID(uuid.MustParse(in.GetInfo().GetUserOfflineAccountID())).
+		SetUserOnlineAccountID(uuid.MustParse(in.GetInfo().GetUserOnlineAccountID())).
+		SetGoodIncomingAccountID(uuid.MustParse(in.GetInfo().GetGoodIncomingAccountID())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create coin setting: %v", err)
@@ -78,6 +98,10 @@ func Update(ctx context.Context, in *npool.UpdateCoinSettingRequest) (*npool.Upd
 		UpdateOneID(id).
 		SetWarmAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountCoinAmount())).
 		SetPaymentAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountCoinAmount())).
+		SetPlatformOfflineAccountID(uuid.MustParse(in.GetInfo().GetPlatformOfflineAccountID())).
+		SetUserOfflineAccountID(uuid.MustParse(in.GetInfo().GetUserOfflineAccountID())).
+		SetUserOnlineAccountID(uuid.MustParse(in.GetInfo().GetUserOnlineAccountID())).
+		SetGoodIncomingAccountID(uuid.MustParse(in.GetInfo().GetGoodIncomingAccountID())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update coin setting: %v", err)

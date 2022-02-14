@@ -82,6 +82,10 @@ var (
 		{Name: "coin_type_id", Type: field.TypeUUID, Unique: true},
 		{Name: "warm_account_coin_amount", Type: field.TypeUint64},
 		{Name: "payment_account_coin_amount", Type: field.TypeUint64},
+		{Name: "platform_offline_account_id", Type: field.TypeUUID},
+		{Name: "user_online_account_id", Type: field.TypeUUID},
+		{Name: "user_offline_account_id", Type: field.TypeUUID},
+		{Name: "good_incoming_account_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -97,9 +101,6 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "good_id", Type: field.TypeUUID, Unique: true},
 		{Name: "benefit_account_id", Type: field.TypeUUID},
-		{Name: "platform_offline_account_id", Type: field.TypeUUID},
-		{Name: "user_online_account_id", Type: field.TypeUUID},
-		{Name: "user_offline_account_id", Type: field.TypeUUID},
 		{Name: "benefit_interval_hours", Type: field.TypeUint32},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
@@ -110,34 +111,6 @@ var (
 		Name:       "good_benefits",
 		Columns:    GoodBenefitsColumns,
 		PrimaryKey: []*schema.Column{GoodBenefitsColumns[0]},
-	}
-	// GoodIncomingsColumns holds the columns for the "good_incomings" table.
-	GoodIncomingsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "good_id", Type: field.TypeUUID},
-		{Name: "coin_type_id", Type: field.TypeUUID},
-		{Name: "account_id", Type: field.TypeUUID},
-		{Name: "create_at", Type: field.TypeUint32},
-		{Name: "update_at", Type: field.TypeUint32},
-		{Name: "delete_at", Type: field.TypeUint32},
-	}
-	// GoodIncomingsTable holds the schema information for the "good_incomings" table.
-	GoodIncomingsTable = &schema.Table{
-		Name:       "good_incomings",
-		Columns:    GoodIncomingsColumns,
-		PrimaryKey: []*schema.Column{GoodIncomingsColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "goodincoming_good_id_coin_type_id",
-				Unique:  true,
-				Columns: []*schema.Column{GoodIncomingsColumns[1], GoodIncomingsColumns[2]},
-			},
-			{
-				Name:    "goodincoming_coin_type_id_account_id",
-				Unique:  true,
-				Columns: []*schema.Column{GoodIncomingsColumns[2], GoodIncomingsColumns[3]},
-			},
-		},
 	}
 	// GoodPaymentsColumns holds the columns for the "good_payments" table.
 	GoodPaymentsColumns = []*schema.Column{
@@ -307,7 +280,6 @@ var (
 		CoinAccountTransactionsTable,
 		CoinSettingsTable,
 		GoodBenefitsTable,
-		GoodIncomingsTable,
 		GoodPaymentsTable,
 		PlatformBenefitsTable,
 		PlatformSettingsTable,

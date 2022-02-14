@@ -4,6 +4,7 @@ import (
 	"context"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/coinsetting"
+	mw "github.com/NpoolPlatform/cloud-hashing-billing/pkg/middleware/coinsetting"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
@@ -12,7 +13,7 @@ import (
 )
 
 func (s *Server) CreateCoinSetting(ctx context.Context, in *npool.CreateCoinSettingRequest) (*npool.CreateCoinSettingResponse, error) {
-	resp, err := crud.Create(ctx, in)
+	resp, err := mw.Create(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create coin setting error: %v", err)
 		return &npool.CreateCoinSettingResponse{}, status.Error(codes.Internal, err.Error())
@@ -21,7 +22,7 @@ func (s *Server) CreateCoinSetting(ctx context.Context, in *npool.CreateCoinSett
 }
 
 func (s *Server) UpdateCoinSetting(ctx context.Context, in *npool.UpdateCoinSettingRequest) (*npool.UpdateCoinSettingResponse, error) {
-	resp, err := crud.Update(ctx, in)
+	resp, err := mw.Update(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("update coin setting error: %v", err)
 		return &npool.UpdateCoinSettingResponse{}, status.Error(codes.Internal, err.Error())

@@ -40,24 +40,6 @@ func (gbu *GoodBenefitUpdate) SetBenefitAccountID(u uuid.UUID) *GoodBenefitUpdat
 	return gbu
 }
 
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (gbu *GoodBenefitUpdate) SetPlatformOfflineAccountID(u uuid.UUID) *GoodBenefitUpdate {
-	gbu.mutation.SetPlatformOfflineAccountID(u)
-	return gbu
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (gbu *GoodBenefitUpdate) SetUserOnlineAccountID(u uuid.UUID) *GoodBenefitUpdate {
-	gbu.mutation.SetUserOnlineAccountID(u)
-	return gbu
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (gbu *GoodBenefitUpdate) SetUserOfflineAccountID(u uuid.UUID) *GoodBenefitUpdate {
-	gbu.mutation.SetUserOfflineAccountID(u)
-	return gbu
-}
-
 // SetBenefitIntervalHours sets the "benefit_interval_hours" field.
 func (gbu *GoodBenefitUpdate) SetBenefitIntervalHours(u uint32) *GoodBenefitUpdate {
 	gbu.mutation.ResetBenefitIntervalHours()
@@ -226,27 +208,6 @@ func (gbu *GoodBenefitUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: goodbenefit.FieldBenefitAccountID,
 		})
 	}
-	if value, ok := gbu.mutation.PlatformOfflineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldPlatformOfflineAccountID,
-		})
-	}
-	if value, ok := gbu.mutation.UserOnlineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldUserOnlineAccountID,
-		})
-	}
-	if value, ok := gbu.mutation.UserOfflineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldUserOfflineAccountID,
-		})
-	}
 	if value, ok := gbu.mutation.BenefitIntervalHours(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -331,24 +292,6 @@ func (gbuo *GoodBenefitUpdateOne) SetGoodID(u uuid.UUID) *GoodBenefitUpdateOne {
 // SetBenefitAccountID sets the "benefit_account_id" field.
 func (gbuo *GoodBenefitUpdateOne) SetBenefitAccountID(u uuid.UUID) *GoodBenefitUpdateOne {
 	gbuo.mutation.SetBenefitAccountID(u)
-	return gbuo
-}
-
-// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
-func (gbuo *GoodBenefitUpdateOne) SetPlatformOfflineAccountID(u uuid.UUID) *GoodBenefitUpdateOne {
-	gbuo.mutation.SetPlatformOfflineAccountID(u)
-	return gbuo
-}
-
-// SetUserOnlineAccountID sets the "user_online_account_id" field.
-func (gbuo *GoodBenefitUpdateOne) SetUserOnlineAccountID(u uuid.UUID) *GoodBenefitUpdateOne {
-	gbuo.mutation.SetUserOnlineAccountID(u)
-	return gbuo
-}
-
-// SetUserOfflineAccountID sets the "user_offline_account_id" field.
-func (gbuo *GoodBenefitUpdateOne) SetUserOfflineAccountID(u uuid.UUID) *GoodBenefitUpdateOne {
-	gbuo.mutation.SetUserOfflineAccountID(u)
 	return gbuo
 }
 
@@ -542,27 +485,6 @@ func (gbuo *GoodBenefitUpdateOne) sqlSave(ctx context.Context) (_node *GoodBenef
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: goodbenefit.FieldBenefitAccountID,
-		})
-	}
-	if value, ok := gbuo.mutation.PlatformOfflineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldPlatformOfflineAccountID,
-		})
-	}
-	if value, ok := gbuo.mutation.UserOnlineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldUserOnlineAccountID,
-		})
-	}
-	if value, ok := gbuo.mutation.UserOfflineAccountID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: goodbenefit.FieldUserOfflineAccountID,
 		})
 	}
 	if value, ok := gbuo.mutation.BenefitIntervalHours(); ok {

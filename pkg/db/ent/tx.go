@@ -22,8 +22,6 @@ type Tx struct {
 	CoinSetting *CoinSettingClient
 	// GoodBenefit is the client for interacting with the GoodBenefit builders.
 	GoodBenefit *GoodBenefitClient
-	// GoodIncoming is the client for interacting with the GoodIncoming builders.
-	GoodIncoming *GoodIncomingClient
 	// GoodPayment is the client for interacting with the GoodPayment builders.
 	GoodPayment *GoodPaymentClient
 	// PlatformBenefit is the client for interacting with the PlatformBenefit builders.
@@ -178,7 +176,6 @@ func (tx *Tx) init() {
 	tx.CoinAccountTransaction = NewCoinAccountTransactionClient(tx.config)
 	tx.CoinSetting = NewCoinSettingClient(tx.config)
 	tx.GoodBenefit = NewGoodBenefitClient(tx.config)
-	tx.GoodIncoming = NewGoodIncomingClient(tx.config)
 	tx.GoodPayment = NewGoodPaymentClient(tx.config)
 	tx.PlatformBenefit = NewPlatformBenefitClient(tx.config)
 	tx.PlatformSetting = NewPlatformSettingClient(tx.config)

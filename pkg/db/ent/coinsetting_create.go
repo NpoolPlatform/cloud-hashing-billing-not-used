@@ -41,6 +41,30 @@ func (csc *CoinSettingCreate) SetPaymentAccountCoinAmount(u uint64) *CoinSetting
 	return csc
 }
 
+// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
+func (csc *CoinSettingCreate) SetPlatformOfflineAccountID(u uuid.UUID) *CoinSettingCreate {
+	csc.mutation.SetPlatformOfflineAccountID(u)
+	return csc
+}
+
+// SetUserOnlineAccountID sets the "user_online_account_id" field.
+func (csc *CoinSettingCreate) SetUserOnlineAccountID(u uuid.UUID) *CoinSettingCreate {
+	csc.mutation.SetUserOnlineAccountID(u)
+	return csc
+}
+
+// SetUserOfflineAccountID sets the "user_offline_account_id" field.
+func (csc *CoinSettingCreate) SetUserOfflineAccountID(u uuid.UUID) *CoinSettingCreate {
+	csc.mutation.SetUserOfflineAccountID(u)
+	return csc
+}
+
+// SetGoodIncomingAccountID sets the "good_incoming_account_id" field.
+func (csc *CoinSettingCreate) SetGoodIncomingAccountID(u uuid.UUID) *CoinSettingCreate {
+	csc.mutation.SetGoodIncomingAccountID(u)
+	return csc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (csc *CoinSettingCreate) SetCreateAt(u uint32) *CoinSettingCreate {
 	csc.mutation.SetCreateAt(u)
@@ -197,6 +221,18 @@ func (csc *CoinSettingCreate) check() error {
 	if _, ok := csc.mutation.PaymentAccountCoinAmount(); !ok {
 		return &ValidationError{Name: "payment_account_coin_amount", err: errors.New(`ent: missing required field "CoinSetting.payment_account_coin_amount"`)}
 	}
+	if _, ok := csc.mutation.PlatformOfflineAccountID(); !ok {
+		return &ValidationError{Name: "platform_offline_account_id", err: errors.New(`ent: missing required field "CoinSetting.platform_offline_account_id"`)}
+	}
+	if _, ok := csc.mutation.UserOnlineAccountID(); !ok {
+		return &ValidationError{Name: "user_online_account_id", err: errors.New(`ent: missing required field "CoinSetting.user_online_account_id"`)}
+	}
+	if _, ok := csc.mutation.UserOfflineAccountID(); !ok {
+		return &ValidationError{Name: "user_offline_account_id", err: errors.New(`ent: missing required field "CoinSetting.user_offline_account_id"`)}
+	}
+	if _, ok := csc.mutation.GoodIncomingAccountID(); !ok {
+		return &ValidationError{Name: "good_incoming_account_id", err: errors.New(`ent: missing required field "CoinSetting.good_incoming_account_id"`)}
+	}
 	if _, ok := csc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CoinSetting.create_at"`)}
 	}
@@ -266,6 +302,38 @@ func (csc *CoinSettingCreate) createSpec() (*CoinSetting, *sqlgraph.CreateSpec) 
 			Column: coinsetting.FieldPaymentAccountCoinAmount,
 		})
 		_node.PaymentAccountCoinAmount = value
+	}
+	if value, ok := csc.mutation.PlatformOfflineAccountID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldPlatformOfflineAccountID,
+		})
+		_node.PlatformOfflineAccountID = value
+	}
+	if value, ok := csc.mutation.UserOnlineAccountID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldUserOnlineAccountID,
+		})
+		_node.UserOnlineAccountID = value
+	}
+	if value, ok := csc.mutation.UserOfflineAccountID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldUserOfflineAccountID,
+		})
+		_node.UserOfflineAccountID = value
+	}
+	if value, ok := csc.mutation.GoodIncomingAccountID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldGoodIncomingAccountID,
+		})
+		_node.GoodIncomingAccountID = value
 	}
 	if value, ok := csc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -390,6 +458,54 @@ func (u *CoinSettingUpsert) UpdatePaymentAccountCoinAmount() *CoinSettingUpsert 
 // AddPaymentAccountCoinAmount adds v to the "payment_account_coin_amount" field.
 func (u *CoinSettingUpsert) AddPaymentAccountCoinAmount(v uint64) *CoinSettingUpsert {
 	u.Add(coinsetting.FieldPaymentAccountCoinAmount, v)
+	return u
+}
+
+// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
+func (u *CoinSettingUpsert) SetPlatformOfflineAccountID(v uuid.UUID) *CoinSettingUpsert {
+	u.Set(coinsetting.FieldPlatformOfflineAccountID, v)
+	return u
+}
+
+// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsert) UpdatePlatformOfflineAccountID() *CoinSettingUpsert {
+	u.SetExcluded(coinsetting.FieldPlatformOfflineAccountID)
+	return u
+}
+
+// SetUserOnlineAccountID sets the "user_online_account_id" field.
+func (u *CoinSettingUpsert) SetUserOnlineAccountID(v uuid.UUID) *CoinSettingUpsert {
+	u.Set(coinsetting.FieldUserOnlineAccountID, v)
+	return u
+}
+
+// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsert) UpdateUserOnlineAccountID() *CoinSettingUpsert {
+	u.SetExcluded(coinsetting.FieldUserOnlineAccountID)
+	return u
+}
+
+// SetUserOfflineAccountID sets the "user_offline_account_id" field.
+func (u *CoinSettingUpsert) SetUserOfflineAccountID(v uuid.UUID) *CoinSettingUpsert {
+	u.Set(coinsetting.FieldUserOfflineAccountID, v)
+	return u
+}
+
+// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsert) UpdateUserOfflineAccountID() *CoinSettingUpsert {
+	u.SetExcluded(coinsetting.FieldUserOfflineAccountID)
+	return u
+}
+
+// SetGoodIncomingAccountID sets the "good_incoming_account_id" field.
+func (u *CoinSettingUpsert) SetGoodIncomingAccountID(v uuid.UUID) *CoinSettingUpsert {
+	u.Set(coinsetting.FieldGoodIncomingAccountID, v)
+	return u
+}
+
+// UpdateGoodIncomingAccountID sets the "good_incoming_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsert) UpdateGoodIncomingAccountID() *CoinSettingUpsert {
+	u.SetExcluded(coinsetting.FieldGoodIncomingAccountID)
 	return u
 }
 
@@ -550,6 +666,62 @@ func (u *CoinSettingUpsertOne) AddPaymentAccountCoinAmount(v uint64) *CoinSettin
 func (u *CoinSettingUpsertOne) UpdatePaymentAccountCoinAmount() *CoinSettingUpsertOne {
 	return u.Update(func(s *CoinSettingUpsert) {
 		s.UpdatePaymentAccountCoinAmount()
+	})
+}
+
+// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
+func (u *CoinSettingUpsertOne) SetPlatformOfflineAccountID(v uuid.UUID) *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetPlatformOfflineAccountID(v)
+	})
+}
+
+// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertOne) UpdatePlatformOfflineAccountID() *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdatePlatformOfflineAccountID()
+	})
+}
+
+// SetUserOnlineAccountID sets the "user_online_account_id" field.
+func (u *CoinSettingUpsertOne) SetUserOnlineAccountID(v uuid.UUID) *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetUserOnlineAccountID(v)
+	})
+}
+
+// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertOne) UpdateUserOnlineAccountID() *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdateUserOnlineAccountID()
+	})
+}
+
+// SetUserOfflineAccountID sets the "user_offline_account_id" field.
+func (u *CoinSettingUpsertOne) SetUserOfflineAccountID(v uuid.UUID) *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetUserOfflineAccountID(v)
+	})
+}
+
+// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertOne) UpdateUserOfflineAccountID() *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdateUserOfflineAccountID()
+	})
+}
+
+// SetGoodIncomingAccountID sets the "good_incoming_account_id" field.
+func (u *CoinSettingUpsertOne) SetGoodIncomingAccountID(v uuid.UUID) *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetGoodIncomingAccountID(v)
+	})
+}
+
+// UpdateGoodIncomingAccountID sets the "good_incoming_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertOne) UpdateGoodIncomingAccountID() *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdateGoodIncomingAccountID()
 	})
 }
 
@@ -885,6 +1057,62 @@ func (u *CoinSettingUpsertBulk) AddPaymentAccountCoinAmount(v uint64) *CoinSetti
 func (u *CoinSettingUpsertBulk) UpdatePaymentAccountCoinAmount() *CoinSettingUpsertBulk {
 	return u.Update(func(s *CoinSettingUpsert) {
 		s.UpdatePaymentAccountCoinAmount()
+	})
+}
+
+// SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
+func (u *CoinSettingUpsertBulk) SetPlatformOfflineAccountID(v uuid.UUID) *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetPlatformOfflineAccountID(v)
+	})
+}
+
+// UpdatePlatformOfflineAccountID sets the "platform_offline_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertBulk) UpdatePlatformOfflineAccountID() *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdatePlatformOfflineAccountID()
+	})
+}
+
+// SetUserOnlineAccountID sets the "user_online_account_id" field.
+func (u *CoinSettingUpsertBulk) SetUserOnlineAccountID(v uuid.UUID) *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetUserOnlineAccountID(v)
+	})
+}
+
+// UpdateUserOnlineAccountID sets the "user_online_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertBulk) UpdateUserOnlineAccountID() *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdateUserOnlineAccountID()
+	})
+}
+
+// SetUserOfflineAccountID sets the "user_offline_account_id" field.
+func (u *CoinSettingUpsertBulk) SetUserOfflineAccountID(v uuid.UUID) *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetUserOfflineAccountID(v)
+	})
+}
+
+// UpdateUserOfflineAccountID sets the "user_offline_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertBulk) UpdateUserOfflineAccountID() *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdateUserOfflineAccountID()
+	})
+}
+
+// SetGoodIncomingAccountID sets the "good_incoming_account_id" field.
+func (u *CoinSettingUpsertBulk) SetGoodIncomingAccountID(v uuid.UUID) *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetGoodIncomingAccountID(v)
+	})
+}
+
+// UpdateGoodIncomingAccountID sets the "good_incoming_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertBulk) UpdateGoodIncomingAccountID() *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdateGoodIncomingAccountID()
 	})
 }
 
