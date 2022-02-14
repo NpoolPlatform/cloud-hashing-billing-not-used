@@ -10,6 +10,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/migrate"
 	"github.com/google/uuid"
 
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/appwithdrawsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinsetting"
@@ -21,6 +22,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdrawitem"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -31,6 +33,8 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// AppWithdrawSetting is the client for interacting with the AppWithdrawSetting builders.
+	AppWithdrawSetting *AppWithdrawSettingClient
 	// CoinAccountInfo is the client for interacting with the CoinAccountInfo builders.
 	CoinAccountInfo *CoinAccountInfoClient
 	// CoinAccountTransaction is the client for interacting with the CoinAccountTransaction builders.
@@ -53,6 +57,8 @@ type Client struct {
 	UserDirectBenefit *UserDirectBenefitClient
 	// UserWithdraw is the client for interacting with the UserWithdraw builders.
 	UserWithdraw *UserWithdrawClient
+	// UserWithdrawItem is the client for interacting with the UserWithdrawItem builders.
+	UserWithdrawItem *UserWithdrawItemClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -66,6 +72,7 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.AppWithdrawSetting = NewAppWithdrawSettingClient(c.config)
 	c.CoinAccountInfo = NewCoinAccountInfoClient(c.config)
 	c.CoinAccountTransaction = NewCoinAccountTransactionClient(c.config)
 	c.CoinSetting = NewCoinSettingClient(c.config)
@@ -77,6 +84,7 @@ func (c *Client) init() {
 	c.UserBenefit = NewUserBenefitClient(c.config)
 	c.UserDirectBenefit = NewUserDirectBenefitClient(c.config)
 	c.UserWithdraw = NewUserWithdrawClient(c.config)
+	c.UserWithdrawItem = NewUserWithdrawItemClient(c.config)
 }
 
 // Open opens a database/sql.DB specified by the driver name and
@@ -110,6 +118,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	return &Tx{
 		ctx:                    ctx,
 		config:                 cfg,
+		AppWithdrawSetting:     NewAppWithdrawSettingClient(cfg),
 		CoinAccountInfo:        NewCoinAccountInfoClient(cfg),
 		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
 		CoinSetting:            NewCoinSettingClient(cfg),
@@ -121,6 +130,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		UserBenefit:            NewUserBenefitClient(cfg),
 		UserDirectBenefit:      NewUserDirectBenefitClient(cfg),
 		UserWithdraw:           NewUserWithdrawClient(cfg),
+		UserWithdrawItem:       NewUserWithdrawItemClient(cfg),
 	}, nil
 }
 
@@ -140,6 +150,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	return &Tx{
 		ctx:                    ctx,
 		config:                 cfg,
+		AppWithdrawSetting:     NewAppWithdrawSettingClient(cfg),
 		CoinAccountInfo:        NewCoinAccountInfoClient(cfg),
 		CoinAccountTransaction: NewCoinAccountTransactionClient(cfg),
 		CoinSetting:            NewCoinSettingClient(cfg),
@@ -151,13 +162,14 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		UserBenefit:            NewUserBenefitClient(cfg),
 		UserDirectBenefit:      NewUserDirectBenefitClient(cfg),
 		UserWithdraw:           NewUserWithdrawClient(cfg),
+		UserWithdrawItem:       NewUserWithdrawItemClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		CoinAccountInfo.
+//		AppWithdrawSetting.
 //		Query().
 //		Count(ctx)
 //
@@ -180,6 +192,7 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
+	c.AppWithdrawSetting.Use(hooks...)
 	c.CoinAccountInfo.Use(hooks...)
 	c.CoinAccountTransaction.Use(hooks...)
 	c.CoinSetting.Use(hooks...)
@@ -191,6 +204,97 @@ func (c *Client) Use(hooks ...Hook) {
 	c.UserBenefit.Use(hooks...)
 	c.UserDirectBenefit.Use(hooks...)
 	c.UserWithdraw.Use(hooks...)
+	c.UserWithdrawItem.Use(hooks...)
+}
+
+// AppWithdrawSettingClient is a client for the AppWithdrawSetting schema.
+type AppWithdrawSettingClient struct {
+	config
+}
+
+// NewAppWithdrawSettingClient returns a client for the AppWithdrawSetting from the given config.
+func NewAppWithdrawSettingClient(c config) *AppWithdrawSettingClient {
+	return &AppWithdrawSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `appwithdrawsetting.Hooks(f(g(h())))`.
+func (c *AppWithdrawSettingClient) Use(hooks ...Hook) {
+	c.hooks.AppWithdrawSetting = append(c.hooks.AppWithdrawSetting, hooks...)
+}
+
+// Create returns a create builder for AppWithdrawSetting.
+func (c *AppWithdrawSettingClient) Create() *AppWithdrawSettingCreate {
+	mutation := newAppWithdrawSettingMutation(c.config, OpCreate)
+	return &AppWithdrawSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of AppWithdrawSetting entities.
+func (c *AppWithdrawSettingClient) CreateBulk(builders ...*AppWithdrawSettingCreate) *AppWithdrawSettingCreateBulk {
+	return &AppWithdrawSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for AppWithdrawSetting.
+func (c *AppWithdrawSettingClient) Update() *AppWithdrawSettingUpdate {
+	mutation := newAppWithdrawSettingMutation(c.config, OpUpdate)
+	return &AppWithdrawSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AppWithdrawSettingClient) UpdateOne(aws *AppWithdrawSetting) *AppWithdrawSettingUpdateOne {
+	mutation := newAppWithdrawSettingMutation(c.config, OpUpdateOne, withAppWithdrawSetting(aws))
+	return &AppWithdrawSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AppWithdrawSettingClient) UpdateOneID(id uuid.UUID) *AppWithdrawSettingUpdateOne {
+	mutation := newAppWithdrawSettingMutation(c.config, OpUpdateOne, withAppWithdrawSettingID(id))
+	return &AppWithdrawSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for AppWithdrawSetting.
+func (c *AppWithdrawSettingClient) Delete() *AppWithdrawSettingDelete {
+	mutation := newAppWithdrawSettingMutation(c.config, OpDelete)
+	return &AppWithdrawSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *AppWithdrawSettingClient) DeleteOne(aws *AppWithdrawSetting) *AppWithdrawSettingDeleteOne {
+	return c.DeleteOneID(aws.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *AppWithdrawSettingClient) DeleteOneID(id uuid.UUID) *AppWithdrawSettingDeleteOne {
+	builder := c.Delete().Where(appwithdrawsetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AppWithdrawSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for AppWithdrawSetting.
+func (c *AppWithdrawSettingClient) Query() *AppWithdrawSettingQuery {
+	return &AppWithdrawSettingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a AppWithdrawSetting entity by its id.
+func (c *AppWithdrawSettingClient) Get(ctx context.Context, id uuid.UUID) (*AppWithdrawSetting, error) {
+	return c.Query().Where(appwithdrawsetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AppWithdrawSettingClient) GetX(ctx context.Context, id uuid.UUID) *AppWithdrawSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AppWithdrawSettingClient) Hooks() []Hook {
+	return c.hooks.AppWithdrawSetting
 }
 
 // CoinAccountInfoClient is a client for the CoinAccountInfo schema.
@@ -1181,4 +1285,94 @@ func (c *UserWithdrawClient) GetX(ctx context.Context, id uuid.UUID) *UserWithdr
 // Hooks returns the client hooks.
 func (c *UserWithdrawClient) Hooks() []Hook {
 	return c.hooks.UserWithdraw
+}
+
+// UserWithdrawItemClient is a client for the UserWithdrawItem schema.
+type UserWithdrawItemClient struct {
+	config
+}
+
+// NewUserWithdrawItemClient returns a client for the UserWithdrawItem from the given config.
+func NewUserWithdrawItemClient(c config) *UserWithdrawItemClient {
+	return &UserWithdrawItemClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `userwithdrawitem.Hooks(f(g(h())))`.
+func (c *UserWithdrawItemClient) Use(hooks ...Hook) {
+	c.hooks.UserWithdrawItem = append(c.hooks.UserWithdrawItem, hooks...)
+}
+
+// Create returns a create builder for UserWithdrawItem.
+func (c *UserWithdrawItemClient) Create() *UserWithdrawItemCreate {
+	mutation := newUserWithdrawItemMutation(c.config, OpCreate)
+	return &UserWithdrawItemCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserWithdrawItem entities.
+func (c *UserWithdrawItemClient) CreateBulk(builders ...*UserWithdrawItemCreate) *UserWithdrawItemCreateBulk {
+	return &UserWithdrawItemCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserWithdrawItem.
+func (c *UserWithdrawItemClient) Update() *UserWithdrawItemUpdate {
+	mutation := newUserWithdrawItemMutation(c.config, OpUpdate)
+	return &UserWithdrawItemUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserWithdrawItemClient) UpdateOne(uwi *UserWithdrawItem) *UserWithdrawItemUpdateOne {
+	mutation := newUserWithdrawItemMutation(c.config, OpUpdateOne, withUserWithdrawItem(uwi))
+	return &UserWithdrawItemUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserWithdrawItemClient) UpdateOneID(id uuid.UUID) *UserWithdrawItemUpdateOne {
+	mutation := newUserWithdrawItemMutation(c.config, OpUpdateOne, withUserWithdrawItemID(id))
+	return &UserWithdrawItemUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserWithdrawItem.
+func (c *UserWithdrawItemClient) Delete() *UserWithdrawItemDelete {
+	mutation := newUserWithdrawItemMutation(c.config, OpDelete)
+	return &UserWithdrawItemDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *UserWithdrawItemClient) DeleteOne(uwi *UserWithdrawItem) *UserWithdrawItemDeleteOne {
+	return c.DeleteOneID(uwi.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *UserWithdrawItemClient) DeleteOneID(id uuid.UUID) *UserWithdrawItemDeleteOne {
+	builder := c.Delete().Where(userwithdrawitem.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserWithdrawItemDeleteOne{builder}
+}
+
+// Query returns a query builder for UserWithdrawItem.
+func (c *UserWithdrawItemClient) Query() *UserWithdrawItemQuery {
+	return &UserWithdrawItemQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a UserWithdrawItem entity by its id.
+func (c *UserWithdrawItemClient) Get(ctx context.Context, id uuid.UUID) (*UserWithdrawItem, error) {
+	return c.Query().Where(userwithdrawitem.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserWithdrawItemClient) GetX(ctx context.Context, id uuid.UUID) *UserWithdrawItem {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserWithdrawItemClient) Hooks() []Hook {
+	return c.hooks.UserWithdrawItem
 }

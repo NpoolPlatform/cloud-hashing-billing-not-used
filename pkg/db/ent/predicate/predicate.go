@@ -6,6 +6,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// AppWithdrawSetting is the predicate function for appwithdrawsetting builders.
+type AppWithdrawSetting func(*sql.Selector)
+
 // CoinAccountInfo is the predicate function for coinaccountinfo builders.
 type CoinAccountInfo func(*sql.Selector)
 
@@ -38,3 +41,6 @@ type UserDirectBenefit func(*sql.Selector)
 
 // UserWithdraw is the predicate function for userwithdraw builders.
 type UserWithdraw func(*sql.Selector)
+
+// UserWithdrawItem is the predicate function for userwithdrawitem builders.
+type UserWithdrawItem func(*sql.Selector)

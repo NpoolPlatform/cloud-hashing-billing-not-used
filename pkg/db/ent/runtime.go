@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/appwithdrawsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinsetting"
@@ -15,6 +16,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdrawitem"
 	"github.com/google/uuid"
 )
 
@@ -22,6 +24,26 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	appwithdrawsettingFields := schema.AppWithdrawSetting{}.Fields()
+	_ = appwithdrawsettingFields
+	// appwithdrawsettingDescCreateAt is the schema descriptor for create_at field.
+	appwithdrawsettingDescCreateAt := appwithdrawsettingFields[4].Descriptor()
+	// appwithdrawsetting.DefaultCreateAt holds the default value on creation for the create_at field.
+	appwithdrawsetting.DefaultCreateAt = appwithdrawsettingDescCreateAt.Default.(func() uint32)
+	// appwithdrawsettingDescUpdateAt is the schema descriptor for update_at field.
+	appwithdrawsettingDescUpdateAt := appwithdrawsettingFields[5].Descriptor()
+	// appwithdrawsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
+	appwithdrawsetting.DefaultUpdateAt = appwithdrawsettingDescUpdateAt.Default.(func() uint32)
+	// appwithdrawsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	appwithdrawsetting.UpdateDefaultUpdateAt = appwithdrawsettingDescUpdateAt.UpdateDefault.(func() uint32)
+	// appwithdrawsettingDescDeleteAt is the schema descriptor for delete_at field.
+	appwithdrawsettingDescDeleteAt := appwithdrawsettingFields[6].Descriptor()
+	// appwithdrawsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	appwithdrawsetting.DefaultDeleteAt = appwithdrawsettingDescDeleteAt.Default.(func() uint32)
+	// appwithdrawsettingDescID is the schema descriptor for id field.
+	appwithdrawsettingDescID := appwithdrawsettingFields[0].Descriptor()
+	// appwithdrawsetting.DefaultID holds the default value on creation for the id field.
+	appwithdrawsetting.DefaultID = appwithdrawsettingDescID.Default.(func() uuid.UUID)
 	coinaccountinfoFields := schema.CoinAccountInfo{}.Fields()
 	_ = coinaccountinfoFields
 	// coinaccountinfoDescCreateAt is the schema descriptor for create_at field.
@@ -165,17 +187,17 @@ func init() {
 	platformsettingFields := schema.PlatformSetting{}.Fields()
 	_ = platformsettingFields
 	// platformsettingDescCreateAt is the schema descriptor for create_at field.
-	platformsettingDescCreateAt := platformsettingFields[3].Descriptor()
+	platformsettingDescCreateAt := platformsettingFields[4].Descriptor()
 	// platformsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	platformsetting.DefaultCreateAt = platformsettingDescCreateAt.Default.(func() uint32)
 	// platformsettingDescUpdateAt is the schema descriptor for update_at field.
-	platformsettingDescUpdateAt := platformsettingFields[4].Descriptor()
+	platformsettingDescUpdateAt := platformsettingFields[5].Descriptor()
 	// platformsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	platformsetting.DefaultUpdateAt = platformsettingDescUpdateAt.Default.(func() uint32)
 	// platformsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	platformsetting.UpdateDefaultUpdateAt = platformsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// platformsettingDescDeleteAt is the schema descriptor for delete_at field.
-	platformsettingDescDeleteAt := platformsettingFields[5].Descriptor()
+	platformsettingDescDeleteAt := platformsettingFields[6].Descriptor()
 	// platformsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	platformsetting.DefaultDeleteAt = platformsettingDescDeleteAt.Default.(func() uint32)
 	// platformsettingDescID is the schema descriptor for id field.
@@ -242,4 +264,24 @@ func init() {
 	userwithdrawDescID := userwithdrawFields[0].Descriptor()
 	// userwithdraw.DefaultID holds the default value on creation for the id field.
 	userwithdraw.DefaultID = userwithdrawDescID.Default.(func() uuid.UUID)
+	userwithdrawitemFields := schema.UserWithdrawItem{}.Fields()
+	_ = userwithdrawitemFields
+	// userwithdrawitemDescCreateAt is the schema descriptor for create_at field.
+	userwithdrawitemDescCreateAt := userwithdrawitemFields[7].Descriptor()
+	// userwithdrawitem.DefaultCreateAt holds the default value on creation for the create_at field.
+	userwithdrawitem.DefaultCreateAt = userwithdrawitemDescCreateAt.Default.(func() uint32)
+	// userwithdrawitemDescUpdateAt is the schema descriptor for update_at field.
+	userwithdrawitemDescUpdateAt := userwithdrawitemFields[8].Descriptor()
+	// userwithdrawitem.DefaultUpdateAt holds the default value on creation for the update_at field.
+	userwithdrawitem.DefaultUpdateAt = userwithdrawitemDescUpdateAt.Default.(func() uint32)
+	// userwithdrawitem.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	userwithdrawitem.UpdateDefaultUpdateAt = userwithdrawitemDescUpdateAt.UpdateDefault.(func() uint32)
+	// userwithdrawitemDescDeleteAt is the schema descriptor for delete_at field.
+	userwithdrawitemDescDeleteAt := userwithdrawitemFields[9].Descriptor()
+	// userwithdrawitem.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	userwithdrawitem.DefaultDeleteAt = userwithdrawitemDescDeleteAt.Default.(func() uint32)
+	// userwithdrawitemDescID is the schema descriptor for id field.
+	userwithdrawitemDescID := userwithdrawitemFields[0].Descriptor()
+	// userwithdrawitem.DefaultID holds the default value on creation for the id field.
+	userwithdrawitem.DefaultID = userwithdrawitemDescID.Default.(func() uuid.UUID)
 }

@@ -8,6 +8,29 @@ import (
 )
 
 var (
+	// AppWithdrawSettingsColumns holds the columns for the "app_withdraw_settings" table.
+	AppWithdrawSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID, Unique: true},
+		{Name: "coin_type_id", Type: field.TypeUUID, Unique: true},
+		{Name: "withdraw_auto_review_coin_amount", Type: field.TypeUint64},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// AppWithdrawSettingsTable holds the schema information for the "app_withdraw_settings" table.
+	AppWithdrawSettingsTable = &schema.Table{
+		Name:       "app_withdraw_settings",
+		Columns:    AppWithdrawSettingsColumns,
+		PrimaryKey: []*schema.Column{AppWithdrawSettingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "appwithdrawsetting_app_id_coin_type_id",
+				Unique:  true,
+				Columns: []*schema.Column{AppWithdrawSettingsColumns[1], AppWithdrawSettingsColumns[2]},
+			},
+		},
+	}
 	// CoinAccountInfosColumns holds the columns for the "coin_account_infos" table.
 	CoinAccountInfosColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -171,6 +194,7 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "warm_account_usd_amount", Type: field.TypeUint64},
 		{Name: "payment_account_usd_amount", Type: field.TypeUint64},
+		{Name: "withdraw_auto_review_usd_amount", Type: field.TypeUint64},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -257,8 +281,28 @@ var (
 			},
 		},
 	}
+	// UserWithdrawItemsColumns holds the columns for the "user_withdraw_items" table.
+	UserWithdrawItemsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "coin_type_id", Type: field.TypeUUID},
+		{Name: "withdraw_to_account_id", Type: field.TypeUUID},
+		{Name: "amount", Type: field.TypeUint64},
+		{Name: "platform_transaction_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// UserWithdrawItemsTable holds the schema information for the "user_withdraw_items" table.
+	UserWithdrawItemsTable = &schema.Table{
+		Name:       "user_withdraw_items",
+		Columns:    UserWithdrawItemsColumns,
+		PrimaryKey: []*schema.Column{UserWithdrawItemsColumns[0]},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		AppWithdrawSettingsTable,
 		CoinAccountInfosTable,
 		CoinAccountTransactionsTable,
 		CoinSettingsTable,
@@ -270,6 +314,7 @@ var (
 		UserBenefitsTable,
 		UserDirectBenefitsTable,
 		UserWithdrawsTable,
+		UserWithdrawItemsTable,
 	}
 )
 

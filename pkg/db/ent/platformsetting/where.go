@@ -105,6 +105,13 @@ func PaymentAccountUsdAmount(v uint64) predicate.PlatformSetting {
 	})
 }
 
+// WithdrawAutoReviewUsdAmount applies equality check predicate on the "withdraw_auto_review_usd_amount" field. It's identical to WithdrawAutoReviewUsdAmountEQ.
+func WithdrawAutoReviewUsdAmount(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWithdrawAutoReviewUsdAmount), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
@@ -275,6 +282,82 @@ func PaymentAccountUsdAmountLT(v uint64) predicate.PlatformSetting {
 func PaymentAccountUsdAmountLTE(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldPaymentAccountUsdAmount), v))
+	})
+}
+
+// WithdrawAutoReviewUsdAmountEQ applies the EQ predicate on the "withdraw_auto_review_usd_amount" field.
+func WithdrawAutoReviewUsdAmountEQ(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWithdrawAutoReviewUsdAmount), v))
+	})
+}
+
+// WithdrawAutoReviewUsdAmountNEQ applies the NEQ predicate on the "withdraw_auto_review_usd_amount" field.
+func WithdrawAutoReviewUsdAmountNEQ(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldWithdrawAutoReviewUsdAmount), v))
+	})
+}
+
+// WithdrawAutoReviewUsdAmountIn applies the In predicate on the "withdraw_auto_review_usd_amount" field.
+func WithdrawAutoReviewUsdAmountIn(vs ...uint64) predicate.PlatformSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldWithdrawAutoReviewUsdAmount), v...))
+	})
+}
+
+// WithdrawAutoReviewUsdAmountNotIn applies the NotIn predicate on the "withdraw_auto_review_usd_amount" field.
+func WithdrawAutoReviewUsdAmountNotIn(vs ...uint64) predicate.PlatformSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldWithdrawAutoReviewUsdAmount), v...))
+	})
+}
+
+// WithdrawAutoReviewUsdAmountGT applies the GT predicate on the "withdraw_auto_review_usd_amount" field.
+func WithdrawAutoReviewUsdAmountGT(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldWithdrawAutoReviewUsdAmount), v))
+	})
+}
+
+// WithdrawAutoReviewUsdAmountGTE applies the GTE predicate on the "withdraw_auto_review_usd_amount" field.
+func WithdrawAutoReviewUsdAmountGTE(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldWithdrawAutoReviewUsdAmount), v))
+	})
+}
+
+// WithdrawAutoReviewUsdAmountLT applies the LT predicate on the "withdraw_auto_review_usd_amount" field.
+func WithdrawAutoReviewUsdAmountLT(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldWithdrawAutoReviewUsdAmount), v))
+	})
+}
+
+// WithdrawAutoReviewUsdAmountLTE applies the LTE predicate on the "withdraw_auto_review_usd_amount" field.
+func WithdrawAutoReviewUsdAmountLTE(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldWithdrawAutoReviewUsdAmount), v))
 	})
 }
 

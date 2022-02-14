@@ -20,6 +20,7 @@ func (PlatformSetting) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
 		field.Uint64("warm_account_usd_amount"),
 		field.Uint64("payment_account_usd_amount"),
+		field.Uint64("withdraw_auto_review_usd_amount"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

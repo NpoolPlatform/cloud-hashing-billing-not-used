@@ -12,6 +12,8 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// AppWithdrawSetting is the client for interacting with the AppWithdrawSetting builders.
+	AppWithdrawSetting *AppWithdrawSettingClient
 	// CoinAccountInfo is the client for interacting with the CoinAccountInfo builders.
 	CoinAccountInfo *CoinAccountInfoClient
 	// CoinAccountTransaction is the client for interacting with the CoinAccountTransaction builders.
@@ -34,6 +36,8 @@ type Tx struct {
 	UserDirectBenefit *UserDirectBenefitClient
 	// UserWithdraw is the client for interacting with the UserWithdraw builders.
 	UserWithdraw *UserWithdrawClient
+	// UserWithdrawItem is the client for interacting with the UserWithdrawItem builders.
+	UserWithdrawItem *UserWithdrawItemClient
 
 	// lazily loaded.
 	client     *Client
@@ -169,6 +173,7 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.AppWithdrawSetting = NewAppWithdrawSettingClient(tx.config)
 	tx.CoinAccountInfo = NewCoinAccountInfoClient(tx.config)
 	tx.CoinAccountTransaction = NewCoinAccountTransactionClient(tx.config)
 	tx.CoinSetting = NewCoinSettingClient(tx.config)
@@ -180,6 +185,7 @@ func (tx *Tx) init() {
 	tx.UserBenefit = NewUserBenefitClient(tx.config)
 	tx.UserDirectBenefit = NewUserDirectBenefitClient(tx.config)
 	tx.UserWithdraw = NewUserWithdrawClient(tx.config)
+	tx.UserWithdrawItem = NewUserWithdrawItemClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -189,7 +195,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: CoinAccountInfo.QueryXXX(), the query will be executed
+// applies a query, for example: AppWithdrawSetting.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

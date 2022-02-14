@@ -24,6 +24,7 @@ type config struct {
 
 // hooks per client, for fast access.
 type hooks struct {
+	AppWithdrawSetting     []ent.Hook
 	CoinAccountInfo        []ent.Hook
 	CoinAccountTransaction []ent.Hook
 	CoinSetting            []ent.Hook
@@ -35,6 +36,7 @@ type hooks struct {
 	UserBenefit            []ent.Hook
 	UserDirectBenefit      []ent.Hook
 	UserWithdraw           []ent.Hook
+	UserWithdrawItem       []ent.Hook
 }
 
 // Options applies the options on the config object.

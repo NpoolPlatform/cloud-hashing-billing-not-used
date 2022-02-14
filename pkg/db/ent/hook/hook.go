@@ -9,6 +9,19 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent"
 )
 
+// The AppWithdrawSettingFunc type is an adapter to allow the use of ordinary
+// function as AppWithdrawSetting mutator.
+type AppWithdrawSettingFunc func(context.Context, *ent.AppWithdrawSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AppWithdrawSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.AppWithdrawSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AppWithdrawSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The CoinAccountInfoFunc type is an adapter to allow the use of ordinary
 // function as CoinAccountInfo mutator.
 type CoinAccountInfoFunc func(context.Context, *ent.CoinAccountInfoMutation) (ent.Value, error)
@@ -148,6 +161,19 @@ func (f UserWithdrawFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value
 	mv, ok := m.(*ent.UserWithdrawMutation)
 	if !ok {
 		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserWithdrawMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The UserWithdrawItemFunc type is an adapter to allow the use of ordinary
+// function as UserWithdrawItem mutator.
+type UserWithdrawItemFunc func(context.Context, *ent.UserWithdrawItemMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserWithdrawItemFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.UserWithdrawItemMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserWithdrawItemMutation", m)
 	}
 	return f(ctx, mv)
 }

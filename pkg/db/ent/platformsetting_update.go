@@ -53,6 +53,19 @@ func (psu *PlatformSettingUpdate) AddPaymentAccountUsdAmount(u int64) *PlatformS
 	return psu
 }
 
+// SetWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field.
+func (psu *PlatformSettingUpdate) SetWithdrawAutoReviewUsdAmount(u uint64) *PlatformSettingUpdate {
+	psu.mutation.ResetWithdrawAutoReviewUsdAmount()
+	psu.mutation.SetWithdrawAutoReviewUsdAmount(u)
+	return psu
+}
+
+// AddWithdrawAutoReviewUsdAmount adds u to the "withdraw_auto_review_usd_amount" field.
+func (psu *PlatformSettingUpdate) AddWithdrawAutoReviewUsdAmount(u int64) *PlatformSettingUpdate {
+	psu.mutation.AddWithdrawAutoReviewUsdAmount(u)
+	return psu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (psu *PlatformSettingUpdate) SetCreateAt(u uint32) *PlatformSettingUpdate {
 	psu.mutation.ResetCreateAt()
@@ -222,6 +235,20 @@ func (psu *PlatformSettingUpdate) sqlSave(ctx context.Context) (n int, err error
 			Column: platformsetting.FieldPaymentAccountUsdAmount,
 		})
 	}
+	if value, ok := psu.mutation.WithdrawAutoReviewUsdAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldWithdrawAutoReviewUsdAmount,
+		})
+	}
+	if value, ok := psu.mutation.AddedWithdrawAutoReviewUsdAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldWithdrawAutoReviewUsdAmount,
+		})
+	}
 	if value, ok := psu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -306,6 +333,19 @@ func (psuo *PlatformSettingUpdateOne) SetPaymentAccountUsdAmount(u uint64) *Plat
 // AddPaymentAccountUsdAmount adds u to the "payment_account_usd_amount" field.
 func (psuo *PlatformSettingUpdateOne) AddPaymentAccountUsdAmount(u int64) *PlatformSettingUpdateOne {
 	psuo.mutation.AddPaymentAccountUsdAmount(u)
+	return psuo
+}
+
+// SetWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field.
+func (psuo *PlatformSettingUpdateOne) SetWithdrawAutoReviewUsdAmount(u uint64) *PlatformSettingUpdateOne {
+	psuo.mutation.ResetWithdrawAutoReviewUsdAmount()
+	psuo.mutation.SetWithdrawAutoReviewUsdAmount(u)
+	return psuo
+}
+
+// AddWithdrawAutoReviewUsdAmount adds u to the "withdraw_auto_review_usd_amount" field.
+func (psuo *PlatformSettingUpdateOne) AddWithdrawAutoReviewUsdAmount(u int64) *PlatformSettingUpdateOne {
+	psuo.mutation.AddWithdrawAutoReviewUsdAmount(u)
 	return psuo
 }
 
@@ -500,6 +540,20 @@ func (psuo *PlatformSettingUpdateOne) sqlSave(ctx context.Context) (_node *Platf
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: platformsetting.FieldPaymentAccountUsdAmount,
+		})
+	}
+	if value, ok := psuo.mutation.WithdrawAutoReviewUsdAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldWithdrawAutoReviewUsdAmount,
+		})
+	}
+	if value, ok := psuo.mutation.AddedWithdrawAutoReviewUsdAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldWithdrawAutoReviewUsdAmount,
 		})
 	}
 	if value, ok := psuo.mutation.CreateAt(); ok {

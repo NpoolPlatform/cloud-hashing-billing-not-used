@@ -17,9 +17,10 @@ import (
 
 func dbRowToPlatformSetting(row *ent.PlatformSetting) *npool.PlatformSetting {
 	return &npool.PlatformSetting{
-		ID:                      row.ID.String(),
-		WarmAccountUSDAmount:    price.DBPriceToVisualPrice(row.WarmAccountUsdAmount),
-		PaymentAccountUSDAmount: price.DBPriceToVisualPrice(row.PaymentAccountUsdAmount),
+		ID:                          row.ID.String(),
+		WarmAccountUSDAmount:        price.DBPriceToVisualPrice(row.WarmAccountUsdAmount),
+		PaymentAccountUSDAmount:     price.DBPriceToVisualPrice(row.PaymentAccountUsdAmount),
+		WithdrawAutoReviewUSDAmount: price.DBPriceToVisualPrice(row.WithdrawAutoReviewUsdAmount),
 	}
 }
 
@@ -34,6 +35,7 @@ func Create(ctx context.Context, in *npool.CreatePlatformSettingRequest) (*npool
 		Create().
 		SetWarmAccountUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountUSDAmount())).
 		SetPaymentAccountUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountUSDAmount())).
+		SetWithdrawAutoReviewUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWithdrawAutoReviewUSDAmount())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create platform setting: %v", err)
@@ -60,6 +62,7 @@ func Update(ctx context.Context, in *npool.UpdatePlatformSettingRequest) (*npool
 		UpdateOneID(id).
 		SetWarmAccountUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountUSDAmount())).
 		SetPaymentAccountUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountUSDAmount())).
+		SetWithdrawAutoReviewUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWithdrawAutoReviewUSDAmount())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update platform setting: %v", err)

@@ -35,6 +35,12 @@ func (psc *PlatformSettingCreate) SetPaymentAccountUsdAmount(u uint64) *Platform
 	return psc
 }
 
+// SetWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field.
+func (psc *PlatformSettingCreate) SetWithdrawAutoReviewUsdAmount(u uint64) *PlatformSettingCreate {
+	psc.mutation.SetWithdrawAutoReviewUsdAmount(u)
+	return psc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (psc *PlatformSettingCreate) SetCreateAt(u uint32) *PlatformSettingCreate {
 	psc.mutation.SetCreateAt(u)
@@ -188,6 +194,9 @@ func (psc *PlatformSettingCreate) check() error {
 	if _, ok := psc.mutation.PaymentAccountUsdAmount(); !ok {
 		return &ValidationError{Name: "payment_account_usd_amount", err: errors.New(`ent: missing required field "PlatformSetting.payment_account_usd_amount"`)}
 	}
+	if _, ok := psc.mutation.WithdrawAutoReviewUsdAmount(); !ok {
+		return &ValidationError{Name: "withdraw_auto_review_usd_amount", err: errors.New(`ent: missing required field "PlatformSetting.withdraw_auto_review_usd_amount"`)}
+	}
 	if _, ok := psc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "PlatformSetting.create_at"`)}
 	}
@@ -249,6 +258,14 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 			Column: platformsetting.FieldPaymentAccountUsdAmount,
 		})
 		_node.PaymentAccountUsdAmount = value
+	}
+	if value, ok := psc.mutation.WithdrawAutoReviewUsdAmount(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldWithdrawAutoReviewUsdAmount,
+		})
+		_node.WithdrawAutoReviewUsdAmount = value
 	}
 	if value, ok := psc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -361,6 +378,24 @@ func (u *PlatformSettingUpsert) UpdatePaymentAccountUsdAmount() *PlatformSetting
 // AddPaymentAccountUsdAmount adds v to the "payment_account_usd_amount" field.
 func (u *PlatformSettingUpsert) AddPaymentAccountUsdAmount(v uint64) *PlatformSettingUpsert {
 	u.Add(platformsetting.FieldPaymentAccountUsdAmount, v)
+	return u
+}
+
+// SetWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field.
+func (u *PlatformSettingUpsert) SetWithdrawAutoReviewUsdAmount(v uint64) *PlatformSettingUpsert {
+	u.Set(platformsetting.FieldWithdrawAutoReviewUsdAmount, v)
+	return u
+}
+
+// UpdateWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsert) UpdateWithdrawAutoReviewUsdAmount() *PlatformSettingUpsert {
+	u.SetExcluded(platformsetting.FieldWithdrawAutoReviewUsdAmount)
+	return u
+}
+
+// AddWithdrawAutoReviewUsdAmount adds v to the "withdraw_auto_review_usd_amount" field.
+func (u *PlatformSettingUpsert) AddWithdrawAutoReviewUsdAmount(v uint64) *PlatformSettingUpsert {
+	u.Add(platformsetting.FieldWithdrawAutoReviewUsdAmount, v)
 	return u
 }
 
@@ -507,6 +542,27 @@ func (u *PlatformSettingUpsertOne) AddPaymentAccountUsdAmount(v uint64) *Platfor
 func (u *PlatformSettingUpsertOne) UpdatePaymentAccountUsdAmount() *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
 		s.UpdatePaymentAccountUsdAmount()
+	})
+}
+
+// SetWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field.
+func (u *PlatformSettingUpsertOne) SetWithdrawAutoReviewUsdAmount(v uint64) *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.SetWithdrawAutoReviewUsdAmount(v)
+	})
+}
+
+// AddWithdrawAutoReviewUsdAmount adds v to the "withdraw_auto_review_usd_amount" field.
+func (u *PlatformSettingUpsertOne) AddWithdrawAutoReviewUsdAmount(v uint64) *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddWithdrawAutoReviewUsdAmount(v)
+	})
+}
+
+// UpdateWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsertOne) UpdateWithdrawAutoReviewUsdAmount() *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.UpdateWithdrawAutoReviewUsdAmount()
 	})
 }
 
@@ -828,6 +884,27 @@ func (u *PlatformSettingUpsertBulk) AddPaymentAccountUsdAmount(v uint64) *Platfo
 func (u *PlatformSettingUpsertBulk) UpdatePaymentAccountUsdAmount() *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
 		s.UpdatePaymentAccountUsdAmount()
+	})
+}
+
+// SetWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field.
+func (u *PlatformSettingUpsertBulk) SetWithdrawAutoReviewUsdAmount(v uint64) *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.SetWithdrawAutoReviewUsdAmount(v)
+	})
+}
+
+// AddWithdrawAutoReviewUsdAmount adds v to the "withdraw_auto_review_usd_amount" field.
+func (u *PlatformSettingUpsertBulk) AddWithdrawAutoReviewUsdAmount(v uint64) *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddWithdrawAutoReviewUsdAmount(v)
+	})
+}
+
+// UpdateWithdrawAutoReviewUsdAmount sets the "withdraw_auto_review_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsertBulk) UpdateWithdrawAutoReviewUsdAmount() *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.UpdateWithdrawAutoReviewUsdAmount()
 	})
 }
 

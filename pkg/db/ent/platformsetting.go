@@ -20,6 +20,8 @@ type PlatformSetting struct {
 	WarmAccountUsdAmount uint64 `json:"warm_account_usd_amount,omitempty"`
 	// PaymentAccountUsdAmount holds the value of the "payment_account_usd_amount" field.
 	PaymentAccountUsdAmount uint64 `json:"payment_account_usd_amount,omitempty"`
+	// WithdrawAutoReviewUsdAmount holds the value of the "withdraw_auto_review_usd_amount" field.
+	WithdrawAutoReviewUsdAmount uint64 `json:"withdraw_auto_review_usd_amount,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -33,7 +35,7 @@ func (*PlatformSetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case platformsetting.FieldWarmAccountUsdAmount, platformsetting.FieldPaymentAccountUsdAmount, platformsetting.FieldCreateAt, platformsetting.FieldUpdateAt, platformsetting.FieldDeleteAt:
+		case platformsetting.FieldWarmAccountUsdAmount, platformsetting.FieldPaymentAccountUsdAmount, platformsetting.FieldWithdrawAutoReviewUsdAmount, platformsetting.FieldCreateAt, platformsetting.FieldUpdateAt, platformsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case platformsetting.FieldID:
 			values[i] = new(uuid.UUID)
@@ -69,6 +71,12 @@ func (ps *PlatformSetting) assignValues(columns []string, values []interface{}) 
 				return fmt.Errorf("unexpected type %T for field payment_account_usd_amount", values[i])
 			} else if value.Valid {
 				ps.PaymentAccountUsdAmount = uint64(value.Int64)
+			}
+		case platformsetting.FieldWithdrawAutoReviewUsdAmount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field withdraw_auto_review_usd_amount", values[i])
+			} else if value.Valid {
+				ps.WithdrawAutoReviewUsdAmount = uint64(value.Int64)
 			}
 		case platformsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -120,6 +128,8 @@ func (ps *PlatformSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ps.WarmAccountUsdAmount))
 	builder.WriteString(", payment_account_usd_amount=")
 	builder.WriteString(fmt.Sprintf("%v", ps.PaymentAccountUsdAmount))
+	builder.WriteString(", withdraw_auto_review_usd_amount=")
+	builder.WriteString(fmt.Sprintf("%v", ps.WithdrawAutoReviewUsdAmount))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", ps.CreateAt))
 	builder.WriteString(", update_at=")

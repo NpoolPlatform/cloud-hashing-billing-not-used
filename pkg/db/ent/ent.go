@@ -8,6 +8,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/appwithdrawsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccountinfo"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinaccounttransaction"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/coinsetting"
@@ -19,6 +20,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdrawitem"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -39,6 +41,7 @@ type OrderFunc func(*sql.Selector)
 // columnChecker returns a function indicates if the column exists in the given column.
 func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
+		appwithdrawsetting.Table:     appwithdrawsetting.ValidColumn,
 		coinaccountinfo.Table:        coinaccountinfo.ValidColumn,
 		coinaccounttransaction.Table: coinaccounttransaction.ValidColumn,
 		coinsetting.Table:            coinsetting.ValidColumn,
@@ -50,6 +53,7 @@ func columnChecker(table string) func(string) error {
 		userbenefit.Table:            userbenefit.ValidColumn,
 		userdirectbenefit.Table:      userdirectbenefit.ValidColumn,
 		userwithdraw.Table:           userwithdraw.ValidColumn,
+		userwithdrawitem.Table:       userwithdrawitem.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {
