@@ -30,7 +30,6 @@ type hooks struct {
 	GoodBenefit            []ent.Hook
 	GoodIncoming           []ent.Hook
 	GoodPayment            []ent.Hook
-	GoodSetting            []ent.Hook
 	PlatformBenefit        []ent.Hook
 	PlatformSetting        []ent.Hook
 	UserBenefit            []ent.Hook

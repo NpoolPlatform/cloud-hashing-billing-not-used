@@ -9,7 +9,6 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodincoming"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodpayment"
-	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/schema"
@@ -143,26 +142,6 @@ func init() {
 	goodpaymentDescID := goodpaymentFields[0].Descriptor()
 	// goodpayment.DefaultID holds the default value on creation for the id field.
 	goodpayment.DefaultID = goodpaymentDescID.Default.(func() uuid.UUID)
-	goodsettingFields := schema.GoodSetting{}.Fields()
-	_ = goodsettingFields
-	// goodsettingDescCreateAt is the schema descriptor for create_at field.
-	goodsettingDescCreateAt := goodsettingFields[4].Descriptor()
-	// goodsetting.DefaultCreateAt holds the default value on creation for the create_at field.
-	goodsetting.DefaultCreateAt = goodsettingDescCreateAt.Default.(func() uint32)
-	// goodsettingDescUpdateAt is the schema descriptor for update_at field.
-	goodsettingDescUpdateAt := goodsettingFields[5].Descriptor()
-	// goodsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
-	goodsetting.DefaultUpdateAt = goodsettingDescUpdateAt.Default.(func() uint32)
-	// goodsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
-	goodsetting.UpdateDefaultUpdateAt = goodsettingDescUpdateAt.UpdateDefault.(func() uint32)
-	// goodsettingDescDeleteAt is the schema descriptor for delete_at field.
-	goodsettingDescDeleteAt := goodsettingFields[6].Descriptor()
-	// goodsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
-	goodsetting.DefaultDeleteAt = goodsettingDescDeleteAt.Default.(func() uint32)
-	// goodsettingDescID is the schema descriptor for id field.
-	goodsettingDescID := goodsettingFields[0].Descriptor()
-	// goodsetting.DefaultID holds the default value on creation for the id field.
-	goodsetting.DefaultID = goodsettingDescID.Default.(func() uuid.UUID)
 	platformbenefitFields := schema.PlatformBenefit{}.Fields()
 	_ = platformbenefitFields
 	// platformbenefitDescCreateAt is the schema descriptor for create_at field.

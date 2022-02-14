@@ -87,19 +87,6 @@ func (f GoodPaymentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	return f(ctx, mv)
 }
 
-// The GoodSettingFunc type is an adapter to allow the use of ordinary
-// function as GoodSetting mutator.
-type GoodSettingFunc func(context.Context, *ent.GoodSettingMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f GoodSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.GoodSettingMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GoodSettingMutation", m)
-	}
-	return f(ctx, mv)
-}
-
 // The PlatformBenefitFunc type is an adapter to allow the use of ordinary
 // function as PlatformBenefit mutator.
 type PlatformBenefitFunc func(context.Context, *ent.PlatformBenefitMutation) (ent.Value, error)

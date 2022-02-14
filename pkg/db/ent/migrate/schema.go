@@ -139,22 +139,6 @@ var (
 			},
 		},
 	}
-	// GoodSettingsColumns holds the columns for the "good_settings" table.
-	GoodSettingsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "good_id", Type: field.TypeUUID, Unique: true},
-		{Name: "warm_account_usd_amount", Type: field.TypeUint64},
-		{Name: "warm_account_coin_amount", Type: field.TypeUint64},
-		{Name: "create_at", Type: field.TypeUint32},
-		{Name: "update_at", Type: field.TypeUint32},
-		{Name: "delete_at", Type: field.TypeUint32},
-	}
-	// GoodSettingsTable holds the schema information for the "good_settings" table.
-	GoodSettingsTable = &schema.Table{
-		Name:       "good_settings",
-		Columns:    GoodSettingsColumns,
-		PrimaryKey: []*schema.Column{GoodSettingsColumns[0]},
-	}
 	// PlatformBenefitsColumns holds the columns for the "platform_benefits" table.
 	PlatformBenefitsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -278,7 +262,6 @@ var (
 		GoodBenefitsTable,
 		GoodIncomingsTable,
 		GoodPaymentsTable,
-		GoodSettingsTable,
 		PlatformBenefitsTable,
 		PlatformSettingsTable,
 		UserBenefitsTable,

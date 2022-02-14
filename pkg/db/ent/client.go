@@ -16,7 +16,6 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodincoming"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodpayment"
-	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
@@ -44,8 +43,6 @@ type Client struct {
 	GoodIncoming *GoodIncomingClient
 	// GoodPayment is the client for interacting with the GoodPayment builders.
 	GoodPayment *GoodPaymentClient
-	// GoodSetting is the client for interacting with the GoodSetting builders.
-	GoodSetting *GoodSettingClient
 	// PlatformBenefit is the client for interacting with the PlatformBenefit builders.
 	PlatformBenefit *PlatformBenefitClient
 	// PlatformSetting is the client for interacting with the PlatformSetting builders.
@@ -75,7 +72,6 @@ func (c *Client) init() {
 	c.GoodBenefit = NewGoodBenefitClient(c.config)
 	c.GoodIncoming = NewGoodIncomingClient(c.config)
 	c.GoodPayment = NewGoodPaymentClient(c.config)
-	c.GoodSetting = NewGoodSettingClient(c.config)
 	c.PlatformBenefit = NewPlatformBenefitClient(c.config)
 	c.PlatformSetting = NewPlatformSettingClient(c.config)
 	c.UserBenefit = NewUserBenefitClient(c.config)
@@ -120,7 +116,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		GoodBenefit:            NewGoodBenefitClient(cfg),
 		GoodIncoming:           NewGoodIncomingClient(cfg),
 		GoodPayment:            NewGoodPaymentClient(cfg),
-		GoodSetting:            NewGoodSettingClient(cfg),
 		PlatformBenefit:        NewPlatformBenefitClient(cfg),
 		PlatformSetting:        NewPlatformSettingClient(cfg),
 		UserBenefit:            NewUserBenefitClient(cfg),
@@ -151,7 +146,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		GoodBenefit:            NewGoodBenefitClient(cfg),
 		GoodIncoming:           NewGoodIncomingClient(cfg),
 		GoodPayment:            NewGoodPaymentClient(cfg),
-		GoodSetting:            NewGoodSettingClient(cfg),
 		PlatformBenefit:        NewPlatformBenefitClient(cfg),
 		PlatformSetting:        NewPlatformSettingClient(cfg),
 		UserBenefit:            NewUserBenefitClient(cfg),
@@ -192,7 +186,6 @@ func (c *Client) Use(hooks ...Hook) {
 	c.GoodBenefit.Use(hooks...)
 	c.GoodIncoming.Use(hooks...)
 	c.GoodPayment.Use(hooks...)
-	c.GoodSetting.Use(hooks...)
 	c.PlatformBenefit.Use(hooks...)
 	c.PlatformSetting.Use(hooks...)
 	c.UserBenefit.Use(hooks...)
@@ -738,96 +731,6 @@ func (c *GoodPaymentClient) GetX(ctx context.Context, id uuid.UUID) *GoodPayment
 // Hooks returns the client hooks.
 func (c *GoodPaymentClient) Hooks() []Hook {
 	return c.hooks.GoodPayment
-}
-
-// GoodSettingClient is a client for the GoodSetting schema.
-type GoodSettingClient struct {
-	config
-}
-
-// NewGoodSettingClient returns a client for the GoodSetting from the given config.
-func NewGoodSettingClient(c config) *GoodSettingClient {
-	return &GoodSettingClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `goodsetting.Hooks(f(g(h())))`.
-func (c *GoodSettingClient) Use(hooks ...Hook) {
-	c.hooks.GoodSetting = append(c.hooks.GoodSetting, hooks...)
-}
-
-// Create returns a create builder for GoodSetting.
-func (c *GoodSettingClient) Create() *GoodSettingCreate {
-	mutation := newGoodSettingMutation(c.config, OpCreate)
-	return &GoodSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of GoodSetting entities.
-func (c *GoodSettingClient) CreateBulk(builders ...*GoodSettingCreate) *GoodSettingCreateBulk {
-	return &GoodSettingCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for GoodSetting.
-func (c *GoodSettingClient) Update() *GoodSettingUpdate {
-	mutation := newGoodSettingMutation(c.config, OpUpdate)
-	return &GoodSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *GoodSettingClient) UpdateOne(gs *GoodSetting) *GoodSettingUpdateOne {
-	mutation := newGoodSettingMutation(c.config, OpUpdateOne, withGoodSetting(gs))
-	return &GoodSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *GoodSettingClient) UpdateOneID(id uuid.UUID) *GoodSettingUpdateOne {
-	mutation := newGoodSettingMutation(c.config, OpUpdateOne, withGoodSettingID(id))
-	return &GoodSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for GoodSetting.
-func (c *GoodSettingClient) Delete() *GoodSettingDelete {
-	mutation := newGoodSettingMutation(c.config, OpDelete)
-	return &GoodSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a delete builder for the given entity.
-func (c *GoodSettingClient) DeleteOne(gs *GoodSetting) *GoodSettingDeleteOne {
-	return c.DeleteOneID(gs.ID)
-}
-
-// DeleteOneID returns a delete builder for the given id.
-func (c *GoodSettingClient) DeleteOneID(id uuid.UUID) *GoodSettingDeleteOne {
-	builder := c.Delete().Where(goodsetting.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &GoodSettingDeleteOne{builder}
-}
-
-// Query returns a query builder for GoodSetting.
-func (c *GoodSettingClient) Query() *GoodSettingQuery {
-	return &GoodSettingQuery{
-		config: c.config,
-	}
-}
-
-// Get returns a GoodSetting entity by its id.
-func (c *GoodSettingClient) Get(ctx context.Context, id uuid.UUID) (*GoodSetting, error) {
-	return c.Query().Where(goodsetting.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *GoodSettingClient) GetX(ctx context.Context, id uuid.UUID) *GoodSetting {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *GoodSettingClient) Hooks() []Hook {
-	return c.hooks.GoodSetting
 }
 
 // PlatformBenefitClient is a client for the PlatformBenefit schema.
