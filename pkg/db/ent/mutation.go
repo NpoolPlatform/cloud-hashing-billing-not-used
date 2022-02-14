@@ -4033,6 +4033,7 @@ type GoodPaymentMutation struct {
 	payment_coin_type_id *uuid.UUID
 	account_id           *uuid.UUID
 	idle                 *bool
+	occupied_by          *string
 	create_at            *uint32
 	addcreate_at         *int32
 	update_at            *uint32
@@ -4293,6 +4294,42 @@ func (m *GoodPaymentMutation) ResetIdle() {
 	m.idle = nil
 }
 
+// SetOccupiedBy sets the "occupied_by" field.
+func (m *GoodPaymentMutation) SetOccupiedBy(s string) {
+	m.occupied_by = &s
+}
+
+// OccupiedBy returns the value of the "occupied_by" field in the mutation.
+func (m *GoodPaymentMutation) OccupiedBy() (r string, exists bool) {
+	v := m.occupied_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOccupiedBy returns the old "occupied_by" field's value of the GoodPayment entity.
+// If the GoodPayment object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoodPaymentMutation) OldOccupiedBy(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOccupiedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOccupiedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOccupiedBy: %w", err)
+	}
+	return oldValue.OccupiedBy, nil
+}
+
+// ResetOccupiedBy resets all changes to the "occupied_by" field.
+func (m *GoodPaymentMutation) ResetOccupiedBy() {
+	m.occupied_by = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *GoodPaymentMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -4480,7 +4517,7 @@ func (m *GoodPaymentMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *GoodPaymentMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.good_id != nil {
 		fields = append(fields, goodpayment.FieldGoodID)
 	}
@@ -4492,6 +4529,9 @@ func (m *GoodPaymentMutation) Fields() []string {
 	}
 	if m.idle != nil {
 		fields = append(fields, goodpayment.FieldIdle)
+	}
+	if m.occupied_by != nil {
+		fields = append(fields, goodpayment.FieldOccupiedBy)
 	}
 	if m.create_at != nil {
 		fields = append(fields, goodpayment.FieldCreateAt)
@@ -4518,6 +4558,8 @@ func (m *GoodPaymentMutation) Field(name string) (ent.Value, bool) {
 		return m.AccountID()
 	case goodpayment.FieldIdle:
 		return m.Idle()
+	case goodpayment.FieldOccupiedBy:
+		return m.OccupiedBy()
 	case goodpayment.FieldCreateAt:
 		return m.CreateAt()
 	case goodpayment.FieldUpdateAt:
@@ -4541,6 +4583,8 @@ func (m *GoodPaymentMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldAccountID(ctx)
 	case goodpayment.FieldIdle:
 		return m.OldIdle(ctx)
+	case goodpayment.FieldOccupiedBy:
+		return m.OldOccupiedBy(ctx)
 	case goodpayment.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case goodpayment.FieldUpdateAt:
@@ -4583,6 +4627,13 @@ func (m *GoodPaymentMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetIdle(v)
+		return nil
+	case goodpayment.FieldOccupiedBy:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOccupiedBy(v)
 		return nil
 	case goodpayment.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -4704,6 +4755,9 @@ func (m *GoodPaymentMutation) ResetField(name string) error {
 		return nil
 	case goodpayment.FieldIdle:
 		m.ResetIdle()
+		return nil
+	case goodpayment.FieldOccupiedBy:
+		m.ResetOccupiedBy()
 		return nil
 	case goodpayment.FieldCreateAt:
 		m.ResetCreateAt()

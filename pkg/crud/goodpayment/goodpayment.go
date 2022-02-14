@@ -34,6 +34,7 @@ func dbRowToGoodPayment(row *ent.GoodPayment) *npool.GoodPayment {
 		PaymentCoinTypeID: row.PaymentCoinTypeID.String(),
 		AccountID:         row.AccountID.String(),
 		Idle:              row.Idle,
+		OccupiedBy:        row.OccupiedBy,
 	}
 }
 
@@ -53,6 +54,7 @@ func Create(ctx context.Context, in *npool.CreateGoodPaymentRequest) (*npool.Cre
 		SetGoodID(uuid.MustParse(in.GetInfo().GetGoodID())).
 		SetPaymentCoinTypeID(uuid.MustParse(in.GetInfo().GetPaymentCoinTypeID())).
 		SetAccountID(uuid.MustParse(in.GetInfo().GetAccountID())).
+		SetOccupiedBy(in.GetInfo().GetOccupiedBy()).
 		SetIdle(true).
 		Save(ctx)
 	if err != nil {

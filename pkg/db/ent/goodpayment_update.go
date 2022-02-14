@@ -52,6 +52,12 @@ func (gpu *GoodPaymentUpdate) SetIdle(b bool) *GoodPaymentUpdate {
 	return gpu
 }
 
+// SetOccupiedBy sets the "occupied_by" field.
+func (gpu *GoodPaymentUpdate) SetOccupiedBy(s string) *GoodPaymentUpdate {
+	gpu.mutation.SetOccupiedBy(s)
+	return gpu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (gpu *GoodPaymentUpdate) SetCreateAt(u uint32) *GoodPaymentUpdate {
 	gpu.mutation.ResetCreateAt()
@@ -221,6 +227,13 @@ func (gpu *GoodPaymentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: goodpayment.FieldIdle,
 		})
 	}
+	if value, ok := gpu.mutation.OccupiedBy(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: goodpayment.FieldOccupiedBy,
+		})
+	}
 	if value, ok := gpu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -303,6 +316,12 @@ func (gpuo *GoodPaymentUpdateOne) SetAccountID(u uuid.UUID) *GoodPaymentUpdateOn
 // SetIdle sets the "idle" field.
 func (gpuo *GoodPaymentUpdateOne) SetIdle(b bool) *GoodPaymentUpdateOne {
 	gpuo.mutation.SetIdle(b)
+	return gpuo
+}
+
+// SetOccupiedBy sets the "occupied_by" field.
+func (gpuo *GoodPaymentUpdateOne) SetOccupiedBy(s string) *GoodPaymentUpdateOne {
+	gpuo.mutation.SetOccupiedBy(s)
 	return gpuo
 }
 
@@ -497,6 +516,13 @@ func (gpuo *GoodPaymentUpdateOne) sqlSave(ctx context.Context) (_node *GoodPayme
 			Type:   field.TypeBool,
 			Value:  value,
 			Column: goodpayment.FieldIdle,
+		})
+	}
+	if value, ok := gpuo.mutation.OccupiedBy(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: goodpayment.FieldOccupiedBy,
 		})
 	}
 	if value, ok := gpuo.mutation.CreateAt(); ok {

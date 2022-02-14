@@ -47,6 +47,12 @@ func (gpc *GoodPaymentCreate) SetIdle(b bool) *GoodPaymentCreate {
 	return gpc
 }
 
+// SetOccupiedBy sets the "occupied_by" field.
+func (gpc *GoodPaymentCreate) SetOccupiedBy(s string) *GoodPaymentCreate {
+	gpc.mutation.SetOccupiedBy(s)
+	return gpc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (gpc *GoodPaymentCreate) SetCreateAt(u uint32) *GoodPaymentCreate {
 	gpc.mutation.SetCreateAt(u)
@@ -206,6 +212,9 @@ func (gpc *GoodPaymentCreate) check() error {
 	if _, ok := gpc.mutation.Idle(); !ok {
 		return &ValidationError{Name: "idle", err: errors.New(`ent: missing required field "GoodPayment.idle"`)}
 	}
+	if _, ok := gpc.mutation.OccupiedBy(); !ok {
+		return &ValidationError{Name: "occupied_by", err: errors.New(`ent: missing required field "GoodPayment.occupied_by"`)}
+	}
 	if _, ok := gpc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "GoodPayment.create_at"`)}
 	}
@@ -283,6 +292,14 @@ func (gpc *GoodPaymentCreate) createSpec() (*GoodPayment, *sqlgraph.CreateSpec) 
 			Column: goodpayment.FieldIdle,
 		})
 		_node.Idle = value
+	}
+	if value, ok := gpc.mutation.OccupiedBy(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: goodpayment.FieldOccupiedBy,
+		})
+		_node.OccupiedBy = value
 	}
 	if value, ok := gpc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -407,6 +424,18 @@ func (u *GoodPaymentUpsert) SetIdle(v bool) *GoodPaymentUpsert {
 // UpdateIdle sets the "idle" field to the value that was provided on create.
 func (u *GoodPaymentUpsert) UpdateIdle() *GoodPaymentUpsert {
 	u.SetExcluded(goodpayment.FieldIdle)
+	return u
+}
+
+// SetOccupiedBy sets the "occupied_by" field.
+func (u *GoodPaymentUpsert) SetOccupiedBy(v string) *GoodPaymentUpsert {
+	u.Set(goodpayment.FieldOccupiedBy, v)
+	return u
+}
+
+// UpdateOccupiedBy sets the "occupied_by" field to the value that was provided on create.
+func (u *GoodPaymentUpsert) UpdateOccupiedBy() *GoodPaymentUpsert {
+	u.SetExcluded(goodpayment.FieldOccupiedBy)
 	return u
 }
 
@@ -567,6 +596,20 @@ func (u *GoodPaymentUpsertOne) SetIdle(v bool) *GoodPaymentUpsertOne {
 func (u *GoodPaymentUpsertOne) UpdateIdle() *GoodPaymentUpsertOne {
 	return u.Update(func(s *GoodPaymentUpsert) {
 		s.UpdateIdle()
+	})
+}
+
+// SetOccupiedBy sets the "occupied_by" field.
+func (u *GoodPaymentUpsertOne) SetOccupiedBy(v string) *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetOccupiedBy(v)
+	})
+}
+
+// UpdateOccupiedBy sets the "occupied_by" field to the value that was provided on create.
+func (u *GoodPaymentUpsertOne) UpdateOccupiedBy() *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdateOccupiedBy()
 	})
 }
 
@@ -902,6 +945,20 @@ func (u *GoodPaymentUpsertBulk) SetIdle(v bool) *GoodPaymentUpsertBulk {
 func (u *GoodPaymentUpsertBulk) UpdateIdle() *GoodPaymentUpsertBulk {
 	return u.Update(func(s *GoodPaymentUpsert) {
 		s.UpdateIdle()
+	})
+}
+
+// SetOccupiedBy sets the "occupied_by" field.
+func (u *GoodPaymentUpsertBulk) SetOccupiedBy(v string) *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetOccupiedBy(v)
+	})
+}
+
+// UpdateOccupiedBy sets the "occupied_by" field to the value that was provided on create.
+func (u *GoodPaymentUpsertBulk) UpdateOccupiedBy() *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdateOccupiedBy()
 	})
 }
 

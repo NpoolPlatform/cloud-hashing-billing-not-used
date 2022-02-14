@@ -119,6 +119,13 @@ func Idle(v bool) predicate.GoodPayment {
 	})
 }
 
+// OccupiedBy applies equality check predicate on the "occupied_by" field. It's identical to OccupiedByEQ.
+func OccupiedBy(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldOccupiedBy), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
@@ -379,6 +386,117 @@ func IdleEQ(v bool) predicate.GoodPayment {
 func IdleNEQ(v bool) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldIdle), v))
+	})
+}
+
+// OccupiedByEQ applies the EQ predicate on the "occupied_by" field.
+func OccupiedByEQ(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByNEQ applies the NEQ predicate on the "occupied_by" field.
+func OccupiedByNEQ(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByIn applies the In predicate on the "occupied_by" field.
+func OccupiedByIn(vs ...string) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldOccupiedBy), v...))
+	})
+}
+
+// OccupiedByNotIn applies the NotIn predicate on the "occupied_by" field.
+func OccupiedByNotIn(vs ...string) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldOccupiedBy), v...))
+	})
+}
+
+// OccupiedByGT applies the GT predicate on the "occupied_by" field.
+func OccupiedByGT(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByGTE applies the GTE predicate on the "occupied_by" field.
+func OccupiedByGTE(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByLT applies the LT predicate on the "occupied_by" field.
+func OccupiedByLT(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByLTE applies the LTE predicate on the "occupied_by" field.
+func OccupiedByLTE(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByContains applies the Contains predicate on the "occupied_by" field.
+func OccupiedByContains(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByHasPrefix applies the HasPrefix predicate on the "occupied_by" field.
+func OccupiedByHasPrefix(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByHasSuffix applies the HasSuffix predicate on the "occupied_by" field.
+func OccupiedByHasSuffix(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByEqualFold applies the EqualFold predicate on the "occupied_by" field.
+func OccupiedByEqualFold(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// OccupiedByContainsFold applies the ContainsFold predicate on the "occupied_by" field.
+func OccupiedByContainsFold(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldOccupiedBy), v))
 	})
 }
 

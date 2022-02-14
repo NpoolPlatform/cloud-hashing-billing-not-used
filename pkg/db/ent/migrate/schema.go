@@ -122,6 +122,7 @@ var (
 		{Name: "payment_coin_type_id", Type: field.TypeUUID},
 		{Name: "account_id", Type: field.TypeUUID, Unique: true},
 		{Name: "idle", Type: field.TypeBool},
+		{Name: "occupied_by", Type: field.TypeString},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
