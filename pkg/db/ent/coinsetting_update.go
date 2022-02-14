@@ -47,6 +47,19 @@ func (csu *CoinSettingUpdate) AddWarmAccountCoinAmount(u int64) *CoinSettingUpda
 	return csu
 }
 
+// SetPaymentAccountCoinAmount sets the "payment_account_coin_amount" field.
+func (csu *CoinSettingUpdate) SetPaymentAccountCoinAmount(u uint64) *CoinSettingUpdate {
+	csu.mutation.ResetPaymentAccountCoinAmount()
+	csu.mutation.SetPaymentAccountCoinAmount(u)
+	return csu
+}
+
+// AddPaymentAccountCoinAmount adds u to the "payment_account_coin_amount" field.
+func (csu *CoinSettingUpdate) AddPaymentAccountCoinAmount(u int64) *CoinSettingUpdate {
+	csu.mutation.AddPaymentAccountCoinAmount(u)
+	return csu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (csu *CoinSettingUpdate) SetCreateAt(u uint32) *CoinSettingUpdate {
 	csu.mutation.ResetCreateAt()
@@ -209,6 +222,20 @@ func (csu *CoinSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: coinsetting.FieldWarmAccountCoinAmount,
 		})
 	}
+	if value, ok := csu.mutation.PaymentAccountCoinAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldPaymentAccountCoinAmount,
+		})
+	}
+	if value, ok := csu.mutation.AddedPaymentAccountCoinAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldPaymentAccountCoinAmount,
+		})
+	}
 	if value, ok := csu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -286,6 +313,19 @@ func (csuo *CoinSettingUpdateOne) SetWarmAccountCoinAmount(u uint64) *CoinSettin
 // AddWarmAccountCoinAmount adds u to the "warm_account_coin_amount" field.
 func (csuo *CoinSettingUpdateOne) AddWarmAccountCoinAmount(u int64) *CoinSettingUpdateOne {
 	csuo.mutation.AddWarmAccountCoinAmount(u)
+	return csuo
+}
+
+// SetPaymentAccountCoinAmount sets the "payment_account_coin_amount" field.
+func (csuo *CoinSettingUpdateOne) SetPaymentAccountCoinAmount(u uint64) *CoinSettingUpdateOne {
+	csuo.mutation.ResetPaymentAccountCoinAmount()
+	csuo.mutation.SetPaymentAccountCoinAmount(u)
+	return csuo
+}
+
+// AddPaymentAccountCoinAmount adds u to the "payment_account_coin_amount" field.
+func (csuo *CoinSettingUpdateOne) AddPaymentAccountCoinAmount(u int64) *CoinSettingUpdateOne {
+	csuo.mutation.AddPaymentAccountCoinAmount(u)
 	return csuo
 }
 
@@ -473,6 +513,20 @@ func (csuo *CoinSettingUpdateOne) sqlSave(ctx context.Context) (_node *CoinSetti
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinsetting.FieldWarmAccountCoinAmount,
+		})
+	}
+	if value, ok := csuo.mutation.PaymentAccountCoinAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldPaymentAccountCoinAmount,
+		})
+	}
+	if value, ok := csuo.mutation.AddedPaymentAccountCoinAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldPaymentAccountCoinAmount,
 		})
 	}
 	if value, ok := csuo.mutation.CreateAt(); ok {

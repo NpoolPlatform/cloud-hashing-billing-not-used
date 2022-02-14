@@ -29,6 +29,12 @@ func (psc *PlatformSettingCreate) SetWarmAccountUsdAmount(u uint64) *PlatformSet
 	return psc
 }
 
+// SetPaymentAccountUsdAmount sets the "payment_account_usd_amount" field.
+func (psc *PlatformSettingCreate) SetPaymentAccountUsdAmount(u uint64) *PlatformSettingCreate {
+	psc.mutation.SetPaymentAccountUsdAmount(u)
+	return psc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (psc *PlatformSettingCreate) SetCreateAt(u uint32) *PlatformSettingCreate {
 	psc.mutation.SetCreateAt(u)
@@ -179,6 +185,9 @@ func (psc *PlatformSettingCreate) check() error {
 	if _, ok := psc.mutation.WarmAccountUsdAmount(); !ok {
 		return &ValidationError{Name: "warm_account_usd_amount", err: errors.New(`ent: missing required field "PlatformSetting.warm_account_usd_amount"`)}
 	}
+	if _, ok := psc.mutation.PaymentAccountUsdAmount(); !ok {
+		return &ValidationError{Name: "payment_account_usd_amount", err: errors.New(`ent: missing required field "PlatformSetting.payment_account_usd_amount"`)}
+	}
 	if _, ok := psc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "PlatformSetting.create_at"`)}
 	}
@@ -232,6 +241,14 @@ func (psc *PlatformSettingCreate) createSpec() (*PlatformSetting, *sqlgraph.Crea
 			Column: platformsetting.FieldWarmAccountUsdAmount,
 		})
 		_node.WarmAccountUsdAmount = value
+	}
+	if value, ok := psc.mutation.PaymentAccountUsdAmount(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldPaymentAccountUsdAmount,
+		})
+		_node.PaymentAccountUsdAmount = value
 	}
 	if value, ok := psc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -326,6 +343,24 @@ func (u *PlatformSettingUpsert) UpdateWarmAccountUsdAmount() *PlatformSettingUps
 // AddWarmAccountUsdAmount adds v to the "warm_account_usd_amount" field.
 func (u *PlatformSettingUpsert) AddWarmAccountUsdAmount(v uint64) *PlatformSettingUpsert {
 	u.Add(platformsetting.FieldWarmAccountUsdAmount, v)
+	return u
+}
+
+// SetPaymentAccountUsdAmount sets the "payment_account_usd_amount" field.
+func (u *PlatformSettingUpsert) SetPaymentAccountUsdAmount(v uint64) *PlatformSettingUpsert {
+	u.Set(platformsetting.FieldPaymentAccountUsdAmount, v)
+	return u
+}
+
+// UpdatePaymentAccountUsdAmount sets the "payment_account_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsert) UpdatePaymentAccountUsdAmount() *PlatformSettingUpsert {
+	u.SetExcluded(platformsetting.FieldPaymentAccountUsdAmount)
+	return u
+}
+
+// AddPaymentAccountUsdAmount adds v to the "payment_account_usd_amount" field.
+func (u *PlatformSettingUpsert) AddPaymentAccountUsdAmount(v uint64) *PlatformSettingUpsert {
+	u.Add(platformsetting.FieldPaymentAccountUsdAmount, v)
 	return u
 }
 
@@ -451,6 +486,27 @@ func (u *PlatformSettingUpsertOne) AddWarmAccountUsdAmount(v uint64) *PlatformSe
 func (u *PlatformSettingUpsertOne) UpdateWarmAccountUsdAmount() *PlatformSettingUpsertOne {
 	return u.Update(func(s *PlatformSettingUpsert) {
 		s.UpdateWarmAccountUsdAmount()
+	})
+}
+
+// SetPaymentAccountUsdAmount sets the "payment_account_usd_amount" field.
+func (u *PlatformSettingUpsertOne) SetPaymentAccountUsdAmount(v uint64) *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.SetPaymentAccountUsdAmount(v)
+	})
+}
+
+// AddPaymentAccountUsdAmount adds v to the "payment_account_usd_amount" field.
+func (u *PlatformSettingUpsertOne) AddPaymentAccountUsdAmount(v uint64) *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddPaymentAccountUsdAmount(v)
+	})
+}
+
+// UpdatePaymentAccountUsdAmount sets the "payment_account_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsertOne) UpdatePaymentAccountUsdAmount() *PlatformSettingUpsertOne {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.UpdatePaymentAccountUsdAmount()
 	})
 }
 
@@ -751,6 +807,27 @@ func (u *PlatformSettingUpsertBulk) AddWarmAccountUsdAmount(v uint64) *PlatformS
 func (u *PlatformSettingUpsertBulk) UpdateWarmAccountUsdAmount() *PlatformSettingUpsertBulk {
 	return u.Update(func(s *PlatformSettingUpsert) {
 		s.UpdateWarmAccountUsdAmount()
+	})
+}
+
+// SetPaymentAccountUsdAmount sets the "payment_account_usd_amount" field.
+func (u *PlatformSettingUpsertBulk) SetPaymentAccountUsdAmount(v uint64) *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.SetPaymentAccountUsdAmount(v)
+	})
+}
+
+// AddPaymentAccountUsdAmount adds v to the "payment_account_usd_amount" field.
+func (u *PlatformSettingUpsertBulk) AddPaymentAccountUsdAmount(v uint64) *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.AddPaymentAccountUsdAmount(v)
+	})
+}
+
+// UpdatePaymentAccountUsdAmount sets the "payment_account_usd_amount" field to the value that was provided on create.
+func (u *PlatformSettingUpsertBulk) UpdatePaymentAccountUsdAmount() *PlatformSettingUpsertBulk {
+	return u.Update(func(s *PlatformSettingUpsert) {
+		s.UpdatePaymentAccountUsdAmount()
 	})
 }
 

@@ -15,6 +15,8 @@ const (
 	FieldCoinTypeID = "coin_type_id"
 	// FieldWarmAccountCoinAmount holds the string denoting the warm_account_coin_amount field in the database.
 	FieldWarmAccountCoinAmount = "warm_account_coin_amount"
+	// FieldPaymentAccountCoinAmount holds the string denoting the payment_account_coin_amount field in the database.
+	FieldPaymentAccountCoinAmount = "payment_account_coin_amount"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -30,6 +32,7 @@ var Columns = []string{
 	FieldID,
 	FieldCoinTypeID,
 	FieldWarmAccountCoinAmount,
+	FieldPaymentAccountCoinAmount,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

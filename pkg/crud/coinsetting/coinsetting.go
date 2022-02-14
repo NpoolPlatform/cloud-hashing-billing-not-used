@@ -25,9 +25,10 @@ func validateCoinSetting(info *npool.CoinSetting) error {
 
 func dbRowToCoinSetting(row *ent.CoinSetting) *npool.CoinSetting {
 	return &npool.CoinSetting{
-		ID:                    row.ID.String(),
-		CoinTypeID:            row.CoinTypeID.String(),
-		WarmAccountCoinAmount: price.DBPriceToVisualPrice(row.WarmAccountCoinAmount),
+		ID:                       row.ID.String(),
+		CoinTypeID:               row.CoinTypeID.String(),
+		WarmAccountCoinAmount:    price.DBPriceToVisualPrice(row.WarmAccountCoinAmount),
+		PaymentAccountCoinAmount: price.DBPriceToVisualPrice(row.PaymentAccountCoinAmount),
 	}
 }
 
@@ -46,6 +47,7 @@ func Create(ctx context.Context, in *npool.CreateCoinSettingRequest) (*npool.Cre
 		Create().
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetWarmAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountCoinAmount())).
+		SetPaymentAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountCoinAmount())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create coin setting: %v", err)
@@ -75,6 +77,7 @@ func Update(ctx context.Context, in *npool.UpdateCoinSettingRequest) (*npool.Upd
 		CoinSetting.
 		UpdateOneID(id).
 		SetWarmAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountCoinAmount())).
+		SetPaymentAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountCoinAmount())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update coin setting: %v", err)

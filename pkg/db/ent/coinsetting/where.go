@@ -105,6 +105,13 @@ func WarmAccountCoinAmount(v uint64) predicate.CoinSetting {
 	})
 }
 
+// PaymentAccountCoinAmount applies equality check predicate on the "payment_account_coin_amount" field. It's identical to PaymentAccountCoinAmountEQ.
+func PaymentAccountCoinAmount(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPaymentAccountCoinAmount), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.CoinSetting {
 	return predicate.CoinSetting(func(s *sql.Selector) {
@@ -275,6 +282,82 @@ func WarmAccountCoinAmountLT(v uint64) predicate.CoinSetting {
 func WarmAccountCoinAmountLTE(v uint64) predicate.CoinSetting {
 	return predicate.CoinSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldWarmAccountCoinAmount), v))
+	})
+}
+
+// PaymentAccountCoinAmountEQ applies the EQ predicate on the "payment_account_coin_amount" field.
+func PaymentAccountCoinAmountEQ(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPaymentAccountCoinAmount), v))
+	})
+}
+
+// PaymentAccountCoinAmountNEQ applies the NEQ predicate on the "payment_account_coin_amount" field.
+func PaymentAccountCoinAmountNEQ(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPaymentAccountCoinAmount), v))
+	})
+}
+
+// PaymentAccountCoinAmountIn applies the In predicate on the "payment_account_coin_amount" field.
+func PaymentAccountCoinAmountIn(vs ...uint64) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPaymentAccountCoinAmount), v...))
+	})
+}
+
+// PaymentAccountCoinAmountNotIn applies the NotIn predicate on the "payment_account_coin_amount" field.
+func PaymentAccountCoinAmountNotIn(vs ...uint64) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPaymentAccountCoinAmount), v...))
+	})
+}
+
+// PaymentAccountCoinAmountGT applies the GT predicate on the "payment_account_coin_amount" field.
+func PaymentAccountCoinAmountGT(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPaymentAccountCoinAmount), v))
+	})
+}
+
+// PaymentAccountCoinAmountGTE applies the GTE predicate on the "payment_account_coin_amount" field.
+func PaymentAccountCoinAmountGTE(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPaymentAccountCoinAmount), v))
+	})
+}
+
+// PaymentAccountCoinAmountLT applies the LT predicate on the "payment_account_coin_amount" field.
+func PaymentAccountCoinAmountLT(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPaymentAccountCoinAmount), v))
+	})
+}
+
+// PaymentAccountCoinAmountLTE applies the LTE predicate on the "payment_account_coin_amount" field.
+func PaymentAccountCoinAmountLTE(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPaymentAccountCoinAmount), v))
 	})
 }
 

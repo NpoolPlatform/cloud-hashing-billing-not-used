@@ -58,6 +58,7 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "coin_type_id", Type: field.TypeUUID, Unique: true},
 		{Name: "warm_account_coin_amount", Type: field.TypeUint64},
+		{Name: "payment_account_coin_amount", Type: field.TypeUint64},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -169,6 +170,7 @@ var (
 	PlatformSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "warm_account_usd_amount", Type: field.TypeUint64},
+		{Name: "payment_account_usd_amount", Type: field.TypeUint64},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

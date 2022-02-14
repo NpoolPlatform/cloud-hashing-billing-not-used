@@ -17,8 +17,9 @@ import (
 
 func dbRowToPlatformSetting(row *ent.PlatformSetting) *npool.PlatformSetting {
 	return &npool.PlatformSetting{
-		ID:                   row.ID.String(),
-		WarmAccountUSDAmount: price.DBPriceToVisualPrice(row.WarmAccountUsdAmount),
+		ID:                      row.ID.String(),
+		WarmAccountUSDAmount:    price.DBPriceToVisualPrice(row.WarmAccountUsdAmount),
+		PaymentAccountUSDAmount: price.DBPriceToVisualPrice(row.PaymentAccountUsdAmount),
 	}
 }
 
@@ -32,6 +33,7 @@ func Create(ctx context.Context, in *npool.CreatePlatformSettingRequest) (*npool
 		PlatformSetting.
 		Create().
 		SetWarmAccountUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountUSDAmount())).
+		SetPaymentAccountUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountUSDAmount())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create platform setting: %v", err)
@@ -57,6 +59,7 @@ func Update(ctx context.Context, in *npool.UpdatePlatformSettingRequest) (*npool
 		PlatformSetting.
 		UpdateOneID(id).
 		SetWarmAccountUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountUSDAmount())).
+		SetPaymentAccountUsdAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountUSDAmount())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update platform setting: %v", err)

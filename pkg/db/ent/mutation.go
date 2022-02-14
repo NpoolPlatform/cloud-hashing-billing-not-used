@@ -1785,22 +1785,24 @@ func (m *CoinAccountTransactionMutation) ResetEdge(name string) error {
 // CoinSettingMutation represents an operation that mutates the CoinSetting nodes in the graph.
 type CoinSettingMutation struct {
 	config
-	op                          Op
-	typ                         string
-	id                          *uuid.UUID
-	coin_type_id                *uuid.UUID
-	warm_account_coin_amount    *uint64
-	addwarm_account_coin_amount *int64
-	create_at                   *uint32
-	addcreate_at                *int32
-	update_at                   *uint32
-	addupdate_at                *int32
-	delete_at                   *uint32
-	adddelete_at                *int32
-	clearedFields               map[string]struct{}
-	done                        bool
-	oldValue                    func(context.Context) (*CoinSetting, error)
-	predicates                  []predicate.CoinSetting
+	op                             Op
+	typ                            string
+	id                             *uuid.UUID
+	coin_type_id                   *uuid.UUID
+	warm_account_coin_amount       *uint64
+	addwarm_account_coin_amount    *int64
+	payment_account_coin_amount    *uint64
+	addpayment_account_coin_amount *int64
+	create_at                      *uint32
+	addcreate_at                   *int32
+	update_at                      *uint32
+	addupdate_at                   *int32
+	delete_at                      *uint32
+	adddelete_at                   *int32
+	clearedFields                  map[string]struct{}
+	done                           bool
+	oldValue                       func(context.Context) (*CoinSetting, error)
+	predicates                     []predicate.CoinSetting
 }
 
 var _ ent.Mutation = (*CoinSettingMutation)(nil)
@@ -1999,6 +2001,62 @@ func (m *CoinSettingMutation) ResetWarmAccountCoinAmount() {
 	m.addwarm_account_coin_amount = nil
 }
 
+// SetPaymentAccountCoinAmount sets the "payment_account_coin_amount" field.
+func (m *CoinSettingMutation) SetPaymentAccountCoinAmount(u uint64) {
+	m.payment_account_coin_amount = &u
+	m.addpayment_account_coin_amount = nil
+}
+
+// PaymentAccountCoinAmount returns the value of the "payment_account_coin_amount" field in the mutation.
+func (m *CoinSettingMutation) PaymentAccountCoinAmount() (r uint64, exists bool) {
+	v := m.payment_account_coin_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPaymentAccountCoinAmount returns the old "payment_account_coin_amount" field's value of the CoinSetting entity.
+// If the CoinSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CoinSettingMutation) OldPaymentAccountCoinAmount(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPaymentAccountCoinAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPaymentAccountCoinAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPaymentAccountCoinAmount: %w", err)
+	}
+	return oldValue.PaymentAccountCoinAmount, nil
+}
+
+// AddPaymentAccountCoinAmount adds u to the "payment_account_coin_amount" field.
+func (m *CoinSettingMutation) AddPaymentAccountCoinAmount(u int64) {
+	if m.addpayment_account_coin_amount != nil {
+		*m.addpayment_account_coin_amount += u
+	} else {
+		m.addpayment_account_coin_amount = &u
+	}
+}
+
+// AddedPaymentAccountCoinAmount returns the value that was added to the "payment_account_coin_amount" field in this mutation.
+func (m *CoinSettingMutation) AddedPaymentAccountCoinAmount() (r int64, exists bool) {
+	v := m.addpayment_account_coin_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPaymentAccountCoinAmount resets all changes to the "payment_account_coin_amount" field.
+func (m *CoinSettingMutation) ResetPaymentAccountCoinAmount() {
+	m.payment_account_coin_amount = nil
+	m.addpayment_account_coin_amount = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *CoinSettingMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -2186,12 +2244,15 @@ func (m *CoinSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CoinSettingMutation) Fields() []string {
-	fields := make([]string, 0, 5)
+	fields := make([]string, 0, 6)
 	if m.coin_type_id != nil {
 		fields = append(fields, coinsetting.FieldCoinTypeID)
 	}
 	if m.warm_account_coin_amount != nil {
 		fields = append(fields, coinsetting.FieldWarmAccountCoinAmount)
+	}
+	if m.payment_account_coin_amount != nil {
+		fields = append(fields, coinsetting.FieldPaymentAccountCoinAmount)
 	}
 	if m.create_at != nil {
 		fields = append(fields, coinsetting.FieldCreateAt)
@@ -2214,6 +2275,8 @@ func (m *CoinSettingMutation) Field(name string) (ent.Value, bool) {
 		return m.CoinTypeID()
 	case coinsetting.FieldWarmAccountCoinAmount:
 		return m.WarmAccountCoinAmount()
+	case coinsetting.FieldPaymentAccountCoinAmount:
+		return m.PaymentAccountCoinAmount()
 	case coinsetting.FieldCreateAt:
 		return m.CreateAt()
 	case coinsetting.FieldUpdateAt:
@@ -2233,6 +2296,8 @@ func (m *CoinSettingMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldCoinTypeID(ctx)
 	case coinsetting.FieldWarmAccountCoinAmount:
 		return m.OldWarmAccountCoinAmount(ctx)
+	case coinsetting.FieldPaymentAccountCoinAmount:
+		return m.OldPaymentAccountCoinAmount(ctx)
 	case coinsetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case coinsetting.FieldUpdateAt:
@@ -2261,6 +2326,13 @@ func (m *CoinSettingMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetWarmAccountCoinAmount(v)
+		return nil
+	case coinsetting.FieldPaymentAccountCoinAmount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPaymentAccountCoinAmount(v)
 		return nil
 	case coinsetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -2294,6 +2366,9 @@ func (m *CoinSettingMutation) AddedFields() []string {
 	if m.addwarm_account_coin_amount != nil {
 		fields = append(fields, coinsetting.FieldWarmAccountCoinAmount)
 	}
+	if m.addpayment_account_coin_amount != nil {
+		fields = append(fields, coinsetting.FieldPaymentAccountCoinAmount)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, coinsetting.FieldCreateAt)
 	}
@@ -2313,6 +2388,8 @@ func (m *CoinSettingMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case coinsetting.FieldWarmAccountCoinAmount:
 		return m.AddedWarmAccountCoinAmount()
+	case coinsetting.FieldPaymentAccountCoinAmount:
+		return m.AddedPaymentAccountCoinAmount()
 	case coinsetting.FieldCreateAt:
 		return m.AddedCreateAt()
 	case coinsetting.FieldUpdateAt:
@@ -2334,6 +2411,13 @@ func (m *CoinSettingMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddWarmAccountCoinAmount(v)
+		return nil
+	case coinsetting.FieldPaymentAccountCoinAmount:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPaymentAccountCoinAmount(v)
 		return nil
 	case coinsetting.FieldCreateAt:
 		v, ok := value.(int32)
@@ -2388,6 +2472,9 @@ func (m *CoinSettingMutation) ResetField(name string) error {
 		return nil
 	case coinsetting.FieldWarmAccountCoinAmount:
 		m.ResetWarmAccountCoinAmount()
+		return nil
+	case coinsetting.FieldPaymentAccountCoinAmount:
+		m.ResetPaymentAccountCoinAmount()
 		return nil
 	case coinsetting.FieldCreateAt:
 		m.ResetCreateAt()
@@ -5686,21 +5773,23 @@ func (m *PlatformBenefitMutation) ResetEdge(name string) error {
 // PlatformSettingMutation represents an operation that mutates the PlatformSetting nodes in the graph.
 type PlatformSettingMutation struct {
 	config
-	op                         Op
-	typ                        string
-	id                         *uuid.UUID
-	warm_account_usd_amount    *uint64
-	addwarm_account_usd_amount *int64
-	create_at                  *uint32
-	addcreate_at               *int32
-	update_at                  *uint32
-	addupdate_at               *int32
-	delete_at                  *uint32
-	adddelete_at               *int32
-	clearedFields              map[string]struct{}
-	done                       bool
-	oldValue                   func(context.Context) (*PlatformSetting, error)
-	predicates                 []predicate.PlatformSetting
+	op                            Op
+	typ                           string
+	id                            *uuid.UUID
+	warm_account_usd_amount       *uint64
+	addwarm_account_usd_amount    *int64
+	payment_account_usd_amount    *uint64
+	addpayment_account_usd_amount *int64
+	create_at                     *uint32
+	addcreate_at                  *int32
+	update_at                     *uint32
+	addupdate_at                  *int32
+	delete_at                     *uint32
+	adddelete_at                  *int32
+	clearedFields                 map[string]struct{}
+	done                          bool
+	oldValue                      func(context.Context) (*PlatformSetting, error)
+	predicates                    []predicate.PlatformSetting
 }
 
 var _ ent.Mutation = (*PlatformSettingMutation)(nil)
@@ -5861,6 +5950,62 @@ func (m *PlatformSettingMutation) AddedWarmAccountUsdAmount() (r int64, exists b
 func (m *PlatformSettingMutation) ResetWarmAccountUsdAmount() {
 	m.warm_account_usd_amount = nil
 	m.addwarm_account_usd_amount = nil
+}
+
+// SetPaymentAccountUsdAmount sets the "payment_account_usd_amount" field.
+func (m *PlatformSettingMutation) SetPaymentAccountUsdAmount(u uint64) {
+	m.payment_account_usd_amount = &u
+	m.addpayment_account_usd_amount = nil
+}
+
+// PaymentAccountUsdAmount returns the value of the "payment_account_usd_amount" field in the mutation.
+func (m *PlatformSettingMutation) PaymentAccountUsdAmount() (r uint64, exists bool) {
+	v := m.payment_account_usd_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPaymentAccountUsdAmount returns the old "payment_account_usd_amount" field's value of the PlatformSetting entity.
+// If the PlatformSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PlatformSettingMutation) OldPaymentAccountUsdAmount(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPaymentAccountUsdAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPaymentAccountUsdAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPaymentAccountUsdAmount: %w", err)
+	}
+	return oldValue.PaymentAccountUsdAmount, nil
+}
+
+// AddPaymentAccountUsdAmount adds u to the "payment_account_usd_amount" field.
+func (m *PlatformSettingMutation) AddPaymentAccountUsdAmount(u int64) {
+	if m.addpayment_account_usd_amount != nil {
+		*m.addpayment_account_usd_amount += u
+	} else {
+		m.addpayment_account_usd_amount = &u
+	}
+}
+
+// AddedPaymentAccountUsdAmount returns the value that was added to the "payment_account_usd_amount" field in this mutation.
+func (m *PlatformSettingMutation) AddedPaymentAccountUsdAmount() (r int64, exists bool) {
+	v := m.addpayment_account_usd_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPaymentAccountUsdAmount resets all changes to the "payment_account_usd_amount" field.
+func (m *PlatformSettingMutation) ResetPaymentAccountUsdAmount() {
+	m.payment_account_usd_amount = nil
+	m.addpayment_account_usd_amount = nil
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -6050,9 +6195,12 @@ func (m *PlatformSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *PlatformSettingMutation) Fields() []string {
-	fields := make([]string, 0, 4)
+	fields := make([]string, 0, 5)
 	if m.warm_account_usd_amount != nil {
 		fields = append(fields, platformsetting.FieldWarmAccountUsdAmount)
+	}
+	if m.payment_account_usd_amount != nil {
+		fields = append(fields, platformsetting.FieldPaymentAccountUsdAmount)
 	}
 	if m.create_at != nil {
 		fields = append(fields, platformsetting.FieldCreateAt)
@@ -6073,6 +6221,8 @@ func (m *PlatformSettingMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case platformsetting.FieldWarmAccountUsdAmount:
 		return m.WarmAccountUsdAmount()
+	case platformsetting.FieldPaymentAccountUsdAmount:
+		return m.PaymentAccountUsdAmount()
 	case platformsetting.FieldCreateAt:
 		return m.CreateAt()
 	case platformsetting.FieldUpdateAt:
@@ -6090,6 +6240,8 @@ func (m *PlatformSettingMutation) OldField(ctx context.Context, name string) (en
 	switch name {
 	case platformsetting.FieldWarmAccountUsdAmount:
 		return m.OldWarmAccountUsdAmount(ctx)
+	case platformsetting.FieldPaymentAccountUsdAmount:
+		return m.OldPaymentAccountUsdAmount(ctx)
 	case platformsetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case platformsetting.FieldUpdateAt:
@@ -6111,6 +6263,13 @@ func (m *PlatformSettingMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetWarmAccountUsdAmount(v)
+		return nil
+	case platformsetting.FieldPaymentAccountUsdAmount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPaymentAccountUsdAmount(v)
 		return nil
 	case platformsetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -6144,6 +6303,9 @@ func (m *PlatformSettingMutation) AddedFields() []string {
 	if m.addwarm_account_usd_amount != nil {
 		fields = append(fields, platformsetting.FieldWarmAccountUsdAmount)
 	}
+	if m.addpayment_account_usd_amount != nil {
+		fields = append(fields, platformsetting.FieldPaymentAccountUsdAmount)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, platformsetting.FieldCreateAt)
 	}
@@ -6163,6 +6325,8 @@ func (m *PlatformSettingMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case platformsetting.FieldWarmAccountUsdAmount:
 		return m.AddedWarmAccountUsdAmount()
+	case platformsetting.FieldPaymentAccountUsdAmount:
+		return m.AddedPaymentAccountUsdAmount()
 	case platformsetting.FieldCreateAt:
 		return m.AddedCreateAt()
 	case platformsetting.FieldUpdateAt:
@@ -6184,6 +6348,13 @@ func (m *PlatformSettingMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddWarmAccountUsdAmount(v)
+		return nil
+	case platformsetting.FieldPaymentAccountUsdAmount:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPaymentAccountUsdAmount(v)
 		return nil
 	case platformsetting.FieldCreateAt:
 		v, ok := value.(int32)
@@ -6235,6 +6406,9 @@ func (m *PlatformSettingMutation) ResetField(name string) error {
 	switch name {
 	case platformsetting.FieldWarmAccountUsdAmount:
 		m.ResetWarmAccountUsdAmount()
+		return nil
+	case platformsetting.FieldPaymentAccountUsdAmount:
+		m.ResetPaymentAccountUsdAmount()
 		return nil
 	case platformsetting.FieldCreateAt:
 		m.ResetCreateAt()

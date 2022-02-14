@@ -35,6 +35,12 @@ func (csc *CoinSettingCreate) SetWarmAccountCoinAmount(u uint64) *CoinSettingCre
 	return csc
 }
 
+// SetPaymentAccountCoinAmount sets the "payment_account_coin_amount" field.
+func (csc *CoinSettingCreate) SetPaymentAccountCoinAmount(u uint64) *CoinSettingCreate {
+	csc.mutation.SetPaymentAccountCoinAmount(u)
+	return csc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (csc *CoinSettingCreate) SetCreateAt(u uint32) *CoinSettingCreate {
 	csc.mutation.SetCreateAt(u)
@@ -188,6 +194,9 @@ func (csc *CoinSettingCreate) check() error {
 	if _, ok := csc.mutation.WarmAccountCoinAmount(); !ok {
 		return &ValidationError{Name: "warm_account_coin_amount", err: errors.New(`ent: missing required field "CoinSetting.warm_account_coin_amount"`)}
 	}
+	if _, ok := csc.mutation.PaymentAccountCoinAmount(); !ok {
+		return &ValidationError{Name: "payment_account_coin_amount", err: errors.New(`ent: missing required field "CoinSetting.payment_account_coin_amount"`)}
+	}
 	if _, ok := csc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CoinSetting.create_at"`)}
 	}
@@ -249,6 +258,14 @@ func (csc *CoinSettingCreate) createSpec() (*CoinSetting, *sqlgraph.CreateSpec) 
 			Column: coinsetting.FieldWarmAccountCoinAmount,
 		})
 		_node.WarmAccountCoinAmount = value
+	}
+	if value, ok := csc.mutation.PaymentAccountCoinAmount(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldPaymentAccountCoinAmount,
+		})
+		_node.PaymentAccountCoinAmount = value
 	}
 	if value, ok := csc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -355,6 +372,24 @@ func (u *CoinSettingUpsert) UpdateWarmAccountCoinAmount() *CoinSettingUpsert {
 // AddWarmAccountCoinAmount adds v to the "warm_account_coin_amount" field.
 func (u *CoinSettingUpsert) AddWarmAccountCoinAmount(v uint64) *CoinSettingUpsert {
 	u.Add(coinsetting.FieldWarmAccountCoinAmount, v)
+	return u
+}
+
+// SetPaymentAccountCoinAmount sets the "payment_account_coin_amount" field.
+func (u *CoinSettingUpsert) SetPaymentAccountCoinAmount(v uint64) *CoinSettingUpsert {
+	u.Set(coinsetting.FieldPaymentAccountCoinAmount, v)
+	return u
+}
+
+// UpdatePaymentAccountCoinAmount sets the "payment_account_coin_amount" field to the value that was provided on create.
+func (u *CoinSettingUpsert) UpdatePaymentAccountCoinAmount() *CoinSettingUpsert {
+	u.SetExcluded(coinsetting.FieldPaymentAccountCoinAmount)
+	return u
+}
+
+// AddPaymentAccountCoinAmount adds v to the "payment_account_coin_amount" field.
+func (u *CoinSettingUpsert) AddPaymentAccountCoinAmount(v uint64) *CoinSettingUpsert {
+	u.Add(coinsetting.FieldPaymentAccountCoinAmount, v)
 	return u
 }
 
@@ -494,6 +529,27 @@ func (u *CoinSettingUpsertOne) AddWarmAccountCoinAmount(v uint64) *CoinSettingUp
 func (u *CoinSettingUpsertOne) UpdateWarmAccountCoinAmount() *CoinSettingUpsertOne {
 	return u.Update(func(s *CoinSettingUpsert) {
 		s.UpdateWarmAccountCoinAmount()
+	})
+}
+
+// SetPaymentAccountCoinAmount sets the "payment_account_coin_amount" field.
+func (u *CoinSettingUpsertOne) SetPaymentAccountCoinAmount(v uint64) *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetPaymentAccountCoinAmount(v)
+	})
+}
+
+// AddPaymentAccountCoinAmount adds v to the "payment_account_coin_amount" field.
+func (u *CoinSettingUpsertOne) AddPaymentAccountCoinAmount(v uint64) *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.AddPaymentAccountCoinAmount(v)
+	})
+}
+
+// UpdatePaymentAccountCoinAmount sets the "payment_account_coin_amount" field to the value that was provided on create.
+func (u *CoinSettingUpsertOne) UpdatePaymentAccountCoinAmount() *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdatePaymentAccountCoinAmount()
 	})
 }
 
@@ -808,6 +864,27 @@ func (u *CoinSettingUpsertBulk) AddWarmAccountCoinAmount(v uint64) *CoinSettingU
 func (u *CoinSettingUpsertBulk) UpdateWarmAccountCoinAmount() *CoinSettingUpsertBulk {
 	return u.Update(func(s *CoinSettingUpsert) {
 		s.UpdateWarmAccountCoinAmount()
+	})
+}
+
+// SetPaymentAccountCoinAmount sets the "payment_account_coin_amount" field.
+func (u *CoinSettingUpsertBulk) SetPaymentAccountCoinAmount(v uint64) *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetPaymentAccountCoinAmount(v)
+	})
+}
+
+// AddPaymentAccountCoinAmount adds v to the "payment_account_coin_amount" field.
+func (u *CoinSettingUpsertBulk) AddPaymentAccountCoinAmount(v uint64) *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.AddPaymentAccountCoinAmount(v)
+	})
+}
+
+// UpdatePaymentAccountCoinAmount sets the "payment_account_coin_amount" field to the value that was provided on create.
+func (u *CoinSettingUpsertBulk) UpdatePaymentAccountCoinAmount() *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdatePaymentAccountCoinAmount()
 	})
 }
 

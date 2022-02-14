@@ -18,6 +18,8 @@ type PlatformSetting struct {
 	ID uuid.UUID `json:"id,omitempty"`
 	// WarmAccountUsdAmount holds the value of the "warm_account_usd_amount" field.
 	WarmAccountUsdAmount uint64 `json:"warm_account_usd_amount,omitempty"`
+	// PaymentAccountUsdAmount holds the value of the "payment_account_usd_amount" field.
+	PaymentAccountUsdAmount uint64 `json:"payment_account_usd_amount,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -31,7 +33,7 @@ func (*PlatformSetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case platformsetting.FieldWarmAccountUsdAmount, platformsetting.FieldCreateAt, platformsetting.FieldUpdateAt, platformsetting.FieldDeleteAt:
+		case platformsetting.FieldWarmAccountUsdAmount, platformsetting.FieldPaymentAccountUsdAmount, platformsetting.FieldCreateAt, platformsetting.FieldUpdateAt, platformsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case platformsetting.FieldID:
 			values[i] = new(uuid.UUID)
@@ -61,6 +63,12 @@ func (ps *PlatformSetting) assignValues(columns []string, values []interface{}) 
 				return fmt.Errorf("unexpected type %T for field warm_account_usd_amount", values[i])
 			} else if value.Valid {
 				ps.WarmAccountUsdAmount = uint64(value.Int64)
+			}
+		case platformsetting.FieldPaymentAccountUsdAmount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field payment_account_usd_amount", values[i])
+			} else if value.Valid {
+				ps.PaymentAccountUsdAmount = uint64(value.Int64)
 			}
 		case platformsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -110,6 +118,8 @@ func (ps *PlatformSetting) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", ps.ID))
 	builder.WriteString(", warm_account_usd_amount=")
 	builder.WriteString(fmt.Sprintf("%v", ps.WarmAccountUsdAmount))
+	builder.WriteString(", payment_account_usd_amount=")
+	builder.WriteString(fmt.Sprintf("%v", ps.PaymentAccountUsdAmount))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", ps.CreateAt))
 	builder.WriteString(", update_at=")

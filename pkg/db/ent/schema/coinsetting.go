@@ -20,6 +20,7 @@ func (CoinSetting) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
 		field.UUID("coin_type_id", uuid.UUID{}).Unique(),
 		field.Uint64("warm_account_coin_amount"),
+		field.Uint64("payment_account_coin_amount"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

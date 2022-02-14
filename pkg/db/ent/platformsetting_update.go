@@ -40,6 +40,19 @@ func (psu *PlatformSettingUpdate) AddWarmAccountUsdAmount(u int64) *PlatformSett
 	return psu
 }
 
+// SetPaymentAccountUsdAmount sets the "payment_account_usd_amount" field.
+func (psu *PlatformSettingUpdate) SetPaymentAccountUsdAmount(u uint64) *PlatformSettingUpdate {
+	psu.mutation.ResetPaymentAccountUsdAmount()
+	psu.mutation.SetPaymentAccountUsdAmount(u)
+	return psu
+}
+
+// AddPaymentAccountUsdAmount adds u to the "payment_account_usd_amount" field.
+func (psu *PlatformSettingUpdate) AddPaymentAccountUsdAmount(u int64) *PlatformSettingUpdate {
+	psu.mutation.AddPaymentAccountUsdAmount(u)
+	return psu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (psu *PlatformSettingUpdate) SetCreateAt(u uint32) *PlatformSettingUpdate {
 	psu.mutation.ResetCreateAt()
@@ -195,6 +208,20 @@ func (psu *PlatformSettingUpdate) sqlSave(ctx context.Context) (n int, err error
 			Column: platformsetting.FieldWarmAccountUsdAmount,
 		})
 	}
+	if value, ok := psu.mutation.PaymentAccountUsdAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldPaymentAccountUsdAmount,
+		})
+	}
+	if value, ok := psu.mutation.AddedPaymentAccountUsdAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldPaymentAccountUsdAmount,
+		})
+	}
 	if value, ok := psu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -266,6 +293,19 @@ func (psuo *PlatformSettingUpdateOne) SetWarmAccountUsdAmount(u uint64) *Platfor
 // AddWarmAccountUsdAmount adds u to the "warm_account_usd_amount" field.
 func (psuo *PlatformSettingUpdateOne) AddWarmAccountUsdAmount(u int64) *PlatformSettingUpdateOne {
 	psuo.mutation.AddWarmAccountUsdAmount(u)
+	return psuo
+}
+
+// SetPaymentAccountUsdAmount sets the "payment_account_usd_amount" field.
+func (psuo *PlatformSettingUpdateOne) SetPaymentAccountUsdAmount(u uint64) *PlatformSettingUpdateOne {
+	psuo.mutation.ResetPaymentAccountUsdAmount()
+	psuo.mutation.SetPaymentAccountUsdAmount(u)
+	return psuo
+}
+
+// AddPaymentAccountUsdAmount adds u to the "payment_account_usd_amount" field.
+func (psuo *PlatformSettingUpdateOne) AddPaymentAccountUsdAmount(u int64) *PlatformSettingUpdateOne {
+	psuo.mutation.AddPaymentAccountUsdAmount(u)
 	return psuo
 }
 
@@ -446,6 +486,20 @@ func (psuo *PlatformSettingUpdateOne) sqlSave(ctx context.Context) (_node *Platf
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: platformsetting.FieldWarmAccountUsdAmount,
+		})
+	}
+	if value, ok := psuo.mutation.PaymentAccountUsdAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldPaymentAccountUsdAmount,
+		})
+	}
+	if value, ok := psuo.mutation.AddedPaymentAccountUsdAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: platformsetting.FieldPaymentAccountUsdAmount,
 		})
 	}
 	if value, ok := psuo.mutation.CreateAt(); ok {

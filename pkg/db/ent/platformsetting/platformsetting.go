@@ -13,6 +13,8 @@ const (
 	FieldID = "id"
 	// FieldWarmAccountUsdAmount holds the string denoting the warm_account_usd_amount field in the database.
 	FieldWarmAccountUsdAmount = "warm_account_usd_amount"
+	// FieldPaymentAccountUsdAmount holds the string denoting the payment_account_usd_amount field in the database.
+	FieldPaymentAccountUsdAmount = "payment_account_usd_amount"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -27,6 +29,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldWarmAccountUsdAmount,
+	FieldPaymentAccountUsdAmount,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

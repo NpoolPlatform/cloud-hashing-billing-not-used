@@ -20,6 +20,8 @@ type CoinSetting struct {
 	CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 	// WarmAccountCoinAmount holds the value of the "warm_account_coin_amount" field.
 	WarmAccountCoinAmount uint64 `json:"warm_account_coin_amount,omitempty"`
+	// PaymentAccountCoinAmount holds the value of the "payment_account_coin_amount" field.
+	PaymentAccountCoinAmount uint64 `json:"payment_account_coin_amount,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -33,7 +35,7 @@ func (*CoinSetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case coinsetting.FieldWarmAccountCoinAmount, coinsetting.FieldCreateAt, coinsetting.FieldUpdateAt, coinsetting.FieldDeleteAt:
+		case coinsetting.FieldWarmAccountCoinAmount, coinsetting.FieldPaymentAccountCoinAmount, coinsetting.FieldCreateAt, coinsetting.FieldUpdateAt, coinsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case coinsetting.FieldID, coinsetting.FieldCoinTypeID:
 			values[i] = new(uuid.UUID)
@@ -69,6 +71,12 @@ func (cs *CoinSetting) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field warm_account_coin_amount", values[i])
 			} else if value.Valid {
 				cs.WarmAccountCoinAmount = uint64(value.Int64)
+			}
+		case coinsetting.FieldPaymentAccountCoinAmount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field payment_account_coin_amount", values[i])
+			} else if value.Valid {
+				cs.PaymentAccountCoinAmount = uint64(value.Int64)
 			}
 		case coinsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -120,6 +128,8 @@ func (cs *CoinSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", cs.CoinTypeID))
 	builder.WriteString(", warm_account_coin_amount=")
 	builder.WriteString(fmt.Sprintf("%v", cs.WarmAccountCoinAmount))
+	builder.WriteString(", payment_account_coin_amount=")
+	builder.WriteString(fmt.Sprintf("%v", cs.PaymentAccountCoinAmount))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", cs.CreateAt))
 	builder.WriteString(", update_at=")

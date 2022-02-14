@@ -65,17 +65,17 @@ func init() {
 	coinsettingFields := schema.CoinSetting{}.Fields()
 	_ = coinsettingFields
 	// coinsettingDescCreateAt is the schema descriptor for create_at field.
-	coinsettingDescCreateAt := coinsettingFields[3].Descriptor()
+	coinsettingDescCreateAt := coinsettingFields[4].Descriptor()
 	// coinsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	coinsetting.DefaultCreateAt = coinsettingDescCreateAt.Default.(func() uint32)
 	// coinsettingDescUpdateAt is the schema descriptor for update_at field.
-	coinsettingDescUpdateAt := coinsettingFields[4].Descriptor()
+	coinsettingDescUpdateAt := coinsettingFields[5].Descriptor()
 	// coinsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	coinsetting.DefaultUpdateAt = coinsettingDescUpdateAt.Default.(func() uint32)
 	// coinsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	coinsetting.UpdateDefaultUpdateAt = coinsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// coinsettingDescDeleteAt is the schema descriptor for delete_at field.
-	coinsettingDescDeleteAt := coinsettingFields[5].Descriptor()
+	coinsettingDescDeleteAt := coinsettingFields[6].Descriptor()
 	// coinsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	coinsetting.DefaultDeleteAt = coinsettingDescDeleteAt.Default.(func() uint32)
 	// coinsettingDescID is the schema descriptor for id field.
@@ -165,17 +165,17 @@ func init() {
 	platformsettingFields := schema.PlatformSetting{}.Fields()
 	_ = platformsettingFields
 	// platformsettingDescCreateAt is the schema descriptor for create_at field.
-	platformsettingDescCreateAt := platformsettingFields[2].Descriptor()
+	platformsettingDescCreateAt := platformsettingFields[3].Descriptor()
 	// platformsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	platformsetting.DefaultCreateAt = platformsettingDescCreateAt.Default.(func() uint32)
 	// platformsettingDescUpdateAt is the schema descriptor for update_at field.
-	platformsettingDescUpdateAt := platformsettingFields[3].Descriptor()
+	platformsettingDescUpdateAt := platformsettingFields[4].Descriptor()
 	// platformsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	platformsetting.DefaultUpdateAt = platformsettingDescUpdateAt.Default.(func() uint32)
 	// platformsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	platformsetting.UpdateDefaultUpdateAt = platformsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// platformsettingDescDeleteAt is the schema descriptor for delete_at field.
-	platformsettingDescDeleteAt := platformsettingFields[4].Descriptor()
+	platformsettingDescDeleteAt := platformsettingFields[5].Descriptor()
 	// platformsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	platformsetting.DefaultDeleteAt = platformsettingDescDeleteAt.Default.(func() uint32)
 	// platformsettingDescID is the schema descriptor for id field.

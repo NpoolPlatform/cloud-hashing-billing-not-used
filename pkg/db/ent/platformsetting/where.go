@@ -98,6 +98,13 @@ func WarmAccountUsdAmount(v uint64) predicate.PlatformSetting {
 	})
 }
 
+// PaymentAccountUsdAmount applies equality check predicate on the "payment_account_usd_amount" field. It's identical to PaymentAccountUsdAmountEQ.
+func PaymentAccountUsdAmount(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPaymentAccountUsdAmount), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
@@ -192,6 +199,82 @@ func WarmAccountUsdAmountLT(v uint64) predicate.PlatformSetting {
 func WarmAccountUsdAmountLTE(v uint64) predicate.PlatformSetting {
 	return predicate.PlatformSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldWarmAccountUsdAmount), v))
+	})
+}
+
+// PaymentAccountUsdAmountEQ applies the EQ predicate on the "payment_account_usd_amount" field.
+func PaymentAccountUsdAmountEQ(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPaymentAccountUsdAmount), v))
+	})
+}
+
+// PaymentAccountUsdAmountNEQ applies the NEQ predicate on the "payment_account_usd_amount" field.
+func PaymentAccountUsdAmountNEQ(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPaymentAccountUsdAmount), v))
+	})
+}
+
+// PaymentAccountUsdAmountIn applies the In predicate on the "payment_account_usd_amount" field.
+func PaymentAccountUsdAmountIn(vs ...uint64) predicate.PlatformSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPaymentAccountUsdAmount), v...))
+	})
+}
+
+// PaymentAccountUsdAmountNotIn applies the NotIn predicate on the "payment_account_usd_amount" field.
+func PaymentAccountUsdAmountNotIn(vs ...uint64) predicate.PlatformSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPaymentAccountUsdAmount), v...))
+	})
+}
+
+// PaymentAccountUsdAmountGT applies the GT predicate on the "payment_account_usd_amount" field.
+func PaymentAccountUsdAmountGT(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPaymentAccountUsdAmount), v))
+	})
+}
+
+// PaymentAccountUsdAmountGTE applies the GTE predicate on the "payment_account_usd_amount" field.
+func PaymentAccountUsdAmountGTE(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPaymentAccountUsdAmount), v))
+	})
+}
+
+// PaymentAccountUsdAmountLT applies the LT predicate on the "payment_account_usd_amount" field.
+func PaymentAccountUsdAmountLT(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPaymentAccountUsdAmount), v))
+	})
+}
+
+// PaymentAccountUsdAmountLTE applies the LTE predicate on the "payment_account_usd_amount" field.
+func PaymentAccountUsdAmountLTE(v uint64) predicate.PlatformSetting {
+	return predicate.PlatformSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPaymentAccountUsdAmount), v))
 	})
 }
 
