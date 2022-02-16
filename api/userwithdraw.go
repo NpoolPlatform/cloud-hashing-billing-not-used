@@ -6,6 +6,7 @@ import (
 	"context"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/userwithdraw"
+	mw "github.com/NpoolPlatform/cloud-hashing-billing/pkg/middleware/withdraw"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
@@ -68,6 +69,38 @@ func (s *Server) GetUserWithdrawsByOtherAppUser(ctx context.Context, in *npool.G
 		return &npool.GetUserWithdrawsByOtherAppUserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return &npool.GetUserWithdrawsByOtherAppUserResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
+func (s *Server) GetUserWithdrawAccount(ctx context.Context, in *npool.GetUserWithdrawAccountRequest) (*npool.GetUserWithdrawAccountResponse, error) {
+	resp, err := mw.GetUserWithdrawAccount(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw account error: %v", err)
+		return &npool.GetUserWithdrawAccountResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
+func (s *Server) GetUserWithdrawAccountsByAppUser(ctx context.Context, in *npool.GetUserWithdrawAccountsByAppUserRequest) (*npool.GetUserWithdrawAccountsByAppUserResponse, error) {
+	resp, err := mw.GetUserWithdrawAccountsByAppUser(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw account error: %v", err)
+		return &npool.GetUserWithdrawAccountsByAppUserResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
+func (s *Server) GetUserWithdrawAccountsByOtherAppUser(ctx context.Context, in *npool.GetUserWithdrawAccountsByOtherAppUserRequest) (*npool.GetUserWithdrawAccountsByOtherAppUserResponse, error) {
+	resp, err := s.GetUserWithdrawAccountsByAppUser(ctx, &npool.GetUserWithdrawAccountsByAppUserRequest{
+		AppID:  in.GetTargetAppID(),
+		UserID: in.GetTargetUserID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw account error: %v", err)
+		return &npool.GetUserWithdrawAccountsByOtherAppUserResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.GetUserWithdrawAccountsByOtherAppUserResponse{
 		Infos: resp.Infos,
 	}, nil
 }
