@@ -37,6 +37,7 @@ func dbRowToUserWithdraw(row *ent.UserWithdraw) *npool.UserWithdraw {
 		UserID:     row.UserID.String(),
 		CoinTypeID: row.CoinTypeID.String(),
 		AccountID:  row.AccountID.String(),
+		CreateAt:   row.CreateAt,
 		Name:       row.Name,
 		Message:    row.Message,
 	}

@@ -31,6 +31,7 @@ func dbRowToCoinAccount(row *ent.CoinAccountInfo) *npool.CoinAccountInfo {
 		CoinTypeID:             row.CoinTypeID.String(),
 		Address:                row.Address,
 		PlatformHoldPrivateKey: row.PlatformHoldPrivateKey,
+		CreateAt:               row.CreateAt,
 	}
 }
 
