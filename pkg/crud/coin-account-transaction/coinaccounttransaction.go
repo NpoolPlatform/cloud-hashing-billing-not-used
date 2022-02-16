@@ -100,9 +100,7 @@ func Get(ctx context.Context, in *npool.GetCoinAccountTransactionRequest) (*npoo
 		CoinAccountTransaction.
 		Query().
 		Where(
-			coinaccounttransaction.And(
-				coinaccounttransaction.ID(id),
-			),
+			coinaccounttransaction.ID(id),
 		).
 		All(ctx)
 	if err != nil {
@@ -167,9 +165,7 @@ func GetCoinAccountTransactionsByState(ctx context.Context, in *npool.GetCoinAcc
 		CoinAccountTransaction.
 		Query().
 		Where(
-			coinaccounttransaction.And(
-				coinaccounttransaction.StateEQ(coinaccounttransaction.State(in.GetState())),
-			),
+			coinaccounttransaction.StateEQ(coinaccounttransaction.State(in.GetState())),
 		).
 		All(ctx)
 	if err != nil {
@@ -182,6 +178,46 @@ func GetCoinAccountTransactionsByState(ctx context.Context, in *npool.GetCoinAcc
 	}
 
 	return &npool.GetCoinAccountTransactionsByStateResponse{
+		Infos: transactions,
+	}, nil
+}
+
+func GetCoinAccountTransactionsByAppUser(ctx context.Context, in *npool.GetCoinAccountTransactionsByAppUserRequest) (*npool.GetCoinAccountTransactionsByAppUserResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	userID, err := uuid.Parse(in.GetUserID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
+	infos, err := cli.
+		CoinAccountTransaction.
+		Query().
+		Where(
+			coinaccounttransaction.And(
+				coinaccounttransaction.AppID(appID),
+				coinaccounttransaction.UserID(userID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account transaction: %v", err)
+	}
+
+	transactions := []*npool.CoinAccountTransaction{}
+	for _, info := range infos {
+		transactions = append(transactions, dbRowToCoinAccountTransaction(info))
+	}
+
+	return &npool.GetCoinAccountTransactionsByAppUserResponse{
 		Infos: transactions,
 	}, nil
 }
@@ -200,9 +236,7 @@ func GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool.GetCoinAcco
 		CoinAccountTransaction.
 		Query().
 		Where(
-			coinaccounttransaction.And(
-				coinaccounttransaction.CoinTypeID(uuid.MustParse(in.GetCoinTypeID())),
-			),
+			coinaccounttransaction.CoinTypeID(uuid.MustParse(in.GetCoinTypeID())),
 		).
 		All(ctx)
 	if err != nil {
