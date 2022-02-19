@@ -59,6 +59,15 @@ func (s *Server) GetUserWithdrawsByAppUser(ctx context.Context, in *npool.GetUse
 	return resp, nil
 }
 
+func (s *Server) GetUserWithdrawsByAppUserCoin(ctx context.Context, in *npool.GetUserWithdrawsByAppUserCoinRequest) (*npool.GetUserWithdrawsByAppUserCoinResponse, error) {
+	resp, err := crud.GetByAppUserCoin(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw error: %v", err)
+		return &npool.GetUserWithdrawsByAppUserCoinResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
 func (s *Server) GetUserWithdrawsByOtherAppUser(ctx context.Context, in *npool.GetUserWithdrawsByOtherAppUserRequest) (*npool.GetUserWithdrawsByOtherAppUserResponse, error) {
 	resp, err := crud.GetByAppUser(ctx, &npool.GetUserWithdrawsByAppUserRequest{
 		AppID:  in.GetTargetAppID(),

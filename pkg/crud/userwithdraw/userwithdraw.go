@@ -207,3 +207,49 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserWithdrawsByAppUserReques
 		Infos: userWithdraws,
 	}, nil
 }
+
+func GetByAppUserCoin(ctx context.Context, in *npool.GetUserWithdrawsByAppUserCoinRequest) (*npool.GetUserWithdrawsByAppUserCoinResponse, error) {
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	userID, err := uuid.Parse(in.GetUserID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
+	coinTypeID, err := uuid.Parse(in.GetCoinTypeID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid coin type id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		UserWithdraw.
+		Query().
+		Where(
+			userwithdraw.And(
+				userwithdraw.AppID(appID),
+				userwithdraw.UserID(userID),
+				userwithdraw.CoinTypeID(coinTypeID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query user withdraw: %v", err)
+	}
+
+	userWithdraws := []*npool.UserWithdraw{}
+	for _, info := range infos {
+		userWithdraws = append(userWithdraws, dbRowToUserWithdraw(info))
+	}
+
+	return &npool.GetUserWithdrawsByAppUserCoinResponse{
+		Infos: userWithdraws,
+	}, nil
+}

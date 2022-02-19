@@ -305,3 +305,49 @@ func Delete(ctx context.Context, in *npool.DeleteCoinAccountTransactionRequest) 
 		Info: dbRowToCoinAccountTransaction(info),
 	}, nil
 }
+
+func GetCoinAccountTransactionsByAppUserCoin(ctx context.Context, in *npool.GetCoinAccountTransactionsByAppUserCoinRequest) (*npool.GetCoinAccountTransactionsByAppUserCoinResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	userID, err := uuid.Parse(in.GetUserID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
+	coinTypeID, err := uuid.Parse(in.GetCoinTypeID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid coin type id: %v", err)
+	}
+
+	infos, err := cli.
+		CoinAccountTransaction.
+		Query().
+		Where(
+			coinaccounttransaction.And(
+				coinaccounttransaction.AppID(appID),
+				coinaccounttransaction.UserID(userID),
+				coinaccounttransaction.CoinTypeID(coinTypeID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account transaction: %v", err)
+	}
+
+	transactions := []*npool.CoinAccountTransaction{}
+	for _, info := range infos {
+		transactions = append(transactions, dbRowToCoinAccountTransaction(info))
+	}
+
+	return &npool.GetCoinAccountTransactionsByAppUserCoinResponse{
+		Infos: transactions,
+	}, nil
+}
