@@ -20,6 +20,22 @@ func (s *Server) CreateAppWithdrawSetting(ctx context.Context, in *npool.CreateA
 	return resp, nil
 }
 
+func (s *Server) CreateAppWithdrawSettingForOtherApp(ctx context.Context, in *npool.CreateAppWithdrawSettingForOtherAppRequest) (*npool.CreateAppWithdrawSettingForOtherAppResponse, error) {
+	info := in.GetInfo()
+	info.AppID = in.GetTargetAppID()
+
+	resp, err := crud.Create(ctx, &npool.CreateAppWithdrawSettingRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorf("create app withdraw setting error: %v", err)
+		return &npool.CreateAppWithdrawSettingForOtherAppResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.CreateAppWithdrawSettingForOtherAppResponse{
+		Info: resp.Info,
+	}, nil
+}
+
 func (s *Server) UpdateAppWithdrawSetting(ctx context.Context, in *npool.UpdateAppWithdrawSettingRequest) (*npool.UpdateAppWithdrawSettingResponse, error) {
 	resp, err := crud.Update(ctx, in)
 	if err != nil {
