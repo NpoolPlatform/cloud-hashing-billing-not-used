@@ -21,7 +21,6 @@ func (CoinSetting) Fields() []ent.Field {
 		field.UUID("coin_type_id", uuid.UUID{}).Unique(),
 		field.Uint64("warm_account_coin_amount"),
 		field.Uint64("payment_account_coin_amount"),
-		field.Uint64("withdraw_auto_review_coin_amount"),
 		field.UUID("platform_offline_account_id", uuid.UUID{}),
 		field.UUID("user_online_account_id", uuid.UUID{}),
 		field.UUID("user_offline_account_id", uuid.UUID{}),
