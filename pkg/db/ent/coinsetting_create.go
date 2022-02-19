@@ -41,12 +41,6 @@ func (csc *CoinSettingCreate) SetPaymentAccountCoinAmount(u uint64) *CoinSetting
 	return csc
 }
 
-// SetWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field.
-func (csc *CoinSettingCreate) SetWithdrawAutoReviewCoinAmount(u uint64) *CoinSettingCreate {
-	csc.mutation.SetWithdrawAutoReviewCoinAmount(u)
-	return csc
-}
-
 // SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
 func (csc *CoinSettingCreate) SetPlatformOfflineAccountID(u uuid.UUID) *CoinSettingCreate {
 	csc.mutation.SetPlatformOfflineAccountID(u)
@@ -227,9 +221,6 @@ func (csc *CoinSettingCreate) check() error {
 	if _, ok := csc.mutation.PaymentAccountCoinAmount(); !ok {
 		return &ValidationError{Name: "payment_account_coin_amount", err: errors.New(`ent: missing required field "CoinSetting.payment_account_coin_amount"`)}
 	}
-	if _, ok := csc.mutation.WithdrawAutoReviewCoinAmount(); !ok {
-		return &ValidationError{Name: "withdraw_auto_review_coin_amount", err: errors.New(`ent: missing required field "CoinSetting.withdraw_auto_review_coin_amount"`)}
-	}
 	if _, ok := csc.mutation.PlatformOfflineAccountID(); !ok {
 		return &ValidationError{Name: "platform_offline_account_id", err: errors.New(`ent: missing required field "CoinSetting.platform_offline_account_id"`)}
 	}
@@ -311,14 +302,6 @@ func (csc *CoinSettingCreate) createSpec() (*CoinSetting, *sqlgraph.CreateSpec) 
 			Column: coinsetting.FieldPaymentAccountCoinAmount,
 		})
 		_node.PaymentAccountCoinAmount = value
-	}
-	if value, ok := csc.mutation.WithdrawAutoReviewCoinAmount(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
-			Value:  value,
-			Column: coinsetting.FieldWithdrawAutoReviewCoinAmount,
-		})
-		_node.WithdrawAutoReviewCoinAmount = value
 	}
 	if value, ok := csc.mutation.PlatformOfflineAccountID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -475,24 +458,6 @@ func (u *CoinSettingUpsert) UpdatePaymentAccountCoinAmount() *CoinSettingUpsert 
 // AddPaymentAccountCoinAmount adds v to the "payment_account_coin_amount" field.
 func (u *CoinSettingUpsert) AddPaymentAccountCoinAmount(v uint64) *CoinSettingUpsert {
 	u.Add(coinsetting.FieldPaymentAccountCoinAmount, v)
-	return u
-}
-
-// SetWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field.
-func (u *CoinSettingUpsert) SetWithdrawAutoReviewCoinAmount(v uint64) *CoinSettingUpsert {
-	u.Set(coinsetting.FieldWithdrawAutoReviewCoinAmount, v)
-	return u
-}
-
-// UpdateWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field to the value that was provided on create.
-func (u *CoinSettingUpsert) UpdateWithdrawAutoReviewCoinAmount() *CoinSettingUpsert {
-	u.SetExcluded(coinsetting.FieldWithdrawAutoReviewCoinAmount)
-	return u
-}
-
-// AddWithdrawAutoReviewCoinAmount adds v to the "withdraw_auto_review_coin_amount" field.
-func (u *CoinSettingUpsert) AddWithdrawAutoReviewCoinAmount(v uint64) *CoinSettingUpsert {
-	u.Add(coinsetting.FieldWithdrawAutoReviewCoinAmount, v)
 	return u
 }
 
@@ -701,27 +666,6 @@ func (u *CoinSettingUpsertOne) AddPaymentAccountCoinAmount(v uint64) *CoinSettin
 func (u *CoinSettingUpsertOne) UpdatePaymentAccountCoinAmount() *CoinSettingUpsertOne {
 	return u.Update(func(s *CoinSettingUpsert) {
 		s.UpdatePaymentAccountCoinAmount()
-	})
-}
-
-// SetWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field.
-func (u *CoinSettingUpsertOne) SetWithdrawAutoReviewCoinAmount(v uint64) *CoinSettingUpsertOne {
-	return u.Update(func(s *CoinSettingUpsert) {
-		s.SetWithdrawAutoReviewCoinAmount(v)
-	})
-}
-
-// AddWithdrawAutoReviewCoinAmount adds v to the "withdraw_auto_review_coin_amount" field.
-func (u *CoinSettingUpsertOne) AddWithdrawAutoReviewCoinAmount(v uint64) *CoinSettingUpsertOne {
-	return u.Update(func(s *CoinSettingUpsert) {
-		s.AddWithdrawAutoReviewCoinAmount(v)
-	})
-}
-
-// UpdateWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field to the value that was provided on create.
-func (u *CoinSettingUpsertOne) UpdateWithdrawAutoReviewCoinAmount() *CoinSettingUpsertOne {
-	return u.Update(func(s *CoinSettingUpsert) {
-		s.UpdateWithdrawAutoReviewCoinAmount()
 	})
 }
 
@@ -1113,27 +1057,6 @@ func (u *CoinSettingUpsertBulk) AddPaymentAccountCoinAmount(v uint64) *CoinSetti
 func (u *CoinSettingUpsertBulk) UpdatePaymentAccountCoinAmount() *CoinSettingUpsertBulk {
 	return u.Update(func(s *CoinSettingUpsert) {
 		s.UpdatePaymentAccountCoinAmount()
-	})
-}
-
-// SetWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field.
-func (u *CoinSettingUpsertBulk) SetWithdrawAutoReviewCoinAmount(v uint64) *CoinSettingUpsertBulk {
-	return u.Update(func(s *CoinSettingUpsert) {
-		s.SetWithdrawAutoReviewCoinAmount(v)
-	})
-}
-
-// AddWithdrawAutoReviewCoinAmount adds v to the "withdraw_auto_review_coin_amount" field.
-func (u *CoinSettingUpsertBulk) AddWithdrawAutoReviewCoinAmount(v uint64) *CoinSettingUpsertBulk {
-	return u.Update(func(s *CoinSettingUpsert) {
-		s.AddWithdrawAutoReviewCoinAmount(v)
-	})
-}
-
-// UpdateWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field to the value that was provided on create.
-func (u *CoinSettingUpsertBulk) UpdateWithdrawAutoReviewCoinAmount() *CoinSettingUpsertBulk {
-	return u.Update(func(s *CoinSettingUpsert) {
-		s.UpdateWithdrawAutoReviewCoinAmount()
 	})
 }
 

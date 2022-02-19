@@ -82,7 +82,6 @@ var (
 		{Name: "coin_type_id", Type: field.TypeUUID, Unique: true},
 		{Name: "warm_account_coin_amount", Type: field.TypeUint64},
 		{Name: "payment_account_coin_amount", Type: field.TypeUint64},
-		{Name: "withdraw_auto_review_coin_amount", Type: field.TypeUint64},
 		{Name: "platform_offline_account_id", Type: field.TypeUUID},
 		{Name: "user_online_account_id", Type: field.TypeUUID},
 		{Name: "user_offline_account_id", Type: field.TypeUUID},
