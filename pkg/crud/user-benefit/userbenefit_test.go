@@ -32,6 +32,7 @@ func assertUserBenefit(t *testing.T, actual, expected *npool.UserBenefit) {
 	assert.Equal(t, actual.Amount, expected.Amount)
 	assert.Equal(t, actual.LastBenefitTimestamp, expected.LastBenefitTimestamp)
 	assert.Equal(t, actual.OrderID, expected.OrderID)
+	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
 }
 
 func TestCRUD(t *testing.T) { //nolint
@@ -46,6 +47,7 @@ func TestCRUD(t *testing.T) { //nolint
 		Amount:               0.13,
 		LastBenefitTimestamp: uint32(time.Now().Unix()),
 		OrderID:              uuid.New().String(),
+		CoinTypeID:           uuid.New().String(),
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateUserBenefitRequest{
