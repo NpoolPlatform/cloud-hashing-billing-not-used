@@ -112,6 +112,13 @@ func PaymentAccountCoinAmount(v uint64) predicate.CoinSetting {
 	})
 }
 
+// WithdrawAutoReviewCoinAmount applies equality check predicate on the "withdraw_auto_review_coin_amount" field. It's identical to WithdrawAutoReviewCoinAmountEQ.
+func WithdrawAutoReviewCoinAmount(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWithdrawAutoReviewCoinAmount), v))
+	})
+}
+
 // PlatformOfflineAccountID applies equality check predicate on the "platform_offline_account_id" field. It's identical to PlatformOfflineAccountIDEQ.
 func PlatformOfflineAccountID(v uuid.UUID) predicate.CoinSetting {
 	return predicate.CoinSetting(func(s *sql.Selector) {
@@ -386,6 +393,82 @@ func PaymentAccountCoinAmountLT(v uint64) predicate.CoinSetting {
 func PaymentAccountCoinAmountLTE(v uint64) predicate.CoinSetting {
 	return predicate.CoinSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldPaymentAccountCoinAmount), v))
+	})
+}
+
+// WithdrawAutoReviewCoinAmountEQ applies the EQ predicate on the "withdraw_auto_review_coin_amount" field.
+func WithdrawAutoReviewCoinAmountEQ(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWithdrawAutoReviewCoinAmount), v))
+	})
+}
+
+// WithdrawAutoReviewCoinAmountNEQ applies the NEQ predicate on the "withdraw_auto_review_coin_amount" field.
+func WithdrawAutoReviewCoinAmountNEQ(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldWithdrawAutoReviewCoinAmount), v))
+	})
+}
+
+// WithdrawAutoReviewCoinAmountIn applies the In predicate on the "withdraw_auto_review_coin_amount" field.
+func WithdrawAutoReviewCoinAmountIn(vs ...uint64) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldWithdrawAutoReviewCoinAmount), v...))
+	})
+}
+
+// WithdrawAutoReviewCoinAmountNotIn applies the NotIn predicate on the "withdraw_auto_review_coin_amount" field.
+func WithdrawAutoReviewCoinAmountNotIn(vs ...uint64) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldWithdrawAutoReviewCoinAmount), v...))
+	})
+}
+
+// WithdrawAutoReviewCoinAmountGT applies the GT predicate on the "withdraw_auto_review_coin_amount" field.
+func WithdrawAutoReviewCoinAmountGT(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldWithdrawAutoReviewCoinAmount), v))
+	})
+}
+
+// WithdrawAutoReviewCoinAmountGTE applies the GTE predicate on the "withdraw_auto_review_coin_amount" field.
+func WithdrawAutoReviewCoinAmountGTE(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldWithdrawAutoReviewCoinAmount), v))
+	})
+}
+
+// WithdrawAutoReviewCoinAmountLT applies the LT predicate on the "withdraw_auto_review_coin_amount" field.
+func WithdrawAutoReviewCoinAmountLT(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldWithdrawAutoReviewCoinAmount), v))
+	})
+}
+
+// WithdrawAutoReviewCoinAmountLTE applies the LTE predicate on the "withdraw_auto_review_coin_amount" field.
+func WithdrawAutoReviewCoinAmountLTE(v uint64) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldWithdrawAutoReviewCoinAmount), v))
 	})
 }
 

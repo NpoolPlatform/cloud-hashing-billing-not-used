@@ -22,6 +22,8 @@ type CoinSetting struct {
 	WarmAccountCoinAmount uint64 `json:"warm_account_coin_amount,omitempty"`
 	// PaymentAccountCoinAmount holds the value of the "payment_account_coin_amount" field.
 	PaymentAccountCoinAmount uint64 `json:"payment_account_coin_amount,omitempty"`
+	// WithdrawAutoReviewCoinAmount holds the value of the "withdraw_auto_review_coin_amount" field.
+	WithdrawAutoReviewCoinAmount uint64 `json:"withdraw_auto_review_coin_amount,omitempty"`
 	// PlatformOfflineAccountID holds the value of the "platform_offline_account_id" field.
 	PlatformOfflineAccountID uuid.UUID `json:"platform_offline_account_id,omitempty"`
 	// UserOnlineAccountID holds the value of the "user_online_account_id" field.
@@ -43,7 +45,7 @@ func (*CoinSetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case coinsetting.FieldWarmAccountCoinAmount, coinsetting.FieldPaymentAccountCoinAmount, coinsetting.FieldCreateAt, coinsetting.FieldUpdateAt, coinsetting.FieldDeleteAt:
+		case coinsetting.FieldWarmAccountCoinAmount, coinsetting.FieldPaymentAccountCoinAmount, coinsetting.FieldWithdrawAutoReviewCoinAmount, coinsetting.FieldCreateAt, coinsetting.FieldUpdateAt, coinsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case coinsetting.FieldID, coinsetting.FieldCoinTypeID, coinsetting.FieldPlatformOfflineAccountID, coinsetting.FieldUserOnlineAccountID, coinsetting.FieldUserOfflineAccountID, coinsetting.FieldGoodIncomingAccountID:
 			values[i] = new(uuid.UUID)
@@ -85,6 +87,12 @@ func (cs *CoinSetting) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field payment_account_coin_amount", values[i])
 			} else if value.Valid {
 				cs.PaymentAccountCoinAmount = uint64(value.Int64)
+			}
+		case coinsetting.FieldWithdrawAutoReviewCoinAmount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field withdraw_auto_review_coin_amount", values[i])
+			} else if value.Valid {
+				cs.WithdrawAutoReviewCoinAmount = uint64(value.Int64)
 			}
 		case coinsetting.FieldPlatformOfflineAccountID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -162,6 +170,8 @@ func (cs *CoinSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", cs.WarmAccountCoinAmount))
 	builder.WriteString(", payment_account_coin_amount=")
 	builder.WriteString(fmt.Sprintf("%v", cs.PaymentAccountCoinAmount))
+	builder.WriteString(", withdraw_auto_review_coin_amount=")
+	builder.WriteString(fmt.Sprintf("%v", cs.WithdrawAutoReviewCoinAmount))
 	builder.WriteString(", platform_offline_account_id=")
 	builder.WriteString(fmt.Sprintf("%v", cs.PlatformOfflineAccountID))
 	builder.WriteString(", user_online_account_id=")

@@ -60,6 +60,19 @@ func (csu *CoinSettingUpdate) AddPaymentAccountCoinAmount(u int64) *CoinSettingU
 	return csu
 }
 
+// SetWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field.
+func (csu *CoinSettingUpdate) SetWithdrawAutoReviewCoinAmount(u uint64) *CoinSettingUpdate {
+	csu.mutation.ResetWithdrawAutoReviewCoinAmount()
+	csu.mutation.SetWithdrawAutoReviewCoinAmount(u)
+	return csu
+}
+
+// AddWithdrawAutoReviewCoinAmount adds u to the "withdraw_auto_review_coin_amount" field.
+func (csu *CoinSettingUpdate) AddWithdrawAutoReviewCoinAmount(u int64) *CoinSettingUpdate {
+	csu.mutation.AddWithdrawAutoReviewCoinAmount(u)
+	return csu
+}
+
 // SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
 func (csu *CoinSettingUpdate) SetPlatformOfflineAccountID(u uuid.UUID) *CoinSettingUpdate {
 	csu.mutation.SetPlatformOfflineAccountID(u)
@@ -260,6 +273,20 @@ func (csu *CoinSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: coinsetting.FieldPaymentAccountCoinAmount,
 		})
 	}
+	if value, ok := csu.mutation.WithdrawAutoReviewCoinAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldWithdrawAutoReviewCoinAmount,
+		})
+	}
+	if value, ok := csu.mutation.AddedWithdrawAutoReviewCoinAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldWithdrawAutoReviewCoinAmount,
+		})
+	}
 	if value, ok := csu.mutation.PlatformOfflineAccountID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -378,6 +405,19 @@ func (csuo *CoinSettingUpdateOne) SetPaymentAccountCoinAmount(u uint64) *CoinSet
 // AddPaymentAccountCoinAmount adds u to the "payment_account_coin_amount" field.
 func (csuo *CoinSettingUpdateOne) AddPaymentAccountCoinAmount(u int64) *CoinSettingUpdateOne {
 	csuo.mutation.AddPaymentAccountCoinAmount(u)
+	return csuo
+}
+
+// SetWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field.
+func (csuo *CoinSettingUpdateOne) SetWithdrawAutoReviewCoinAmount(u uint64) *CoinSettingUpdateOne {
+	csuo.mutation.ResetWithdrawAutoReviewCoinAmount()
+	csuo.mutation.SetWithdrawAutoReviewCoinAmount(u)
+	return csuo
+}
+
+// AddWithdrawAutoReviewCoinAmount adds u to the "withdraw_auto_review_coin_amount" field.
+func (csuo *CoinSettingUpdateOne) AddWithdrawAutoReviewCoinAmount(u int64) *CoinSettingUpdateOne {
+	csuo.mutation.AddWithdrawAutoReviewCoinAmount(u)
 	return csuo
 }
 
@@ -603,6 +643,20 @@ func (csuo *CoinSettingUpdateOne) sqlSave(ctx context.Context) (_node *CoinSetti
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinsetting.FieldPaymentAccountCoinAmount,
+		})
+	}
+	if value, ok := csuo.mutation.WithdrawAutoReviewCoinAmount(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldWithdrawAutoReviewCoinAmount,
+		})
+	}
+	if value, ok := csuo.mutation.AddedWithdrawAutoReviewCoinAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinsetting.FieldWithdrawAutoReviewCoinAmount,
 		})
 	}
 	if value, ok := csuo.mutation.PlatformOfflineAccountID(); ok {

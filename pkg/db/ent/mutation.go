@@ -2509,28 +2509,30 @@ func (m *CoinAccountTransactionMutation) ResetEdge(name string) error {
 // CoinSettingMutation represents an operation that mutates the CoinSetting nodes in the graph.
 type CoinSettingMutation struct {
 	config
-	op                             Op
-	typ                            string
-	id                             *uuid.UUID
-	coin_type_id                   *uuid.UUID
-	warm_account_coin_amount       *uint64
-	addwarm_account_coin_amount    *int64
-	payment_account_coin_amount    *uint64
-	addpayment_account_coin_amount *int64
-	platform_offline_account_id    *uuid.UUID
-	user_online_account_id         *uuid.UUID
-	user_offline_account_id        *uuid.UUID
-	good_incoming_account_id       *uuid.UUID
-	create_at                      *uint32
-	addcreate_at                   *int32
-	update_at                      *uint32
-	addupdate_at                   *int32
-	delete_at                      *uint32
-	adddelete_at                   *int32
-	clearedFields                  map[string]struct{}
-	done                           bool
-	oldValue                       func(context.Context) (*CoinSetting, error)
-	predicates                     []predicate.CoinSetting
+	op                                  Op
+	typ                                 string
+	id                                  *uuid.UUID
+	coin_type_id                        *uuid.UUID
+	warm_account_coin_amount            *uint64
+	addwarm_account_coin_amount         *int64
+	payment_account_coin_amount         *uint64
+	addpayment_account_coin_amount      *int64
+	withdraw_auto_review_coin_amount    *uint64
+	addwithdraw_auto_review_coin_amount *int64
+	platform_offline_account_id         *uuid.UUID
+	user_online_account_id              *uuid.UUID
+	user_offline_account_id             *uuid.UUID
+	good_incoming_account_id            *uuid.UUID
+	create_at                           *uint32
+	addcreate_at                        *int32
+	update_at                           *uint32
+	addupdate_at                        *int32
+	delete_at                           *uint32
+	adddelete_at                        *int32
+	clearedFields                       map[string]struct{}
+	done                                bool
+	oldValue                            func(context.Context) (*CoinSetting, error)
+	predicates                          []predicate.CoinSetting
 }
 
 var _ ent.Mutation = (*CoinSettingMutation)(nil)
@@ -2783,6 +2785,62 @@ func (m *CoinSettingMutation) AddedPaymentAccountCoinAmount() (r int64, exists b
 func (m *CoinSettingMutation) ResetPaymentAccountCoinAmount() {
 	m.payment_account_coin_amount = nil
 	m.addpayment_account_coin_amount = nil
+}
+
+// SetWithdrawAutoReviewCoinAmount sets the "withdraw_auto_review_coin_amount" field.
+func (m *CoinSettingMutation) SetWithdrawAutoReviewCoinAmount(u uint64) {
+	m.withdraw_auto_review_coin_amount = &u
+	m.addwithdraw_auto_review_coin_amount = nil
+}
+
+// WithdrawAutoReviewCoinAmount returns the value of the "withdraw_auto_review_coin_amount" field in the mutation.
+func (m *CoinSettingMutation) WithdrawAutoReviewCoinAmount() (r uint64, exists bool) {
+	v := m.withdraw_auto_review_coin_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWithdrawAutoReviewCoinAmount returns the old "withdraw_auto_review_coin_amount" field's value of the CoinSetting entity.
+// If the CoinSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CoinSettingMutation) OldWithdrawAutoReviewCoinAmount(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWithdrawAutoReviewCoinAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWithdrawAutoReviewCoinAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWithdrawAutoReviewCoinAmount: %w", err)
+	}
+	return oldValue.WithdrawAutoReviewCoinAmount, nil
+}
+
+// AddWithdrawAutoReviewCoinAmount adds u to the "withdraw_auto_review_coin_amount" field.
+func (m *CoinSettingMutation) AddWithdrawAutoReviewCoinAmount(u int64) {
+	if m.addwithdraw_auto_review_coin_amount != nil {
+		*m.addwithdraw_auto_review_coin_amount += u
+	} else {
+		m.addwithdraw_auto_review_coin_amount = &u
+	}
+}
+
+// AddedWithdrawAutoReviewCoinAmount returns the value that was added to the "withdraw_auto_review_coin_amount" field in this mutation.
+func (m *CoinSettingMutation) AddedWithdrawAutoReviewCoinAmount() (r int64, exists bool) {
+	v := m.addwithdraw_auto_review_coin_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetWithdrawAutoReviewCoinAmount resets all changes to the "withdraw_auto_review_coin_amount" field.
+func (m *CoinSettingMutation) ResetWithdrawAutoReviewCoinAmount() {
+	m.withdraw_auto_review_coin_amount = nil
+	m.addwithdraw_auto_review_coin_amount = nil
 }
 
 // SetPlatformOfflineAccountID sets the "platform_offline_account_id" field.
@@ -3116,7 +3174,7 @@ func (m *CoinSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CoinSettingMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 11)
 	if m.coin_type_id != nil {
 		fields = append(fields, coinsetting.FieldCoinTypeID)
 	}
@@ -3125,6 +3183,9 @@ func (m *CoinSettingMutation) Fields() []string {
 	}
 	if m.payment_account_coin_amount != nil {
 		fields = append(fields, coinsetting.FieldPaymentAccountCoinAmount)
+	}
+	if m.withdraw_auto_review_coin_amount != nil {
+		fields = append(fields, coinsetting.FieldWithdrawAutoReviewCoinAmount)
 	}
 	if m.platform_offline_account_id != nil {
 		fields = append(fields, coinsetting.FieldPlatformOfflineAccountID)
@@ -3161,6 +3222,8 @@ func (m *CoinSettingMutation) Field(name string) (ent.Value, bool) {
 		return m.WarmAccountCoinAmount()
 	case coinsetting.FieldPaymentAccountCoinAmount:
 		return m.PaymentAccountCoinAmount()
+	case coinsetting.FieldWithdrawAutoReviewCoinAmount:
+		return m.WithdrawAutoReviewCoinAmount()
 	case coinsetting.FieldPlatformOfflineAccountID:
 		return m.PlatformOfflineAccountID()
 	case coinsetting.FieldUserOnlineAccountID:
@@ -3190,6 +3253,8 @@ func (m *CoinSettingMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldWarmAccountCoinAmount(ctx)
 	case coinsetting.FieldPaymentAccountCoinAmount:
 		return m.OldPaymentAccountCoinAmount(ctx)
+	case coinsetting.FieldWithdrawAutoReviewCoinAmount:
+		return m.OldWithdrawAutoReviewCoinAmount(ctx)
 	case coinsetting.FieldPlatformOfflineAccountID:
 		return m.OldPlatformOfflineAccountID(ctx)
 	case coinsetting.FieldUserOnlineAccountID:
@@ -3233,6 +3298,13 @@ func (m *CoinSettingMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPaymentAccountCoinAmount(v)
+		return nil
+	case coinsetting.FieldWithdrawAutoReviewCoinAmount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWithdrawAutoReviewCoinAmount(v)
 		return nil
 	case coinsetting.FieldPlatformOfflineAccountID:
 		v, ok := value.(uuid.UUID)
@@ -3297,6 +3369,9 @@ func (m *CoinSettingMutation) AddedFields() []string {
 	if m.addpayment_account_coin_amount != nil {
 		fields = append(fields, coinsetting.FieldPaymentAccountCoinAmount)
 	}
+	if m.addwithdraw_auto_review_coin_amount != nil {
+		fields = append(fields, coinsetting.FieldWithdrawAutoReviewCoinAmount)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, coinsetting.FieldCreateAt)
 	}
@@ -3318,6 +3393,8 @@ func (m *CoinSettingMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedWarmAccountCoinAmount()
 	case coinsetting.FieldPaymentAccountCoinAmount:
 		return m.AddedPaymentAccountCoinAmount()
+	case coinsetting.FieldWithdrawAutoReviewCoinAmount:
+		return m.AddedWithdrawAutoReviewCoinAmount()
 	case coinsetting.FieldCreateAt:
 		return m.AddedCreateAt()
 	case coinsetting.FieldUpdateAt:
@@ -3346,6 +3423,13 @@ func (m *CoinSettingMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPaymentAccountCoinAmount(v)
+		return nil
+	case coinsetting.FieldWithdrawAutoReviewCoinAmount:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWithdrawAutoReviewCoinAmount(v)
 		return nil
 	case coinsetting.FieldCreateAt:
 		v, ok := value.(int32)
@@ -3403,6 +3487,9 @@ func (m *CoinSettingMutation) ResetField(name string) error {
 		return nil
 	case coinsetting.FieldPaymentAccountCoinAmount:
 		m.ResetPaymentAccountCoinAmount()
+		return nil
+	case coinsetting.FieldWithdrawAutoReviewCoinAmount:
+		m.ResetWithdrawAutoReviewCoinAmount()
 		return nil
 	case coinsetting.FieldPlatformOfflineAccountID:
 		m.ResetPlatformOfflineAccountID()

@@ -17,6 +17,8 @@ const (
 	FieldWarmAccountCoinAmount = "warm_account_coin_amount"
 	// FieldPaymentAccountCoinAmount holds the string denoting the payment_account_coin_amount field in the database.
 	FieldPaymentAccountCoinAmount = "payment_account_coin_amount"
+	// FieldWithdrawAutoReviewCoinAmount holds the string denoting the withdraw_auto_review_coin_amount field in the database.
+	FieldWithdrawAutoReviewCoinAmount = "withdraw_auto_review_coin_amount"
 	// FieldPlatformOfflineAccountID holds the string denoting the platform_offline_account_id field in the database.
 	FieldPlatformOfflineAccountID = "platform_offline_account_id"
 	// FieldUserOnlineAccountID holds the string denoting the user_online_account_id field in the database.
@@ -41,6 +43,7 @@ var Columns = []string{
 	FieldCoinTypeID,
 	FieldWarmAccountCoinAmount,
 	FieldPaymentAccountCoinAmount,
+	FieldWithdrawAutoReviewCoinAmount,
 	FieldPlatformOfflineAccountID,
 	FieldUserOnlineAccountID,
 	FieldUserOfflineAccountID,

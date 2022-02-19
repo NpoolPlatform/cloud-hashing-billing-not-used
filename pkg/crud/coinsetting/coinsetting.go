@@ -37,14 +37,15 @@ func validateCoinSetting(info *npool.CoinSetting) error {
 
 func dbRowToCoinSetting(row *ent.CoinSetting) *npool.CoinSetting {
 	return &npool.CoinSetting{
-		ID:                       row.ID.String(),
-		CoinTypeID:               row.CoinTypeID.String(),
-		WarmAccountCoinAmount:    price.DBPriceToVisualPrice(row.WarmAccountCoinAmount),
-		PaymentAccountCoinAmount: price.DBPriceToVisualPrice(row.PaymentAccountCoinAmount),
-		PlatformOfflineAccountID: row.PlatformOfflineAccountID.String(),
-		UserOfflineAccountID:     row.UserOfflineAccountID.String(),
-		UserOnlineAccountID:      row.UserOnlineAccountID.String(),
-		GoodIncomingAccountID:    row.GoodIncomingAccountID.String(),
+		ID:                           row.ID.String(),
+		CoinTypeID:                   row.CoinTypeID.String(),
+		WarmAccountCoinAmount:        price.DBPriceToVisualPrice(row.WarmAccountCoinAmount),
+		PaymentAccountCoinAmount:     price.DBPriceToVisualPrice(row.PaymentAccountCoinAmount),
+		WithdrawAutoReviewCoinAmount: price.DBPriceToVisualPrice(row.WithdrawAutoReviewCoinAmount),
+		PlatformOfflineAccountID:     row.PlatformOfflineAccountID.String(),
+		UserOfflineAccountID:         row.UserOfflineAccountID.String(),
+		UserOnlineAccountID:          row.UserOnlineAccountID.String(),
+		GoodIncomingAccountID:        row.GoodIncomingAccountID.String(),
 	}
 }
 
@@ -64,6 +65,7 @@ func Create(ctx context.Context, in *npool.CreateCoinSettingRequest) (*npool.Cre
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetWarmAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountCoinAmount())).
 		SetPaymentAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountCoinAmount())).
+		SetWithdrawAutoReviewCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWithdrawAutoReviewCoinAmount())).
 		SetPlatformOfflineAccountID(uuid.MustParse(in.GetInfo().GetPlatformOfflineAccountID())).
 		SetUserOfflineAccountID(uuid.MustParse(in.GetInfo().GetUserOfflineAccountID())).
 		SetUserOnlineAccountID(uuid.MustParse(in.GetInfo().GetUserOnlineAccountID())).
@@ -98,6 +100,7 @@ func Update(ctx context.Context, in *npool.UpdateCoinSettingRequest) (*npool.Upd
 		UpdateOneID(id).
 		SetWarmAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWarmAccountCoinAmount())).
 		SetPaymentAccountCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetPaymentAccountCoinAmount())).
+		SetWithdrawAutoReviewCoinAmount(price.VisualPriceToDBPrice(in.GetInfo().GetWithdrawAutoReviewCoinAmount())).
 		SetPlatformOfflineAccountID(uuid.MustParse(in.GetInfo().GetPlatformOfflineAccountID())).
 		SetUserOfflineAccountID(uuid.MustParse(in.GetInfo().GetUserOfflineAccountID())).
 		SetUserOnlineAccountID(uuid.MustParse(in.GetInfo().GetUserOnlineAccountID())).
