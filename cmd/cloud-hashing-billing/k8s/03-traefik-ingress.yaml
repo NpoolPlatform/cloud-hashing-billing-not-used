@@ -93,6 +93,18 @@ spec:
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
+          - path: /api/cloud-hashing-billing/v1/create/app/withdraw
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
+          - path: /api/cloud-hashing-billing/v1/update/app/withdraw
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
+          - path: /api/cloud-hashing-billing/v1/get/app/withdraw
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
     - host: api.procyon.vip
       http: *http_rules
     - host: api.xpool.top
