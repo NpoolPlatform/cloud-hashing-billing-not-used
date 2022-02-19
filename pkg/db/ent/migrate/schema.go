@@ -185,6 +185,7 @@ var (
 		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "order_id", Type: field.TypeUUID},
+		{Name: "coin_type_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
 		{Name: "last_benefit_timestamp", Type: field.TypeUint32},
 		{Name: "create_at", Type: field.TypeUint32},
@@ -200,7 +201,7 @@ var (
 			{
 				Name:    "userbenefit_good_id_last_benefit_timestamp_app_id_user_id_order_id",
 				Unique:  true,
-				Columns: []*schema.Column{UserBenefitsColumns[3], UserBenefitsColumns[6], UserBenefitsColumns[1], UserBenefitsColumns[2], UserBenefitsColumns[4]},
+				Columns: []*schema.Column{UserBenefitsColumns[3], UserBenefitsColumns[7], UserBenefitsColumns[1], UserBenefitsColumns[2], UserBenefitsColumns[4]},
 			},
 		},
 	}

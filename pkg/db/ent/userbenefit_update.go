@@ -52,6 +52,12 @@ func (ubu *UserBenefitUpdate) SetOrderID(u uuid.UUID) *UserBenefitUpdate {
 	return ubu
 }
 
+// SetCoinTypeID sets the "coin_type_id" field.
+func (ubu *UserBenefitUpdate) SetCoinTypeID(u uuid.UUID) *UserBenefitUpdate {
+	ubu.mutation.SetCoinTypeID(u)
+	return ubu
+}
+
 // SetAmount sets the "amount" field.
 func (ubu *UserBenefitUpdate) SetAmount(u uint64) *UserBenefitUpdate {
 	ubu.mutation.ResetAmount()
@@ -247,6 +253,13 @@ func (ubu *UserBenefitUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: userbenefit.FieldOrderID,
 		})
 	}
+	if value, ok := ubu.mutation.CoinTypeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldCoinTypeID,
+		})
+	}
 	if value, ok := ubu.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -357,6 +370,12 @@ func (ubuo *UserBenefitUpdateOne) SetGoodID(u uuid.UUID) *UserBenefitUpdateOne {
 // SetOrderID sets the "order_id" field.
 func (ubuo *UserBenefitUpdateOne) SetOrderID(u uuid.UUID) *UserBenefitUpdateOne {
 	ubuo.mutation.SetOrderID(u)
+	return ubuo
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (ubuo *UserBenefitUpdateOne) SetCoinTypeID(u uuid.UUID) *UserBenefitUpdateOne {
+	ubuo.mutation.SetCoinTypeID(u)
 	return ubuo
 }
 
@@ -577,6 +596,13 @@ func (ubuo *UserBenefitUpdateOne) sqlSave(ctx context.Context) (_node *UserBenef
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: userbenefit.FieldOrderID,
+		})
+	}
+	if value, ok := ubuo.mutation.CoinTypeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldCoinTypeID,
 		})
 	}
 	if value, ok := ubuo.mutation.Amount(); ok {

@@ -19,6 +19,8 @@ const (
 	FieldGoodID = "good_id"
 	// FieldOrderID holds the string denoting the order_id field in the database.
 	FieldOrderID = "order_id"
+	// FieldCoinTypeID holds the string denoting the coin_type_id field in the database.
+	FieldCoinTypeID = "coin_type_id"
 	// FieldAmount holds the string denoting the amount field in the database.
 	FieldAmount = "amount"
 	// FieldLastBenefitTimestamp holds the string denoting the last_benefit_timestamp field in the database.
@@ -40,6 +42,7 @@ var Columns = []string{
 	FieldUserID,
 	FieldGoodID,
 	FieldOrderID,
+	FieldCoinTypeID,
 	FieldAmount,
 	FieldLastBenefitTimestamp,
 	FieldCreateAt,

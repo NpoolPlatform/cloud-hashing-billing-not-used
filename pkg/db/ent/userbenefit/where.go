@@ -119,6 +119,13 @@ func OrderID(v uuid.UUID) predicate.UserBenefit {
 	})
 }
 
+// CoinTypeID applies equality check predicate on the "coin_type_id" field. It's identical to CoinTypeIDEQ.
+func CoinTypeID(v uuid.UUID) predicate.UserBenefit {
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCoinTypeID), v))
+	})
+}
+
 // Amount applies equality check predicate on the "amount" field. It's identical to AmountEQ.
 func Amount(v uint64) predicate.UserBenefit {
 	return predicate.UserBenefit(func(s *sql.Selector) {
@@ -455,6 +462,82 @@ func OrderIDLT(v uuid.UUID) predicate.UserBenefit {
 func OrderIDLTE(v uuid.UUID) predicate.UserBenefit {
 	return predicate.UserBenefit(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldOrderID), v))
+	})
+}
+
+// CoinTypeIDEQ applies the EQ predicate on the "coin_type_id" field.
+func CoinTypeIDEQ(v uuid.UUID) predicate.UserBenefit {
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCoinTypeID), v))
+	})
+}
+
+// CoinTypeIDNEQ applies the NEQ predicate on the "coin_type_id" field.
+func CoinTypeIDNEQ(v uuid.UUID) predicate.UserBenefit {
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldCoinTypeID), v))
+	})
+}
+
+// CoinTypeIDIn applies the In predicate on the "coin_type_id" field.
+func CoinTypeIDIn(vs ...uuid.UUID) predicate.UserBenefit {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldCoinTypeID), v...))
+	})
+}
+
+// CoinTypeIDNotIn applies the NotIn predicate on the "coin_type_id" field.
+func CoinTypeIDNotIn(vs ...uuid.UUID) predicate.UserBenefit {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldCoinTypeID), v...))
+	})
+}
+
+// CoinTypeIDGT applies the GT predicate on the "coin_type_id" field.
+func CoinTypeIDGT(v uuid.UUID) predicate.UserBenefit {
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldCoinTypeID), v))
+	})
+}
+
+// CoinTypeIDGTE applies the GTE predicate on the "coin_type_id" field.
+func CoinTypeIDGTE(v uuid.UUID) predicate.UserBenefit {
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldCoinTypeID), v))
+	})
+}
+
+// CoinTypeIDLT applies the LT predicate on the "coin_type_id" field.
+func CoinTypeIDLT(v uuid.UUID) predicate.UserBenefit {
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldCoinTypeID), v))
+	})
+}
+
+// CoinTypeIDLTE applies the LTE predicate on the "coin_type_id" field.
+func CoinTypeIDLTE(v uuid.UUID) predicate.UserBenefit {
+	return predicate.UserBenefit(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldCoinTypeID), v))
 	})
 }
 

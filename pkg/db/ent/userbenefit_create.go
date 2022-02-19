@@ -47,6 +47,12 @@ func (ubc *UserBenefitCreate) SetOrderID(u uuid.UUID) *UserBenefitCreate {
 	return ubc
 }
 
+// SetCoinTypeID sets the "coin_type_id" field.
+func (ubc *UserBenefitCreate) SetCoinTypeID(u uuid.UUID) *UserBenefitCreate {
+	ubc.mutation.SetCoinTypeID(u)
+	return ubc
+}
+
 // SetAmount sets the "amount" field.
 func (ubc *UserBenefitCreate) SetAmount(u uint64) *UserBenefitCreate {
 	ubc.mutation.SetAmount(u)
@@ -218,6 +224,9 @@ func (ubc *UserBenefitCreate) check() error {
 	if _, ok := ubc.mutation.OrderID(); !ok {
 		return &ValidationError{Name: "order_id", err: errors.New(`ent: missing required field "UserBenefit.order_id"`)}
 	}
+	if _, ok := ubc.mutation.CoinTypeID(); !ok {
+		return &ValidationError{Name: "coin_type_id", err: errors.New(`ent: missing required field "UserBenefit.coin_type_id"`)}
+	}
 	if _, ok := ubc.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "UserBenefit.amount"`)}
 	}
@@ -301,6 +310,14 @@ func (ubc *UserBenefitCreate) createSpec() (*UserBenefit, *sqlgraph.CreateSpec) 
 			Column: userbenefit.FieldOrderID,
 		})
 		_node.OrderID = value
+	}
+	if value, ok := ubc.mutation.CoinTypeID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldCoinTypeID,
+		})
+		_node.CoinTypeID = value
 	}
 	if value, ok := ubc.mutation.Amount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -441,6 +458,18 @@ func (u *UserBenefitUpsert) SetOrderID(v uuid.UUID) *UserBenefitUpsert {
 // UpdateOrderID sets the "order_id" field to the value that was provided on create.
 func (u *UserBenefitUpsert) UpdateOrderID() *UserBenefitUpsert {
 	u.SetExcluded(userbenefit.FieldOrderID)
+	return u
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (u *UserBenefitUpsert) SetCoinTypeID(v uuid.UUID) *UserBenefitUpsert {
+	u.Set(userbenefit.FieldCoinTypeID, v)
+	return u
+}
+
+// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
+func (u *UserBenefitUpsert) UpdateCoinTypeID() *UserBenefitUpsert {
+	u.SetExcluded(userbenefit.FieldCoinTypeID)
 	return u
 }
 
@@ -637,6 +666,20 @@ func (u *UserBenefitUpsertOne) SetOrderID(v uuid.UUID) *UserBenefitUpsertOne {
 func (u *UserBenefitUpsertOne) UpdateOrderID() *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.UpdateOrderID()
+	})
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (u *UserBenefitUpsertOne) SetCoinTypeID(v uuid.UUID) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.SetCoinTypeID(v)
+	})
+}
+
+// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
+func (u *UserBenefitUpsertOne) UpdateCoinTypeID() *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.UpdateCoinTypeID()
 	})
 }
 
@@ -1014,6 +1057,20 @@ func (u *UserBenefitUpsertBulk) SetOrderID(v uuid.UUID) *UserBenefitUpsertBulk {
 func (u *UserBenefitUpsertBulk) UpdateOrderID() *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.UpdateOrderID()
+	})
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (u *UserBenefitUpsertBulk) SetCoinTypeID(v uuid.UUID) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.SetCoinTypeID(v)
+	})
+}
+
+// UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
+func (u *UserBenefitUpsertBulk) UpdateCoinTypeID() *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.UpdateCoinTypeID()
 	})
 }
 

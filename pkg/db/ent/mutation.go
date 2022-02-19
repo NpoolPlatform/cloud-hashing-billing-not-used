@@ -6657,6 +6657,7 @@ type UserBenefitMutation struct {
 	user_id                   *uuid.UUID
 	good_id                   *uuid.UUID
 	order_id                  *uuid.UUID
+	coin_type_id              *uuid.UUID
 	amount                    *uint64
 	addamount                 *int64
 	last_benefit_timestamp    *uint32
@@ -6919,6 +6920,42 @@ func (m *UserBenefitMutation) OldOrderID(ctx context.Context) (v uuid.UUID, err 
 // ResetOrderID resets all changes to the "order_id" field.
 func (m *UserBenefitMutation) ResetOrderID() {
 	m.order_id = nil
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (m *UserBenefitMutation) SetCoinTypeID(u uuid.UUID) {
+	m.coin_type_id = &u
+}
+
+// CoinTypeID returns the value of the "coin_type_id" field in the mutation.
+func (m *UserBenefitMutation) CoinTypeID() (r uuid.UUID, exists bool) {
+	v := m.coin_type_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCoinTypeID returns the old "coin_type_id" field's value of the UserBenefit entity.
+// If the UserBenefit object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserBenefitMutation) OldCoinTypeID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCoinTypeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCoinTypeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCoinTypeID: %w", err)
+	}
+	return oldValue.CoinTypeID, nil
+}
+
+// ResetCoinTypeID resets all changes to the "coin_type_id" field.
+func (m *UserBenefitMutation) ResetCoinTypeID() {
+	m.coin_type_id = nil
 }
 
 // SetAmount sets the "amount" field.
@@ -7220,7 +7257,7 @@ func (m *UserBenefitMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserBenefitMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 10)
 	if m.app_id != nil {
 		fields = append(fields, userbenefit.FieldAppID)
 	}
@@ -7232,6 +7269,9 @@ func (m *UserBenefitMutation) Fields() []string {
 	}
 	if m.order_id != nil {
 		fields = append(fields, userbenefit.FieldOrderID)
+	}
+	if m.coin_type_id != nil {
+		fields = append(fields, userbenefit.FieldCoinTypeID)
 	}
 	if m.amount != nil {
 		fields = append(fields, userbenefit.FieldAmount)
@@ -7264,6 +7304,8 @@ func (m *UserBenefitMutation) Field(name string) (ent.Value, bool) {
 		return m.GoodID()
 	case userbenefit.FieldOrderID:
 		return m.OrderID()
+	case userbenefit.FieldCoinTypeID:
+		return m.CoinTypeID()
 	case userbenefit.FieldAmount:
 		return m.Amount()
 	case userbenefit.FieldLastBenefitTimestamp:
@@ -7291,6 +7333,8 @@ func (m *UserBenefitMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldGoodID(ctx)
 	case userbenefit.FieldOrderID:
 		return m.OldOrderID(ctx)
+	case userbenefit.FieldCoinTypeID:
+		return m.OldCoinTypeID(ctx)
 	case userbenefit.FieldAmount:
 		return m.OldAmount(ctx)
 	case userbenefit.FieldLastBenefitTimestamp:
@@ -7337,6 +7381,13 @@ func (m *UserBenefitMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetOrderID(v)
+		return nil
+	case userbenefit.FieldCoinTypeID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCoinTypeID(v)
 		return nil
 	case userbenefit.FieldAmount:
 		v, ok := value.(uint64)
@@ -7496,6 +7547,9 @@ func (m *UserBenefitMutation) ResetField(name string) error {
 		return nil
 	case userbenefit.FieldOrderID:
 		m.ResetOrderID()
+		return nil
+	case userbenefit.FieldCoinTypeID:
+		m.ResetCoinTypeID()
 		return nil
 	case userbenefit.FieldAmount:
 		m.ResetAmount()

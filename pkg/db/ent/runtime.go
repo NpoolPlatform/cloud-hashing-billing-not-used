@@ -186,17 +186,17 @@ func init() {
 	userbenefitFields := schema.UserBenefit{}.Fields()
 	_ = userbenefitFields
 	// userbenefitDescCreateAt is the schema descriptor for create_at field.
-	userbenefitDescCreateAt := userbenefitFields[7].Descriptor()
+	userbenefitDescCreateAt := userbenefitFields[8].Descriptor()
 	// userbenefit.DefaultCreateAt holds the default value on creation for the create_at field.
 	userbenefit.DefaultCreateAt = userbenefitDescCreateAt.Default.(func() uint32)
 	// userbenefitDescUpdateAt is the schema descriptor for update_at field.
-	userbenefitDescUpdateAt := userbenefitFields[8].Descriptor()
+	userbenefitDescUpdateAt := userbenefitFields[9].Descriptor()
 	// userbenefit.DefaultUpdateAt holds the default value on creation for the update_at field.
 	userbenefit.DefaultUpdateAt = userbenefitDescUpdateAt.Default.(func() uint32)
 	// userbenefit.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	userbenefit.UpdateDefaultUpdateAt = userbenefitDescUpdateAt.UpdateDefault.(func() uint32)
 	// userbenefitDescDeleteAt is the schema descriptor for delete_at field.
-	userbenefitDescDeleteAt := userbenefitFields[9].Descriptor()
+	userbenefitDescDeleteAt := userbenefitFields[10].Descriptor()
 	// userbenefit.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	userbenefit.DefaultDeleteAt = userbenefitDescDeleteAt.Default.(func() uint32)
 	// userbenefitDescID is the schema descriptor for id field.

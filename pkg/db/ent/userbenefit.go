@@ -24,6 +24,8 @@ type UserBenefit struct {
 	GoodID uuid.UUID `json:"good_id,omitempty"`
 	// OrderID holds the value of the "order_id" field.
 	OrderID uuid.UUID `json:"order_id,omitempty"`
+	// CoinTypeID holds the value of the "coin_type_id" field.
+	CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 	// Amount holds the value of the "amount" field.
 	Amount uint64 `json:"amount,omitempty"`
 	// LastBenefitTimestamp holds the value of the "last_benefit_timestamp" field.
@@ -43,7 +45,7 @@ func (*UserBenefit) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case userbenefit.FieldAmount, userbenefit.FieldLastBenefitTimestamp, userbenefit.FieldCreateAt, userbenefit.FieldUpdateAt, userbenefit.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case userbenefit.FieldID, userbenefit.FieldAppID, userbenefit.FieldUserID, userbenefit.FieldGoodID, userbenefit.FieldOrderID:
+		case userbenefit.FieldID, userbenefit.FieldAppID, userbenefit.FieldUserID, userbenefit.FieldGoodID, userbenefit.FieldOrderID, userbenefit.FieldCoinTypeID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type UserBenefit", columns[i])
@@ -89,6 +91,12 @@ func (ub *UserBenefit) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field order_id", values[i])
 			} else if value != nil {
 				ub.OrderID = *value
+			}
+		case userbenefit.FieldCoinTypeID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field coin_type_id", values[i])
+			} else if value != nil {
+				ub.CoinTypeID = *value
 			}
 		case userbenefit.FieldAmount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -156,6 +164,8 @@ func (ub *UserBenefit) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ub.GoodID))
 	builder.WriteString(", order_id=")
 	builder.WriteString(fmt.Sprintf("%v", ub.OrderID))
+	builder.WriteString(", coin_type_id=")
+	builder.WriteString(fmt.Sprintf("%v", ub.CoinTypeID))
 	builder.WriteString(", amount=")
 	builder.WriteString(fmt.Sprintf("%v", ub.Amount))
 	builder.WriteString(", last_benefit_timestamp=")

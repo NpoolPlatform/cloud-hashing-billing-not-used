@@ -25,6 +25,7 @@ func (UserBenefit) Fields() []ent.Field {
 		field.UUID("user_id", uuid.UUID{}),
 		field.UUID("good_id", uuid.UUID{}),
 		field.UUID("order_id", uuid.UUID{}),
+		field.UUID("coin_type_id", uuid.UUID{}),
 		field.Uint64("amount"),
 		field.Uint32("last_benefit_timestamp"),
 		field.Uint32("create_at").

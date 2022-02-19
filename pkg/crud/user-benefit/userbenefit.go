@@ -29,6 +29,9 @@ func validateUserBenefit(info *npool.UserBenefit) error {
 	if _, err := uuid.Parse(info.GetOrderID()); err != nil {
 		return xerrors.Errorf("invalid order id: %v", err)
 	}
+	if _, err := uuid.Parse(info.GetCoinTypeID()); err != nil {
+		return xerrors.Errorf("invalid coin type id: %v", err)
+	}
 	if info.GetLastBenefitTimestamp() == 0 {
 		return xerrors.Errorf("invalid last benefit timestamp")
 	}
@@ -43,6 +46,7 @@ func dbRowToUserBenefit(row *ent.UserBenefit) *npool.UserBenefit {
 		UserID:               row.UserID.String(),
 		Amount:               price.DBPriceToVisualPrice(row.Amount),
 		OrderID:              row.OrderID.String(),
+		CoinTypeID:           row.CoinTypeID.String(),
 		CreateAt:             row.CreateAt,
 		LastBenefitTimestamp: row.LastBenefitTimestamp,
 	}
@@ -66,6 +70,7 @@ func Create(ctx context.Context, in *npool.CreateUserBenefitRequest) (*npool.Cre
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetOrderID(uuid.MustParse(in.GetInfo().GetOrderID())).
+		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetLastBenefitTimestamp(in.GetInfo().GetLastBenefitTimestamp()).
 		Save(ctx)
 	if err != nil {
@@ -194,6 +199,52 @@ func GetByApp(ctx context.Context, in *npool.GetUserBenefitsByAppRequest) (*npoo
 	}
 
 	return &npool.GetUserBenefitsByAppResponse{
+		Infos: benefits,
+	}, nil
+}
+
+func GetByAppUserCoin(ctx context.Context, in *npool.GetUserBenefitsByAppUserCoinRequest) (*npool.GetUserBenefitsByAppUserCoinResponse, error) {
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid good id: %v", err)
+	}
+
+	userID, err := uuid.Parse(in.GetUserID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
+	coinTypeID, err := uuid.Parse(in.GetCoinTypeID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid coin type id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		UserBenefit.
+		Query().
+		Where(
+			userbenefit.And(
+				userbenefit.AppID(appID),
+				userbenefit.UserID(userID),
+				userbenefit.CoinTypeID(coinTypeID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query user benefit: %v", err)
+	}
+
+	benefits := []*npool.UserBenefit{}
+	for _, info := range infos {
+		benefits = append(benefits, dbRowToUserBenefit(info))
+	}
+
+	return &npool.GetUserBenefitsByAppUserCoinResponse{
 		Infos: benefits,
 	}, nil
 }

@@ -31,6 +31,15 @@ func (s *Server) GetUserBenefitsByAppUser(ctx context.Context, in *npool.GetUser
 	return resp, nil
 }
 
+func (s *Server) GetUserBenefitsByAppUserCoin(ctx context.Context, in *npool.GetUserBenefitsByAppUserCoinRequest) (*npool.GetUserBenefitsByAppUserCoinResponse, error) {
+	resp, err := crud.GetByAppUserCoin(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get user benefit error: %v", err)
+		return &npool.GetUserBenefitsByAppUserCoinResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return resp, nil
+}
+
 func (s *Server) GetLatestUserBenefitByGoodAppUser(ctx context.Context, in *npool.GetLatestUserBenefitByGoodAppUserRequest) (*npool.GetLatestUserBenefitByGoodAppUserResponse, error) {
 	resp, err := crud.GetLatestByGoodAppUser(ctx, in)
 	if err != nil {
