@@ -69,8 +69,8 @@ github.com/NpoolPlatform/go-service-framework v0.0.0-20220120091626-4e8035637592
 github.com/NpoolPlatform/go-service-framework v0.0.0-20220120091626-4e8035637592/go.mod h1:JqrktA7gNQe/Uprnr6DCs5UCFpheCZ30lDd0OkyRtC4=
 github.com/NpoolPlatform/message v0.0.0-20220120075427-38182760a780/go.mod h1:tnsf7zHQ5Mv2uG0ezOwCfm/bxluiRW10DeuIl4SjG4Y=
 github.com/NpoolPlatform/message v0.0.0-20220121040326-31d316062cdc/go.mod h1:tnsf7zHQ5Mv2uG0ezOwCfm/bxluiRW10DeuIl4SjG4Y=
-github.com/NpoolPlatform/message v0.0.0-20220219134050-68ca8f54063b h1:1RPCV7fu+BWPF/3KnTngJ+U11vw3nLmG+zbef9fPayE=
-github.com/NpoolPlatform/message v0.0.0-20220219134050-68ca8f54063b/go.mod h1:r9cCQsBi8z8pljMAHa6sK6o2iXIG9tRpZ9idBxVpc44=
+github.com/NpoolPlatform/message v0.0.0-20220220072656-16d975776298 h1:f5/sBx2OH0fn1KcdedCm8BM+l/DAxvKmN7QIP3ILEVs=
+github.com/NpoolPlatform/message v0.0.0-20220220072656-16d975776298/go.mod h1:r9cCQsBi8z8pljMAHa6sK6o2iXIG9tRpZ9idBxVpc44=
 github.com/OneOfOne/xxhash v1.2.2 h1:KMrpdQIwFcEqXDklaen+P1axHaj9BSKzvpUUfnHldSE=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/Shonminh/apollo-client v0.4.0 h1:AXGp4wOahrEKjheMXehgsG9B8dEfLQHttRLHeEefvus=

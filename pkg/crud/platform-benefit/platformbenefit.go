@@ -165,11 +165,38 @@ func Get(ctx context.Context, in *npool.GetPlatformBenefitRequest) (*npool.GetPl
 	if err != nil {
 		return nil, xerrors.Errorf("fail query platform benefit: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty platform benefit")
+
+	var benefit *npool.PlatformBenefit
+	for _, info := range infos {
+		benefit = dbRowToPlatformBenefit(info)
+		break
 	}
 
 	return &npool.GetPlatformBenefitResponse{
-		Info: dbRowToPlatformBenefit(infos[0]),
+		Info: benefit,
+	}, nil
+}
+
+func GetAll(ctx context.Context, in *npool.GetPlatformBenefitsRequest) (*npool.GetPlatformBenefitsResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		PlatformBenefit.
+		Query().
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query platform benefit: %v", err)
+	}
+
+	benefits := []*npool.PlatformBenefit{}
+	for _, info := range infos {
+		benefits = append(benefits, dbRowToPlatformBenefit(info))
+	}
+
+	return &npool.GetPlatformBenefitsResponse{
+		Infos: benefits,
 	}, nil
 }

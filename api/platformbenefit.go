@@ -20,7 +20,7 @@ func (s *Server) CreatePlatformBenefit(ctx context.Context, in *npool.CreatePlat
 	resp, err := crud.Create(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create platform benefit error: %v", err)
-		return &npool.CreatePlatformBenefitResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.CreatePlatformBenefitResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -29,7 +29,16 @@ func (s *Server) GetPlatformBenefitsByGood(ctx context.Context, in *npool.GetPla
 	resp, err := crud.GetByGood(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get good platform benefit error: %v", err)
-		return &npool.GetPlatformBenefitsByGoodResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetPlatformBenefitsByGoodResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
+func (s *Server) GetPlatformBenefits(ctx context.Context, in *npool.GetPlatformBenefitsRequest) (*npool.GetPlatformBenefitsResponse, error) {
+	resp, err := crud.GetAll(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get good platform benefit error: %v", err)
+		return &npool.GetPlatformBenefitsResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -38,7 +47,7 @@ func (s *Server) GetLatestPlatformBenefitByGood(ctx context.Context, in *npool.G
 	resp, err := crud.GetLatestByGood(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get good latest platform benefit error: %v", err)
-		return &npool.GetLatestPlatformBenefitByGoodResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetLatestPlatformBenefitByGoodResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -47,7 +56,7 @@ func (s *Server) GetPlatformBenefit(ctx context.Context, in *npool.GetPlatformBe
 	resp, err := crud.Get(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get platform benefit error: %v", err)
-		return &npool.GetPlatformBenefitResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetPlatformBenefitResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -56,7 +65,7 @@ func (s *Server) GetPlatformBenefitDetail(ctx context.Context, in *npool.GetPlat
 	resp, err := mw.Get(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get platform benefit detail error: %v", err)
-		return &npool.GetPlatformBenefitDetailResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetPlatformBenefitDetailResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
