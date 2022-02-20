@@ -253,6 +253,30 @@ func GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool.GetCoinAcco
 	}, nil
 }
 
+func GetCoinAccountTransactions(ctx context.Context, in *npool.GetCoinAccountTransactionsRequest) (*npool.GetCoinAccountTransactionsResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		CoinAccountTransaction.
+		Query().
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin transaction: %v", err)
+	}
+
+	transactions := []*npool.CoinAccountTransaction{}
+	for _, info := range infos {
+		transactions = append(transactions, dbRowToCoinAccountTransaction(info))
+	}
+
+	return &npool.GetCoinAccountTransactionsResponse{
+		Infos: transactions,
+	}, nil
+}
+
 func Update(ctx context.Context, in *npool.UpdateCoinAccountTransactionRequest) (*npool.UpdateCoinAccountTransactionResponse, error) {
 	if _, err := uuid.Parse(in.GetInfo().GetID()); err != nil {
 		return nil, xerrors.Errorf("invalid id: %v", err)

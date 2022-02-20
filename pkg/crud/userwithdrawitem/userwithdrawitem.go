@@ -210,3 +210,27 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserWithdrawItemsByAppUserRe
 		Infos: userWithdrawItems,
 	}, nil
 }
+
+func GetAll(ctx context.Context, in *npool.GetUserWithdrawItemsRequest) (*npool.GetUserWithdrawItemsResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		UserWithdrawItem.
+		Query().
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query user withdraw item: %v", err)
+	}
+
+	userWithdrawItems := []*npool.UserWithdrawItem{}
+	for _, info := range infos {
+		userWithdrawItems = append(userWithdrawItems, dbRowToUserWithdrawItem(info))
+	}
+
+	return &npool.GetUserWithdrawItemsResponse{
+		Infos: userWithdrawItems,
+	}, nil
+}

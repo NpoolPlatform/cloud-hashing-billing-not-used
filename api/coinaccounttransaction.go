@@ -79,6 +79,15 @@ func (s *Server) GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool
 	return resp, nil
 }
 
+func (s *Server) GetCoinAccountTransactions(ctx context.Context, in *npool.GetCoinAccountTransactionsRequest) (*npool.GetCoinAccountTransactionsResponse, error) {
+	resp, err := coinaccounttransaction.GetCoinAccountTransactions(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get coin account transaction error: %v", err)
+		return &npool.GetCoinAccountTransactionsResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return resp, nil
+}
+
 func (s *Server) UpdateCoinAccountTransaction(ctx context.Context, in *npool.UpdateCoinAccountTransactionRequest) (*npool.UpdateCoinAccountTransactionResponse, error) {
 	resp, err := coinaccounttransaction.Update(ctx, in)
 	if err != nil {

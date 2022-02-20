@@ -248,3 +248,27 @@ func GetByAppUserCoin(ctx context.Context, in *npool.GetUserBenefitsByAppUserCoi
 		Infos: benefits,
 	}, nil
 }
+
+func GetAll(ctx context.Context, in *npool.GetUserBenefitsRequest) (*npool.GetUserBenefitsResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		UserBenefit.
+		Query().
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query user benefit: %v", err)
+	}
+
+	benefits := []*npool.UserBenefit{}
+	for _, info := range infos {
+		benefits = append(benefits, dbRowToUserBenefit(info))
+	}
+
+	return &npool.GetUserBenefitsResponse{
+		Infos: benefits,
+	}, nil
+}

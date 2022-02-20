@@ -71,3 +71,12 @@ func (s *Server) GetUserWithdrawItemsByOtherAppUser(ctx context.Context, in *npo
 		Infos: resp.Infos,
 	}, nil
 }
+
+func (s *Server) GetUserWithdrawItems(ctx context.Context, in *npool.GetUserWithdrawItemsRequest) (*npool.GetUserWithdrawItemsResponse, error) {
+	resp, err := crud.GetAll(ctx, &npool.GetUserWithdrawItemsRequest{})
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw item error: %v", err)
+		return &npool.GetUserWithdrawItemsResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
