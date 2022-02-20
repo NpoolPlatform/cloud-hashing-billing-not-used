@@ -53,7 +53,7 @@ spec:
     - host: api.npool.top
       http: &http_rules
         paths:
-          - path: /api/cloud-hashing-billing/v1/get/user/benefits/by/app/user
+          - path: /api/cloud-hashing-billing/v1/get/user
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
