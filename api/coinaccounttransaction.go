@@ -20,7 +20,7 @@ func (s *Server) CreateCoinAccountTransaction(ctx context.Context, in *npool.Cre
 	resp, err := coinaccounttransaction.Create(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create coin account transaction error: %v", err)
-		return &npool.CreateCoinAccountTransactionResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.CreateCoinAccountTransactionResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -29,7 +29,7 @@ func (s *Server) GetCoinAccountTransaction(ctx context.Context, in *npool.GetCoi
 	resp, err := coinaccounttransaction.Get(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account transaction error: %v", err)
-		return &npool.GetCoinAccountTransactionResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountTransactionResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -38,7 +38,7 @@ func (s *Server) GetCoinAccountTransactionsByCoinAccount(ctx context.Context, in
 	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByCoinAccount(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account transaction by coin account error: %v", err)
-		return &npool.GetCoinAccountTransactionsByCoinAccountResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountTransactionsByCoinAccountResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -47,7 +47,7 @@ func (s *Server) GetCoinAccountTransactionsByState(ctx context.Context, in *npoo
 	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByState(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account transaction by state error: %v", err)
-		return &npool.GetCoinAccountTransactionsByStateResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountTransactionsByStateResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -56,7 +56,7 @@ func (s *Server) GetCoinAccountTransactionsByAppUser(ctx context.Context, in *np
 	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByAppUser(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account transaction by app user error: %v", err)
-		return &npool.GetCoinAccountTransactionsByAppUserResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountTransactionsByAppUserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -65,7 +65,7 @@ func (s *Server) GetCoinAccountTransactionsByAppUserCoin(ctx context.Context, in
 	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByAppUserCoin(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account transaction by app user coin error: %v", err)
-		return &npool.GetCoinAccountTransactionsByAppUserCoinResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountTransactionsByAppUserCoinResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -74,7 +74,7 @@ func (s *Server) GetCoinAccountTransactionsByCoin(ctx context.Context, in *npool
 	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByCoin(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account transaction by coin error: %v", err)
-		return &npool.GetCoinAccountTransactionsByCoinResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountTransactionsByCoinResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -83,7 +83,7 @@ func (s *Server) GetCoinAccountTransactions(ctx context.Context, in *npool.GetCo
 	resp, err := coinaccounttransaction.GetCoinAccountTransactions(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account transaction error: %v", err)
-		return &npool.GetCoinAccountTransactionsResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountTransactionsResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -92,7 +92,7 @@ func (s *Server) UpdateCoinAccountTransaction(ctx context.Context, in *npool.Upd
 	resp, err := coinaccounttransaction.Update(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("update coin account transaction error: %v", err)
-		return &npool.UpdateCoinAccountTransactionResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.UpdateCoinAccountTransactionResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -101,7 +101,7 @@ func (s *Server) GetCoinAccountTransactionDetail(ctx context.Context, in *npool.
 	resp, err := mw.Get(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get coin account transaction detail error: %v", err)
-		return &npool.GetCoinAccountTransactionDetailResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.GetCoinAccountTransactionDetailResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -110,7 +110,7 @@ func (s *Server) DeleteCoinAccountTransaction(ctx context.Context, in *npool.Del
 	resp, err := coinaccounttransaction.Delete(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("delete coin account transaction error: %v", err)
-		return &npool.DeleteCoinAccountTransactionResponse{}, status.Error(codes.Internal, "internal server error")
+		return &npool.DeleteCoinAccountTransactionResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
