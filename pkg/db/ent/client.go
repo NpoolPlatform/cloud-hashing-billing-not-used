@@ -20,6 +20,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userpaymentbalance"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdrawitem"
 
@@ -52,6 +53,8 @@ type Client struct {
 	UserBenefit *UserBenefitClient
 	// UserDirectBenefit is the client for interacting with the UserDirectBenefit builders.
 	UserDirectBenefit *UserDirectBenefitClient
+	// UserPaymentBalance is the client for interacting with the UserPaymentBalance builders.
+	UserPaymentBalance *UserPaymentBalanceClient
 	// UserWithdraw is the client for interacting with the UserWithdraw builders.
 	UserWithdraw *UserWithdrawClient
 	// UserWithdrawItem is the client for interacting with the UserWithdrawItem builders.
@@ -79,6 +82,7 @@ func (c *Client) init() {
 	c.PlatformSetting = NewPlatformSettingClient(c.config)
 	c.UserBenefit = NewUserBenefitClient(c.config)
 	c.UserDirectBenefit = NewUserDirectBenefitClient(c.config)
+	c.UserPaymentBalance = NewUserPaymentBalanceClient(c.config)
 	c.UserWithdraw = NewUserWithdrawClient(c.config)
 	c.UserWithdrawItem = NewUserWithdrawItemClient(c.config)
 }
@@ -124,6 +128,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		PlatformSetting:        NewPlatformSettingClient(cfg),
 		UserBenefit:            NewUserBenefitClient(cfg),
 		UserDirectBenefit:      NewUserDirectBenefitClient(cfg),
+		UserPaymentBalance:     NewUserPaymentBalanceClient(cfg),
 		UserWithdraw:           NewUserWithdrawClient(cfg),
 		UserWithdrawItem:       NewUserWithdrawItemClient(cfg),
 	}, nil
@@ -155,6 +160,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		PlatformSetting:        NewPlatformSettingClient(cfg),
 		UserBenefit:            NewUserBenefitClient(cfg),
 		UserDirectBenefit:      NewUserDirectBenefitClient(cfg),
+		UserPaymentBalance:     NewUserPaymentBalanceClient(cfg),
 		UserWithdraw:           NewUserWithdrawClient(cfg),
 		UserWithdrawItem:       NewUserWithdrawItemClient(cfg),
 	}, nil
@@ -196,6 +202,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.PlatformSetting.Use(hooks...)
 	c.UserBenefit.Use(hooks...)
 	c.UserDirectBenefit.Use(hooks...)
+	c.UserPaymentBalance.Use(hooks...)
 	c.UserWithdraw.Use(hooks...)
 	c.UserWithdrawItem.Use(hooks...)
 }
@@ -1098,6 +1105,96 @@ func (c *UserDirectBenefitClient) GetX(ctx context.Context, id uuid.UUID) *UserD
 // Hooks returns the client hooks.
 func (c *UserDirectBenefitClient) Hooks() []Hook {
 	return c.hooks.UserDirectBenefit
+}
+
+// UserPaymentBalanceClient is a client for the UserPaymentBalance schema.
+type UserPaymentBalanceClient struct {
+	config
+}
+
+// NewUserPaymentBalanceClient returns a client for the UserPaymentBalance from the given config.
+func NewUserPaymentBalanceClient(c config) *UserPaymentBalanceClient {
+	return &UserPaymentBalanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `userpaymentbalance.Hooks(f(g(h())))`.
+func (c *UserPaymentBalanceClient) Use(hooks ...Hook) {
+	c.hooks.UserPaymentBalance = append(c.hooks.UserPaymentBalance, hooks...)
+}
+
+// Create returns a create builder for UserPaymentBalance.
+func (c *UserPaymentBalanceClient) Create() *UserPaymentBalanceCreate {
+	mutation := newUserPaymentBalanceMutation(c.config, OpCreate)
+	return &UserPaymentBalanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserPaymentBalance entities.
+func (c *UserPaymentBalanceClient) CreateBulk(builders ...*UserPaymentBalanceCreate) *UserPaymentBalanceCreateBulk {
+	return &UserPaymentBalanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserPaymentBalance.
+func (c *UserPaymentBalanceClient) Update() *UserPaymentBalanceUpdate {
+	mutation := newUserPaymentBalanceMutation(c.config, OpUpdate)
+	return &UserPaymentBalanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserPaymentBalanceClient) UpdateOne(upb *UserPaymentBalance) *UserPaymentBalanceUpdateOne {
+	mutation := newUserPaymentBalanceMutation(c.config, OpUpdateOne, withUserPaymentBalance(upb))
+	return &UserPaymentBalanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserPaymentBalanceClient) UpdateOneID(id uuid.UUID) *UserPaymentBalanceUpdateOne {
+	mutation := newUserPaymentBalanceMutation(c.config, OpUpdateOne, withUserPaymentBalanceID(id))
+	return &UserPaymentBalanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserPaymentBalance.
+func (c *UserPaymentBalanceClient) Delete() *UserPaymentBalanceDelete {
+	mutation := newUserPaymentBalanceMutation(c.config, OpDelete)
+	return &UserPaymentBalanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *UserPaymentBalanceClient) DeleteOne(upb *UserPaymentBalance) *UserPaymentBalanceDeleteOne {
+	return c.DeleteOneID(upb.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *UserPaymentBalanceClient) DeleteOneID(id uuid.UUID) *UserPaymentBalanceDeleteOne {
+	builder := c.Delete().Where(userpaymentbalance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserPaymentBalanceDeleteOne{builder}
+}
+
+// Query returns a query builder for UserPaymentBalance.
+func (c *UserPaymentBalanceClient) Query() *UserPaymentBalanceQuery {
+	return &UserPaymentBalanceQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a UserPaymentBalance entity by its id.
+func (c *UserPaymentBalanceClient) Get(ctx context.Context, id uuid.UUID) (*UserPaymentBalance, error) {
+	return c.Query().Where(userpaymentbalance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserPaymentBalanceClient) GetX(ctx context.Context, id uuid.UUID) *UserPaymentBalance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserPaymentBalanceClient) Hooks() []Hook {
+	return c.hooks.UserPaymentBalance
 }
 
 // UserWithdrawClient is a client for the UserWithdraw schema.

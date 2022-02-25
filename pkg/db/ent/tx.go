@@ -32,6 +32,8 @@ type Tx struct {
 	UserBenefit *UserBenefitClient
 	// UserDirectBenefit is the client for interacting with the UserDirectBenefit builders.
 	UserDirectBenefit *UserDirectBenefitClient
+	// UserPaymentBalance is the client for interacting with the UserPaymentBalance builders.
+	UserPaymentBalance *UserPaymentBalanceClient
 	// UserWithdraw is the client for interacting with the UserWithdraw builders.
 	UserWithdraw *UserWithdrawClient
 	// UserWithdrawItem is the client for interacting with the UserWithdrawItem builders.
@@ -181,6 +183,7 @@ func (tx *Tx) init() {
 	tx.PlatformSetting = NewPlatformSettingClient(tx.config)
 	tx.UserBenefit = NewUserBenefitClient(tx.config)
 	tx.UserDirectBenefit = NewUserDirectBenefitClient(tx.config)
+	tx.UserPaymentBalance = NewUserPaymentBalanceClient(tx.config)
 	tx.UserWithdraw = NewUserWithdrawClient(tx.config)
 	tx.UserWithdrawItem = NewUserWithdrawItemClient(tx.config)
 }

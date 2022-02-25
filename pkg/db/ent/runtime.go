@@ -14,6 +14,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/schema"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userpaymentbalance"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdrawitem"
 	"github.com/google/uuid"
@@ -223,6 +224,26 @@ func init() {
 	userdirectbenefitDescID := userdirectbenefitFields[0].Descriptor()
 	// userdirectbenefit.DefaultID holds the default value on creation for the id field.
 	userdirectbenefit.DefaultID = userdirectbenefitDescID.Default.(func() uuid.UUID)
+	userpaymentbalanceFields := schema.UserPaymentBalance{}.Fields()
+	_ = userpaymentbalanceFields
+	// userpaymentbalanceDescCreateAt is the schema descriptor for create_at field.
+	userpaymentbalanceDescCreateAt := userpaymentbalanceFields[5].Descriptor()
+	// userpaymentbalance.DefaultCreateAt holds the default value on creation for the create_at field.
+	userpaymentbalance.DefaultCreateAt = userpaymentbalanceDescCreateAt.Default.(func() uint32)
+	// userpaymentbalanceDescUpdateAt is the schema descriptor for update_at field.
+	userpaymentbalanceDescUpdateAt := userpaymentbalanceFields[6].Descriptor()
+	// userpaymentbalance.DefaultUpdateAt holds the default value on creation for the update_at field.
+	userpaymentbalance.DefaultUpdateAt = userpaymentbalanceDescUpdateAt.Default.(func() uint32)
+	// userpaymentbalance.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	userpaymentbalance.UpdateDefaultUpdateAt = userpaymentbalanceDescUpdateAt.UpdateDefault.(func() uint32)
+	// userpaymentbalanceDescDeleteAt is the schema descriptor for delete_at field.
+	userpaymentbalanceDescDeleteAt := userpaymentbalanceFields[7].Descriptor()
+	// userpaymentbalance.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	userpaymentbalance.DefaultDeleteAt = userpaymentbalanceDescDeleteAt.Default.(func() uint32)
+	// userpaymentbalanceDescID is the schema descriptor for id field.
+	userpaymentbalanceDescID := userpaymentbalanceFields[0].Descriptor()
+	// userpaymentbalance.DefaultID holds the default value on creation for the id field.
+	userpaymentbalance.DefaultID = userpaymentbalanceDescID.Default.(func() uuid.UUID)
 	userwithdrawFields := schema.UserWithdraw{}.Fields()
 	_ = userwithdrawFields
 	// userwithdrawDescCreateAt is the schema descriptor for create_at field.

@@ -229,6 +229,30 @@ var (
 			},
 		},
 	}
+	// UserPaymentBalancesColumns holds the columns for the "user_payment_balances" table.
+	UserPaymentBalancesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "payment_id", Type: field.TypeUUID},
+		{Name: "amount", Type: field.TypeUint64},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// UserPaymentBalancesTable holds the schema information for the "user_payment_balances" table.
+	UserPaymentBalancesTable = &schema.Table{
+		Name:       "user_payment_balances",
+		Columns:    UserPaymentBalancesColumns,
+		PrimaryKey: []*schema.Column{UserPaymentBalancesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userpaymentbalance_app_id_user_id_payment_id",
+				Unique:  true,
+				Columns: []*schema.Column{UserPaymentBalancesColumns[1], UserPaymentBalancesColumns[2], UserPaymentBalancesColumns[3]},
+			},
+		},
+	}
 	// UserWithdrawsColumns holds the columns for the "user_withdraws" table.
 	UserWithdrawsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -286,6 +310,7 @@ var (
 		PlatformSettingsTable,
 		UserBenefitsTable,
 		UserDirectBenefitsTable,
+		UserPaymentBalancesTable,
 		UserWithdrawsTable,
 		UserWithdrawItemsTable,
 	}

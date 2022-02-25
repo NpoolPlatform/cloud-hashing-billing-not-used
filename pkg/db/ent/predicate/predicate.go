@@ -36,6 +36,9 @@ type UserBenefit func(*sql.Selector)
 // UserDirectBenefit is the predicate function for userdirectbenefit builders.
 type UserDirectBenefit func(*sql.Selector)
 
+// UserPaymentBalance is the predicate function for userpaymentbalance builders.
+type UserPaymentBalance func(*sql.Selector)
+
 // UserWithdraw is the predicate function for userwithdraw builders.
 type UserWithdraw func(*sql.Selector)
 

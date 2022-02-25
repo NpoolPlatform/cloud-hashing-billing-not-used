@@ -18,6 +18,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/platformsetting"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userbenefit"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userdirectbenefit"
+	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userpaymentbalance"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdraw"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/userwithdrawitem"
 )
@@ -50,6 +51,7 @@ func columnChecker(table string) func(string) error {
 		platformsetting.Table:        platformsetting.ValidColumn,
 		userbenefit.Table:            userbenefit.ValidColumn,
 		userdirectbenefit.Table:      userdirectbenefit.ValidColumn,
+		userpaymentbalance.Table:     userpaymentbalance.ValidColumn,
 		userwithdraw.Table:           userwithdraw.ValidColumn,
 		userwithdrawitem.Table:       userwithdrawitem.ValidColumn,
 	}

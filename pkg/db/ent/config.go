@@ -34,6 +34,7 @@ type hooks struct {
 	PlatformSetting        []ent.Hook
 	UserBenefit            []ent.Hook
 	UserDirectBenefit      []ent.Hook
+	UserPaymentBalance     []ent.Hook
 	UserWithdraw           []ent.Hook
 	UserWithdrawItem       []ent.Hook
 }

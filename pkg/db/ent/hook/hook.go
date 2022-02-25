@@ -139,6 +139,19 @@ func (f UserDirectBenefitFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.
 	return f(ctx, mv)
 }
 
+// The UserPaymentBalanceFunc type is an adapter to allow the use of ordinary
+// function as UserPaymentBalance mutator.
+type UserPaymentBalanceFunc func(context.Context, *ent.UserPaymentBalanceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserPaymentBalanceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.UserPaymentBalanceMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserPaymentBalanceMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The UserWithdrawFunc type is an adapter to allow the use of ordinary
 // function as UserWithdraw mutator.
 type UserWithdrawFunc func(context.Context, *ent.UserWithdrawMutation) (ent.Value, error)
