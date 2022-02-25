@@ -24,6 +24,7 @@ func (UserPaymentBalance) Fields() []ent.Field {
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),
 		field.UUID("payment_id", uuid.UUID{}),
+		field.UUID("used_by_payment_id", uuid.UUID{}),
 		field.Uint64("amount"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {

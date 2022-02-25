@@ -41,6 +41,12 @@ func (upbc *UserPaymentBalanceCreate) SetPaymentID(u uuid.UUID) *UserPaymentBala
 	return upbc
 }
 
+// SetUsedByPaymentID sets the "used_by_payment_id" field.
+func (upbc *UserPaymentBalanceCreate) SetUsedByPaymentID(u uuid.UUID) *UserPaymentBalanceCreate {
+	upbc.mutation.SetUsedByPaymentID(u)
+	return upbc
+}
+
 // SetAmount sets the "amount" field.
 func (upbc *UserPaymentBalanceCreate) SetAmount(u uint64) *UserPaymentBalanceCreate {
 	upbc.mutation.SetAmount(u)
@@ -203,6 +209,9 @@ func (upbc *UserPaymentBalanceCreate) check() error {
 	if _, ok := upbc.mutation.PaymentID(); !ok {
 		return &ValidationError{Name: "payment_id", err: errors.New(`ent: missing required field "UserPaymentBalance.payment_id"`)}
 	}
+	if _, ok := upbc.mutation.UsedByPaymentID(); !ok {
+		return &ValidationError{Name: "used_by_payment_id", err: errors.New(`ent: missing required field "UserPaymentBalance.used_by_payment_id"`)}
+	}
 	if _, ok := upbc.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "UserPaymentBalance.amount"`)}
 	}
@@ -275,6 +284,14 @@ func (upbc *UserPaymentBalanceCreate) createSpec() (*UserPaymentBalance, *sqlgra
 			Column: userpaymentbalance.FieldPaymentID,
 		})
 		_node.PaymentID = value
+	}
+	if value, ok := upbc.mutation.UsedByPaymentID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userpaymentbalance.FieldUsedByPaymentID,
+		})
+		_node.UsedByPaymentID = value
 	}
 	if value, ok := upbc.mutation.Amount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -395,6 +412,18 @@ func (u *UserPaymentBalanceUpsert) SetPaymentID(v uuid.UUID) *UserPaymentBalance
 // UpdatePaymentID sets the "payment_id" field to the value that was provided on create.
 func (u *UserPaymentBalanceUpsert) UpdatePaymentID() *UserPaymentBalanceUpsert {
 	u.SetExcluded(userpaymentbalance.FieldPaymentID)
+	return u
+}
+
+// SetUsedByPaymentID sets the "used_by_payment_id" field.
+func (u *UserPaymentBalanceUpsert) SetUsedByPaymentID(v uuid.UUID) *UserPaymentBalanceUpsert {
+	u.Set(userpaymentbalance.FieldUsedByPaymentID, v)
+	return u
+}
+
+// UpdateUsedByPaymentID sets the "used_by_payment_id" field to the value that was provided on create.
+func (u *UserPaymentBalanceUpsert) UpdateUsedByPaymentID() *UserPaymentBalanceUpsert {
+	u.SetExcluded(userpaymentbalance.FieldUsedByPaymentID)
 	return u
 }
 
@@ -559,6 +588,20 @@ func (u *UserPaymentBalanceUpsertOne) SetPaymentID(v uuid.UUID) *UserPaymentBala
 func (u *UserPaymentBalanceUpsertOne) UpdatePaymentID() *UserPaymentBalanceUpsertOne {
 	return u.Update(func(s *UserPaymentBalanceUpsert) {
 		s.UpdatePaymentID()
+	})
+}
+
+// SetUsedByPaymentID sets the "used_by_payment_id" field.
+func (u *UserPaymentBalanceUpsertOne) SetUsedByPaymentID(v uuid.UUID) *UserPaymentBalanceUpsertOne {
+	return u.Update(func(s *UserPaymentBalanceUpsert) {
+		s.SetUsedByPaymentID(v)
+	})
+}
+
+// UpdateUsedByPaymentID sets the "used_by_payment_id" field to the value that was provided on create.
+func (u *UserPaymentBalanceUpsertOne) UpdateUsedByPaymentID() *UserPaymentBalanceUpsertOne {
+	return u.Update(func(s *UserPaymentBalanceUpsert) {
+		s.UpdateUsedByPaymentID()
 	})
 }
 
@@ -901,6 +944,20 @@ func (u *UserPaymentBalanceUpsertBulk) SetPaymentID(v uuid.UUID) *UserPaymentBal
 func (u *UserPaymentBalanceUpsertBulk) UpdatePaymentID() *UserPaymentBalanceUpsertBulk {
 	return u.Update(func(s *UserPaymentBalanceUpsert) {
 		s.UpdatePaymentID()
+	})
+}
+
+// SetUsedByPaymentID sets the "used_by_payment_id" field.
+func (u *UserPaymentBalanceUpsertBulk) SetUsedByPaymentID(v uuid.UUID) *UserPaymentBalanceUpsertBulk {
+	return u.Update(func(s *UserPaymentBalanceUpsert) {
+		s.SetUsedByPaymentID(v)
+	})
+}
+
+// UpdateUsedByPaymentID sets the "used_by_payment_id" field to the value that was provided on create.
+func (u *UserPaymentBalanceUpsertBulk) UpdateUsedByPaymentID() *UserPaymentBalanceUpsertBulk {
+	return u.Update(func(s *UserPaymentBalanceUpsert) {
+		s.UpdateUsedByPaymentID()
 	})
 }
 

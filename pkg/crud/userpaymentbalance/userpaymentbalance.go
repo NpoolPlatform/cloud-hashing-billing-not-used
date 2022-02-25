@@ -33,11 +33,12 @@ func validateUserPaymentBalance(info *npool.UserPaymentBalance) error {
 
 func dbRowToUserPaymentBalance(row *ent.UserPaymentBalance) *npool.UserPaymentBalance {
 	return &npool.UserPaymentBalance{
-		ID:        row.ID.String(),
-		AppID:     row.AppID.String(),
-		UserID:    row.UserID.String(),
-		PaymentID: row.PaymentID.String(),
-		Amount:    price.DBPriceToVisualPrice(row.Amount),
+		ID:              row.ID.String(),
+		AppID:           row.AppID.String(),
+		UserID:          row.UserID.String(),
+		PaymentID:       row.PaymentID.String(),
+		UsedByPaymentID: row.UsedByPaymentID.String(),
+		Amount:          price.DBPriceToVisualPrice(row.Amount),
 	}
 }
 
@@ -57,6 +58,7 @@ func Create(ctx context.Context, in *npool.CreateUserPaymentBalanceRequest) (*np
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
 		SetPaymentID(uuid.MustParse(in.GetInfo().GetPaymentID())).
+		SetUsedByPaymentID(uuid.UUID{}).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		Save(ctx)
 	if err != nil {
@@ -64,6 +66,40 @@ func Create(ctx context.Context, in *npool.CreateUserPaymentBalanceRequest) (*np
 	}
 
 	return &npool.CreateUserPaymentBalanceResponse{
+		Info: dbRowToUserPaymentBalance(info),
+	}, nil
+}
+
+func Update(ctx context.Context, in *npool.UpdateUserPaymentBalanceRequest) (*npool.UpdateUserPaymentBalanceResponse, error) {
+	if err := validateUserPaymentBalance(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	id, err := uuid.Parse(in.GetInfo().GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	usedByPaymentID, err := uuid.Parse(in.GetInfo().GetUsedByPaymentID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid used by payment id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
+		UserPaymentBalance.
+		UpdateOneID(id).
+		SetUsedByPaymentID(usedByPaymentID).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail create user payment balance: %v", err)
+	}
+
+	return &npool.UpdateUserPaymentBalanceResponse{
 		Info: dbRowToUserPaymentBalance(info),
 	}, nil
 }

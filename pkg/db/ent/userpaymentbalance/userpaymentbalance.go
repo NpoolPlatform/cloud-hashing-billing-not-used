@@ -17,6 +17,8 @@ const (
 	FieldUserID = "user_id"
 	// FieldPaymentID holds the string denoting the payment_id field in the database.
 	FieldPaymentID = "payment_id"
+	// FieldUsedByPaymentID holds the string denoting the used_by_payment_id field in the database.
+	FieldUsedByPaymentID = "used_by_payment_id"
 	// FieldAmount holds the string denoting the amount field in the database.
 	FieldAmount = "amount"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
@@ -35,6 +37,7 @@ var Columns = []string{
 	FieldAppID,
 	FieldUserID,
 	FieldPaymentID,
+	FieldUsedByPaymentID,
 	FieldAmount,
 	FieldCreateAt,
 	FieldUpdateAt,

@@ -227,17 +227,17 @@ func init() {
 	userpaymentbalanceFields := schema.UserPaymentBalance{}.Fields()
 	_ = userpaymentbalanceFields
 	// userpaymentbalanceDescCreateAt is the schema descriptor for create_at field.
-	userpaymentbalanceDescCreateAt := userpaymentbalanceFields[5].Descriptor()
+	userpaymentbalanceDescCreateAt := userpaymentbalanceFields[6].Descriptor()
 	// userpaymentbalance.DefaultCreateAt holds the default value on creation for the create_at field.
 	userpaymentbalance.DefaultCreateAt = userpaymentbalanceDescCreateAt.Default.(func() uint32)
 	// userpaymentbalanceDescUpdateAt is the schema descriptor for update_at field.
-	userpaymentbalanceDescUpdateAt := userpaymentbalanceFields[6].Descriptor()
+	userpaymentbalanceDescUpdateAt := userpaymentbalanceFields[7].Descriptor()
 	// userpaymentbalance.DefaultUpdateAt holds the default value on creation for the update_at field.
 	userpaymentbalance.DefaultUpdateAt = userpaymentbalanceDescUpdateAt.Default.(func() uint32)
 	// userpaymentbalance.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	userpaymentbalance.UpdateDefaultUpdateAt = userpaymentbalanceDescUpdateAt.UpdateDefault.(func() uint32)
 	// userpaymentbalanceDescDeleteAt is the schema descriptor for delete_at field.
-	userpaymentbalanceDescDeleteAt := userpaymentbalanceFields[7].Descriptor()
+	userpaymentbalanceDescDeleteAt := userpaymentbalanceFields[8].Descriptor()
 	// userpaymentbalance.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	userpaymentbalance.DefaultDeleteAt = userpaymentbalanceDescDeleteAt.Default.(func() uint32)
 	// userpaymentbalanceDescID is the schema descriptor for id field.

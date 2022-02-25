@@ -8366,24 +8366,25 @@ func (m *UserDirectBenefitMutation) ResetEdge(name string) error {
 // UserPaymentBalanceMutation represents an operation that mutates the UserPaymentBalance nodes in the graph.
 type UserPaymentBalanceMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *uuid.UUID
-	app_id        *uuid.UUID
-	user_id       *uuid.UUID
-	payment_id    *uuid.UUID
-	amount        *uint64
-	addamount     *int64
-	create_at     *uint32
-	addcreate_at  *int32
-	update_at     *uint32
-	addupdate_at  *int32
-	delete_at     *uint32
-	adddelete_at  *int32
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*UserPaymentBalance, error)
-	predicates    []predicate.UserPaymentBalance
+	op                 Op
+	typ                string
+	id                 *uuid.UUID
+	app_id             *uuid.UUID
+	user_id            *uuid.UUID
+	payment_id         *uuid.UUID
+	used_by_payment_id *uuid.UUID
+	amount             *uint64
+	addamount          *int64
+	create_at          *uint32
+	addcreate_at       *int32
+	update_at          *uint32
+	addupdate_at       *int32
+	delete_at          *uint32
+	adddelete_at       *int32
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*UserPaymentBalance, error)
+	predicates         []predicate.UserPaymentBalance
 }
 
 var _ ent.Mutation = (*UserPaymentBalanceMutation)(nil)
@@ -8596,6 +8597,42 @@ func (m *UserPaymentBalanceMutation) OldPaymentID(ctx context.Context) (v uuid.U
 // ResetPaymentID resets all changes to the "payment_id" field.
 func (m *UserPaymentBalanceMutation) ResetPaymentID() {
 	m.payment_id = nil
+}
+
+// SetUsedByPaymentID sets the "used_by_payment_id" field.
+func (m *UserPaymentBalanceMutation) SetUsedByPaymentID(u uuid.UUID) {
+	m.used_by_payment_id = &u
+}
+
+// UsedByPaymentID returns the value of the "used_by_payment_id" field in the mutation.
+func (m *UserPaymentBalanceMutation) UsedByPaymentID() (r uuid.UUID, exists bool) {
+	v := m.used_by_payment_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUsedByPaymentID returns the old "used_by_payment_id" field's value of the UserPaymentBalance entity.
+// If the UserPaymentBalance object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserPaymentBalanceMutation) OldUsedByPaymentID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUsedByPaymentID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUsedByPaymentID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUsedByPaymentID: %w", err)
+	}
+	return oldValue.UsedByPaymentID, nil
+}
+
+// ResetUsedByPaymentID resets all changes to the "used_by_payment_id" field.
+func (m *UserPaymentBalanceMutation) ResetUsedByPaymentID() {
+	m.used_by_payment_id = nil
 }
 
 // SetAmount sets the "amount" field.
@@ -8841,7 +8878,7 @@ func (m *UserPaymentBalanceMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserPaymentBalanceMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.app_id != nil {
 		fields = append(fields, userpaymentbalance.FieldAppID)
 	}
@@ -8850,6 +8887,9 @@ func (m *UserPaymentBalanceMutation) Fields() []string {
 	}
 	if m.payment_id != nil {
 		fields = append(fields, userpaymentbalance.FieldPaymentID)
+	}
+	if m.used_by_payment_id != nil {
+		fields = append(fields, userpaymentbalance.FieldUsedByPaymentID)
 	}
 	if m.amount != nil {
 		fields = append(fields, userpaymentbalance.FieldAmount)
@@ -8877,6 +8917,8 @@ func (m *UserPaymentBalanceMutation) Field(name string) (ent.Value, bool) {
 		return m.UserID()
 	case userpaymentbalance.FieldPaymentID:
 		return m.PaymentID()
+	case userpaymentbalance.FieldUsedByPaymentID:
+		return m.UsedByPaymentID()
 	case userpaymentbalance.FieldAmount:
 		return m.Amount()
 	case userpaymentbalance.FieldCreateAt:
@@ -8900,6 +8942,8 @@ func (m *UserPaymentBalanceMutation) OldField(ctx context.Context, name string) 
 		return m.OldUserID(ctx)
 	case userpaymentbalance.FieldPaymentID:
 		return m.OldPaymentID(ctx)
+	case userpaymentbalance.FieldUsedByPaymentID:
+		return m.OldUsedByPaymentID(ctx)
 	case userpaymentbalance.FieldAmount:
 		return m.OldAmount(ctx)
 	case userpaymentbalance.FieldCreateAt:
@@ -8937,6 +8981,13 @@ func (m *UserPaymentBalanceMutation) SetField(name string, value ent.Value) erro
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPaymentID(v)
+		return nil
+	case userpaymentbalance.FieldUsedByPaymentID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUsedByPaymentID(v)
 		return nil
 	case userpaymentbalance.FieldAmount:
 		v, ok := value.(uint64)
@@ -9074,6 +9125,9 @@ func (m *UserPaymentBalanceMutation) ResetField(name string) error {
 		return nil
 	case userpaymentbalance.FieldPaymentID:
 		m.ResetPaymentID()
+		return nil
+	case userpaymentbalance.FieldUsedByPaymentID:
+		m.ResetUsedByPaymentID()
 		return nil
 	case userpaymentbalance.FieldAmount:
 		m.ResetAmount()

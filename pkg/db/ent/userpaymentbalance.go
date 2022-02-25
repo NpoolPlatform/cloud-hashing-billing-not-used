@@ -22,6 +22,8 @@ type UserPaymentBalance struct {
 	UserID uuid.UUID `json:"user_id,omitempty"`
 	// PaymentID holds the value of the "payment_id" field.
 	PaymentID uuid.UUID `json:"payment_id,omitempty"`
+	// UsedByPaymentID holds the value of the "used_by_payment_id" field.
+	UsedByPaymentID uuid.UUID `json:"used_by_payment_id,omitempty"`
 	// Amount holds the value of the "amount" field.
 	Amount uint64 `json:"amount,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
@@ -39,7 +41,7 @@ func (*UserPaymentBalance) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case userpaymentbalance.FieldAmount, userpaymentbalance.FieldCreateAt, userpaymentbalance.FieldUpdateAt, userpaymentbalance.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case userpaymentbalance.FieldID, userpaymentbalance.FieldAppID, userpaymentbalance.FieldUserID, userpaymentbalance.FieldPaymentID:
+		case userpaymentbalance.FieldID, userpaymentbalance.FieldAppID, userpaymentbalance.FieldUserID, userpaymentbalance.FieldPaymentID, userpaymentbalance.FieldUsedByPaymentID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type UserPaymentBalance", columns[i])
@@ -79,6 +81,12 @@ func (upb *UserPaymentBalance) assignValues(columns []string, values []interface
 				return fmt.Errorf("unexpected type %T for field payment_id", values[i])
 			} else if value != nil {
 				upb.PaymentID = *value
+			}
+		case userpaymentbalance.FieldUsedByPaymentID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field used_by_payment_id", values[i])
+			} else if value != nil {
+				upb.UsedByPaymentID = *value
 			}
 		case userpaymentbalance.FieldAmount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -138,6 +146,8 @@ func (upb *UserPaymentBalance) String() string {
 	builder.WriteString(fmt.Sprintf("%v", upb.UserID))
 	builder.WriteString(", payment_id=")
 	builder.WriteString(fmt.Sprintf("%v", upb.PaymentID))
+	builder.WriteString(", used_by_payment_id=")
+	builder.WriteString(fmt.Sprintf("%v", upb.UsedByPaymentID))
 	builder.WriteString(", amount=")
 	builder.WriteString(fmt.Sprintf("%v", upb.Amount))
 	builder.WriteString(", create_at=")

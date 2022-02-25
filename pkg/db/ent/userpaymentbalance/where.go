@@ -112,6 +112,13 @@ func PaymentID(v uuid.UUID) predicate.UserPaymentBalance {
 	})
 }
 
+// UsedByPaymentID applies equality check predicate on the "used_by_payment_id" field. It's identical to UsedByPaymentIDEQ.
+func UsedByPaymentID(v uuid.UUID) predicate.UserPaymentBalance {
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUsedByPaymentID), v))
+	})
+}
+
 // Amount applies equality check predicate on the "amount" field. It's identical to AmountEQ.
 func Amount(v uint64) predicate.UserPaymentBalance {
 	return predicate.UserPaymentBalance(func(s *sql.Selector) {
@@ -365,6 +372,82 @@ func PaymentIDLT(v uuid.UUID) predicate.UserPaymentBalance {
 func PaymentIDLTE(v uuid.UUID) predicate.UserPaymentBalance {
 	return predicate.UserPaymentBalance(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldPaymentID), v))
+	})
+}
+
+// UsedByPaymentIDEQ applies the EQ predicate on the "used_by_payment_id" field.
+func UsedByPaymentIDEQ(v uuid.UUID) predicate.UserPaymentBalance {
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUsedByPaymentID), v))
+	})
+}
+
+// UsedByPaymentIDNEQ applies the NEQ predicate on the "used_by_payment_id" field.
+func UsedByPaymentIDNEQ(v uuid.UUID) predicate.UserPaymentBalance {
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUsedByPaymentID), v))
+	})
+}
+
+// UsedByPaymentIDIn applies the In predicate on the "used_by_payment_id" field.
+func UsedByPaymentIDIn(vs ...uuid.UUID) predicate.UserPaymentBalance {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldUsedByPaymentID), v...))
+	})
+}
+
+// UsedByPaymentIDNotIn applies the NotIn predicate on the "used_by_payment_id" field.
+func UsedByPaymentIDNotIn(vs ...uuid.UUID) predicate.UserPaymentBalance {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldUsedByPaymentID), v...))
+	})
+}
+
+// UsedByPaymentIDGT applies the GT predicate on the "used_by_payment_id" field.
+func UsedByPaymentIDGT(v uuid.UUID) predicate.UserPaymentBalance {
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUsedByPaymentID), v))
+	})
+}
+
+// UsedByPaymentIDGTE applies the GTE predicate on the "used_by_payment_id" field.
+func UsedByPaymentIDGTE(v uuid.UUID) predicate.UserPaymentBalance {
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUsedByPaymentID), v))
+	})
+}
+
+// UsedByPaymentIDLT applies the LT predicate on the "used_by_payment_id" field.
+func UsedByPaymentIDLT(v uuid.UUID) predicate.UserPaymentBalance {
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUsedByPaymentID), v))
+	})
+}
+
+// UsedByPaymentIDLTE applies the LTE predicate on the "used_by_payment_id" field.
+func UsedByPaymentIDLTE(v uuid.UUID) predicate.UserPaymentBalance {
+	return predicate.UserPaymentBalance(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUsedByPaymentID), v))
 	})
 }
 

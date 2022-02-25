@@ -46,6 +46,12 @@ func (upbu *UserPaymentBalanceUpdate) SetPaymentID(u uuid.UUID) *UserPaymentBala
 	return upbu
 }
 
+// SetUsedByPaymentID sets the "used_by_payment_id" field.
+func (upbu *UserPaymentBalanceUpdate) SetUsedByPaymentID(u uuid.UUID) *UserPaymentBalanceUpdate {
+	upbu.mutation.SetUsedByPaymentID(u)
+	return upbu
+}
+
 // SetAmount sets the "amount" field.
 func (upbu *UserPaymentBalanceUpdate) SetAmount(u uint64) *UserPaymentBalanceUpdate {
 	upbu.mutation.ResetAmount()
@@ -221,6 +227,13 @@ func (upbu *UserPaymentBalanceUpdate) sqlSave(ctx context.Context) (n int, err e
 			Column: userpaymentbalance.FieldPaymentID,
 		})
 	}
+	if value, ok := upbu.mutation.UsedByPaymentID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userpaymentbalance.FieldUsedByPaymentID,
+		})
+	}
 	if value, ok := upbu.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -311,6 +324,12 @@ func (upbuo *UserPaymentBalanceUpdateOne) SetUserID(u uuid.UUID) *UserPaymentBal
 // SetPaymentID sets the "payment_id" field.
 func (upbuo *UserPaymentBalanceUpdateOne) SetPaymentID(u uuid.UUID) *UserPaymentBalanceUpdateOne {
 	upbuo.mutation.SetPaymentID(u)
+	return upbuo
+}
+
+// SetUsedByPaymentID sets the "used_by_payment_id" field.
+func (upbuo *UserPaymentBalanceUpdateOne) SetUsedByPaymentID(u uuid.UUID) *UserPaymentBalanceUpdateOne {
+	upbuo.mutation.SetUsedByPaymentID(u)
 	return upbuo
 }
 
@@ -511,6 +530,13 @@ func (upbuo *UserPaymentBalanceUpdateOne) sqlSave(ctx context.Context) (_node *U
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: userpaymentbalance.FieldPaymentID,
+		})
+	}
+	if value, ok := upbuo.mutation.UsedByPaymentID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userpaymentbalance.FieldUsedByPaymentID,
 		})
 	}
 	if value, ok := upbuo.mutation.Amount(); ok {

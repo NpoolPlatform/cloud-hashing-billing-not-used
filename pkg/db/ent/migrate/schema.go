@@ -235,6 +235,7 @@ var (
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "payment_id", Type: field.TypeUUID},
+		{Name: "used_by_payment_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
