@@ -109,6 +109,18 @@ spec:
             backend:
               serviceName: cloud-hashing-billing
               servicePort: 50030
+          - path: /api/cloud-hashing-billing/v1/create/user/payment/balance
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
+          - path: /api/cloud-hashing-billing/v1/get/user/payment/balance
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
+          - path: /api/cloud-hashing-billing/v1/get/user/payment/balances
+            backend:
+              serviceName: cloud-hashing-billing
+              servicePort: 50030
     - host: api.procyon.vip
       http: *http_rules
     - host: api.xpool.top
