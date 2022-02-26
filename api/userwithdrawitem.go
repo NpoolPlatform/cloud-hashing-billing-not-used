@@ -58,11 +58,11 @@ func (s *Server) GetUserWithdrawItemsByAppUser(ctx context.Context, in *npool.Ge
 	return resp, nil
 }
 
-func (s *Server) GetUserWithdrawItemsByAppUserWithdrawType(ctx context.Context, in *npool.GetUserWithdrawItemsByAppUserWithdrawTypeRequest) (*npool.GetUserWithdrawItemsByAppUserWithdrawTypeResponse, error) {
-	resp, err := crud.GetByAppUserWithdrawType(ctx, in)
+func (s *Server) GetUserWithdrawItemsByAppUserCoinWithdrawType(ctx context.Context, in *npool.GetUserWithdrawItemsByAppUserCoinWithdrawTypeRequest) (*npool.GetUserWithdrawItemsByAppUserCoinWithdrawTypeResponse, error) {
+	resp, err := crud.GetByAppUserCoinWithdrawType(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get user withdraw item error: %v", err)
-		return &npool.GetUserWithdrawItemsByAppUserWithdrawTypeResponse{}, status.Error(codes.Internal, err.Error())
+		return &npool.GetUserWithdrawItemsByAppUserCoinWithdrawTypeResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
