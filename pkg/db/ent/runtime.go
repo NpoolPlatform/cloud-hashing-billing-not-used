@@ -267,17 +267,17 @@ func init() {
 	userwithdrawitemFields := schema.UserWithdrawItem{}.Fields()
 	_ = userwithdrawitemFields
 	// userwithdrawitemDescCreateAt is the schema descriptor for create_at field.
-	userwithdrawitemDescCreateAt := userwithdrawitemFields[7].Descriptor()
+	userwithdrawitemDescCreateAt := userwithdrawitemFields[8].Descriptor()
 	// userwithdrawitem.DefaultCreateAt holds the default value on creation for the create_at field.
 	userwithdrawitem.DefaultCreateAt = userwithdrawitemDescCreateAt.Default.(func() uint32)
 	// userwithdrawitemDescUpdateAt is the schema descriptor for update_at field.
-	userwithdrawitemDescUpdateAt := userwithdrawitemFields[8].Descriptor()
+	userwithdrawitemDescUpdateAt := userwithdrawitemFields[9].Descriptor()
 	// userwithdrawitem.DefaultUpdateAt holds the default value on creation for the update_at field.
 	userwithdrawitem.DefaultUpdateAt = userwithdrawitemDescUpdateAt.Default.(func() uint32)
 	// userwithdrawitem.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	userwithdrawitem.UpdateDefaultUpdateAt = userwithdrawitemDescUpdateAt.UpdateDefault.(func() uint32)
 	// userwithdrawitemDescDeleteAt is the schema descriptor for delete_at field.
-	userwithdrawitemDescDeleteAt := userwithdrawitemFields[9].Descriptor()
+	userwithdrawitemDescDeleteAt := userwithdrawitemFields[10].Descriptor()
 	// userwithdrawitem.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	userwithdrawitem.DefaultDeleteAt = userwithdrawitemDescDeleteAt.Default.(func() uint32)
 	// userwithdrawitemDescID is the schema descriptor for id field.

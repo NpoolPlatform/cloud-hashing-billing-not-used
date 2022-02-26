@@ -28,6 +28,8 @@ type UserWithdrawItem struct {
 	Amount uint64 `json:"amount,omitempty"`
 	// PlatformTransactionID holds the value of the "platform_transaction_id" field.
 	PlatformTransactionID uuid.UUID `json:"platform_transaction_id,omitempty"`
+	// WithdrawType holds the value of the "withdraw_type" field.
+	WithdrawType string `json:"withdraw_type,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -43,6 +45,8 @@ func (*UserWithdrawItem) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case userwithdrawitem.FieldAmount, userwithdrawitem.FieldCreateAt, userwithdrawitem.FieldUpdateAt, userwithdrawitem.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
+		case userwithdrawitem.FieldWithdrawType:
+			values[i] = new(sql.NullString)
 		case userwithdrawitem.FieldID, userwithdrawitem.FieldAppID, userwithdrawitem.FieldUserID, userwithdrawitem.FieldCoinTypeID, userwithdrawitem.FieldWithdrawToAccountID, userwithdrawitem.FieldPlatformTransactionID:
 			values[i] = new(uuid.UUID)
 		default:
@@ -102,6 +106,12 @@ func (uwi *UserWithdrawItem) assignValues(columns []string, values []interface{}
 			} else if value != nil {
 				uwi.PlatformTransactionID = *value
 			}
+		case userwithdrawitem.FieldWithdrawType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field withdraw_type", values[i])
+			} else if value.Valid {
+				uwi.WithdrawType = value.String
+			}
 		case userwithdrawitem.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -160,6 +170,8 @@ func (uwi *UserWithdrawItem) String() string {
 	builder.WriteString(fmt.Sprintf("%v", uwi.Amount))
 	builder.WriteString(", platform_transaction_id=")
 	builder.WriteString(fmt.Sprintf("%v", uwi.PlatformTransactionID))
+	builder.WriteString(", withdraw_type=")
+	builder.WriteString(uwi.WithdrawType)
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", uwi.CreateAt))
 	builder.WriteString(", update_at=")

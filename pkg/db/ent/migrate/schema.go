@@ -289,6 +289,7 @@ var (
 		{Name: "withdraw_to_account_id", Type: field.TypeUUID},
 		{Name: "amount", Type: field.TypeUint64},
 		{Name: "platform_transaction_id", Type: field.TypeUUID},
+		{Name: "withdraw_type", Type: field.TypeString},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

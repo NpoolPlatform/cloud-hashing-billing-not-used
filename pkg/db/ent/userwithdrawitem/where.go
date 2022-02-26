@@ -133,6 +133,13 @@ func PlatformTransactionID(v uuid.UUID) predicate.UserWithdrawItem {
 	})
 }
 
+// WithdrawType applies equality check predicate on the "withdraw_type" field. It's identical to WithdrawTypeEQ.
+func WithdrawType(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWithdrawType), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.UserWithdrawItem {
 	return predicate.UserWithdrawItem(func(s *sql.Selector) {
@@ -607,6 +614,117 @@ func PlatformTransactionIDLT(v uuid.UUID) predicate.UserWithdrawItem {
 func PlatformTransactionIDLTE(v uuid.UUID) predicate.UserWithdrawItem {
 	return predicate.UserWithdrawItem(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldPlatformTransactionID), v))
+	})
+}
+
+// WithdrawTypeEQ applies the EQ predicate on the "withdraw_type" field.
+func WithdrawTypeEQ(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeNEQ applies the NEQ predicate on the "withdraw_type" field.
+func WithdrawTypeNEQ(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeIn applies the In predicate on the "withdraw_type" field.
+func WithdrawTypeIn(vs ...string) predicate.UserWithdrawItem {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldWithdrawType), v...))
+	})
+}
+
+// WithdrawTypeNotIn applies the NotIn predicate on the "withdraw_type" field.
+func WithdrawTypeNotIn(vs ...string) predicate.UserWithdrawItem {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldWithdrawType), v...))
+	})
+}
+
+// WithdrawTypeGT applies the GT predicate on the "withdraw_type" field.
+func WithdrawTypeGT(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeGTE applies the GTE predicate on the "withdraw_type" field.
+func WithdrawTypeGTE(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeLT applies the LT predicate on the "withdraw_type" field.
+func WithdrawTypeLT(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeLTE applies the LTE predicate on the "withdraw_type" field.
+func WithdrawTypeLTE(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeContains applies the Contains predicate on the "withdraw_type" field.
+func WithdrawTypeContains(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeHasPrefix applies the HasPrefix predicate on the "withdraw_type" field.
+func WithdrawTypeHasPrefix(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeHasSuffix applies the HasSuffix predicate on the "withdraw_type" field.
+func WithdrawTypeHasSuffix(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeEqualFold applies the EqualFold predicate on the "withdraw_type" field.
+func WithdrawTypeEqualFold(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldWithdrawType), v))
+	})
+}
+
+// WithdrawTypeContainsFold applies the ContainsFold predicate on the "withdraw_type" field.
+func WithdrawTypeContainsFold(v string) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldWithdrawType), v))
 	})
 }
 

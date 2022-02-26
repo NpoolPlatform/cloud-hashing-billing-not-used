@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"testing"
 
+	constant "github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/test-init" //nolint
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
@@ -31,6 +32,7 @@ func assertUserWithdrawItem(t *testing.T, actual, expected *npool.UserWithdrawIt
 	assert.Equal(t, actual.WithdrawToAccountID, expected.WithdrawToAccountID)
 	assert.Equal(t, actual.Amount, expected.Amount)
 	assert.Equal(t, actual.PlatformTransactionID, expected.PlatformTransactionID)
+	assert.Equal(t, actual.WithdrawType, expected.WithdrawType)
 }
 
 func TestCRUD(t *testing.T) {
@@ -45,6 +47,7 @@ func TestCRUD(t *testing.T) {
 		WithdrawToAccountID:   uuid.New().String(),
 		Amount:                1.0,
 		PlatformTransactionID: uuid.UUID{}.String(),
+		WithdrawType:          constant.WithdrawTypeCommission,
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateUserWithdrawItemRequest{

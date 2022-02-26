@@ -71,6 +71,12 @@ func (uwiu *UserWithdrawItemUpdate) SetPlatformTransactionID(u uuid.UUID) *UserW
 	return uwiu
 }
 
+// SetWithdrawType sets the "withdraw_type" field.
+func (uwiu *UserWithdrawItemUpdate) SetWithdrawType(s string) *UserWithdrawItemUpdate {
+	uwiu.mutation.SetWithdrawType(s)
+	return uwiu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (uwiu *UserWithdrawItemUpdate) SetCreateAt(u uint32) *UserWithdrawItemUpdate {
 	uwiu.mutation.ResetCreateAt()
@@ -261,6 +267,13 @@ func (uwiu *UserWithdrawItemUpdate) sqlSave(ctx context.Context) (n int, err err
 			Column: userwithdrawitem.FieldPlatformTransactionID,
 		})
 	}
+	if value, ok := uwiu.mutation.WithdrawType(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdrawitem.FieldWithdrawType,
+		})
+	}
 	if value, ok := uwiu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -362,6 +375,12 @@ func (uwiuo *UserWithdrawItemUpdateOne) AddAmount(u int64) *UserWithdrawItemUpda
 // SetPlatformTransactionID sets the "platform_transaction_id" field.
 func (uwiuo *UserWithdrawItemUpdateOne) SetPlatformTransactionID(u uuid.UUID) *UserWithdrawItemUpdateOne {
 	uwiuo.mutation.SetPlatformTransactionID(u)
+	return uwiuo
+}
+
+// SetWithdrawType sets the "withdraw_type" field.
+func (uwiuo *UserWithdrawItemUpdateOne) SetWithdrawType(s string) *UserWithdrawItemUpdateOne {
+	uwiuo.mutation.SetWithdrawType(s)
 	return uwiuo
 }
 
@@ -577,6 +596,13 @@ func (uwiuo *UserWithdrawItemUpdateOne) sqlSave(ctx context.Context) (_node *Use
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: userwithdrawitem.FieldPlatformTransactionID,
+		})
+	}
+	if value, ok := uwiuo.mutation.WithdrawType(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdrawitem.FieldWithdrawType,
 		})
 	}
 	if value, ok := uwiuo.mutation.CreateAt(); ok {

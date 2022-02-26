@@ -23,6 +23,8 @@ const (
 	FieldAmount = "amount"
 	// FieldPlatformTransactionID holds the string denoting the platform_transaction_id field in the database.
 	FieldPlatformTransactionID = "platform_transaction_id"
+	// FieldWithdrawType holds the string denoting the withdraw_type field in the database.
+	FieldWithdrawType = "withdraw_type"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -42,6 +44,7 @@ var Columns = []string{
 	FieldWithdrawToAccountID,
 	FieldAmount,
 	FieldPlatformTransactionID,
+	FieldWithdrawType,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

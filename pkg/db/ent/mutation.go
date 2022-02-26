@@ -10057,6 +10057,7 @@ type UserWithdrawItemMutation struct {
 	amount                  *uint64
 	addamount               *int64
 	platform_transaction_id *uuid.UUID
+	withdraw_type           *string
 	create_at               *uint32
 	addcreate_at            *int32
 	update_at               *uint32
@@ -10409,6 +10410,42 @@ func (m *UserWithdrawItemMutation) ResetPlatformTransactionID() {
 	m.platform_transaction_id = nil
 }
 
+// SetWithdrawType sets the "withdraw_type" field.
+func (m *UserWithdrawItemMutation) SetWithdrawType(s string) {
+	m.withdraw_type = &s
+}
+
+// WithdrawType returns the value of the "withdraw_type" field in the mutation.
+func (m *UserWithdrawItemMutation) WithdrawType() (r string, exists bool) {
+	v := m.withdraw_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWithdrawType returns the old "withdraw_type" field's value of the UserWithdrawItem entity.
+// If the UserWithdrawItem object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserWithdrawItemMutation) OldWithdrawType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWithdrawType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWithdrawType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWithdrawType: %w", err)
+	}
+	return oldValue.WithdrawType, nil
+}
+
+// ResetWithdrawType resets all changes to the "withdraw_type" field.
+func (m *UserWithdrawItemMutation) ResetWithdrawType() {
+	m.withdraw_type = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *UserWithdrawItemMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -10596,7 +10633,7 @@ func (m *UserWithdrawItemMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserWithdrawItemMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 10)
 	if m.app_id != nil {
 		fields = append(fields, userwithdrawitem.FieldAppID)
 	}
@@ -10614,6 +10651,9 @@ func (m *UserWithdrawItemMutation) Fields() []string {
 	}
 	if m.platform_transaction_id != nil {
 		fields = append(fields, userwithdrawitem.FieldPlatformTransactionID)
+	}
+	if m.withdraw_type != nil {
+		fields = append(fields, userwithdrawitem.FieldWithdrawType)
 	}
 	if m.create_at != nil {
 		fields = append(fields, userwithdrawitem.FieldCreateAt)
@@ -10644,6 +10684,8 @@ func (m *UserWithdrawItemMutation) Field(name string) (ent.Value, bool) {
 		return m.Amount()
 	case userwithdrawitem.FieldPlatformTransactionID:
 		return m.PlatformTransactionID()
+	case userwithdrawitem.FieldWithdrawType:
+		return m.WithdrawType()
 	case userwithdrawitem.FieldCreateAt:
 		return m.CreateAt()
 	case userwithdrawitem.FieldUpdateAt:
@@ -10671,6 +10713,8 @@ func (m *UserWithdrawItemMutation) OldField(ctx context.Context, name string) (e
 		return m.OldAmount(ctx)
 	case userwithdrawitem.FieldPlatformTransactionID:
 		return m.OldPlatformTransactionID(ctx)
+	case userwithdrawitem.FieldWithdrawType:
+		return m.OldWithdrawType(ctx)
 	case userwithdrawitem.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case userwithdrawitem.FieldUpdateAt:
@@ -10727,6 +10771,13 @@ func (m *UserWithdrawItemMutation) SetField(name string, value ent.Value) error 
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPlatformTransactionID(v)
+		return nil
+	case userwithdrawitem.FieldWithdrawType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWithdrawType(v)
 		return nil
 	case userwithdrawitem.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -10866,6 +10917,9 @@ func (m *UserWithdrawItemMutation) ResetField(name string) error {
 		return nil
 	case userwithdrawitem.FieldPlatformTransactionID:
 		m.ResetPlatformTransactionID()
+		return nil
+	case userwithdrawitem.FieldWithdrawType:
+		m.ResetWithdrawType()
 		return nil
 	case userwithdrawitem.FieldCreateAt:
 		m.ResetCreateAt()

@@ -3,6 +3,7 @@ package userwithdrawitem
 import (
 	"context"
 
+	constant "github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db"
@@ -28,6 +29,9 @@ func validateUserWithdrawItem(info *npool.UserWithdrawItem) error {
 	if _, err := uuid.Parse(info.GetWithdrawToAccountID()); err != nil {
 		return xerrors.Errorf("invalid account id: %v", err)
 	}
+	if info.GetWithdrawType() != constant.WithdrawTypeBenefit && info.GetWithdrawType() != constant.WithdrawTypeCommission {
+		return xerrors.Errorf("invalid withdraw type")
+	}
 	return nil
 }
 
@@ -40,6 +44,7 @@ func dbRowToUserWithdrawItem(row *ent.UserWithdrawItem) *npool.UserWithdrawItem 
 		WithdrawToAccountID:   row.WithdrawToAccountID.String(),
 		Amount:                price.DBPriceToVisualPrice(row.Amount),
 		PlatformTransactionID: row.PlatformTransactionID.String(),
+		WithdrawType:          row.WithdrawType,
 	}
 }
 
@@ -62,6 +67,7 @@ func Create(ctx context.Context, in *npool.CreateUserWithdrawItemRequest) (*npoo
 		SetWithdrawToAccountID(uuid.MustParse(in.GetInfo().GetWithdrawToAccountID())).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetPlatformTransactionID(uuid.UUID{}).
+		SetWithdrawType(in.GetInfo().GetWithdrawType()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create user withdraw item: %v", err)

@@ -7,4 +7,7 @@ const (
 	CoinTransactionStateSuccessful = "successful"
 	CoinTransactionStateFail       = "fail"
 	CoinTransactionStateRejected   = "rejected"
+
+	WithdrawTypeBenefit    = "benefit"
+	WithdrawTypeCommission = "commission"
 )

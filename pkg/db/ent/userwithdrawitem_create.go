@@ -59,6 +59,12 @@ func (uwic *UserWithdrawItemCreate) SetPlatformTransactionID(u uuid.UUID) *UserW
 	return uwic
 }
 
+// SetWithdrawType sets the "withdraw_type" field.
+func (uwic *UserWithdrawItemCreate) SetWithdrawType(s string) *UserWithdrawItemCreate {
+	uwic.mutation.SetWithdrawType(s)
+	return uwic
+}
+
 // SetCreateAt sets the "create_at" field.
 func (uwic *UserWithdrawItemCreate) SetCreateAt(u uint32) *UserWithdrawItemCreate {
 	uwic.mutation.SetCreateAt(u)
@@ -224,6 +230,9 @@ func (uwic *UserWithdrawItemCreate) check() error {
 	if _, ok := uwic.mutation.PlatformTransactionID(); !ok {
 		return &ValidationError{Name: "platform_transaction_id", err: errors.New(`ent: missing required field "UserWithdrawItem.platform_transaction_id"`)}
 	}
+	if _, ok := uwic.mutation.WithdrawType(); !ok {
+		return &ValidationError{Name: "withdraw_type", err: errors.New(`ent: missing required field "UserWithdrawItem.withdraw_type"`)}
+	}
 	if _, ok := uwic.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserWithdrawItem.create_at"`)}
 	}
@@ -317,6 +326,14 @@ func (uwic *UserWithdrawItemCreate) createSpec() (*UserWithdrawItem, *sqlgraph.C
 			Column: userwithdrawitem.FieldPlatformTransactionID,
 		})
 		_node.PlatformTransactionID = value
+	}
+	if value, ok := uwic.mutation.WithdrawType(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userwithdrawitem.FieldWithdrawType,
+		})
+		_node.WithdrawType = value
 	}
 	if value, ok := uwic.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -471,6 +488,18 @@ func (u *UserWithdrawItemUpsert) SetPlatformTransactionID(v uuid.UUID) *UserWith
 // UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
 func (u *UserWithdrawItemUpsert) UpdatePlatformTransactionID() *UserWithdrawItemUpsert {
 	u.SetExcluded(userwithdrawitem.FieldPlatformTransactionID)
+	return u
+}
+
+// SetWithdrawType sets the "withdraw_type" field.
+func (u *UserWithdrawItemUpsert) SetWithdrawType(v string) *UserWithdrawItemUpsert {
+	u.Set(userwithdrawitem.FieldWithdrawType, v)
+	return u
+}
+
+// UpdateWithdrawType sets the "withdraw_type" field to the value that was provided on create.
+func (u *UserWithdrawItemUpsert) UpdateWithdrawType() *UserWithdrawItemUpsert {
+	u.SetExcluded(userwithdrawitem.FieldWithdrawType)
 	return u
 }
 
@@ -666,6 +695,20 @@ func (u *UserWithdrawItemUpsertOne) SetPlatformTransactionID(v uuid.UUID) *UserW
 func (u *UserWithdrawItemUpsertOne) UpdatePlatformTransactionID() *UserWithdrawItemUpsertOne {
 	return u.Update(func(s *UserWithdrawItemUpsert) {
 		s.UpdatePlatformTransactionID()
+	})
+}
+
+// SetWithdrawType sets the "withdraw_type" field.
+func (u *UserWithdrawItemUpsertOne) SetWithdrawType(v string) *UserWithdrawItemUpsertOne {
+	return u.Update(func(s *UserWithdrawItemUpsert) {
+		s.SetWithdrawType(v)
+	})
+}
+
+// UpdateWithdrawType sets the "withdraw_type" field to the value that was provided on create.
+func (u *UserWithdrawItemUpsertOne) UpdateWithdrawType() *UserWithdrawItemUpsertOne {
+	return u.Update(func(s *UserWithdrawItemUpsert) {
+		s.UpdateWithdrawType()
 	})
 }
 
@@ -1036,6 +1079,20 @@ func (u *UserWithdrawItemUpsertBulk) SetPlatformTransactionID(v uuid.UUID) *User
 func (u *UserWithdrawItemUpsertBulk) UpdatePlatformTransactionID() *UserWithdrawItemUpsertBulk {
 	return u.Update(func(s *UserWithdrawItemUpsert) {
 		s.UpdatePlatformTransactionID()
+	})
+}
+
+// SetWithdrawType sets the "withdraw_type" field.
+func (u *UserWithdrawItemUpsertBulk) SetWithdrawType(v string) *UserWithdrawItemUpsertBulk {
+	return u.Update(func(s *UserWithdrawItemUpsert) {
+		s.SetWithdrawType(v)
+	})
+}
+
+// UpdateWithdrawType sets the "withdraw_type" field to the value that was provided on create.
+func (u *UserWithdrawItemUpsertBulk) UpdateWithdrawType() *UserWithdrawItemUpsertBulk {
+	return u.Update(func(s *UserWithdrawItemUpsert) {
+		s.UpdateWithdrawType()
 	})
 }
 
