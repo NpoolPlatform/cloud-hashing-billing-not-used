@@ -287,3 +287,44 @@ func GetByAppUserCoinWithdrawType(ctx context.Context, in *npool.GetUserWithdraw
 		Infos: userWithdrawItems,
 	}, nil
 }
+
+func GetByAppUserWithdrawType(ctx context.Context, in *npool.GetUserWithdrawItemsByAppUserWithdrawTypeRequest) (*npool.GetUserWithdrawItemsByAppUserWithdrawTypeResponse, error) {
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	userID, err := uuid.Parse(in.GetUserID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		UserWithdrawItem.
+		Query().
+		Where(
+			userwithdrawitem.And(
+				userwithdrawitem.AppID(appID),
+				userwithdrawitem.UserID(userID),
+				userwithdrawitem.WithdrawType(in.GetWithdrawType()),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query user withdraw item: %v", err)
+	}
+
+	userWithdrawItems := []*npool.UserWithdrawItem{}
+	for _, info := range infos {
+		userWithdrawItems = append(userWithdrawItems, dbRowToUserWithdrawItem(info))
+	}
+
+	return &npool.GetUserWithdrawItemsByAppUserWithdrawTypeResponse{
+		Infos: userWithdrawItems,
+	}, nil
+}
