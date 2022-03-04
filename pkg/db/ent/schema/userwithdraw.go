@@ -25,6 +25,7 @@ func (UserWithdraw) Fields() []ent.Field {
 		field.UUID("user_id", uuid.UUID{}),
 		field.String("name"),
 		field.String("message"),
+		field.JSON("labels", []string{}),
 		field.UUID("coin_type_id", uuid.UUID{}),
 		field.UUID("account_id", uuid.UUID{}),
 		field.Uint32("create_at").

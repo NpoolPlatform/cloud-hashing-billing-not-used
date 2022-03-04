@@ -19,6 +19,8 @@ const (
 	FieldName = "name"
 	// FieldMessage holds the string denoting the message field in the database.
 	FieldMessage = "message"
+	// FieldLabels holds the string denoting the labels field in the database.
+	FieldLabels = "labels"
 	// FieldCoinTypeID holds the string denoting the coin_type_id field in the database.
 	FieldCoinTypeID = "coin_type_id"
 	// FieldAccountID holds the string denoting the account_id field in the database.
@@ -40,6 +42,7 @@ var Columns = []string{
 	FieldUserID,
 	FieldName,
 	FieldMessage,
+	FieldLabels,
 	FieldCoinTypeID,
 	FieldAccountID,
 	FieldCreateAt,

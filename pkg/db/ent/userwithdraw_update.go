@@ -52,6 +52,12 @@ func (uwu *UserWithdrawUpdate) SetMessage(s string) *UserWithdrawUpdate {
 	return uwu
 }
 
+// SetLabels sets the "labels" field.
+func (uwu *UserWithdrawUpdate) SetLabels(s []string) *UserWithdrawUpdate {
+	uwu.mutation.SetLabels(s)
+	return uwu
+}
+
 // SetCoinTypeID sets the "coin_type_id" field.
 func (uwu *UserWithdrawUpdate) SetCoinTypeID(u uuid.UUID) *UserWithdrawUpdate {
 	uwu.mutation.SetCoinTypeID(u)
@@ -233,6 +239,13 @@ func (uwu *UserWithdrawUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: userwithdraw.FieldMessage,
 		})
 	}
+	if value, ok := uwu.mutation.Labels(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeJSON,
+			Value:  value,
+			Column: userwithdraw.FieldLabels,
+		})
+	}
 	if value, ok := uwu.mutation.CoinTypeID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -329,6 +342,12 @@ func (uwuo *UserWithdrawUpdateOne) SetName(s string) *UserWithdrawUpdateOne {
 // SetMessage sets the "message" field.
 func (uwuo *UserWithdrawUpdateOne) SetMessage(s string) *UserWithdrawUpdateOne {
 	uwuo.mutation.SetMessage(s)
+	return uwuo
+}
+
+// SetLabels sets the "labels" field.
+func (uwuo *UserWithdrawUpdateOne) SetLabels(s []string) *UserWithdrawUpdateOne {
+	uwuo.mutation.SetLabels(s)
 	return uwuo
 }
 
@@ -535,6 +554,13 @@ func (uwuo *UserWithdrawUpdateOne) sqlSave(ctx context.Context) (_node *UserWith
 			Type:   field.TypeString,
 			Value:  value,
 			Column: userwithdraw.FieldMessage,
+		})
+	}
+	if value, ok := uwuo.mutation.Labels(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeJSON,
+			Value:  value,
+			Column: userwithdraw.FieldLabels,
 		})
 	}
 	if value, ok := uwuo.mutation.CoinTypeID(); ok {

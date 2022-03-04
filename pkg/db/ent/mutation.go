@@ -9203,6 +9203,7 @@ type UserWithdrawMutation struct {
 	user_id       *uuid.UUID
 	name          *string
 	message       *string
+	labels        *[]string
 	coin_type_id  *uuid.UUID
 	account_id    *uuid.UUID
 	create_at     *uint32
@@ -9465,6 +9466,42 @@ func (m *UserWithdrawMutation) ResetMessage() {
 	m.message = nil
 }
 
+// SetLabels sets the "labels" field.
+func (m *UserWithdrawMutation) SetLabels(s []string) {
+	m.labels = &s
+}
+
+// Labels returns the value of the "labels" field in the mutation.
+func (m *UserWithdrawMutation) Labels() (r []string, exists bool) {
+	v := m.labels
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLabels returns the old "labels" field's value of the UserWithdraw entity.
+// If the UserWithdraw object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserWithdrawMutation) OldLabels(ctx context.Context) (v []string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLabels is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLabels requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLabels: %w", err)
+	}
+	return oldValue.Labels, nil
+}
+
+// ResetLabels resets all changes to the "labels" field.
+func (m *UserWithdrawMutation) ResetLabels() {
+	m.labels = nil
+}
+
 // SetCoinTypeID sets the "coin_type_id" field.
 func (m *UserWithdrawMutation) SetCoinTypeID(u uuid.UUID) {
 	m.coin_type_id = &u
@@ -9724,7 +9761,7 @@ func (m *UserWithdrawMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserWithdrawMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 10)
 	if m.app_id != nil {
 		fields = append(fields, userwithdraw.FieldAppID)
 	}
@@ -9736,6 +9773,9 @@ func (m *UserWithdrawMutation) Fields() []string {
 	}
 	if m.message != nil {
 		fields = append(fields, userwithdraw.FieldMessage)
+	}
+	if m.labels != nil {
+		fields = append(fields, userwithdraw.FieldLabels)
 	}
 	if m.coin_type_id != nil {
 		fields = append(fields, userwithdraw.FieldCoinTypeID)
@@ -9768,6 +9808,8 @@ func (m *UserWithdrawMutation) Field(name string) (ent.Value, bool) {
 		return m.Name()
 	case userwithdraw.FieldMessage:
 		return m.Message()
+	case userwithdraw.FieldLabels:
+		return m.Labels()
 	case userwithdraw.FieldCoinTypeID:
 		return m.CoinTypeID()
 	case userwithdraw.FieldAccountID:
@@ -9795,6 +9837,8 @@ func (m *UserWithdrawMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldName(ctx)
 	case userwithdraw.FieldMessage:
 		return m.OldMessage(ctx)
+	case userwithdraw.FieldLabels:
+		return m.OldLabels(ctx)
 	case userwithdraw.FieldCoinTypeID:
 		return m.OldCoinTypeID(ctx)
 	case userwithdraw.FieldAccountID:
@@ -9841,6 +9885,13 @@ func (m *UserWithdrawMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMessage(v)
+		return nil
+	case userwithdraw.FieldLabels:
+		v, ok := value.([]string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLabels(v)
 		return nil
 	case userwithdraw.FieldCoinTypeID:
 		v, ok := value.(uuid.UUID)
@@ -9976,6 +10027,9 @@ func (m *UserWithdrawMutation) ResetField(name string) error {
 		return nil
 	case userwithdraw.FieldMessage:
 		m.ResetMessage()
+		return nil
+	case userwithdraw.FieldLabels:
+		m.ResetLabels()
 		return nil
 	case userwithdraw.FieldCoinTypeID:
 		m.ResetCoinTypeID()

@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -24,6 +25,8 @@ type UserWithdraw struct {
 	Name string `json:"name,omitempty"`
 	// Message holds the value of the "message" field.
 	Message string `json:"message,omitempty"`
+	// Labels holds the value of the "labels" field.
+	Labels []string `json:"labels,omitempty"`
 	// CoinTypeID holds the value of the "coin_type_id" field.
 	CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 	// AccountID holds the value of the "account_id" field.
@@ -41,6 +44,8 @@ func (*UserWithdraw) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case userwithdraw.FieldLabels:
+			values[i] = new([]byte)
 		case userwithdraw.FieldCreateAt, userwithdraw.FieldUpdateAt, userwithdraw.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case userwithdraw.FieldName, userwithdraw.FieldMessage:
@@ -91,6 +96,14 @@ func (uw *UserWithdraw) assignValues(columns []string, values []interface{}) err
 				return fmt.Errorf("unexpected type %T for field message", values[i])
 			} else if value.Valid {
 				uw.Message = value.String
+			}
+		case userwithdraw.FieldLabels:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field labels", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &uw.Labels); err != nil {
+					return fmt.Errorf("unmarshal field labels: %w", err)
+				}
 			}
 		case userwithdraw.FieldCoinTypeID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -158,6 +171,8 @@ func (uw *UserWithdraw) String() string {
 	builder.WriteString(uw.Name)
 	builder.WriteString(", message=")
 	builder.WriteString(uw.Message)
+	builder.WriteString(", labels=")
+	builder.WriteString(fmt.Sprintf("%v", uw.Labels))
 	builder.WriteString(", coin_type_id=")
 	builder.WriteString(fmt.Sprintf("%v", uw.CoinTypeID))
 	builder.WriteString(", account_id=")

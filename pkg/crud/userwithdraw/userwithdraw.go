@@ -40,6 +40,7 @@ func dbRowToUserWithdraw(row *ent.UserWithdraw) *npool.UserWithdraw {
 		CreateAt:   row.CreateAt,
 		Name:       row.Name,
 		Message:    row.Message,
+		Labels:     row.Labels,
 	}
 }
 
@@ -62,6 +63,7 @@ func Create(ctx context.Context, in *npool.CreateUserWithdrawRequest) (*npool.Cr
 		SetAccountID(uuid.MustParse(in.GetInfo().GetAccountID())).
 		SetName(in.GetInfo().GetName()).
 		SetMessage(in.GetInfo().GetMessage()).
+		SetLabels(in.GetInfo().GetLabels()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create user withdraw: %v", err)
@@ -92,6 +94,7 @@ func Update(ctx context.Context, in *npool.UpdateUserWithdrawRequest) (*npool.Up
 		UpdateOneID(id).
 		SetName(in.GetInfo().GetName()).
 		SetMessage(in.GetInfo().GetMessage()).
+		SetLabels(in.GetInfo().GetLabels()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update user withdraw: %v", err)

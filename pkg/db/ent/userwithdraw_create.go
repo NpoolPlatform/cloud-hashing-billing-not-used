@@ -47,6 +47,12 @@ func (uwc *UserWithdrawCreate) SetMessage(s string) *UserWithdrawCreate {
 	return uwc
 }
 
+// SetLabels sets the "labels" field.
+func (uwc *UserWithdrawCreate) SetLabels(s []string) *UserWithdrawCreate {
+	uwc.mutation.SetLabels(s)
+	return uwc
+}
+
 // SetCoinTypeID sets the "coin_type_id" field.
 func (uwc *UserWithdrawCreate) SetCoinTypeID(u uuid.UUID) *UserWithdrawCreate {
 	uwc.mutation.SetCoinTypeID(u)
@@ -218,6 +224,9 @@ func (uwc *UserWithdrawCreate) check() error {
 	if _, ok := uwc.mutation.Message(); !ok {
 		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "UserWithdraw.message"`)}
 	}
+	if _, ok := uwc.mutation.Labels(); !ok {
+		return &ValidationError{Name: "labels", err: errors.New(`ent: missing required field "UserWithdraw.labels"`)}
+	}
 	if _, ok := uwc.mutation.CoinTypeID(); !ok {
 		return &ValidationError{Name: "coin_type_id", err: errors.New(`ent: missing required field "UserWithdraw.coin_type_id"`)}
 	}
@@ -301,6 +310,14 @@ func (uwc *UserWithdrawCreate) createSpec() (*UserWithdraw, *sqlgraph.CreateSpec
 			Column: userwithdraw.FieldMessage,
 		})
 		_node.Message = value
+	}
+	if value, ok := uwc.mutation.Labels(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeJSON,
+			Value:  value,
+			Column: userwithdraw.FieldLabels,
+		})
+		_node.Labels = value
 	}
 	if value, ok := uwc.mutation.CoinTypeID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -441,6 +458,18 @@ func (u *UserWithdrawUpsert) SetMessage(v string) *UserWithdrawUpsert {
 // UpdateMessage sets the "message" field to the value that was provided on create.
 func (u *UserWithdrawUpsert) UpdateMessage() *UserWithdrawUpsert {
 	u.SetExcluded(userwithdraw.FieldMessage)
+	return u
+}
+
+// SetLabels sets the "labels" field.
+func (u *UserWithdrawUpsert) SetLabels(v []string) *UserWithdrawUpsert {
+	u.Set(userwithdraw.FieldLabels, v)
+	return u
+}
+
+// UpdateLabels sets the "labels" field to the value that was provided on create.
+func (u *UserWithdrawUpsert) UpdateLabels() *UserWithdrawUpsert {
+	u.SetExcluded(userwithdraw.FieldLabels)
 	return u
 }
 
@@ -625,6 +654,20 @@ func (u *UserWithdrawUpsertOne) SetMessage(v string) *UserWithdrawUpsertOne {
 func (u *UserWithdrawUpsertOne) UpdateMessage() *UserWithdrawUpsertOne {
 	return u.Update(func(s *UserWithdrawUpsert) {
 		s.UpdateMessage()
+	})
+}
+
+// SetLabels sets the "labels" field.
+func (u *UserWithdrawUpsertOne) SetLabels(v []string) *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetLabels(v)
+	})
+}
+
+// UpdateLabels sets the "labels" field to the value that was provided on create.
+func (u *UserWithdrawUpsertOne) UpdateLabels() *UserWithdrawUpsertOne {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateLabels()
 	})
 }
 
@@ -988,6 +1031,20 @@ func (u *UserWithdrawUpsertBulk) SetMessage(v string) *UserWithdrawUpsertBulk {
 func (u *UserWithdrawUpsertBulk) UpdateMessage() *UserWithdrawUpsertBulk {
 	return u.Update(func(s *UserWithdrawUpsert) {
 		s.UpdateMessage()
+	})
+}
+
+// SetLabels sets the "labels" field.
+func (u *UserWithdrawUpsertBulk) SetLabels(v []string) *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.SetLabels(v)
+	})
+}
+
+// UpdateLabels sets the "labels" field to the value that was provided on create.
+func (u *UserWithdrawUpsertBulk) UpdateLabels() *UserWithdrawUpsertBulk {
+	return u.Update(func(s *UserWithdrawUpsert) {
+		s.UpdateLabels()
 	})
 }
 
