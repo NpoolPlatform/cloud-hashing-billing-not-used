@@ -72,12 +72,6 @@ func (pbu *PlatformBenefitUpdate) SetChainTransactionID(s string) *PlatformBenef
 	return pbu
 }
 
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (pbu *PlatformBenefitUpdate) SetPlatformTransactionID(u uuid.UUID) *PlatformBenefitUpdate {
-	pbu.mutation.SetPlatformTransactionID(u)
-	return pbu
-}
-
 // SetCreateAt sets the "create_at" field.
 func (pbu *PlatformBenefitUpdate) SetCreateAt(u uint32) *PlatformBenefitUpdate {
 	pbu.mutation.ResetCreateAt()
@@ -268,13 +262,6 @@ func (pbu *PlatformBenefitUpdate) sqlSave(ctx context.Context) (n int, err error
 			Column: platformbenefit.FieldChainTransactionID,
 		})
 	}
-	if value, ok := pbu.mutation.PlatformTransactionID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformbenefit.FieldPlatformTransactionID,
-		})
-	}
 	if value, ok := pbu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -377,12 +364,6 @@ func (pbuo *PlatformBenefitUpdateOne) AddLastBenefitTimestamp(u int32) *Platform
 // SetChainTransactionID sets the "chain_transaction_id" field.
 func (pbuo *PlatformBenefitUpdateOne) SetChainTransactionID(s string) *PlatformBenefitUpdateOne {
 	pbuo.mutation.SetChainTransactionID(s)
-	return pbuo
-}
-
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (pbuo *PlatformBenefitUpdateOne) SetPlatformTransactionID(u uuid.UUID) *PlatformBenefitUpdateOne {
-	pbuo.mutation.SetPlatformTransactionID(u)
 	return pbuo
 }
 
@@ -598,13 +579,6 @@ func (pbuo *PlatformBenefitUpdateOne) sqlSave(ctx context.Context) (_node *Platf
 			Type:   field.TypeString,
 			Value:  value,
 			Column: platformbenefit.FieldChainTransactionID,
-		})
-	}
-	if value, ok := pbuo.mutation.PlatformTransactionID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: platformbenefit.FieldPlatformTransactionID,
 		})
 	}
 	if value, ok := pbuo.mutation.CreateAt(); ok {

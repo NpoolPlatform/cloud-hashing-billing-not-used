@@ -29,6 +29,9 @@ func validateUserBenefit(info *npool.UserBenefit) error {
 	if _, err := uuid.Parse(info.GetOrderID()); err != nil {
 		return xerrors.Errorf("invalid order id: %v", err)
 	}
+	if _, err := uuid.Parse(info.GetPlatformTransactionID()); err != nil {
+		return xerrors.Errorf("invalid platform transaction id: %v", err)
+	}
 	if _, err := uuid.Parse(info.GetCoinTypeID()); err != nil {
 		return xerrors.Errorf("invalid coin type id: %v", err)
 	}
@@ -63,11 +66,6 @@ func Create(ctx context.Context, in *npool.CreateUserBenefitRequest) (*npool.Cre
 		return nil, xerrors.Errorf("fail get db client: %v", err)
 	}
 
-	platformTID, err := uuid.Parse(in.GetInfo().GetPlatformTransactionID())
-	if err != nil {
-		platformTID = uuid.UUID{}
-	}
-
 	info, err := cli.
 		UserBenefit.
 		Create().
@@ -78,7 +76,7 @@ func Create(ctx context.Context, in *npool.CreateUserBenefitRequest) (*npool.Cre
 		SetOrderID(uuid.MustParse(in.GetInfo().GetOrderID())).
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetLastBenefitTimestamp(in.GetInfo().GetLastBenefitTimestamp()).
-		SetPlatformTransactionID(platformTID).
+		SetPlatformTransactionID(uuid.MustParse(in.GetInfo().GetPlatformTransactionID())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create user benefit: %v", err)

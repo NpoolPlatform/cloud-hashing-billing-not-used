@@ -31,7 +31,6 @@ func assertPlatformBenefit(t *testing.T, actual, expected *npool.PlatformBenefit
 	assert.Equal(t, actual.Amount, expected.Amount)
 	assert.Equal(t, actual.LastBenefitTimestamp, expected.LastBenefitTimestamp)
 	assert.Equal(t, actual.ChainTransactionID, expected.ChainTransactionID)
-	assert.Equal(t, actual.PlatformTransactionID, expected.PlatformTransactionID)
 }
 
 func TestCRUD(t *testing.T) {
@@ -40,12 +39,11 @@ func TestCRUD(t *testing.T) {
 	}
 
 	platformBenefit := npool.PlatformBenefit{
-		GoodID:                uuid.New().String(),
-		BenefitAccountID:      uuid.New().String(),
-		Amount:                0.13,
-		LastBenefitTimestamp:  uint32(time.Now().Unix()),
-		ChainTransactionID:    uuid.New().String(),
-		PlatformTransactionID: uuid.New().String(),
+		GoodID:               uuid.New().String(),
+		BenefitAccountID:     uuid.New().String(),
+		Amount:               0.13,
+		LastBenefitTimestamp: uint32(time.Now().Unix()),
+		ChainTransactionID:   uuid.New().String(),
 	}
 
 	resp, err := Create(context.Background(), &npool.CreatePlatformBenefitRequest{

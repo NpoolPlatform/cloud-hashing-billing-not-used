@@ -147,17 +147,17 @@ func init() {
 	platformbenefitFields := schema.PlatformBenefit{}.Fields()
 	_ = platformbenefitFields
 	// platformbenefitDescCreateAt is the schema descriptor for create_at field.
-	platformbenefitDescCreateAt := platformbenefitFields[7].Descriptor()
+	platformbenefitDescCreateAt := platformbenefitFields[6].Descriptor()
 	// platformbenefit.DefaultCreateAt holds the default value on creation for the create_at field.
 	platformbenefit.DefaultCreateAt = platformbenefitDescCreateAt.Default.(func() uint32)
 	// platformbenefitDescUpdateAt is the schema descriptor for update_at field.
-	platformbenefitDescUpdateAt := platformbenefitFields[8].Descriptor()
+	platformbenefitDescUpdateAt := platformbenefitFields[7].Descriptor()
 	// platformbenefit.DefaultUpdateAt holds the default value on creation for the update_at field.
 	platformbenefit.DefaultUpdateAt = platformbenefitDescUpdateAt.Default.(func() uint32)
 	// platformbenefit.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	platformbenefit.UpdateDefaultUpdateAt = platformbenefitDescUpdateAt.UpdateDefault.(func() uint32)
 	// platformbenefitDescDeleteAt is the schema descriptor for delete_at field.
-	platformbenefitDescDeleteAt := platformbenefitFields[9].Descriptor()
+	platformbenefitDescDeleteAt := platformbenefitFields[8].Descriptor()
 	// platformbenefit.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	platformbenefit.DefaultDeleteAt = platformbenefitDescDeleteAt.Default.(func() uint32)
 	// platformbenefitDescID is the schema descriptor for id field.

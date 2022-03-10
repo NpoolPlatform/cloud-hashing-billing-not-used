@@ -5065,7 +5065,6 @@ type PlatformBenefitMutation struct {
 	last_benefit_timestamp    *uint32
 	addlast_benefit_timestamp *int32
 	chain_transaction_id      *string
-	platform_transaction_id   *uuid.UUID
 	create_at                 *uint32
 	addcreate_at              *int32
 	update_at                 *uint32
@@ -5402,42 +5401,6 @@ func (m *PlatformBenefitMutation) ResetChainTransactionID() {
 	m.chain_transaction_id = nil
 }
 
-// SetPlatformTransactionID sets the "platform_transaction_id" field.
-func (m *PlatformBenefitMutation) SetPlatformTransactionID(u uuid.UUID) {
-	m.platform_transaction_id = &u
-}
-
-// PlatformTransactionID returns the value of the "platform_transaction_id" field in the mutation.
-func (m *PlatformBenefitMutation) PlatformTransactionID() (r uuid.UUID, exists bool) {
-	v := m.platform_transaction_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPlatformTransactionID returns the old "platform_transaction_id" field's value of the PlatformBenefit entity.
-// If the PlatformBenefit object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PlatformBenefitMutation) OldPlatformTransactionID(ctx context.Context) (v uuid.UUID, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPlatformTransactionID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPlatformTransactionID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPlatformTransactionID: %w", err)
-	}
-	return oldValue.PlatformTransactionID, nil
-}
-
-// ResetPlatformTransactionID resets all changes to the "platform_transaction_id" field.
-func (m *PlatformBenefitMutation) ResetPlatformTransactionID() {
-	m.platform_transaction_id = nil
-}
-
 // SetCreateAt sets the "create_at" field.
 func (m *PlatformBenefitMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -5625,7 +5588,7 @@ func (m *PlatformBenefitMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *PlatformBenefitMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 8)
 	if m.good_id != nil {
 		fields = append(fields, platformbenefit.FieldGoodID)
 	}
@@ -5640,9 +5603,6 @@ func (m *PlatformBenefitMutation) Fields() []string {
 	}
 	if m.chain_transaction_id != nil {
 		fields = append(fields, platformbenefit.FieldChainTransactionID)
-	}
-	if m.platform_transaction_id != nil {
-		fields = append(fields, platformbenefit.FieldPlatformTransactionID)
 	}
 	if m.create_at != nil {
 		fields = append(fields, platformbenefit.FieldCreateAt)
@@ -5671,8 +5631,6 @@ func (m *PlatformBenefitMutation) Field(name string) (ent.Value, bool) {
 		return m.LastBenefitTimestamp()
 	case platformbenefit.FieldChainTransactionID:
 		return m.ChainTransactionID()
-	case platformbenefit.FieldPlatformTransactionID:
-		return m.PlatformTransactionID()
 	case platformbenefit.FieldCreateAt:
 		return m.CreateAt()
 	case platformbenefit.FieldUpdateAt:
@@ -5698,8 +5656,6 @@ func (m *PlatformBenefitMutation) OldField(ctx context.Context, name string) (en
 		return m.OldLastBenefitTimestamp(ctx)
 	case platformbenefit.FieldChainTransactionID:
 		return m.OldChainTransactionID(ctx)
-	case platformbenefit.FieldPlatformTransactionID:
-		return m.OldPlatformTransactionID(ctx)
 	case platformbenefit.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case platformbenefit.FieldUpdateAt:
@@ -5749,13 +5705,6 @@ func (m *PlatformBenefitMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetChainTransactionID(v)
-		return nil
-	case platformbenefit.FieldPlatformTransactionID:
-		v, ok := value.(uuid.UUID)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPlatformTransactionID(v)
 		return nil
 	case platformbenefit.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -5904,9 +5853,6 @@ func (m *PlatformBenefitMutation) ResetField(name string) error {
 		return nil
 	case platformbenefit.FieldChainTransactionID:
 		m.ResetChainTransactionID()
-		return nil
-	case platformbenefit.FieldPlatformTransactionID:
-		m.ResetPlatformTransactionID()
 		return nil
 	case platformbenefit.FieldCreateAt:
 		m.ResetCreateAt()
