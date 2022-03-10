@@ -107,7 +107,7 @@ func (upbq *UserPaymentBalanceQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single UserPaymentBalance entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one UserPaymentBalance entity is not found.
+// Returns a *NotSingularError when more than one UserPaymentBalance entity is found.
 // Returns a *NotFoundError when no UserPaymentBalance entities are found.
 func (upbq *UserPaymentBalanceQuery) Only(ctx context.Context) (*UserPaymentBalance, error) {
 	nodes, err := upbq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (upbq *UserPaymentBalanceQuery) OnlyX(ctx context.Context) *UserPaymentBala
 }
 
 // OnlyID is like Only, but returns the only UserPaymentBalance ID in the query.
-// Returns a *NotSingularError when exactly one UserPaymentBalance ID is not found.
+// Returns a *NotSingularError when more than one UserPaymentBalance ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (upbq *UserPaymentBalanceQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (upbq *UserPaymentBalanceQuery) Clone() *UserPaymentBalanceQuery {
 		order:      append([]OrderFunc{}, upbq.order...),
 		predicates: append([]predicate.UserPaymentBalance{}, upbq.predicates...),
 		// clone intermediate query.
-		sql:  upbq.sql.Clone(),
-		path: upbq.path,
+		sql:    upbq.sql.Clone(),
+		path:   upbq.path,
+		unique: upbq.unique,
 	}
 }
 

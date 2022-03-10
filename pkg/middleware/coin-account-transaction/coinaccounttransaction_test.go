@@ -54,8 +54,9 @@ func TestGet(t *testing.T) {
 	assert.Nil(t, err)
 
 	transaction := npool.CoinAccountTransaction{
-		UserID:             uuid.New().String(),
 		AppID:              uuid.New().String(),
+		UserID:             uuid.New().String(),
+		GoodID:             uuid.New().String(),
 		FromAddressID:      resp1.Info.ID,
 		ToAddressID:        resp2.Info.ID,
 		CoinTypeID:         coinTypeID,

@@ -17,6 +17,8 @@ const (
 	FieldAppID = "app_id"
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
+	// FieldGoodID holds the string denoting the good_id field in the database.
+	FieldGoodID = "good_id"
 	// FieldFromAddressID holds the string denoting the from_address_id field in the database.
 	FieldFromAddressID = "from_address_id"
 	// FieldToAddressID holds the string denoting the to_address_id field in the database.
@@ -46,6 +48,7 @@ var Columns = []string{
 	FieldID,
 	FieldAppID,
 	FieldUserID,
+	FieldGoodID,
 	FieldFromAddressID,
 	FieldToAddressID,
 	FieldCoinTypeID,

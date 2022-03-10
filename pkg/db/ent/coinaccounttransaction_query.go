@@ -107,7 +107,7 @@ func (catq *CoinAccountTransactionQuery) FirstIDX(ctx context.Context) uuid.UUID
 }
 
 // Only returns a single CoinAccountTransaction entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one CoinAccountTransaction entity is not found.
+// Returns a *NotSingularError when more than one CoinAccountTransaction entity is found.
 // Returns a *NotFoundError when no CoinAccountTransaction entities are found.
 func (catq *CoinAccountTransactionQuery) Only(ctx context.Context) (*CoinAccountTransaction, error) {
 	nodes, err := catq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (catq *CoinAccountTransactionQuery) OnlyX(ctx context.Context) *CoinAccount
 }
 
 // OnlyID is like Only, but returns the only CoinAccountTransaction ID in the query.
-// Returns a *NotSingularError when exactly one CoinAccountTransaction ID is not found.
+// Returns a *NotSingularError when more than one CoinAccountTransaction ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (catq *CoinAccountTransactionQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (catq *CoinAccountTransactionQuery) Clone() *CoinAccountTransactionQuery {
 		order:      append([]OrderFunc{}, catq.order...),
 		predicates: append([]predicate.CoinAccountTransaction{}, catq.predicates...),
 		// clone intermediate query.
-		sql:  catq.sql.Clone(),
-		path: catq.path,
+		sql:    catq.sql.Clone(),
+		path:   catq.path,
+		unique: catq.unique,
 	}
 }
 

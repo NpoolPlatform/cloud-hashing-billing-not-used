@@ -84,6 +84,12 @@ func (ubu *UserBenefitUpdate) AddLastBenefitTimestamp(u int32) *UserBenefitUpdat
 	return ubu
 }
 
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (ubu *UserBenefitUpdate) SetPlatformTransactionID(u uuid.UUID) *UserBenefitUpdate {
+	ubu.mutation.SetPlatformTransactionID(u)
+	return ubu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ubu *UserBenefitUpdate) SetCreateAt(u uint32) *UserBenefitUpdate {
 	ubu.mutation.ResetCreateAt()
@@ -288,6 +294,13 @@ func (ubu *UserBenefitUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: userbenefit.FieldLastBenefitTimestamp,
 		})
 	}
+	if value, ok := ubu.mutation.PlatformTransactionID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldPlatformTransactionID,
+		})
+	}
 	if value, ok := ubu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -402,6 +415,12 @@ func (ubuo *UserBenefitUpdateOne) SetLastBenefitTimestamp(u uint32) *UserBenefit
 // AddLastBenefitTimestamp adds u to the "last_benefit_timestamp" field.
 func (ubuo *UserBenefitUpdateOne) AddLastBenefitTimestamp(u int32) *UserBenefitUpdateOne {
 	ubuo.mutation.AddLastBenefitTimestamp(u)
+	return ubuo
+}
+
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (ubuo *UserBenefitUpdateOne) SetPlatformTransactionID(u uuid.UUID) *UserBenefitUpdateOne {
+	ubuo.mutation.SetPlatformTransactionID(u)
 	return ubuo
 }
 
@@ -631,6 +650,13 @@ func (ubuo *UserBenefitUpdateOne) sqlSave(ctx context.Context) (_node *UserBenef
 			Type:   field.TypeUint32,
 			Value:  value,
 			Column: userbenefit.FieldLastBenefitTimestamp,
+		})
+	}
+	if value, ok := ubuo.mutation.PlatformTransactionID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldPlatformTransactionID,
 		})
 	}
 	if value, ok := ubuo.mutation.CreateAt(); ok {

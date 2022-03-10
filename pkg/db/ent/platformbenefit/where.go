@@ -126,6 +126,13 @@ func ChainTransactionID(v string) predicate.PlatformBenefit {
 	})
 }
 
+// PlatformTransactionID applies equality check predicate on the "platform_transaction_id" field. It's identical to PlatformTransactionIDEQ.
+func PlatformTransactionID(v uuid.UUID) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPlatformTransactionID), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.PlatformBenefit {
 	return predicate.PlatformBenefit(func(s *sql.Selector) {
@@ -559,6 +566,82 @@ func ChainTransactionIDEqualFold(v string) predicate.PlatformBenefit {
 func ChainTransactionIDContainsFold(v string) predicate.PlatformBenefit {
 	return predicate.PlatformBenefit(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldChainTransactionID), v))
+	})
+}
+
+// PlatformTransactionIDEQ applies the EQ predicate on the "platform_transaction_id" field.
+func PlatformTransactionIDEQ(v uuid.UUID) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPlatformTransactionID), v))
+	})
+}
+
+// PlatformTransactionIDNEQ applies the NEQ predicate on the "platform_transaction_id" field.
+func PlatformTransactionIDNEQ(v uuid.UUID) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPlatformTransactionID), v))
+	})
+}
+
+// PlatformTransactionIDIn applies the In predicate on the "platform_transaction_id" field.
+func PlatformTransactionIDIn(vs ...uuid.UUID) predicate.PlatformBenefit {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPlatformTransactionID), v...))
+	})
+}
+
+// PlatformTransactionIDNotIn applies the NotIn predicate on the "platform_transaction_id" field.
+func PlatformTransactionIDNotIn(vs ...uuid.UUID) predicate.PlatformBenefit {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPlatformTransactionID), v...))
+	})
+}
+
+// PlatformTransactionIDGT applies the GT predicate on the "platform_transaction_id" field.
+func PlatformTransactionIDGT(v uuid.UUID) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPlatformTransactionID), v))
+	})
+}
+
+// PlatformTransactionIDGTE applies the GTE predicate on the "platform_transaction_id" field.
+func PlatformTransactionIDGTE(v uuid.UUID) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPlatformTransactionID), v))
+	})
+}
+
+// PlatformTransactionIDLT applies the LT predicate on the "platform_transaction_id" field.
+func PlatformTransactionIDLT(v uuid.UUID) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPlatformTransactionID), v))
+	})
+}
+
+// PlatformTransactionIDLTE applies the LTE predicate on the "platform_transaction_id" field.
+func PlatformTransactionIDLTE(v uuid.UUID) predicate.PlatformBenefit {
+	return predicate.PlatformBenefit(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPlatformTransactionID), v))
 	})
 }
 

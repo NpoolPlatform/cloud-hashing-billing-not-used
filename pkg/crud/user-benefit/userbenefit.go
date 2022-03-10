@@ -40,15 +40,16 @@ func validateUserBenefit(info *npool.UserBenefit) error {
 
 func dbRowToUserBenefit(row *ent.UserBenefit) *npool.UserBenefit {
 	return &npool.UserBenefit{
-		ID:                   row.ID.String(),
-		GoodID:               row.GoodID.String(),
-		AppID:                row.AppID.String(),
-		UserID:               row.UserID.String(),
-		Amount:               price.DBPriceToVisualPrice(row.Amount),
-		OrderID:              row.OrderID.String(),
-		CoinTypeID:           row.CoinTypeID.String(),
-		CreateAt:             row.CreateAt,
-		LastBenefitTimestamp: row.LastBenefitTimestamp,
+		ID:                    row.ID.String(),
+		GoodID:                row.GoodID.String(),
+		AppID:                 row.AppID.String(),
+		UserID:                row.UserID.String(),
+		Amount:                price.DBPriceToVisualPrice(row.Amount),
+		OrderID:               row.OrderID.String(),
+		CoinTypeID:            row.CoinTypeID.String(),
+		CreateAt:              row.CreateAt,
+		LastBenefitTimestamp:  row.LastBenefitTimestamp,
+		PlatformTransactionID: row.PlatformTransactionID.String(),
 	}
 }
 
@@ -62,6 +63,11 @@ func Create(ctx context.Context, in *npool.CreateUserBenefitRequest) (*npool.Cre
 		return nil, xerrors.Errorf("fail get db client: %v", err)
 	}
 
+	platformTID, err := uuid.Parse(in.GetInfo().GetPlatformTransactionID())
+	if err != nil {
+		platformTID = uuid.UUID{}
+	}
+
 	info, err := cli.
 		UserBenefit.
 		Create().
@@ -72,6 +78,7 @@ func Create(ctx context.Context, in *npool.CreateUserBenefitRequest) (*npool.Cre
 		SetOrderID(uuid.MustParse(in.GetInfo().GetOrderID())).
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetLastBenefitTimestamp(in.GetInfo().GetLastBenefitTimestamp()).
+		SetPlatformTransactionID(platformTID).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create user benefit: %v", err)

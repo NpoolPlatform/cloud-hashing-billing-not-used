@@ -40,6 +40,12 @@ func (catu *CoinAccountTransactionUpdate) SetUserID(u uuid.UUID) *CoinAccountTra
 	return catu
 }
 
+// SetGoodID sets the "good_id" field.
+func (catu *CoinAccountTransactionUpdate) SetGoodID(u uuid.UUID) *CoinAccountTransactionUpdate {
+	catu.mutation.SetGoodID(u)
+	return catu
+}
+
 // SetFromAddressID sets the "from_address_id" field.
 func (catu *CoinAccountTransactionUpdate) SetFromAddressID(u uuid.UUID) *CoinAccountTransactionUpdate {
 	catu.mutation.SetFromAddressID(u)
@@ -260,6 +266,13 @@ func (catu *CoinAccountTransactionUpdate) sqlSave(ctx context.Context) (n int, e
 			Column: coinaccounttransaction.FieldUserID,
 		})
 	}
+	if value, ok := catu.mutation.GoodID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinaccounttransaction.FieldGoodID,
+		})
+	}
 	if value, ok := catu.mutation.FromAddressID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -386,6 +399,12 @@ func (catuo *CoinAccountTransactionUpdateOne) SetAppID(u uuid.UUID) *CoinAccount
 // SetUserID sets the "user_id" field.
 func (catuo *CoinAccountTransactionUpdateOne) SetUserID(u uuid.UUID) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.SetUserID(u)
+	return catuo
+}
+
+// SetGoodID sets the "good_id" field.
+func (catuo *CoinAccountTransactionUpdateOne) SetGoodID(u uuid.UUID) *CoinAccountTransactionUpdateOne {
+	catuo.mutation.SetGoodID(u)
 	return catuo
 }
 
@@ -631,6 +650,13 @@ func (catuo *CoinAccountTransactionUpdateOne) sqlSave(ctx context.Context) (_nod
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: coinaccounttransaction.FieldUserID,
+		})
+	}
+	if value, ok := catuo.mutation.GoodID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinaccounttransaction.FieldGoodID,
 		})
 	}
 	if value, ok := catuo.mutation.FromAddressID(); ok {

@@ -24,6 +24,7 @@ func (CoinAccountTransaction) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),
+		field.UUID("good_id", uuid.UUID{}),
 		field.UUID("from_address_id", uuid.UUID{}),
 		field.UUID("to_address_id", uuid.UUID{}),
 		field.UUID("coin_type_id", uuid.UUID{}),

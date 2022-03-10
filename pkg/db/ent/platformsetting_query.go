@@ -107,7 +107,7 @@ func (psq *PlatformSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single PlatformSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one PlatformSetting entity is not found.
+// Returns a *NotSingularError when more than one PlatformSetting entity is found.
 // Returns a *NotFoundError when no PlatformSetting entities are found.
 func (psq *PlatformSettingQuery) Only(ctx context.Context) (*PlatformSetting, error) {
 	nodes, err := psq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (psq *PlatformSettingQuery) OnlyX(ctx context.Context) *PlatformSetting {
 }
 
 // OnlyID is like Only, but returns the only PlatformSetting ID in the query.
-// Returns a *NotSingularError when exactly one PlatformSetting ID is not found.
+// Returns a *NotSingularError when more than one PlatformSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (psq *PlatformSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (psq *PlatformSettingQuery) Clone() *PlatformSettingQuery {
 		order:      append([]OrderFunc{}, psq.order...),
 		predicates: append([]predicate.PlatformSetting{}, psq.predicates...),
 		// clone intermediate query.
-		sql:  psq.sql.Clone(),
-		path: psq.path,
+		sql:    psq.sql.Clone(),
+		path:   psq.path,
+		unique: psq.unique,
 	}
 }
 

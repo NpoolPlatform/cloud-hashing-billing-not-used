@@ -107,7 +107,7 @@ func (uwiq *UserWithdrawItemQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single UserWithdrawItem entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one UserWithdrawItem entity is not found.
+// Returns a *NotSingularError when more than one UserWithdrawItem entity is found.
 // Returns a *NotFoundError when no UserWithdrawItem entities are found.
 func (uwiq *UserWithdrawItemQuery) Only(ctx context.Context) (*UserWithdrawItem, error) {
 	nodes, err := uwiq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (uwiq *UserWithdrawItemQuery) OnlyX(ctx context.Context) *UserWithdrawItem 
 }
 
 // OnlyID is like Only, but returns the only UserWithdrawItem ID in the query.
-// Returns a *NotSingularError when exactly one UserWithdrawItem ID is not found.
+// Returns a *NotSingularError when more than one UserWithdrawItem ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (uwiq *UserWithdrawItemQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (uwiq *UserWithdrawItemQuery) Clone() *UserWithdrawItemQuery {
 		order:      append([]OrderFunc{}, uwiq.order...),
 		predicates: append([]predicate.UserWithdrawItem{}, uwiq.predicates...),
 		// clone intermediate query.
-		sql:  uwiq.sql.Clone(),
-		path: uwiq.path,
+		sql:    uwiq.sql.Clone(),
+		path:   uwiq.path,
+		unique: uwiq.unique,
 	}
 }
 

@@ -35,6 +35,12 @@ func (catc *CoinAccountTransactionCreate) SetUserID(u uuid.UUID) *CoinAccountTra
 	return catc
 }
 
+// SetGoodID sets the "good_id" field.
+func (catc *CoinAccountTransactionCreate) SetGoodID(u uuid.UUID) *CoinAccountTransactionCreate {
+	catc.mutation.SetGoodID(u)
+	return catc
+}
+
 // SetFromAddressID sets the "from_address_id" field.
 func (catc *CoinAccountTransactionCreate) SetFromAddressID(u uuid.UUID) *CoinAccountTransactionCreate {
 	catc.mutation.SetFromAddressID(u)
@@ -230,6 +236,9 @@ func (catc *CoinAccountTransactionCreate) check() error {
 	if _, ok := catc.mutation.UserID(); !ok {
 		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.user_id"`)}
 	}
+	if _, ok := catc.mutation.GoodID(); !ok {
+		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.good_id"`)}
+	}
 	if _, ok := catc.mutation.FromAddressID(); !ok {
 		return &ValidationError{Name: "from_address_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.from_address_id"`)}
 	}
@@ -317,6 +326,14 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 			Column: coinaccounttransaction.FieldUserID,
 		})
 		_node.UserID = value
+	}
+	if value, ok := catc.mutation.GoodID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinaccounttransaction.FieldGoodID,
+		})
+		_node.GoodID = value
 	}
 	if value, ok := catc.mutation.FromAddressID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -473,6 +490,18 @@ func (u *CoinAccountTransactionUpsert) SetUserID(v uuid.UUID) *CoinAccountTransa
 // UpdateUserID sets the "user_id" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsert) UpdateUserID() *CoinAccountTransactionUpsert {
 	u.SetExcluded(coinaccounttransaction.FieldUserID)
+	return u
+}
+
+// SetGoodID sets the "good_id" field.
+func (u *CoinAccountTransactionUpsert) SetGoodID(v uuid.UUID) *CoinAccountTransactionUpsert {
+	u.Set(coinaccounttransaction.FieldGoodID, v)
+	return u
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsert) UpdateGoodID() *CoinAccountTransactionUpsert {
+	u.SetExcluded(coinaccounttransaction.FieldGoodID)
 	return u
 }
 
@@ -695,6 +724,20 @@ func (u *CoinAccountTransactionUpsertOne) SetUserID(v uuid.UUID) *CoinAccountTra
 func (u *CoinAccountTransactionUpsertOne) UpdateUserID() *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateUserID()
+	})
+}
+
+// SetGoodID sets the "good_id" field.
+func (u *CoinAccountTransactionUpsertOne) SetGoodID(v uuid.UUID) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetGoodID(v)
+	})
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertOne) UpdateGoodID() *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateGoodID()
 	})
 }
 
@@ -1107,6 +1150,20 @@ func (u *CoinAccountTransactionUpsertBulk) SetUserID(v uuid.UUID) *CoinAccountTr
 func (u *CoinAccountTransactionUpsertBulk) UpdateUserID() *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateUserID()
+	})
+}
+
+// SetGoodID sets the "good_id" field.
+func (u *CoinAccountTransactionUpsertBulk) SetGoodID(v uuid.UUID) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetGoodID(v)
+	})
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertBulk) UpdateGoodID() *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateGoodID()
 	})
 }
 

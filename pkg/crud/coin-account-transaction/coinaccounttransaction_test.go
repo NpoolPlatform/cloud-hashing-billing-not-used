@@ -26,8 +26,9 @@ func init() {
 }
 
 func assertCoinAccountTransaction(t *testing.T, actual, expected *npool.CoinAccountTransaction) {
-	assert.Equal(t, actual.UserID, expected.UserID)
 	assert.Equal(t, actual.AppID, expected.AppID)
+	assert.Equal(t, actual.UserID, expected.UserID)
+	assert.Equal(t, actual.GoodID, expected.GoodID)
 	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
 	assert.Equal(t, actual.FromAddressID, expected.FromAddressID)
 	assert.Equal(t, actual.ToAddressID, expected.ToAddressID)
@@ -43,8 +44,9 @@ func TestCRUD(t *testing.T) {
 	}
 
 	coinAccountTransaction := npool.CoinAccountTransaction{
-		UserID:        uuid.New().String(),
 		AppID:         uuid.New().String(),
+		UserID:        uuid.New().String(),
+		GoodID:        uuid.New().String(),
 		CoinTypeID:    uuid.New().String(),
 		FromAddressID: uuid.New().String(),
 		ToAddressID:   uuid.New().String(),

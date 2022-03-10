@@ -107,7 +107,7 @@ func (csq *CoinSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single CoinSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one CoinSetting entity is not found.
+// Returns a *NotSingularError when more than one CoinSetting entity is found.
 // Returns a *NotFoundError when no CoinSetting entities are found.
 func (csq *CoinSettingQuery) Only(ctx context.Context) (*CoinSetting, error) {
 	nodes, err := csq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (csq *CoinSettingQuery) OnlyX(ctx context.Context) *CoinSetting {
 }
 
 // OnlyID is like Only, but returns the only CoinSetting ID in the query.
-// Returns a *NotSingularError when exactly one CoinSetting ID is not found.
+// Returns a *NotSingularError when more than one CoinSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (csq *CoinSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (csq *CoinSettingQuery) Clone() *CoinSettingQuery {
 		order:      append([]OrderFunc{}, csq.order...),
 		predicates: append([]predicate.CoinSetting{}, csq.predicates...),
 		// clone intermediate query.
-		sql:  csq.sql.Clone(),
-		path: csq.path,
+		sql:    csq.sql.Clone(),
+		path:   csq.path,
+		unique: csq.unique,
 	}
 }
 

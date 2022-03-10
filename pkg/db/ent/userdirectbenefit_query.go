@@ -107,7 +107,7 @@ func (udbq *UserDirectBenefitQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single UserDirectBenefit entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one UserDirectBenefit entity is not found.
+// Returns a *NotSingularError when more than one UserDirectBenefit entity is found.
 // Returns a *NotFoundError when no UserDirectBenefit entities are found.
 func (udbq *UserDirectBenefitQuery) Only(ctx context.Context) (*UserDirectBenefit, error) {
 	nodes, err := udbq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (udbq *UserDirectBenefitQuery) OnlyX(ctx context.Context) *UserDirectBenefi
 }
 
 // OnlyID is like Only, but returns the only UserDirectBenefit ID in the query.
-// Returns a *NotSingularError when exactly one UserDirectBenefit ID is not found.
+// Returns a *NotSingularError when more than one UserDirectBenefit ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (udbq *UserDirectBenefitQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (udbq *UserDirectBenefitQuery) Clone() *UserDirectBenefitQuery {
 		order:      append([]OrderFunc{}, udbq.order...),
 		predicates: append([]predicate.UserDirectBenefit{}, udbq.predicates...),
 		// clone intermediate query.
-		sql:  udbq.sql.Clone(),
-		path: udbq.path,
+		sql:    udbq.sql.Clone(),
+		path:   udbq.path,
+		unique: udbq.unique,
 	}
 }
 

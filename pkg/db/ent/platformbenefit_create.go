@@ -53,6 +53,12 @@ func (pbc *PlatformBenefitCreate) SetChainTransactionID(s string) *PlatformBenef
 	return pbc
 }
 
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (pbc *PlatformBenefitCreate) SetPlatformTransactionID(u uuid.UUID) *PlatformBenefitCreate {
+	pbc.mutation.SetPlatformTransactionID(u)
+	return pbc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (pbc *PlatformBenefitCreate) SetCreateAt(u uint32) *PlatformBenefitCreate {
 	pbc.mutation.SetCreateAt(u)
@@ -215,6 +221,9 @@ func (pbc *PlatformBenefitCreate) check() error {
 	if _, ok := pbc.mutation.ChainTransactionID(); !ok {
 		return &ValidationError{Name: "chain_transaction_id", err: errors.New(`ent: missing required field "PlatformBenefit.chain_transaction_id"`)}
 	}
+	if _, ok := pbc.mutation.PlatformTransactionID(); !ok {
+		return &ValidationError{Name: "platform_transaction_id", err: errors.New(`ent: missing required field "PlatformBenefit.platform_transaction_id"`)}
+	}
 	if _, ok := pbc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "PlatformBenefit.create_at"`)}
 	}
@@ -300,6 +309,14 @@ func (pbc *PlatformBenefitCreate) createSpec() (*PlatformBenefit, *sqlgraph.Crea
 			Column: platformbenefit.FieldChainTransactionID,
 		})
 		_node.ChainTransactionID = value
+	}
+	if value, ok := pbc.mutation.PlatformTransactionID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: platformbenefit.FieldPlatformTransactionID,
+		})
+		_node.PlatformTransactionID = value
 	}
 	if value, ok := pbc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -448,6 +465,18 @@ func (u *PlatformBenefitUpsert) SetChainTransactionID(v string) *PlatformBenefit
 // UpdateChainTransactionID sets the "chain_transaction_id" field to the value that was provided on create.
 func (u *PlatformBenefitUpsert) UpdateChainTransactionID() *PlatformBenefitUpsert {
 	u.SetExcluded(platformbenefit.FieldChainTransactionID)
+	return u
+}
+
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (u *PlatformBenefitUpsert) SetPlatformTransactionID(v uuid.UUID) *PlatformBenefitUpsert {
+	u.Set(platformbenefit.FieldPlatformTransactionID, v)
+	return u
+}
+
+// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
+func (u *PlatformBenefitUpsert) UpdatePlatformTransactionID() *PlatformBenefitUpsert {
+	u.SetExcluded(platformbenefit.FieldPlatformTransactionID)
 	return u
 }
 
@@ -636,6 +665,20 @@ func (u *PlatformBenefitUpsertOne) SetChainTransactionID(v string) *PlatformBene
 func (u *PlatformBenefitUpsertOne) UpdateChainTransactionID() *PlatformBenefitUpsertOne {
 	return u.Update(func(s *PlatformBenefitUpsert) {
 		s.UpdateChainTransactionID()
+	})
+}
+
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (u *PlatformBenefitUpsertOne) SetPlatformTransactionID(v uuid.UUID) *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.SetPlatformTransactionID(v)
+	})
+}
+
+// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
+func (u *PlatformBenefitUpsertOne) UpdatePlatformTransactionID() *PlatformBenefitUpsertOne {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.UpdatePlatformTransactionID()
 	})
 }
 
@@ -999,6 +1042,20 @@ func (u *PlatformBenefitUpsertBulk) SetChainTransactionID(v string) *PlatformBen
 func (u *PlatformBenefitUpsertBulk) UpdateChainTransactionID() *PlatformBenefitUpsertBulk {
 	return u.Update(func(s *PlatformBenefitUpsert) {
 		s.UpdateChainTransactionID()
+	})
+}
+
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (u *PlatformBenefitUpsertBulk) SetPlatformTransactionID(v uuid.UUID) *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.SetPlatformTransactionID(v)
+	})
+}
+
+// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
+func (u *PlatformBenefitUpsertBulk) UpdatePlatformTransactionID() *PlatformBenefitUpsertBulk {
+	return u.Update(func(s *PlatformBenefitUpsert) {
+		s.UpdatePlatformTransactionID()
 	})
 }
 

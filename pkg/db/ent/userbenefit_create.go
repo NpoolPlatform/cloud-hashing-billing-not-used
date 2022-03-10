@@ -65,6 +65,12 @@ func (ubc *UserBenefitCreate) SetLastBenefitTimestamp(u uint32) *UserBenefitCrea
 	return ubc
 }
 
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (ubc *UserBenefitCreate) SetPlatformTransactionID(u uuid.UUID) *UserBenefitCreate {
+	ubc.mutation.SetPlatformTransactionID(u)
+	return ubc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ubc *UserBenefitCreate) SetCreateAt(u uint32) *UserBenefitCreate {
 	ubc.mutation.SetCreateAt(u)
@@ -233,6 +239,9 @@ func (ubc *UserBenefitCreate) check() error {
 	if _, ok := ubc.mutation.LastBenefitTimestamp(); !ok {
 		return &ValidationError{Name: "last_benefit_timestamp", err: errors.New(`ent: missing required field "UserBenefit.last_benefit_timestamp"`)}
 	}
+	if _, ok := ubc.mutation.PlatformTransactionID(); !ok {
+		return &ValidationError{Name: "platform_transaction_id", err: errors.New(`ent: missing required field "UserBenefit.platform_transaction_id"`)}
+	}
 	if _, ok := ubc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserBenefit.create_at"`)}
 	}
@@ -334,6 +343,14 @@ func (ubc *UserBenefitCreate) createSpec() (*UserBenefit, *sqlgraph.CreateSpec) 
 			Column: userbenefit.FieldLastBenefitTimestamp,
 		})
 		_node.LastBenefitTimestamp = value
+	}
+	if value, ok := ubc.mutation.PlatformTransactionID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userbenefit.FieldPlatformTransactionID,
+		})
+		_node.PlatformTransactionID = value
 	}
 	if value, ok := ubc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -506,6 +523,18 @@ func (u *UserBenefitUpsert) UpdateLastBenefitTimestamp() *UserBenefitUpsert {
 // AddLastBenefitTimestamp adds v to the "last_benefit_timestamp" field.
 func (u *UserBenefitUpsert) AddLastBenefitTimestamp(v uint32) *UserBenefitUpsert {
 	u.Add(userbenefit.FieldLastBenefitTimestamp, v)
+	return u
+}
+
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (u *UserBenefitUpsert) SetPlatformTransactionID(v uuid.UUID) *UserBenefitUpsert {
+	u.Set(userbenefit.FieldPlatformTransactionID, v)
+	return u
+}
+
+// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
+func (u *UserBenefitUpsert) UpdatePlatformTransactionID() *UserBenefitUpsert {
+	u.SetExcluded(userbenefit.FieldPlatformTransactionID)
 	return u
 }
 
@@ -722,6 +751,20 @@ func (u *UserBenefitUpsertOne) AddLastBenefitTimestamp(v uint32) *UserBenefitUps
 func (u *UserBenefitUpsertOne) UpdateLastBenefitTimestamp() *UserBenefitUpsertOne {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.UpdateLastBenefitTimestamp()
+	})
+}
+
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (u *UserBenefitUpsertOne) SetPlatformTransactionID(v uuid.UUID) *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.SetPlatformTransactionID(v)
+	})
+}
+
+// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
+func (u *UserBenefitUpsertOne) UpdatePlatformTransactionID() *UserBenefitUpsertOne {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.UpdatePlatformTransactionID()
 	})
 }
 
@@ -1113,6 +1156,20 @@ func (u *UserBenefitUpsertBulk) AddLastBenefitTimestamp(v uint32) *UserBenefitUp
 func (u *UserBenefitUpsertBulk) UpdateLastBenefitTimestamp() *UserBenefitUpsertBulk {
 	return u.Update(func(s *UserBenefitUpsert) {
 		s.UpdateLastBenefitTimestamp()
+	})
+}
+
+// SetPlatformTransactionID sets the "platform_transaction_id" field.
+func (u *UserBenefitUpsertBulk) SetPlatformTransactionID(v uuid.UUID) *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.SetPlatformTransactionID(v)
+	})
+}
+
+// UpdatePlatformTransactionID sets the "platform_transaction_id" field to the value that was provided on create.
+func (u *UserBenefitUpsertBulk) UpdatePlatformTransactionID() *UserBenefitUpsertBulk {
+	return u.Update(func(s *UserBenefitUpsert) {
+		s.UpdatePlatformTransactionID()
 	})
 }
 

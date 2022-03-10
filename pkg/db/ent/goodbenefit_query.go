@@ -107,7 +107,7 @@ func (gbq *GoodBenefitQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single GoodBenefit entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one GoodBenefit entity is not found.
+// Returns a *NotSingularError when more than one GoodBenefit entity is found.
 // Returns a *NotFoundError when no GoodBenefit entities are found.
 func (gbq *GoodBenefitQuery) Only(ctx context.Context) (*GoodBenefit, error) {
 	nodes, err := gbq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (gbq *GoodBenefitQuery) OnlyX(ctx context.Context) *GoodBenefit {
 }
 
 // OnlyID is like Only, but returns the only GoodBenefit ID in the query.
-// Returns a *NotSingularError when exactly one GoodBenefit ID is not found.
+// Returns a *NotSingularError when more than one GoodBenefit ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (gbq *GoodBenefitQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (gbq *GoodBenefitQuery) Clone() *GoodBenefitQuery {
 		order:      append([]OrderFunc{}, gbq.order...),
 		predicates: append([]predicate.GoodBenefit{}, gbq.predicates...),
 		// clone intermediate query.
-		sql:  gbq.sql.Clone(),
-		path: gbq.path,
+		sql:    gbq.sql.Clone(),
+		path:   gbq.path,
+		unique: gbq.unique,
 	}
 }
 

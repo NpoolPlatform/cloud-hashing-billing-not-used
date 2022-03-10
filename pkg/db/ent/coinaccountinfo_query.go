@@ -107,7 +107,7 @@ func (caiq *CoinAccountInfoQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single CoinAccountInfo entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one CoinAccountInfo entity is not found.
+// Returns a *NotSingularError when more than one CoinAccountInfo entity is found.
 // Returns a *NotFoundError when no CoinAccountInfo entities are found.
 func (caiq *CoinAccountInfoQuery) Only(ctx context.Context) (*CoinAccountInfo, error) {
 	nodes, err := caiq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (caiq *CoinAccountInfoQuery) OnlyX(ctx context.Context) *CoinAccountInfo {
 }
 
 // OnlyID is like Only, but returns the only CoinAccountInfo ID in the query.
-// Returns a *NotSingularError when exactly one CoinAccountInfo ID is not found.
+// Returns a *NotSingularError when more than one CoinAccountInfo ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (caiq *CoinAccountInfoQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (caiq *CoinAccountInfoQuery) Clone() *CoinAccountInfoQuery {
 		order:      append([]OrderFunc{}, caiq.order...),
 		predicates: append([]predicate.CoinAccountInfo{}, caiq.predicates...),
 		// clone intermediate query.
-		sql:  caiq.sql.Clone(),
-		path: caiq.path,
+		sql:    caiq.sql.Clone(),
+		path:   caiq.path,
+		unique: caiq.unique,
 	}
 }
 

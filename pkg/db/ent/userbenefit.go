@@ -30,6 +30,8 @@ type UserBenefit struct {
 	Amount uint64 `json:"amount,omitempty"`
 	// LastBenefitTimestamp holds the value of the "last_benefit_timestamp" field.
 	LastBenefitTimestamp uint32 `json:"last_benefit_timestamp,omitempty"`
+	// PlatformTransactionID holds the value of the "platform_transaction_id" field.
+	PlatformTransactionID uuid.UUID `json:"platform_transaction_id,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -45,7 +47,7 @@ func (*UserBenefit) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case userbenefit.FieldAmount, userbenefit.FieldLastBenefitTimestamp, userbenefit.FieldCreateAt, userbenefit.FieldUpdateAt, userbenefit.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case userbenefit.FieldID, userbenefit.FieldAppID, userbenefit.FieldUserID, userbenefit.FieldGoodID, userbenefit.FieldOrderID, userbenefit.FieldCoinTypeID:
+		case userbenefit.FieldID, userbenefit.FieldAppID, userbenefit.FieldUserID, userbenefit.FieldGoodID, userbenefit.FieldOrderID, userbenefit.FieldCoinTypeID, userbenefit.FieldPlatformTransactionID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type UserBenefit", columns[i])
@@ -110,6 +112,12 @@ func (ub *UserBenefit) assignValues(columns []string, values []interface{}) erro
 			} else if value.Valid {
 				ub.LastBenefitTimestamp = uint32(value.Int64)
 			}
+		case userbenefit.FieldPlatformTransactionID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field platform_transaction_id", values[i])
+			} else if value != nil {
+				ub.PlatformTransactionID = *value
+			}
 		case userbenefit.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -170,6 +178,8 @@ func (ub *UserBenefit) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ub.Amount))
 	builder.WriteString(", last_benefit_timestamp=")
 	builder.WriteString(fmt.Sprintf("%v", ub.LastBenefitTimestamp))
+	builder.WriteString(", platform_transaction_id=")
+	builder.WriteString(fmt.Sprintf("%v", ub.PlatformTransactionID))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", ub.CreateAt))
 	builder.WriteString(", update_at=")

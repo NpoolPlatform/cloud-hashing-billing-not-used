@@ -31,13 +31,14 @@ func validatePlatformBenefit(info *npool.PlatformBenefit) error {
 
 func dbRowToPlatformBenefit(row *ent.PlatformBenefit) *npool.PlatformBenefit {
 	return &npool.PlatformBenefit{
-		ID:                   row.ID.String(),
-		GoodID:               row.GoodID.String(),
-		BenefitAccountID:     row.BenefitAccountID.String(),
-		Amount:               price.DBPriceToVisualPrice(row.Amount),
-		ChainTransactionID:   row.ChainTransactionID,
-		CreateAt:             row.CreateAt,
-		LastBenefitTimestamp: row.LastBenefitTimestamp,
+		ID:                    row.ID.String(),
+		GoodID:                row.GoodID.String(),
+		BenefitAccountID:      row.BenefitAccountID.String(),
+		Amount:                price.DBPriceToVisualPrice(row.Amount),
+		ChainTransactionID:    row.ChainTransactionID,
+		CreateAt:              row.CreateAt,
+		LastBenefitTimestamp:  row.LastBenefitTimestamp,
+		PlatformTransactionID: row.PlatformTransactionID.String(),
 	}
 }
 
@@ -51,6 +52,11 @@ func Create(ctx context.Context, in *npool.CreatePlatformBenefitRequest) (*npool
 		return nil, xerrors.Errorf("fail get db client: %v", err)
 	}
 
+	platformTID, err := uuid.Parse(in.GetInfo().GetPlatformTransactionID())
+	if err != nil {
+		platformTID = uuid.UUID{}
+	}
+
 	info, err := cli.
 		PlatformBenefit.
 		Create().
@@ -59,6 +65,7 @@ func Create(ctx context.Context, in *npool.CreatePlatformBenefitRequest) (*npool
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
 		SetLastBenefitTimestamp(in.GetInfo().GetLastBenefitTimestamp()).
+		SetPlatformTransactionID(platformTID).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create platform benefit: %v", err)

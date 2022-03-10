@@ -28,6 +28,9 @@ func validateCoinAccountTransaction(info *npool.CoinAccountTransaction) error {
 	if _, err := uuid.Parse(info.UserID); err != nil {
 		return xerrors.Errorf("invalid user id: %v", err)
 	}
+	if _, err := uuid.Parse(info.GoodID); err != nil {
+		return xerrors.Errorf("invalid good id: %v", err)
+	}
 	if _, err := uuid.Parse(info.FromAddressID); err != nil {
 		return xerrors.Errorf("invalid from address id: %v", err)
 	}
@@ -40,8 +43,9 @@ func validateCoinAccountTransaction(info *npool.CoinAccountTransaction) error {
 func dbRowToCoinAccountTransaction(row *ent.CoinAccountTransaction) *npool.CoinAccountTransaction {
 	return &npool.CoinAccountTransaction{
 		ID:                 row.ID.String(),
-		UserID:             row.UserID.String(),
 		AppID:              row.AppID.String(),
+		UserID:             row.UserID.String(),
+		GoodID:             row.GoodID.String(),
 		FromAddressID:      row.FromAddressID.String(),
 		ToAddressID:        row.ToAddressID.String(),
 		CoinTypeID:         row.CoinTypeID.String(),
@@ -66,8 +70,9 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountTransactionRequest) 
 	info, err := cli.
 		CoinAccountTransaction.
 		Create().
-		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
+		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
+		SetGoodID(uuid.MustParse(in.GetInfo().GetGoodID())).
 		SetFromAddressID(uuid.MustParse(in.GetInfo().GetFromAddressID())).
 		SetToAddressID(uuid.MustParse(in.GetInfo().GetToAddressID())).
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
@@ -372,6 +377,41 @@ func GetCoinAccountTransactionsByAppUserCoin(ctx context.Context, in *npool.GetC
 	}
 
 	return &npool.GetCoinAccountTransactionsByAppUserCoinResponse{
+		Infos: transactions,
+	}, nil
+}
+
+func GetCoinAccountTransactionsByGoodState(ctx context.Context, in *npool.GetCoinAccountTransactionsByGoodStateRequest) (*npool.GetCoinAccountTransactionsByGoodStateResponse, error) {
+	goodID, err := uuid.Parse(in.GetGoodID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid good id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		CoinAccountTransaction.
+		Query().
+		Where(
+			coinaccounttransaction.And(
+				coinaccounttransaction.GoodID(goodID),
+				coinaccounttransaction.StateEQ(coinaccounttransaction.State(in.GetState())),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account transaction: %v", err)
+	}
+
+	transactions := []*npool.CoinAccountTransaction{}
+	for _, info := range infos {
+		transactions = append(transactions, dbRowToCoinAccountTransaction(info))
+	}
+
+	return &npool.GetCoinAccountTransactionsByGoodStateResponse{
 		Infos: transactions,
 	}, nil
 }

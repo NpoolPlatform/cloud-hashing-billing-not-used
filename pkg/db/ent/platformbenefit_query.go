@@ -107,7 +107,7 @@ func (pbq *PlatformBenefitQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single PlatformBenefit entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one PlatformBenefit entity is not found.
+// Returns a *NotSingularError when more than one PlatformBenefit entity is found.
 // Returns a *NotFoundError when no PlatformBenefit entities are found.
 func (pbq *PlatformBenefitQuery) Only(ctx context.Context) (*PlatformBenefit, error) {
 	nodes, err := pbq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (pbq *PlatformBenefitQuery) OnlyX(ctx context.Context) *PlatformBenefit {
 }
 
 // OnlyID is like Only, but returns the only PlatformBenefit ID in the query.
-// Returns a *NotSingularError when exactly one PlatformBenefit ID is not found.
+// Returns a *NotSingularError when more than one PlatformBenefit ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (pbq *PlatformBenefitQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (pbq *PlatformBenefitQuery) Clone() *PlatformBenefitQuery {
 		order:      append([]OrderFunc{}, pbq.order...),
 		predicates: append([]predicate.PlatformBenefit{}, pbq.predicates...),
 		// clone intermediate query.
-		sql:  pbq.sql.Clone(),
-		path: pbq.path,
+		sql:    pbq.sql.Clone(),
+		path:   pbq.path,
+		unique: pbq.unique,
 	}
 }
 

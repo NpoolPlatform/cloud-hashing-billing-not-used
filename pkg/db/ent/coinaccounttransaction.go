@@ -20,6 +20,8 @@ type CoinAccountTransaction struct {
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// UserID holds the value of the "user_id" field.
 	UserID uuid.UUID `json:"user_id,omitempty"`
+	// GoodID holds the value of the "good_id" field.
+	GoodID uuid.UUID `json:"good_id,omitempty"`
 	// FromAddressID holds the value of the "from_address_id" field.
 	FromAddressID uuid.UUID `json:"from_address_id,omitempty"`
 	// ToAddressID holds the value of the "to_address_id" field.
@@ -51,7 +53,7 @@ func (*CoinAccountTransaction) scanValues(columns []string) ([]interface{}, erro
 			values[i] = new(sql.NullInt64)
 		case coinaccounttransaction.FieldMessage, coinaccounttransaction.FieldState, coinaccounttransaction.FieldChainTransactionID:
 			values[i] = new(sql.NullString)
-		case coinaccounttransaction.FieldID, coinaccounttransaction.FieldAppID, coinaccounttransaction.FieldUserID, coinaccounttransaction.FieldFromAddressID, coinaccounttransaction.FieldToAddressID, coinaccounttransaction.FieldCoinTypeID:
+		case coinaccounttransaction.FieldID, coinaccounttransaction.FieldAppID, coinaccounttransaction.FieldUserID, coinaccounttransaction.FieldGoodID, coinaccounttransaction.FieldFromAddressID, coinaccounttransaction.FieldToAddressID, coinaccounttransaction.FieldCoinTypeID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CoinAccountTransaction", columns[i])
@@ -85,6 +87,12 @@ func (cat *CoinAccountTransaction) assignValues(columns []string, values []inter
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value != nil {
 				cat.UserID = *value
+			}
+		case coinaccounttransaction.FieldGoodID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field good_id", values[i])
+			} else if value != nil {
+				cat.GoodID = *value
 			}
 		case coinaccounttransaction.FieldFromAddressID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -178,6 +186,8 @@ func (cat *CoinAccountTransaction) String() string {
 	builder.WriteString(fmt.Sprintf("%v", cat.AppID))
 	builder.WriteString(", user_id=")
 	builder.WriteString(fmt.Sprintf("%v", cat.UserID))
+	builder.WriteString(", good_id=")
+	builder.WriteString(fmt.Sprintf("%v", cat.GoodID))
 	builder.WriteString(", from_address_id=")
 	builder.WriteString(fmt.Sprintf("%v", cat.FromAddressID))
 	builder.WriteString(", to_address_id=")

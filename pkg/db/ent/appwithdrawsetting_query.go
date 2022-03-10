@@ -107,7 +107,7 @@ func (awsq *AppWithdrawSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single AppWithdrawSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one AppWithdrawSetting entity is not found.
+// Returns a *NotSingularError when more than one AppWithdrawSetting entity is found.
 // Returns a *NotFoundError when no AppWithdrawSetting entities are found.
 func (awsq *AppWithdrawSettingQuery) Only(ctx context.Context) (*AppWithdrawSetting, error) {
 	nodes, err := awsq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (awsq *AppWithdrawSettingQuery) OnlyX(ctx context.Context) *AppWithdrawSett
 }
 
 // OnlyID is like Only, but returns the only AppWithdrawSetting ID in the query.
-// Returns a *NotSingularError when exactly one AppWithdrawSetting ID is not found.
+// Returns a *NotSingularError when more than one AppWithdrawSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (awsq *AppWithdrawSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (awsq *AppWithdrawSettingQuery) Clone() *AppWithdrawSettingQuery {
 		order:      append([]OrderFunc{}, awsq.order...),
 		predicates: append([]predicate.AppWithdrawSetting{}, awsq.predicates...),
 		// clone intermediate query.
-		sql:  awsq.sql.Clone(),
-		path: awsq.path,
+		sql:    awsq.sql.Clone(),
+		path:   awsq.path,
+		unique: awsq.unique,
 	}
 }
 
