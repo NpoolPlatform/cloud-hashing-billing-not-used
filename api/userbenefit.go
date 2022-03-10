@@ -9,7 +9,8 @@ import (
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
-	crud "github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/user-benefit" //nolint
+	crud "github.com/NpoolPlatform/cloud-hashing-billing/pkg/crud/user-benefit"
+	mw "github.com/NpoolPlatform/cloud-hashing-billing/pkg/middleware/userbenefit"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -25,7 +26,7 @@ func (s *Server) CreateUserBenefit(ctx context.Context, in *npool.CreateUserBene
 }
 
 func (s *Server) GetUserBenefitsByAppUser(ctx context.Context, in *npool.GetUserBenefitsByAppUserRequest) (*npool.GetUserBenefitsByAppUserResponse, error) {
-	resp, err := crud.GetByAppUser(ctx, in)
+	resp, err := mw.GetByAppUser(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get user benefit error: %v", err)
 		return &npool.GetUserBenefitsByAppUserResponse{}, status.Error(codes.Internal, err.Error())
@@ -34,7 +35,7 @@ func (s *Server) GetUserBenefitsByAppUser(ctx context.Context, in *npool.GetUser
 }
 
 func (s *Server) GetUserBenefitsByAppUserCoin(ctx context.Context, in *npool.GetUserBenefitsByAppUserCoinRequest) (*npool.GetUserBenefitsByAppUserCoinResponse, error) {
-	resp, err := crud.GetByAppUserCoin(ctx, in)
+	resp, err := mw.GetByAppUserCoin(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get user benefit error: %v", err)
 		return &npool.GetUserBenefitsByAppUserCoinResponse{}, status.Error(codes.Internal, err.Error())
