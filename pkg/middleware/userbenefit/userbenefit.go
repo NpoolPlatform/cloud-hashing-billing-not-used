@@ -25,6 +25,9 @@ func filter(ctx context.Context, infos []*npool.UserBenefit) ([]*npool.UserBenef
 			if err != nil {
 				return nil, xerrors.Errorf("fail get platform transaction: %v", err)
 			}
+			if resp1.Info == nil {
+				return nil, xerrors.Errorf("fail get platform transaction")
+			}
 			txs[info.PlatformTransactionID] = resp1.Info
 			tx = resp1.Info
 		}
