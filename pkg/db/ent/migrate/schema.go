@@ -67,6 +67,7 @@ var (
 		{Name: "message", Type: field.TypeString},
 		{Name: "state", Type: field.TypeEnum, Enums: []string{"created", "wait", "paying", "successful", "rejected", "fail"}},
 		{Name: "chain_transaction_id", Type: field.TypeString},
+		{Name: "fail_hold", Type: field.TypeBool, Default: false},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

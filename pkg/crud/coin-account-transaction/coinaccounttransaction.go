@@ -54,6 +54,7 @@ func dbRowToCoinAccountTransaction(row *ent.CoinAccountTransaction) *npool.CoinA
 		ChainTransactionID: row.ChainTransactionID,
 		CreateAt:           row.CreateAt,
 		State:              string(row.State),
+		FailHold:           row.FailHold,
 	}
 }
 
@@ -304,6 +305,7 @@ func Update(ctx context.Context, in *npool.UpdateCoinAccountTransactionRequest) 
 		UpdateOneID(uuid.MustParse(in.GetInfo().GetID())).
 		SetState(coinaccounttransaction.State(in.GetInfo().GetState())).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
+		SetFailHold(in.GetInfo().GetFailHold()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update coin account: %v", err)

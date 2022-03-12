@@ -154,6 +154,13 @@ func ChainTransactionID(v string) predicate.CoinAccountTransaction {
 	})
 }
 
+// FailHold applies equality check predicate on the "fail_hold" field. It's identical to FailHoldEQ.
+func FailHold(v bool) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldFailHold), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
@@ -974,6 +981,20 @@ func ChainTransactionIDEqualFold(v string) predicate.CoinAccountTransaction {
 func ChainTransactionIDContainsFold(v string) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldChainTransactionID), v))
+	})
+}
+
+// FailHoldEQ applies the EQ predicate on the "fail_hold" field.
+func FailHoldEQ(v bool) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldFailHold), v))
+	})
+}
+
+// FailHoldNEQ applies the NEQ predicate on the "fail_hold" field.
+func FailHoldNEQ(v bool) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldFailHold), v))
 	})
 }
 

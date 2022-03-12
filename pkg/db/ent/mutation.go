@@ -1479,6 +1479,7 @@ type CoinAccountTransactionMutation struct {
 	message              *string
 	state                *coinaccounttransaction.State
 	chain_transaction_id *string
+	fail_hold            *bool
 	create_at            *uint32
 	addcreate_at         *int32
 	update_at            *uint32
@@ -1975,6 +1976,42 @@ func (m *CoinAccountTransactionMutation) ResetChainTransactionID() {
 	m.chain_transaction_id = nil
 }
 
+// SetFailHold sets the "fail_hold" field.
+func (m *CoinAccountTransactionMutation) SetFailHold(b bool) {
+	m.fail_hold = &b
+}
+
+// FailHold returns the value of the "fail_hold" field in the mutation.
+func (m *CoinAccountTransactionMutation) FailHold() (r bool, exists bool) {
+	v := m.fail_hold
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFailHold returns the old "fail_hold" field's value of the CoinAccountTransaction entity.
+// If the CoinAccountTransaction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CoinAccountTransactionMutation) OldFailHold(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFailHold is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFailHold requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFailHold: %w", err)
+	}
+	return oldValue.FailHold, nil
+}
+
+// ResetFailHold resets all changes to the "fail_hold" field.
+func (m *CoinAccountTransactionMutation) ResetFailHold() {
+	m.fail_hold = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *CoinAccountTransactionMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -2162,7 +2199,7 @@ func (m *CoinAccountTransactionMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CoinAccountTransactionMutation) Fields() []string {
-	fields := make([]string, 0, 13)
+	fields := make([]string, 0, 14)
 	if m.app_id != nil {
 		fields = append(fields, coinaccounttransaction.FieldAppID)
 	}
@@ -2192,6 +2229,9 @@ func (m *CoinAccountTransactionMutation) Fields() []string {
 	}
 	if m.chain_transaction_id != nil {
 		fields = append(fields, coinaccounttransaction.FieldChainTransactionID)
+	}
+	if m.fail_hold != nil {
+		fields = append(fields, coinaccounttransaction.FieldFailHold)
 	}
 	if m.create_at != nil {
 		fields = append(fields, coinaccounttransaction.FieldCreateAt)
@@ -2230,6 +2270,8 @@ func (m *CoinAccountTransactionMutation) Field(name string) (ent.Value, bool) {
 		return m.State()
 	case coinaccounttransaction.FieldChainTransactionID:
 		return m.ChainTransactionID()
+	case coinaccounttransaction.FieldFailHold:
+		return m.FailHold()
 	case coinaccounttransaction.FieldCreateAt:
 		return m.CreateAt()
 	case coinaccounttransaction.FieldUpdateAt:
@@ -2265,6 +2307,8 @@ func (m *CoinAccountTransactionMutation) OldField(ctx context.Context, name stri
 		return m.OldState(ctx)
 	case coinaccounttransaction.FieldChainTransactionID:
 		return m.OldChainTransactionID(ctx)
+	case coinaccounttransaction.FieldFailHold:
+		return m.OldFailHold(ctx)
 	case coinaccounttransaction.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case coinaccounttransaction.FieldUpdateAt:
@@ -2349,6 +2393,13 @@ func (m *CoinAccountTransactionMutation) SetField(name string, value ent.Value) 
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetChainTransactionID(v)
+		return nil
+	case coinaccounttransaction.FieldFailHold:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFailHold(v)
 		return nil
 	case coinaccounttransaction.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -2500,6 +2551,9 @@ func (m *CoinAccountTransactionMutation) ResetField(name string) error {
 		return nil
 	case coinaccounttransaction.FieldChainTransactionID:
 		m.ResetChainTransactionID()
+		return nil
+	case coinaccounttransaction.FieldFailHold:
+		m.ResetFailHold()
 		return nil
 	case coinaccounttransaction.FieldCreateAt:
 		m.ResetCreateAt()

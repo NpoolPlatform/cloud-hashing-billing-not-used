@@ -36,6 +36,8 @@ type CoinAccountTransaction struct {
 	State coinaccounttransaction.State `json:"state,omitempty"`
 	// ChainTransactionID holds the value of the "chain_transaction_id" field.
 	ChainTransactionID string `json:"chain_transaction_id,omitempty"`
+	// FailHold holds the value of the "fail_hold" field.
+	FailHold bool `json:"fail_hold,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -49,6 +51,8 @@ func (*CoinAccountTransaction) scanValues(columns []string) ([]interface{}, erro
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case coinaccounttransaction.FieldFailHold:
+			values[i] = new(sql.NullBool)
 		case coinaccounttransaction.FieldAmount, coinaccounttransaction.FieldCreateAt, coinaccounttransaction.FieldUpdateAt, coinaccounttransaction.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case coinaccounttransaction.FieldMessage, coinaccounttransaction.FieldState, coinaccounttransaction.FieldChainTransactionID:
@@ -136,6 +140,12 @@ func (cat *CoinAccountTransaction) assignValues(columns []string, values []inter
 			} else if value.Valid {
 				cat.ChainTransactionID = value.String
 			}
+		case coinaccounttransaction.FieldFailHold:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field fail_hold", values[i])
+			} else if value.Valid {
+				cat.FailHold = value.Bool
+			}
 		case coinaccounttransaction.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -202,6 +212,8 @@ func (cat *CoinAccountTransaction) String() string {
 	builder.WriteString(fmt.Sprintf("%v", cat.State))
 	builder.WriteString(", chain_transaction_id=")
 	builder.WriteString(cat.ChainTransactionID)
+	builder.WriteString(", fail_hold=")
+	builder.WriteString(fmt.Sprintf("%v", cat.FailHold))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", cat.CreateAt))
 	builder.WriteString(", update_at=")

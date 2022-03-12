@@ -83,6 +83,20 @@ func (catc *CoinAccountTransactionCreate) SetChainTransactionID(s string) *CoinA
 	return catc
 }
 
+// SetFailHold sets the "fail_hold" field.
+func (catc *CoinAccountTransactionCreate) SetFailHold(b bool) *CoinAccountTransactionCreate {
+	catc.mutation.SetFailHold(b)
+	return catc
+}
+
+// SetNillableFailHold sets the "fail_hold" field if the given value is not nil.
+func (catc *CoinAccountTransactionCreate) SetNillableFailHold(b *bool) *CoinAccountTransactionCreate {
+	if b != nil {
+		catc.SetFailHold(*b)
+	}
+	return catc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (catc *CoinAccountTransactionCreate) SetCreateAt(u uint32) *CoinAccountTransactionCreate {
 	catc.mutation.SetCreateAt(u)
@@ -210,6 +224,10 @@ func (catc *CoinAccountTransactionCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (catc *CoinAccountTransactionCreate) defaults() {
+	if _, ok := catc.mutation.FailHold(); !ok {
+		v := coinaccounttransaction.DefaultFailHold
+		catc.mutation.SetFailHold(v)
+	}
 	if _, ok := catc.mutation.CreateAt(); !ok {
 		v := coinaccounttransaction.DefaultCreateAt()
 		catc.mutation.SetCreateAt(v)
@@ -264,6 +282,9 @@ func (catc *CoinAccountTransactionCreate) check() error {
 	}
 	if _, ok := catc.mutation.ChainTransactionID(); !ok {
 		return &ValidationError{Name: "chain_transaction_id", err: errors.New(`ent: missing required field "CoinAccountTransaction.chain_transaction_id"`)}
+	}
+	if _, ok := catc.mutation.FailHold(); !ok {
+		return &ValidationError{Name: "fail_hold", err: errors.New(`ent: missing required field "CoinAccountTransaction.fail_hold"`)}
 	}
 	if _, ok := catc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CoinAccountTransaction.create_at"`)}
@@ -390,6 +411,14 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 			Column: coinaccounttransaction.FieldChainTransactionID,
 		})
 		_node.ChainTransactionID = value
+	}
+	if value, ok := catc.mutation.FailHold(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: coinaccounttransaction.FieldFailHold,
+		})
+		_node.FailHold = value
 	}
 	if value, ok := catc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -592,6 +621,18 @@ func (u *CoinAccountTransactionUpsert) SetChainTransactionID(v string) *CoinAcco
 // UpdateChainTransactionID sets the "chain_transaction_id" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsert) UpdateChainTransactionID() *CoinAccountTransactionUpsert {
 	u.SetExcluded(coinaccounttransaction.FieldChainTransactionID)
+	return u
+}
+
+// SetFailHold sets the "fail_hold" field.
+func (u *CoinAccountTransactionUpsert) SetFailHold(v bool) *CoinAccountTransactionUpsert {
+	u.Set(coinaccounttransaction.FieldFailHold, v)
+	return u
+}
+
+// UpdateFailHold sets the "fail_hold" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsert) UpdateFailHold() *CoinAccountTransactionUpsert {
+	u.SetExcluded(coinaccounttransaction.FieldFailHold)
 	return u
 }
 
@@ -843,6 +884,20 @@ func (u *CoinAccountTransactionUpsertOne) SetChainTransactionID(v string) *CoinA
 func (u *CoinAccountTransactionUpsertOne) UpdateChainTransactionID() *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateChainTransactionID()
+	})
+}
+
+// SetFailHold sets the "fail_hold" field.
+func (u *CoinAccountTransactionUpsertOne) SetFailHold(v bool) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetFailHold(v)
+	})
+}
+
+// UpdateFailHold sets the "fail_hold" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertOne) UpdateFailHold() *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateFailHold()
 	})
 }
 
@@ -1269,6 +1324,20 @@ func (u *CoinAccountTransactionUpsertBulk) SetChainTransactionID(v string) *Coin
 func (u *CoinAccountTransactionUpsertBulk) UpdateChainTransactionID() *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateChainTransactionID()
+	})
+}
+
+// SetFailHold sets the "fail_hold" field.
+func (u *CoinAccountTransactionUpsertBulk) SetFailHold(v bool) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetFailHold(v)
+	})
+}
+
+// UpdateFailHold sets the "fail_hold" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertBulk) UpdateFailHold() *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateFailHold()
 	})
 }
 
