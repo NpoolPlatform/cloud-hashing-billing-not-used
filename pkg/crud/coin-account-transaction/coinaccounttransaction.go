@@ -111,12 +111,15 @@ func Get(ctx context.Context, in *npool.GetCoinAccountTransactionRequest) (*npoo
 	if err != nil {
 		return nil, xerrors.Errorf("fail query coin account transaction: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coin account transaction")
+
+	var tx *npool.CoinAccountTransaction
+	for _, info := range infos {
+		tx = dbRowToCoinAccountTransaction(info)
+		break
 	}
 
 	return &npool.GetCoinAccountTransactionResponse{
-		Info: dbRowToCoinAccountTransaction(infos[0]),
+		Info: tx,
 	}, nil
 }
 
