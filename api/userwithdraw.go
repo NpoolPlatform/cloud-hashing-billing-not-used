@@ -32,6 +32,15 @@ func (s *Server) UpdateUserWithdraw(ctx context.Context, in *npool.UpdateUserWit
 	return resp, nil
 }
 
+func (s *Server) DeleteUserWithdraw(ctx context.Context, in *npool.DeleteUserWithdrawRequest) (*npool.DeleteUserWithdrawResponse, error) {
+	resp, err := crud.Delete(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("delete user withdraw error: %v", err)
+		return &npool.DeleteUserWithdrawResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
 func (s *Server) GetUserWithdraw(ctx context.Context, in *npool.GetUserWithdrawRequest) (*npool.GetUserWithdrawResponse, error) {
 	resp, err := crud.Get(ctx, in)
 	if err != nil {

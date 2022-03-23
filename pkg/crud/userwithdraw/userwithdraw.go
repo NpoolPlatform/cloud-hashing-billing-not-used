@@ -2,6 +2,7 @@ package userwithdraw
 
 import (
 	"context"
+	"time"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
@@ -105,6 +106,31 @@ func Update(ctx context.Context, in *npool.UpdateUserWithdrawRequest) (*npool.Up
 	}, nil
 }
 
+func Delete(ctx context.Context, in *npool.DeleteUserWithdrawRequest) (*npool.DeleteUserWithdrawResponse, error) {
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
+		UserWithdraw.
+		UpdateOneID(id).
+		SetDeleteAt(uint32(time.Now().Unix())).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail delete user withdraw: %v", err)
+	}
+
+	return &npool.DeleteUserWithdrawResponse{
+		Info: dbRowToUserWithdraw(info),
+	}, nil
+}
+
 func Get(ctx context.Context, in *npool.GetUserWithdrawRequest) (*npool.GetUserWithdrawResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
@@ -153,7 +179,10 @@ func GetByAccount(ctx context.Context, in *npool.GetUserWithdrawByAccountRequest
 		UserWithdraw.
 		Query().
 		Where(
-			userwithdraw.AccountID(accountID),
+			userwithdraw.And(
+				userwithdraw.AccountID(accountID),
+				userwithdraw.DeleteAt(0),
+			),
 		).
 		All(ctx)
 	if err != nil {
@@ -194,6 +223,7 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserWithdrawsByAppUserReques
 			userwithdraw.And(
 				userwithdraw.AppID(appID),
 				userwithdraw.UserID(userID),
+				userwithdraw.DeleteAt(0),
 			),
 		).
 		All(ctx)
@@ -240,6 +270,7 @@ func GetByAppUserCoin(ctx context.Context, in *npool.GetUserWithdrawsByAppUserCo
 				userwithdraw.AppID(appID),
 				userwithdraw.UserID(userID),
 				userwithdraw.CoinTypeID(coinTypeID),
+				userwithdraw.DeleteAt(0),
 			),
 		).
 		All(ctx)
