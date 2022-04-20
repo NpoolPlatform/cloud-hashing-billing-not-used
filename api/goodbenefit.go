@@ -49,3 +49,12 @@ func (s *Server) GetGoodBenefitByGood(ctx context.Context, in *npool.GetGoodBene
 	}
 	return resp, nil
 }
+
+func (s *Server) GetGoodBenefits(ctx context.Context, in *npool.GetGoodBenefitsRequest) (*npool.GetGoodBenefitsResponse, error) {
+	resp, err := crud.GetAll(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get good benefit error: %v", err)
+		return &npool.GetGoodBenefitsResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}

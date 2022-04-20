@@ -126,7 +126,7 @@ func Get(ctx context.Context, in *npool.GetGoodBenefitRequest) (*npool.GetGoodBe
 }
 
 func GetByGood(ctx context.Context, in *npool.GetGoodBenefitByGoodRequest) (*npool.GetGoodBenefitByGoodResponse, error) {
-	coinID, err := uuid.Parse(in.GetGoodID())
+	goodID, err := uuid.Parse(in.GetGoodID())
 	if err != nil {
 		return nil, xerrors.Errorf("invalid coin id: %v", err)
 	}
@@ -140,7 +140,7 @@ func GetByGood(ctx context.Context, in *npool.GetGoodBenefitByGoodRequest) (*npo
 		GoodBenefit.
 		Query().
 		Where(
-			goodbenefit.GoodID(coinID),
+			goodbenefit.GoodID(goodID),
 		).
 		All(ctx)
 	if err != nil {
@@ -155,5 +155,29 @@ func GetByGood(ctx context.Context, in *npool.GetGoodBenefitByGoodRequest) (*npo
 
 	return &npool.GetGoodBenefitByGoodResponse{
 		Info: setting,
+	}, nil
+}
+
+func GetAll(ctx context.Context, in *npool.GetGoodBenefitsRequest) (*npool.GetGoodBenefitsResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		GoodBenefit.
+		Query().
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query good benefit: %v", err)
+	}
+
+	settings := []*npool.GoodBenefit{}
+	for _, info := range infos {
+		settings = append(settings, dbRowToGoodBenefit(info))
+	}
+
+	return &npool.GetGoodBenefitsResponse{
+		Infos: settings,
 	}, nil
 }
