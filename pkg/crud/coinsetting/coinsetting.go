@@ -177,3 +177,27 @@ func GetByCoin(ctx context.Context, in *npool.GetCoinSettingByCoinRequest) (*npo
 		Info: setting,
 	}, nil
 }
+
+func GetAll(ctx context.Context, in *npool.GetCoinSettingsRequest) (*npool.GetCoinSettingsResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		CoinSetting.
+		Query().
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin setting: %v", err)
+	}
+
+	settings := []*npool.CoinSetting{}
+	for _, info := range infos {
+		settings = append(settings, dbRowToCoinSetting(info))
+	}
+
+	return &npool.GetCoinSettingsResponse{
+		Infos: settings,
+	}, nil
+}

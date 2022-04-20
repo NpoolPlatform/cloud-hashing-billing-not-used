@@ -47,3 +47,12 @@ func (s *Server) GetCoinSettingByCoin(ctx context.Context, in *npool.GetCoinSett
 	}
 	return resp, nil
 }
+
+func (s *Server) GetCoinSettings(ctx context.Context, in *npool.GetCoinSettingsRequest) (*npool.GetCoinSettingsResponse, error) {
+	resp, err := crud.GetAll(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get coin setting error: %v", err)
+		return &npool.GetCoinSettingsResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
