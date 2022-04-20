@@ -91,6 +91,28 @@ func (s *Server) GetUserWithdrawsByOtherAppUser(ctx context.Context, in *npool.G
 	}, nil
 }
 
+func (s *Server) GetUserWithdrawsByApp(ctx context.Context, in *npool.GetUserWithdrawsByAppRequest) (*npool.GetUserWithdrawsByAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw error: %v", err)
+		return &npool.GetUserWithdrawsByAppResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
+func (s *Server) GetUserWithdrawsByOtherApp(ctx context.Context, in *npool.GetUserWithdrawsByOtherAppRequest) (*npool.GetUserWithdrawsByOtherAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, &npool.GetUserWithdrawsByAppRequest{
+		AppID: in.GetTargetAppID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw error: %v", err)
+		return &npool.GetUserWithdrawsByOtherAppResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.GetUserWithdrawsByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
 func (s *Server) GetUserWithdrawAccount(ctx context.Context, in *npool.GetUserWithdrawAccountRequest) (*npool.GetUserWithdrawAccountResponse, error) {
 	resp, err := mw.GetUserWithdrawAccount(ctx, in)
 	if err != nil {
