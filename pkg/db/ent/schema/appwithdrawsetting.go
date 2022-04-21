@@ -19,8 +19,8 @@ type AppWithdrawSetting struct {
 func (AppWithdrawSetting) Fields() []ent.Field {
 	return []ent.Field{
 		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
-		field.UUID("app_id", uuid.UUID{}).Unique(),
-		field.UUID("coin_type_id", uuid.UUID{}).Unique(),
+		field.UUID("app_id", uuid.UUID{}),
+		field.UUID("coin_type_id", uuid.UUID{}),
 		field.Uint64("withdraw_auto_review_coin_amount"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {

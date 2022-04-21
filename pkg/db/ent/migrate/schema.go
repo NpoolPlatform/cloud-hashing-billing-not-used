@@ -11,8 +11,8 @@ var (
 	// AppWithdrawSettingsColumns holds the columns for the "app_withdraw_settings" table.
 	AppWithdrawSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "app_id", Type: field.TypeUUID, Unique: true},
-		{Name: "coin_type_id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "coin_type_id", Type: field.TypeUUID},
 		{Name: "withdraw_auto_review_coin_amount", Type: field.TypeUint64},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
