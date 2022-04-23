@@ -49,6 +49,28 @@ func (s *Server) GetUserWithdrawItemsByAccount(ctx context.Context, in *npool.Ge
 	return resp, nil
 }
 
+func (s *Server) GetUserWithdrawItemsByApp(ctx context.Context, in *npool.GetUserWithdrawItemsByAppRequest) (*npool.GetUserWithdrawItemsByAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw item error: %v", err)
+		return &npool.GetUserWithdrawItemsByAppResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
+func (s *Server) GetUserWithdrawItemsByOtherApp(ctx context.Context, in *npool.GetUserWithdrawItemsByOtherAppRequest) (*npool.GetUserWithdrawItemsByOtherAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, &npool.GetUserWithdrawItemsByAppRequest{
+		AppID: in.GetTargetAppID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorf("get user withdraw item error: %v", err)
+		return &npool.GetUserWithdrawItemsByOtherAppResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.GetUserWithdrawItemsByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
 func (s *Server) GetUserWithdrawItemsByAppUser(ctx context.Context, in *npool.GetUserWithdrawItemsByAppUserRequest) (*npool.GetUserWithdrawItemsByAppUserResponse, error) {
 	resp, err := crud.GetByAppUser(ctx, in)
 	if err != nil {

@@ -177,6 +177,38 @@ func GetByAccount(ctx context.Context, in *npool.GetUserWithdrawItemsByAccountRe
 	}, nil
 }
 
+func GetByApp(ctx context.Context, in *npool.GetUserWithdrawItemsByAppRequest) (*npool.GetUserWithdrawItemsByAppResponse, error) {
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		UserWithdrawItem.
+		Query().
+		Where(
+			userwithdrawitem.AppID(appID),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query user withdraw item: %v", err)
+	}
+
+	userWithdrawItems := []*npool.UserWithdrawItem{}
+	for _, info := range infos {
+		userWithdrawItems = append(userWithdrawItems, dbRowToUserWithdrawItem(info))
+	}
+
+	return &npool.GetUserWithdrawItemsByAppResponse{
+		Infos: userWithdrawItems,
+	}, nil
+}
+
 func GetByAppUser(ctx context.Context, in *npool.GetUserWithdrawItemsByAppUserRequest) (*npool.GetUserWithdrawItemsByAppUserResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
