@@ -61,6 +61,28 @@ func (s *Server) GetCoinAccountTransactionsByGoodState(ctx context.Context, in *
 	return resp, nil
 }
 
+func (s *Server) GetCoinAccountTransactionsByApp(ctx context.Context, in *npool.GetCoinAccountTransactionsByAppRequest) (*npool.GetCoinAccountTransactionsByAppResponse, error) {
+	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByApp(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get coin account transaction by app error: %v", err)
+		return &npool.GetCoinAccountTransactionsByAppResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
+func (s *Server) GetCoinAccountTransactionsByOtherApp(ctx context.Context, in *npool.GetCoinAccountTransactionsByOtherAppRequest) (*npool.GetCoinAccountTransactionsByOtherAppResponse, error) {
+	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByApp(ctx, &npool.GetCoinAccountTransactionsByAppRequest{
+		AppID: in.GetTargetAppID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorf("get coin account transaction by app error: %v", err)
+		return &npool.GetCoinAccountTransactionsByOtherAppResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.GetCoinAccountTransactionsByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
 func (s *Server) GetCoinAccountTransactionsByAppUser(ctx context.Context, in *npool.GetCoinAccountTransactionsByAppUserRequest) (*npool.GetCoinAccountTransactionsByAppUserResponse, error) {
 	resp, err := coinaccounttransaction.GetCoinAccountTransactionsByAppUser(ctx, in)
 	if err != nil {

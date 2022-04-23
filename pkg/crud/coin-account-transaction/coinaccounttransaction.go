@@ -191,6 +191,38 @@ func GetCoinAccountTransactionsByState(ctx context.Context, in *npool.GetCoinAcc
 	}, nil
 }
 
+func GetCoinAccountTransactionsByApp(ctx context.Context, in *npool.GetCoinAccountTransactionsByAppRequest) (*npool.GetCoinAccountTransactionsByAppResponse, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	infos, err := cli.
+		CoinAccountTransaction.
+		Query().
+		Where(
+			coinaccounttransaction.AppID(appID),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coin account transaction: %v", err)
+	}
+
+	transactions := []*npool.CoinAccountTransaction{}
+	for _, info := range infos {
+		transactions = append(transactions, dbRowToCoinAccountTransaction(info))
+	}
+
+	return &npool.GetCoinAccountTransactionsByAppResponse{
+		Infos: transactions,
+	}, nil
+}
+
 func GetCoinAccountTransactionsByAppUser(ctx context.Context, in *npool.GetCoinAccountTransactionsByAppUserRequest) (*npool.GetCoinAccountTransactionsByAppUserResponse, error) {
 	cli, err := db.Client()
 	if err != nil {
