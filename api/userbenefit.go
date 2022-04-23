@@ -61,6 +61,19 @@ func (s *Server) GetUserBenefitsByApp(ctx context.Context, in *npool.GetUserBene
 	return resp, nil
 }
 
+func (s *Server) GetUserBenefitsByOtherApp(ctx context.Context, in *npool.GetUserBenefitsByOtherAppRequest) (*npool.GetUserBenefitsByOtherAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, &npool.GetUserBenefitsByAppRequest{
+		AppID: in.GetTargetAppID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorf("get user benefit error: %v", err)
+		return &npool.GetUserBenefitsByOtherAppResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.GetUserBenefitsByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
 func (s *Server) GetUserBenefits(ctx context.Context, in *npool.GetUserBenefitsRequest) (*npool.GetUserBenefitsResponse, error) {
 	resp, err := crud.GetAll(ctx, in)
 	if err != nil {
