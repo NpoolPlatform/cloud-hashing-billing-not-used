@@ -85,6 +85,7 @@ func Update(ctx context.Context, in *npool.UpdateGoodPaymentRequest) (*npool.Upd
 		GoodPayment.
 		UpdateOneID(id).
 		SetIdle(in.GetInfo().GetIdle()).
+		SetOccupiedBy(in.GetInfo().GetOccupiedBy()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update good payment: %v", err)
