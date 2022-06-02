@@ -30,6 +30,8 @@ type CoinAccountTransaction struct {
 	CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
 	// Amount holds the value of the "amount" field.
 	Amount uint64 `json:"amount,omitempty"`
+	// TransactionFee holds the value of the "transaction_fee" field.
+	TransactionFee uint64 `json:"transaction_fee,omitempty"`
 	// Message holds the value of the "message" field.
 	Message string `json:"message,omitempty"`
 	// State holds the value of the "state" field.
@@ -53,7 +55,7 @@ func (*CoinAccountTransaction) scanValues(columns []string) ([]interface{}, erro
 		switch columns[i] {
 		case coinaccounttransaction.FieldFailHold:
 			values[i] = new(sql.NullBool)
-		case coinaccounttransaction.FieldAmount, coinaccounttransaction.FieldCreateAt, coinaccounttransaction.FieldUpdateAt, coinaccounttransaction.FieldDeleteAt:
+		case coinaccounttransaction.FieldAmount, coinaccounttransaction.FieldTransactionFee, coinaccounttransaction.FieldCreateAt, coinaccounttransaction.FieldUpdateAt, coinaccounttransaction.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case coinaccounttransaction.FieldMessage, coinaccounttransaction.FieldState, coinaccounttransaction.FieldChainTransactionID:
 			values[i] = new(sql.NullString)
@@ -121,6 +123,12 @@ func (cat *CoinAccountTransaction) assignValues(columns []string, values []inter
 				return fmt.Errorf("unexpected type %T for field amount", values[i])
 			} else if value.Valid {
 				cat.Amount = uint64(value.Int64)
+			}
+		case coinaccounttransaction.FieldTransactionFee:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field transaction_fee", values[i])
+			} else if value.Valid {
+				cat.TransactionFee = uint64(value.Int64)
 			}
 		case coinaccounttransaction.FieldMessage:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -206,6 +214,8 @@ func (cat *CoinAccountTransaction) String() string {
 	builder.WriteString(fmt.Sprintf("%v", cat.CoinTypeID))
 	builder.WriteString(", amount=")
 	builder.WriteString(fmt.Sprintf("%v", cat.Amount))
+	builder.WriteString(", transaction_fee=")
+	builder.WriteString(fmt.Sprintf("%v", cat.TransactionFee))
 	builder.WriteString(", message=")
 	builder.WriteString(cat.Message)
 	builder.WriteString(", state=")

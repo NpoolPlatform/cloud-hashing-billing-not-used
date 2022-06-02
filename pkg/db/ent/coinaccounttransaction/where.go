@@ -140,6 +140,13 @@ func Amount(v uint64) predicate.CoinAccountTransaction {
 	})
 }
 
+// TransactionFee applies equality check predicate on the "transaction_fee" field. It's identical to TransactionFeeEQ.
+func TransactionFee(v uint64) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTransactionFee), v))
+	})
+}
+
 // Message applies equality check predicate on the "message" field. It's identical to MessageEQ.
 func Message(v string) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
@@ -711,6 +718,82 @@ func AmountLT(v uint64) predicate.CoinAccountTransaction {
 func AmountLTE(v uint64) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldAmount), v))
+	})
+}
+
+// TransactionFeeEQ applies the EQ predicate on the "transaction_fee" field.
+func TransactionFeeEQ(v uint64) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTransactionFee), v))
+	})
+}
+
+// TransactionFeeNEQ applies the NEQ predicate on the "transaction_fee" field.
+func TransactionFeeNEQ(v uint64) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldTransactionFee), v))
+	})
+}
+
+// TransactionFeeIn applies the In predicate on the "transaction_fee" field.
+func TransactionFeeIn(vs ...uint64) predicate.CoinAccountTransaction {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldTransactionFee), v...))
+	})
+}
+
+// TransactionFeeNotIn applies the NotIn predicate on the "transaction_fee" field.
+func TransactionFeeNotIn(vs ...uint64) predicate.CoinAccountTransaction {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldTransactionFee), v...))
+	})
+}
+
+// TransactionFeeGT applies the GT predicate on the "transaction_fee" field.
+func TransactionFeeGT(v uint64) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldTransactionFee), v))
+	})
+}
+
+// TransactionFeeGTE applies the GTE predicate on the "transaction_fee" field.
+func TransactionFeeGTE(v uint64) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldTransactionFee), v))
+	})
+}
+
+// TransactionFeeLT applies the LT predicate on the "transaction_fee" field.
+func TransactionFeeLT(v uint64) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldTransactionFee), v))
+	})
+}
+
+// TransactionFeeLTE applies the LTE predicate on the "transaction_fee" field.
+func TransactionFeeLTE(v uint64) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldTransactionFee), v))
 	})
 }
 

@@ -65,6 +65,12 @@ func (catc *CoinAccountTransactionCreate) SetAmount(u uint64) *CoinAccountTransa
 	return catc
 }
 
+// SetTransactionFee sets the "transaction_fee" field.
+func (catc *CoinAccountTransactionCreate) SetTransactionFee(u uint64) *CoinAccountTransactionCreate {
+	catc.mutation.SetTransactionFee(u)
+	return catc
+}
+
 // SetMessage sets the "message" field.
 func (catc *CoinAccountTransactionCreate) SetMessage(s string) *CoinAccountTransactionCreate {
 	catc.mutation.SetMessage(s)
@@ -269,6 +275,9 @@ func (catc *CoinAccountTransactionCreate) check() error {
 	if _, ok := catc.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "CoinAccountTransaction.amount"`)}
 	}
+	if _, ok := catc.mutation.TransactionFee(); !ok {
+		return &ValidationError{Name: "transaction_fee", err: errors.New(`ent: missing required field "CoinAccountTransaction.transaction_fee"`)}
+	}
 	if _, ok := catc.mutation.Message(); !ok {
 		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "CoinAccountTransaction.message"`)}
 	}
@@ -387,6 +396,14 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 			Column: coinaccounttransaction.FieldAmount,
 		})
 		_node.Amount = value
+	}
+	if value, ok := catc.mutation.TransactionFee(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinaccounttransaction.FieldTransactionFee,
+		})
+		_node.TransactionFee = value
 	}
 	if value, ok := catc.mutation.Message(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -585,6 +602,24 @@ func (u *CoinAccountTransactionUpsert) UpdateAmount() *CoinAccountTransactionUps
 // AddAmount adds v to the "amount" field.
 func (u *CoinAccountTransactionUpsert) AddAmount(v uint64) *CoinAccountTransactionUpsert {
 	u.Add(coinaccounttransaction.FieldAmount, v)
+	return u
+}
+
+// SetTransactionFee sets the "transaction_fee" field.
+func (u *CoinAccountTransactionUpsert) SetTransactionFee(v uint64) *CoinAccountTransactionUpsert {
+	u.Set(coinaccounttransaction.FieldTransactionFee, v)
+	return u
+}
+
+// UpdateTransactionFee sets the "transaction_fee" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsert) UpdateTransactionFee() *CoinAccountTransactionUpsert {
+	u.SetExcluded(coinaccounttransaction.FieldTransactionFee)
+	return u
+}
+
+// AddTransactionFee adds v to the "transaction_fee" field.
+func (u *CoinAccountTransactionUpsert) AddTransactionFee(v uint64) *CoinAccountTransactionUpsert {
+	u.Add(coinaccounttransaction.FieldTransactionFee, v)
 	return u
 }
 
@@ -842,6 +877,27 @@ func (u *CoinAccountTransactionUpsertOne) AddAmount(v uint64) *CoinAccountTransa
 func (u *CoinAccountTransactionUpsertOne) UpdateAmount() *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateAmount()
+	})
+}
+
+// SetTransactionFee sets the "transaction_fee" field.
+func (u *CoinAccountTransactionUpsertOne) SetTransactionFee(v uint64) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetTransactionFee(v)
+	})
+}
+
+// AddTransactionFee adds v to the "transaction_fee" field.
+func (u *CoinAccountTransactionUpsertOne) AddTransactionFee(v uint64) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddTransactionFee(v)
+	})
+}
+
+// UpdateTransactionFee sets the "transaction_fee" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertOne) UpdateTransactionFee() *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateTransactionFee()
 	})
 }
 
@@ -1282,6 +1338,27 @@ func (u *CoinAccountTransactionUpsertBulk) AddAmount(v uint64) *CoinAccountTrans
 func (u *CoinAccountTransactionUpsertBulk) UpdateAmount() *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateAmount()
+	})
+}
+
+// SetTransactionFee sets the "transaction_fee" field.
+func (u *CoinAccountTransactionUpsertBulk) SetTransactionFee(v uint64) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetTransactionFee(v)
+	})
+}
+
+// AddTransactionFee adds v to the "transaction_fee" field.
+func (u *CoinAccountTransactionUpsertBulk) AddTransactionFee(v uint64) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.AddTransactionFee(v)
+	})
+}
+
+// UpdateTransactionFee sets the "transaction_fee" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertBulk) UpdateTransactionFee() *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateTransactionFee()
 	})
 }
 

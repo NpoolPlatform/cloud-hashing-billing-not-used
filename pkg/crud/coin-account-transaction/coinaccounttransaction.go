@@ -50,6 +50,7 @@ func dbRowToCoinAccountTransaction(row *ent.CoinAccountTransaction) *npool.CoinA
 		ToAddressID:        row.ToAddressID.String(),
 		CoinTypeID:         row.CoinTypeID.String(),
 		Amount:             price.DBPriceToVisualPrice(row.Amount),
+		TransactionFee:     price.DBPriceToVisualPrice(row.TransactionFee),
 		Message:            row.Message,
 		ChainTransactionID: row.ChainTransactionID,
 		CreateAt:           row.CreateAt,
@@ -78,6 +79,7 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountTransactionRequest) 
 		SetToAddressID(uuid.MustParse(in.GetInfo().GetToAddressID())).
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
+		SetTransactionFee(price.VisualPriceToDBPrice(in.GetInfo().GetTransactionFee())).
 		SetMessage(in.GetInfo().GetMessage()).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
 		SetState(constant.CoinTransactionStateCreated).

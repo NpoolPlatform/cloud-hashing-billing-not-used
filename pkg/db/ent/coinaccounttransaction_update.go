@@ -77,6 +77,19 @@ func (catu *CoinAccountTransactionUpdate) AddAmount(u int64) *CoinAccountTransac
 	return catu
 }
 
+// SetTransactionFee sets the "transaction_fee" field.
+func (catu *CoinAccountTransactionUpdate) SetTransactionFee(u uint64) *CoinAccountTransactionUpdate {
+	catu.mutation.ResetTransactionFee()
+	catu.mutation.SetTransactionFee(u)
+	return catu
+}
+
+// AddTransactionFee adds u to the "transaction_fee" field.
+func (catu *CoinAccountTransactionUpdate) AddTransactionFee(u int64) *CoinAccountTransactionUpdate {
+	catu.mutation.AddTransactionFee(u)
+	return catu
+}
+
 // SetMessage sets the "message" field.
 func (catu *CoinAccountTransactionUpdate) SetMessage(s string) *CoinAccountTransactionUpdate {
 	catu.mutation.SetMessage(s)
@@ -322,6 +335,20 @@ func (catu *CoinAccountTransactionUpdate) sqlSave(ctx context.Context) (n int, e
 			Column: coinaccounttransaction.FieldAmount,
 		})
 	}
+	if value, ok := catu.mutation.TransactionFee(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinaccounttransaction.FieldTransactionFee,
+		})
+	}
+	if value, ok := catu.mutation.AddedTransactionFee(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinaccounttransaction.FieldTransactionFee,
+		})
+	}
 	if value, ok := catu.mutation.Message(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -457,6 +484,19 @@ func (catuo *CoinAccountTransactionUpdateOne) SetAmount(u uint64) *CoinAccountTr
 // AddAmount adds u to the "amount" field.
 func (catuo *CoinAccountTransactionUpdateOne) AddAmount(u int64) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.AddAmount(u)
+	return catuo
+}
+
+// SetTransactionFee sets the "transaction_fee" field.
+func (catuo *CoinAccountTransactionUpdateOne) SetTransactionFee(u uint64) *CoinAccountTransactionUpdateOne {
+	catuo.mutation.ResetTransactionFee()
+	catuo.mutation.SetTransactionFee(u)
+	return catuo
+}
+
+// AddTransactionFee adds u to the "transaction_fee" field.
+func (catuo *CoinAccountTransactionUpdateOne) AddTransactionFee(u int64) *CoinAccountTransactionUpdateOne {
+	catuo.mutation.AddTransactionFee(u)
 	return catuo
 }
 
@@ -727,6 +767,20 @@ func (catuo *CoinAccountTransactionUpdateOne) sqlSave(ctx context.Context) (_nod
 			Type:   field.TypeUint64,
 			Value:  value,
 			Column: coinaccounttransaction.FieldAmount,
+		})
+	}
+	if value, ok := catuo.mutation.TransactionFee(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinaccounttransaction.FieldTransactionFee,
+		})
+	}
+	if value, ok := catuo.mutation.AddedTransactionFee(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: coinaccounttransaction.FieldTransactionFee,
 		})
 	}
 	if value, ok := catuo.mutation.Message(); ok {

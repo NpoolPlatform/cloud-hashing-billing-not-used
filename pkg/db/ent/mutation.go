@@ -1476,6 +1476,8 @@ type CoinAccountTransactionMutation struct {
 	coin_type_id         *uuid.UUID
 	amount               *uint64
 	addamount            *int64
+	transaction_fee      *uint64
+	addtransaction_fee   *int64
 	message              *string
 	state                *coinaccounttransaction.State
 	chain_transaction_id *string
@@ -1868,6 +1870,62 @@ func (m *CoinAccountTransactionMutation) ResetAmount() {
 	m.addamount = nil
 }
 
+// SetTransactionFee sets the "transaction_fee" field.
+func (m *CoinAccountTransactionMutation) SetTransactionFee(u uint64) {
+	m.transaction_fee = &u
+	m.addtransaction_fee = nil
+}
+
+// TransactionFee returns the value of the "transaction_fee" field in the mutation.
+func (m *CoinAccountTransactionMutation) TransactionFee() (r uint64, exists bool) {
+	v := m.transaction_fee
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTransactionFee returns the old "transaction_fee" field's value of the CoinAccountTransaction entity.
+// If the CoinAccountTransaction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CoinAccountTransactionMutation) OldTransactionFee(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTransactionFee is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTransactionFee requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTransactionFee: %w", err)
+	}
+	return oldValue.TransactionFee, nil
+}
+
+// AddTransactionFee adds u to the "transaction_fee" field.
+func (m *CoinAccountTransactionMutation) AddTransactionFee(u int64) {
+	if m.addtransaction_fee != nil {
+		*m.addtransaction_fee += u
+	} else {
+		m.addtransaction_fee = &u
+	}
+}
+
+// AddedTransactionFee returns the value that was added to the "transaction_fee" field in this mutation.
+func (m *CoinAccountTransactionMutation) AddedTransactionFee() (r int64, exists bool) {
+	v := m.addtransaction_fee
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetTransactionFee resets all changes to the "transaction_fee" field.
+func (m *CoinAccountTransactionMutation) ResetTransactionFee() {
+	m.transaction_fee = nil
+	m.addtransaction_fee = nil
+}
+
 // SetMessage sets the "message" field.
 func (m *CoinAccountTransactionMutation) SetMessage(s string) {
 	m.message = &s
@@ -2199,7 +2257,7 @@ func (m *CoinAccountTransactionMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CoinAccountTransactionMutation) Fields() []string {
-	fields := make([]string, 0, 14)
+	fields := make([]string, 0, 15)
 	if m.app_id != nil {
 		fields = append(fields, coinaccounttransaction.FieldAppID)
 	}
@@ -2220,6 +2278,9 @@ func (m *CoinAccountTransactionMutation) Fields() []string {
 	}
 	if m.amount != nil {
 		fields = append(fields, coinaccounttransaction.FieldAmount)
+	}
+	if m.transaction_fee != nil {
+		fields = append(fields, coinaccounttransaction.FieldTransactionFee)
 	}
 	if m.message != nil {
 		fields = append(fields, coinaccounttransaction.FieldMessage)
@@ -2264,6 +2325,8 @@ func (m *CoinAccountTransactionMutation) Field(name string) (ent.Value, bool) {
 		return m.CoinTypeID()
 	case coinaccounttransaction.FieldAmount:
 		return m.Amount()
+	case coinaccounttransaction.FieldTransactionFee:
+		return m.TransactionFee()
 	case coinaccounttransaction.FieldMessage:
 		return m.Message()
 	case coinaccounttransaction.FieldState:
@@ -2301,6 +2364,8 @@ func (m *CoinAccountTransactionMutation) OldField(ctx context.Context, name stri
 		return m.OldCoinTypeID(ctx)
 	case coinaccounttransaction.FieldAmount:
 		return m.OldAmount(ctx)
+	case coinaccounttransaction.FieldTransactionFee:
+		return m.OldTransactionFee(ctx)
 	case coinaccounttransaction.FieldMessage:
 		return m.OldMessage(ctx)
 	case coinaccounttransaction.FieldState:
@@ -2373,6 +2438,13 @@ func (m *CoinAccountTransactionMutation) SetField(name string, value ent.Value) 
 		}
 		m.SetAmount(v)
 		return nil
+	case coinaccounttransaction.FieldTransactionFee:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTransactionFee(v)
+		return nil
 	case coinaccounttransaction.FieldMessage:
 		v, ok := value.(string)
 		if !ok {
@@ -2433,6 +2505,9 @@ func (m *CoinAccountTransactionMutation) AddedFields() []string {
 	if m.addamount != nil {
 		fields = append(fields, coinaccounttransaction.FieldAmount)
 	}
+	if m.addtransaction_fee != nil {
+		fields = append(fields, coinaccounttransaction.FieldTransactionFee)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, coinaccounttransaction.FieldCreateAt)
 	}
@@ -2452,6 +2527,8 @@ func (m *CoinAccountTransactionMutation) AddedField(name string) (ent.Value, boo
 	switch name {
 	case coinaccounttransaction.FieldAmount:
 		return m.AddedAmount()
+	case coinaccounttransaction.FieldTransactionFee:
+		return m.AddedTransactionFee()
 	case coinaccounttransaction.FieldCreateAt:
 		return m.AddedCreateAt()
 	case coinaccounttransaction.FieldUpdateAt:
@@ -2473,6 +2550,13 @@ func (m *CoinAccountTransactionMutation) AddField(name string, value ent.Value) 
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddAmount(v)
+		return nil
+	case coinaccounttransaction.FieldTransactionFee:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddTransactionFee(v)
 		return nil
 	case coinaccounttransaction.FieldCreateAt:
 		v, ok := value.(int32)
@@ -2542,6 +2626,9 @@ func (m *CoinAccountTransactionMutation) ResetField(name string) error {
 		return nil
 	case coinaccounttransaction.FieldAmount:
 		m.ResetAmount()
+		return nil
+	case coinaccounttransaction.FieldTransactionFee:
+		m.ResetTransactionFee()
 		return nil
 	case coinaccounttransaction.FieldMessage:
 		m.ResetMessage()
