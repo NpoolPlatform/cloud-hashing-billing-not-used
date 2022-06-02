@@ -84,6 +84,14 @@ func (catu *CoinAccountTransactionUpdate) SetTransactionFee(u uint64) *CoinAccou
 	return catu
 }
 
+// SetNillableTransactionFee sets the "transaction_fee" field if the given value is not nil.
+func (catu *CoinAccountTransactionUpdate) SetNillableTransactionFee(u *uint64) *CoinAccountTransactionUpdate {
+	if u != nil {
+		catu.SetTransactionFee(*u)
+	}
+	return catu
+}
+
 // AddTransactionFee adds u to the "transaction_fee" field.
 func (catu *CoinAccountTransactionUpdate) AddTransactionFee(u int64) *CoinAccountTransactionUpdate {
 	catu.mutation.AddTransactionFee(u)
@@ -491,6 +499,14 @@ func (catuo *CoinAccountTransactionUpdateOne) AddAmount(u int64) *CoinAccountTra
 func (catuo *CoinAccountTransactionUpdateOne) SetTransactionFee(u uint64) *CoinAccountTransactionUpdateOne {
 	catuo.mutation.ResetTransactionFee()
 	catuo.mutation.SetTransactionFee(u)
+	return catuo
+}
+
+// SetNillableTransactionFee sets the "transaction_fee" field if the given value is not nil.
+func (catuo *CoinAccountTransactionUpdateOne) SetNillableTransactionFee(u *uint64) *CoinAccountTransactionUpdateOne {
+	if u != nil {
+		catuo.SetTransactionFee(*u)
+	}
 	return catuo
 }
 

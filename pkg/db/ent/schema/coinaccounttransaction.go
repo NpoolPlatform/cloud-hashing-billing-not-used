@@ -29,7 +29,7 @@ func (CoinAccountTransaction) Fields() []ent.Field {
 		field.UUID("to_address_id", uuid.UUID{}),
 		field.UUID("coin_type_id", uuid.UUID{}),
 		field.Uint64("amount"),
-		field.Uint64("transaction_fee"),
+		field.Uint64("transaction_fee").Default(0),
 		field.String("message"),
 		field.Enum("state").
 			Values(constant.CoinTransactionStateCreated,

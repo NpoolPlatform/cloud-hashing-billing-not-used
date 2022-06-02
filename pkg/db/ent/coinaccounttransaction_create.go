@@ -71,6 +71,14 @@ func (catc *CoinAccountTransactionCreate) SetTransactionFee(u uint64) *CoinAccou
 	return catc
 }
 
+// SetNillableTransactionFee sets the "transaction_fee" field if the given value is not nil.
+func (catc *CoinAccountTransactionCreate) SetNillableTransactionFee(u *uint64) *CoinAccountTransactionCreate {
+	if u != nil {
+		catc.SetTransactionFee(*u)
+	}
+	return catc
+}
+
 // SetMessage sets the "message" field.
 func (catc *CoinAccountTransactionCreate) SetMessage(s string) *CoinAccountTransactionCreate {
 	catc.mutation.SetMessage(s)
@@ -230,6 +238,10 @@ func (catc *CoinAccountTransactionCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (catc *CoinAccountTransactionCreate) defaults() {
+	if _, ok := catc.mutation.TransactionFee(); !ok {
+		v := coinaccounttransaction.DefaultTransactionFee
+		catc.mutation.SetTransactionFee(v)
+	}
 	if _, ok := catc.mutation.FailHold(); !ok {
 		v := coinaccounttransaction.DefaultFailHold
 		catc.mutation.SetFailHold(v)

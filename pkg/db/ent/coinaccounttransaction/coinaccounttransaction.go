@@ -78,6 +78,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultTransactionFee holds the default value on creation for the "transaction_fee" field.
+	DefaultTransactionFee uint64
 	// DefaultFailHold holds the default value on creation for the "fail_hold" field.
 	DefaultFailHold bool
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.

@@ -66,6 +66,10 @@ func init() {
 	coinaccountinfo.DefaultID = coinaccountinfoDescID.Default.(func() uuid.UUID)
 	coinaccounttransactionFields := schema.CoinAccountTransaction{}.Fields()
 	_ = coinaccounttransactionFields
+	// coinaccounttransactionDescTransactionFee is the schema descriptor for transaction_fee field.
+	coinaccounttransactionDescTransactionFee := coinaccounttransactionFields[8].Descriptor()
+	// coinaccounttransaction.DefaultTransactionFee holds the default value on creation for the transaction_fee field.
+	coinaccounttransaction.DefaultTransactionFee = coinaccounttransactionDescTransactionFee.Default.(uint64)
 	// coinaccounttransactionDescFailHold is the schema descriptor for fail_hold field.
 	coinaccounttransactionDescFailHold := coinaccounttransactionFields[12].Descriptor()
 	// coinaccounttransaction.DefaultFailHold holds the default value on creation for the fail_hold field.
