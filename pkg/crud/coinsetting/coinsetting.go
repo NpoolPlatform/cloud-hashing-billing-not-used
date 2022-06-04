@@ -32,6 +32,9 @@ func validateCoinSetting(info *npool.CoinSetting) error {
 	if _, err := uuid.Parse(info.GetGoodIncomingAccountID()); err != nil {
 		return xerrors.Errorf("invalid good incoming account id: %v", err)
 	}
+	if _, err := uuid.Parse(info.GetGasProviderAccountID()); err != nil {
+		return xerrors.Errorf("invalid gas provider account id: %v", err)
+	}
 	return nil
 }
 
@@ -45,6 +48,7 @@ func dbRowToCoinSetting(row *ent.CoinSetting) *npool.CoinSetting {
 		UserOfflineAccountID:     row.UserOfflineAccountID.String(),
 		UserOnlineAccountID:      row.UserOnlineAccountID.String(),
 		GoodIncomingAccountID:    row.GoodIncomingAccountID.String(),
+		GasProviderAccountID:     row.GasProviderAccountID.String(),
 	}
 }
 
@@ -68,6 +72,7 @@ func Create(ctx context.Context, in *npool.CreateCoinSettingRequest) (*npool.Cre
 		SetUserOfflineAccountID(uuid.MustParse(in.GetInfo().GetUserOfflineAccountID())).
 		SetUserOnlineAccountID(uuid.MustParse(in.GetInfo().GetUserOnlineAccountID())).
 		SetGoodIncomingAccountID(uuid.MustParse(in.GetInfo().GetGoodIncomingAccountID())).
+		SetGasProviderAccountID(uuid.MustParse(in.GetInfo().GetGasProviderAccountID())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create coin setting: %v", err)
@@ -102,6 +107,7 @@ func Update(ctx context.Context, in *npool.UpdateCoinSettingRequest) (*npool.Upd
 		SetUserOfflineAccountID(uuid.MustParse(in.GetInfo().GetUserOfflineAccountID())).
 		SetUserOnlineAccountID(uuid.MustParse(in.GetInfo().GetUserOnlineAccountID())).
 		SetGoodIncomingAccountID(uuid.MustParse(in.GetInfo().GetGoodIncomingAccountID())).
+		SetGasProviderAccountID(uuid.MustParse(in.GetInfo().GetGasProviderAccountID())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update coin setting: %v", err)

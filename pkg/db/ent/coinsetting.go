@@ -30,6 +30,8 @@ type CoinSetting struct {
 	UserOfflineAccountID uuid.UUID `json:"user_offline_account_id,omitempty"`
 	// GoodIncomingAccountID holds the value of the "good_incoming_account_id" field.
 	GoodIncomingAccountID uuid.UUID `json:"good_incoming_account_id,omitempty"`
+	// GasProviderAccountID holds the value of the "gas_provider_account_id" field.
+	GasProviderAccountID uuid.UUID `json:"gas_provider_account_id,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -45,7 +47,7 @@ func (*CoinSetting) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case coinsetting.FieldWarmAccountCoinAmount, coinsetting.FieldPaymentAccountCoinAmount, coinsetting.FieldCreateAt, coinsetting.FieldUpdateAt, coinsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case coinsetting.FieldID, coinsetting.FieldCoinTypeID, coinsetting.FieldPlatformOfflineAccountID, coinsetting.FieldUserOnlineAccountID, coinsetting.FieldUserOfflineAccountID, coinsetting.FieldGoodIncomingAccountID:
+		case coinsetting.FieldID, coinsetting.FieldCoinTypeID, coinsetting.FieldPlatformOfflineAccountID, coinsetting.FieldUserOnlineAccountID, coinsetting.FieldUserOfflineAccountID, coinsetting.FieldGoodIncomingAccountID, coinsetting.FieldGasProviderAccountID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CoinSetting", columns[i])
@@ -110,6 +112,12 @@ func (cs *CoinSetting) assignValues(columns []string, values []interface{}) erro
 			} else if value != nil {
 				cs.GoodIncomingAccountID = *value
 			}
+		case coinsetting.FieldGasProviderAccountID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field gas_provider_account_id", values[i])
+			} else if value != nil {
+				cs.GasProviderAccountID = *value
+			}
 		case coinsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -170,6 +178,8 @@ func (cs *CoinSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", cs.UserOfflineAccountID))
 	builder.WriteString(", good_incoming_account_id=")
 	builder.WriteString(fmt.Sprintf("%v", cs.GoodIncomingAccountID))
+	builder.WriteString(", gas_provider_account_id=")
+	builder.WriteString(fmt.Sprintf("%v", cs.GasProviderAccountID))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", cs.CreateAt))
 	builder.WriteString(", update_at=")

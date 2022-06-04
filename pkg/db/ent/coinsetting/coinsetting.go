@@ -25,6 +25,8 @@ const (
 	FieldUserOfflineAccountID = "user_offline_account_id"
 	// FieldGoodIncomingAccountID holds the string denoting the good_incoming_account_id field in the database.
 	FieldGoodIncomingAccountID = "good_incoming_account_id"
+	// FieldGasProviderAccountID holds the string denoting the gas_provider_account_id field in the database.
+	FieldGasProviderAccountID = "gas_provider_account_id"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -45,6 +47,7 @@ var Columns = []string{
 	FieldUserOnlineAccountID,
 	FieldUserOfflineAccountID,
 	FieldGoodIncomingAccountID,
+	FieldGasProviderAccountID,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

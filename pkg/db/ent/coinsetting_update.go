@@ -84,6 +84,12 @@ func (csu *CoinSettingUpdate) SetGoodIncomingAccountID(u uuid.UUID) *CoinSetting
 	return csu
 }
 
+// SetGasProviderAccountID sets the "gas_provider_account_id" field.
+func (csu *CoinSettingUpdate) SetGasProviderAccountID(u uuid.UUID) *CoinSettingUpdate {
+	csu.mutation.SetGasProviderAccountID(u)
+	return csu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (csu *CoinSettingUpdate) SetCreateAt(u uint32) *CoinSettingUpdate {
 	csu.mutation.ResetCreateAt()
@@ -288,6 +294,13 @@ func (csu *CoinSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: coinsetting.FieldGoodIncomingAccountID,
 		})
 	}
+	if value, ok := csu.mutation.GasProviderAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldGasProviderAccountID,
+		})
+	}
 	if value, ok := csu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -402,6 +415,12 @@ func (csuo *CoinSettingUpdateOne) SetUserOfflineAccountID(u uuid.UUID) *CoinSett
 // SetGoodIncomingAccountID sets the "good_incoming_account_id" field.
 func (csuo *CoinSettingUpdateOne) SetGoodIncomingAccountID(u uuid.UUID) *CoinSettingUpdateOne {
 	csuo.mutation.SetGoodIncomingAccountID(u)
+	return csuo
+}
+
+// SetGasProviderAccountID sets the "gas_provider_account_id" field.
+func (csuo *CoinSettingUpdateOne) SetGasProviderAccountID(u uuid.UUID) *CoinSettingUpdateOne {
+	csuo.mutation.SetGasProviderAccountID(u)
 	return csuo
 }
 
@@ -631,6 +650,13 @@ func (csuo *CoinSettingUpdateOne) sqlSave(ctx context.Context) (_node *CoinSetti
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: coinsetting.FieldGoodIncomingAccountID,
+		})
+	}
+	if value, ok := csuo.mutation.GasProviderAccountID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldGasProviderAccountID,
 		})
 	}
 	if value, ok := csuo.mutation.CreateAt(); ok {

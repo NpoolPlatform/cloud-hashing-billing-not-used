@@ -89,6 +89,7 @@ var (
 		{Name: "user_online_account_id", Type: field.TypeUUID},
 		{Name: "user_offline_account_id", Type: field.TypeUUID},
 		{Name: "good_incoming_account_id", Type: field.TypeUUID},
+		{Name: "gas_provider_account_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

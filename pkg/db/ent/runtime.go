@@ -95,17 +95,17 @@ func init() {
 	coinsettingFields := schema.CoinSetting{}.Fields()
 	_ = coinsettingFields
 	// coinsettingDescCreateAt is the schema descriptor for create_at field.
-	coinsettingDescCreateAt := coinsettingFields[8].Descriptor()
+	coinsettingDescCreateAt := coinsettingFields[9].Descriptor()
 	// coinsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	coinsetting.DefaultCreateAt = coinsettingDescCreateAt.Default.(func() uint32)
 	// coinsettingDescUpdateAt is the schema descriptor for update_at field.
-	coinsettingDescUpdateAt := coinsettingFields[9].Descriptor()
+	coinsettingDescUpdateAt := coinsettingFields[10].Descriptor()
 	// coinsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	coinsetting.DefaultUpdateAt = coinsettingDescUpdateAt.Default.(func() uint32)
 	// coinsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	coinsetting.UpdateDefaultUpdateAt = coinsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// coinsettingDescDeleteAt is the schema descriptor for delete_at field.
-	coinsettingDescDeleteAt := coinsettingFields[10].Descriptor()
+	coinsettingDescDeleteAt := coinsettingFields[11].Descriptor()
 	// coinsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	coinsetting.DefaultDeleteAt = coinsettingDescDeleteAt.Default.(func() uint32)
 	// coinsettingDescID is the schema descriptor for id field.

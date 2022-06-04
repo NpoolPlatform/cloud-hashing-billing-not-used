@@ -65,6 +65,12 @@ func (csc *CoinSettingCreate) SetGoodIncomingAccountID(u uuid.UUID) *CoinSetting
 	return csc
 }
 
+// SetGasProviderAccountID sets the "gas_provider_account_id" field.
+func (csc *CoinSettingCreate) SetGasProviderAccountID(u uuid.UUID) *CoinSettingCreate {
+	csc.mutation.SetGasProviderAccountID(u)
+	return csc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (csc *CoinSettingCreate) SetCreateAt(u uint32) *CoinSettingCreate {
 	csc.mutation.SetCreateAt(u)
@@ -233,6 +239,9 @@ func (csc *CoinSettingCreate) check() error {
 	if _, ok := csc.mutation.GoodIncomingAccountID(); !ok {
 		return &ValidationError{Name: "good_incoming_account_id", err: errors.New(`ent: missing required field "CoinSetting.good_incoming_account_id"`)}
 	}
+	if _, ok := csc.mutation.GasProviderAccountID(); !ok {
+		return &ValidationError{Name: "gas_provider_account_id", err: errors.New(`ent: missing required field "CoinSetting.gas_provider_account_id"`)}
+	}
 	if _, ok := csc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CoinSetting.create_at"`)}
 	}
@@ -334,6 +343,14 @@ func (csc *CoinSettingCreate) createSpec() (*CoinSetting, *sqlgraph.CreateSpec) 
 			Column: coinsetting.FieldGoodIncomingAccountID,
 		})
 		_node.GoodIncomingAccountID = value
+	}
+	if value, ok := csc.mutation.GasProviderAccountID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: coinsetting.FieldGasProviderAccountID,
+		})
+		_node.GasProviderAccountID = value
 	}
 	if value, ok := csc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -506,6 +523,18 @@ func (u *CoinSettingUpsert) SetGoodIncomingAccountID(v uuid.UUID) *CoinSettingUp
 // UpdateGoodIncomingAccountID sets the "good_incoming_account_id" field to the value that was provided on create.
 func (u *CoinSettingUpsert) UpdateGoodIncomingAccountID() *CoinSettingUpsert {
 	u.SetExcluded(coinsetting.FieldGoodIncomingAccountID)
+	return u
+}
+
+// SetGasProviderAccountID sets the "gas_provider_account_id" field.
+func (u *CoinSettingUpsert) SetGasProviderAccountID(v uuid.UUID) *CoinSettingUpsert {
+	u.Set(coinsetting.FieldGasProviderAccountID, v)
+	return u
+}
+
+// UpdateGasProviderAccountID sets the "gas_provider_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsert) UpdateGasProviderAccountID() *CoinSettingUpsert {
+	u.SetExcluded(coinsetting.FieldGasProviderAccountID)
 	return u
 }
 
@@ -722,6 +751,20 @@ func (u *CoinSettingUpsertOne) SetGoodIncomingAccountID(v uuid.UUID) *CoinSettin
 func (u *CoinSettingUpsertOne) UpdateGoodIncomingAccountID() *CoinSettingUpsertOne {
 	return u.Update(func(s *CoinSettingUpsert) {
 		s.UpdateGoodIncomingAccountID()
+	})
+}
+
+// SetGasProviderAccountID sets the "gas_provider_account_id" field.
+func (u *CoinSettingUpsertOne) SetGasProviderAccountID(v uuid.UUID) *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetGasProviderAccountID(v)
+	})
+}
+
+// UpdateGasProviderAccountID sets the "gas_provider_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertOne) UpdateGasProviderAccountID() *CoinSettingUpsertOne {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdateGasProviderAccountID()
 	})
 }
 
@@ -1113,6 +1156,20 @@ func (u *CoinSettingUpsertBulk) SetGoodIncomingAccountID(v uuid.UUID) *CoinSetti
 func (u *CoinSettingUpsertBulk) UpdateGoodIncomingAccountID() *CoinSettingUpsertBulk {
 	return u.Update(func(s *CoinSettingUpsert) {
 		s.UpdateGoodIncomingAccountID()
+	})
+}
+
+// SetGasProviderAccountID sets the "gas_provider_account_id" field.
+func (u *CoinSettingUpsertBulk) SetGasProviderAccountID(v uuid.UUID) *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.SetGasProviderAccountID(v)
+	})
+}
+
+// UpdateGasProviderAccountID sets the "gas_provider_account_id" field to the value that was provided on create.
+func (u *CoinSettingUpsertBulk) UpdateGasProviderAccountID() *CoinSettingUpsertBulk {
+	return u.Update(func(s *CoinSettingUpsert) {
+		s.UpdateGasProviderAccountID()
 	})
 }
 

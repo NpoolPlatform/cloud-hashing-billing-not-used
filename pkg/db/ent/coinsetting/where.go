@@ -140,6 +140,13 @@ func GoodIncomingAccountID(v uuid.UUID) predicate.CoinSetting {
 	})
 }
 
+// GasProviderAccountID applies equality check predicate on the "gas_provider_account_id" field. It's identical to GasProviderAccountIDEQ.
+func GasProviderAccountID(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldGasProviderAccountID), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.CoinSetting {
 	return predicate.CoinSetting(func(s *sql.Selector) {
@@ -690,6 +697,82 @@ func GoodIncomingAccountIDLT(v uuid.UUID) predicate.CoinSetting {
 func GoodIncomingAccountIDLTE(v uuid.UUID) predicate.CoinSetting {
 	return predicate.CoinSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldGoodIncomingAccountID), v))
+	})
+}
+
+// GasProviderAccountIDEQ applies the EQ predicate on the "gas_provider_account_id" field.
+func GasProviderAccountIDEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldGasProviderAccountID), v))
+	})
+}
+
+// GasProviderAccountIDNEQ applies the NEQ predicate on the "gas_provider_account_id" field.
+func GasProviderAccountIDNEQ(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldGasProviderAccountID), v))
+	})
+}
+
+// GasProviderAccountIDIn applies the In predicate on the "gas_provider_account_id" field.
+func GasProviderAccountIDIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldGasProviderAccountID), v...))
+	})
+}
+
+// GasProviderAccountIDNotIn applies the NotIn predicate on the "gas_provider_account_id" field.
+func GasProviderAccountIDNotIn(vs ...uuid.UUID) predicate.CoinSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldGasProviderAccountID), v...))
+	})
+}
+
+// GasProviderAccountIDGT applies the GT predicate on the "gas_provider_account_id" field.
+func GasProviderAccountIDGT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldGasProviderAccountID), v))
+	})
+}
+
+// GasProviderAccountIDGTE applies the GTE predicate on the "gas_provider_account_id" field.
+func GasProviderAccountIDGTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldGasProviderAccountID), v))
+	})
+}
+
+// GasProviderAccountIDLT applies the LT predicate on the "gas_provider_account_id" field.
+func GasProviderAccountIDLT(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldGasProviderAccountID), v))
+	})
+}
+
+// GasProviderAccountIDLTE applies the LTE predicate on the "gas_provider_account_id" field.
+func GasProviderAccountIDLTE(v uuid.UUID) predicate.CoinSetting {
+	return predicate.CoinSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldGasProviderAccountID), v))
 	})
 }
 

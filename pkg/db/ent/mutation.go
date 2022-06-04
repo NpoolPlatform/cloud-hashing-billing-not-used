@@ -2718,6 +2718,7 @@ type CoinSettingMutation struct {
 	user_online_account_id         *uuid.UUID
 	user_offline_account_id        *uuid.UUID
 	good_incoming_account_id       *uuid.UUID
+	gas_provider_account_id        *uuid.UUID
 	create_at                      *uint32
 	addcreate_at                   *int32
 	update_at                      *uint32
@@ -3126,6 +3127,42 @@ func (m *CoinSettingMutation) ResetGoodIncomingAccountID() {
 	m.good_incoming_account_id = nil
 }
 
+// SetGasProviderAccountID sets the "gas_provider_account_id" field.
+func (m *CoinSettingMutation) SetGasProviderAccountID(u uuid.UUID) {
+	m.gas_provider_account_id = &u
+}
+
+// GasProviderAccountID returns the value of the "gas_provider_account_id" field in the mutation.
+func (m *CoinSettingMutation) GasProviderAccountID() (r uuid.UUID, exists bool) {
+	v := m.gas_provider_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGasProviderAccountID returns the old "gas_provider_account_id" field's value of the CoinSetting entity.
+// If the CoinSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CoinSettingMutation) OldGasProviderAccountID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGasProviderAccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGasProviderAccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGasProviderAccountID: %w", err)
+	}
+	return oldValue.GasProviderAccountID, nil
+}
+
+// ResetGasProviderAccountID resets all changes to the "gas_provider_account_id" field.
+func (m *CoinSettingMutation) ResetGasProviderAccountID() {
+	m.gas_provider_account_id = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *CoinSettingMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -3313,7 +3350,7 @@ func (m *CoinSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CoinSettingMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 11)
 	if m.coin_type_id != nil {
 		fields = append(fields, coinsetting.FieldCoinTypeID)
 	}
@@ -3334,6 +3371,9 @@ func (m *CoinSettingMutation) Fields() []string {
 	}
 	if m.good_incoming_account_id != nil {
 		fields = append(fields, coinsetting.FieldGoodIncomingAccountID)
+	}
+	if m.gas_provider_account_id != nil {
+		fields = append(fields, coinsetting.FieldGasProviderAccountID)
 	}
 	if m.create_at != nil {
 		fields = append(fields, coinsetting.FieldCreateAt)
@@ -3366,6 +3406,8 @@ func (m *CoinSettingMutation) Field(name string) (ent.Value, bool) {
 		return m.UserOfflineAccountID()
 	case coinsetting.FieldGoodIncomingAccountID:
 		return m.GoodIncomingAccountID()
+	case coinsetting.FieldGasProviderAccountID:
+		return m.GasProviderAccountID()
 	case coinsetting.FieldCreateAt:
 		return m.CreateAt()
 	case coinsetting.FieldUpdateAt:
@@ -3395,6 +3437,8 @@ func (m *CoinSettingMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldUserOfflineAccountID(ctx)
 	case coinsetting.FieldGoodIncomingAccountID:
 		return m.OldGoodIncomingAccountID(ctx)
+	case coinsetting.FieldGasProviderAccountID:
+		return m.OldGasProviderAccountID(ctx)
 	case coinsetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case coinsetting.FieldUpdateAt:
@@ -3458,6 +3502,13 @@ func (m *CoinSettingMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetGoodIncomingAccountID(v)
+		return nil
+	case coinsetting.FieldGasProviderAccountID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGasProviderAccountID(v)
 		return nil
 	case coinsetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -3612,6 +3663,9 @@ func (m *CoinSettingMutation) ResetField(name string) error {
 		return nil
 	case coinsetting.FieldGoodIncomingAccountID:
 		m.ResetGoodIncomingAccountID()
+		return nil
+	case coinsetting.FieldGasProviderAccountID:
+		m.ResetGasProviderAccountID()
 		return nil
 	case coinsetting.FieldCreateAt:
 		m.ResetCreateAt()
