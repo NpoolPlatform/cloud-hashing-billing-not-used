@@ -22,6 +22,23 @@ func (s *Server) CreateUserPaymentBalance(ctx context.Context, in *npool.CreateU
 	return resp, nil
 }
 
+func (s *Server) CreateUserPaymentBalanceForOtherAppUser(ctx context.Context, in *npool.CreateUserPaymentBalanceForOtherAppUserRequest) (*npool.CreateUserPaymentBalanceForOtherAppUserResponse, error) {
+	info := in.GetInfo()
+	info.AppID = in.GetTargetAppID()
+	info.UserID = in.GetTargetUserID()
+
+	resp, err := crud.Create(ctx, &npool.CreateUserPaymentBalanceRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorf("create user payment balance error: %v", err)
+		return &npool.CreateUserPaymentBalanceForOtherAppUserResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.CreateUserPaymentBalanceForOtherAppUserResponse{
+		Info: resp.Info,
+	}, nil
+}
+
 func (s *Server) GetUserPaymentBalance(ctx context.Context, in *npool.GetUserPaymentBalanceRequest) (*npool.GetUserPaymentBalanceResponse, error) {
 	resp, err := crud.Get(ctx, in)
 	if err != nil {
