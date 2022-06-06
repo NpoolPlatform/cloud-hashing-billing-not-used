@@ -39,13 +39,21 @@ func validateCoinSetting(ctx context.Context, info *npool.CoinSetting) error {
 	if err := validateCoinSettingAccount(ctx, info.GetUserOnlineAccountID(), true); err != nil {
 		return xerrors.Errorf("invalid coin setting account: %v", err)
 	}
+	if err := validateCoinSettingAccount(ctx, info.GetGoodIncomingAccountID(), false); err != nil {
+		return xerrors.Errorf("invalid coin setting account: %v", err)
+	}
+	if err := validateCoinSettingAccount(ctx, info.GetGasProviderAccountID(), true); err != nil {
+		return xerrors.Errorf("invalid coin setting account: %v", err)
+	}
 
 	validates := map[string]struct{}{}
 	validates[info.GetPlatformOfflineAccountID()] = struct{}{}
 	validates[info.GetUserOfflineAccountID()] = struct{}{}
 	validates[info.GetUserOnlineAccountID()] = struct{}{}
+	validates[info.GetGoodIncomingAccountID()] = struct{}{}
+	validates[info.GetGasProviderAccountID()] = struct{}{}
 
-	if len(validates) < 3 {
+	if len(validates) < 5 {
 		return xerrors.Errorf("cannot use same account for different usage")
 	}
 
