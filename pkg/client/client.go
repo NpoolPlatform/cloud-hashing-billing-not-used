@@ -41,10 +41,12 @@ func GetGoodPayments(ctx context.Context, conds cruder.FilterConds) ([]*npool.Go
 	return infos.([]*npool.GoodPayment), nil
 }
 
-func GetAccount(ctx context.Context, conds cruder.FilterConds) (*npool.CoinAccountInfo, error) {
+func GetAccount(ctx context.Context, id string) (*npool.CoinAccountInfo, error) {
 	// conds: NOT USED NOW, will be used after refactor code
 	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
-		resp, err := cli.GetCoinAccount(ctx, &npool.GetCoinAccountRequest{})
+		resp, err := cli.GetCoinAccount(ctx, &npool.GetCoinAccountRequest{
+			ID: id,
+		})
 		if err != nil {
 			return nil, fmt.Errorf("fail get coin account: %v", err)
 		}
