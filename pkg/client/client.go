@@ -72,3 +72,20 @@ func GetCoinSettings(ctx context.Context) ([]*npool.CoinSetting, error) {
 	}
 	return infos.([]*npool.CoinSetting), nil
 }
+
+func CreateTransaction(ctx context.Context, tx *npool.CoinAccountTransaction) (*npool.CoinAccountTransaction, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.CreateCoinAccountTransaction(ctx, &npool.CreateCoinAccountTransactionRequest{
+			Info: tx,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail create transaction: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail create transaction: %v", err)
+	}
+	return info.(*npool.CoinAccountTransaction), nil
+}
