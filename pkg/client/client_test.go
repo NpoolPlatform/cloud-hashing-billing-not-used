@@ -21,6 +21,6 @@ func init() {
 }
 
 func TestClient(t *testing.T) {
-	_, _ := GetGoodPayments(context.Background(), cruder.NewFilterConds()) //nolint
+	_, _ = GetGoodPayments(context.Background(), cruder.NewFilterConds()) //nolint
 	// Here won't pass test due to we always test with localhost
 }
