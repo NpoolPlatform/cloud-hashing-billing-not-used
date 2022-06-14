@@ -40,6 +40,8 @@ type CoinAccountTransaction struct {
 	ChainTransactionID string `json:"chain_transaction_id,omitempty"`
 	// FailHold holds the value of the "fail_hold" field.
 	FailHold bool `json:"fail_hold,omitempty"`
+	// CreatedFor holds the value of the "created_for" field.
+	CreatedFor string `json:"created_for,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -57,7 +59,7 @@ func (*CoinAccountTransaction) scanValues(columns []string) ([]interface{}, erro
 			values[i] = new(sql.NullBool)
 		case coinaccounttransaction.FieldAmount, coinaccounttransaction.FieldTransactionFee, coinaccounttransaction.FieldCreateAt, coinaccounttransaction.FieldUpdateAt, coinaccounttransaction.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case coinaccounttransaction.FieldMessage, coinaccounttransaction.FieldState, coinaccounttransaction.FieldChainTransactionID:
+		case coinaccounttransaction.FieldMessage, coinaccounttransaction.FieldState, coinaccounttransaction.FieldChainTransactionID, coinaccounttransaction.FieldCreatedFor:
 			values[i] = new(sql.NullString)
 		case coinaccounttransaction.FieldID, coinaccounttransaction.FieldAppID, coinaccounttransaction.FieldUserID, coinaccounttransaction.FieldGoodID, coinaccounttransaction.FieldFromAddressID, coinaccounttransaction.FieldToAddressID, coinaccounttransaction.FieldCoinTypeID:
 			values[i] = new(uuid.UUID)
@@ -154,6 +156,12 @@ func (cat *CoinAccountTransaction) assignValues(columns []string, values []inter
 			} else if value.Valid {
 				cat.FailHold = value.Bool
 			}
+		case coinaccounttransaction.FieldCreatedFor:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field created_for", values[i])
+			} else if value.Valid {
+				cat.CreatedFor = value.String
+			}
 		case coinaccounttransaction.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -224,6 +232,8 @@ func (cat *CoinAccountTransaction) String() string {
 	builder.WriteString(cat.ChainTransactionID)
 	builder.WriteString(", fail_hold=")
 	builder.WriteString(fmt.Sprintf("%v", cat.FailHold))
+	builder.WriteString(", created_for=")
+	builder.WriteString(cat.CreatedFor)
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", cat.CreateAt))
 	builder.WriteString(", update_at=")

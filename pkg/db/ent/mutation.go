@@ -1482,6 +1482,7 @@ type CoinAccountTransactionMutation struct {
 	state                *coinaccounttransaction.State
 	chain_transaction_id *string
 	fail_hold            *bool
+	created_for          *string
 	create_at            *uint32
 	addcreate_at         *int32
 	update_at            *uint32
@@ -2070,6 +2071,42 @@ func (m *CoinAccountTransactionMutation) ResetFailHold() {
 	m.fail_hold = nil
 }
 
+// SetCreatedFor sets the "created_for" field.
+func (m *CoinAccountTransactionMutation) SetCreatedFor(s string) {
+	m.created_for = &s
+}
+
+// CreatedFor returns the value of the "created_for" field in the mutation.
+func (m *CoinAccountTransactionMutation) CreatedFor() (r string, exists bool) {
+	v := m.created_for
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedFor returns the old "created_for" field's value of the CoinAccountTransaction entity.
+// If the CoinAccountTransaction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CoinAccountTransactionMutation) OldCreatedFor(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedFor is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedFor requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedFor: %w", err)
+	}
+	return oldValue.CreatedFor, nil
+}
+
+// ResetCreatedFor resets all changes to the "created_for" field.
+func (m *CoinAccountTransactionMutation) ResetCreatedFor() {
+	m.created_for = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *CoinAccountTransactionMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -2257,7 +2294,7 @@ func (m *CoinAccountTransactionMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CoinAccountTransactionMutation) Fields() []string {
-	fields := make([]string, 0, 15)
+	fields := make([]string, 0, 16)
 	if m.app_id != nil {
 		fields = append(fields, coinaccounttransaction.FieldAppID)
 	}
@@ -2293,6 +2330,9 @@ func (m *CoinAccountTransactionMutation) Fields() []string {
 	}
 	if m.fail_hold != nil {
 		fields = append(fields, coinaccounttransaction.FieldFailHold)
+	}
+	if m.created_for != nil {
+		fields = append(fields, coinaccounttransaction.FieldCreatedFor)
 	}
 	if m.create_at != nil {
 		fields = append(fields, coinaccounttransaction.FieldCreateAt)
@@ -2335,6 +2375,8 @@ func (m *CoinAccountTransactionMutation) Field(name string) (ent.Value, bool) {
 		return m.ChainTransactionID()
 	case coinaccounttransaction.FieldFailHold:
 		return m.FailHold()
+	case coinaccounttransaction.FieldCreatedFor:
+		return m.CreatedFor()
 	case coinaccounttransaction.FieldCreateAt:
 		return m.CreateAt()
 	case coinaccounttransaction.FieldUpdateAt:
@@ -2374,6 +2416,8 @@ func (m *CoinAccountTransactionMutation) OldField(ctx context.Context, name stri
 		return m.OldChainTransactionID(ctx)
 	case coinaccounttransaction.FieldFailHold:
 		return m.OldFailHold(ctx)
+	case coinaccounttransaction.FieldCreatedFor:
+		return m.OldCreatedFor(ctx)
 	case coinaccounttransaction.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case coinaccounttransaction.FieldUpdateAt:
@@ -2472,6 +2516,13 @@ func (m *CoinAccountTransactionMutation) SetField(name string, value ent.Value) 
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetFailHold(v)
+		return nil
+	case coinaccounttransaction.FieldCreatedFor:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedFor(v)
 		return nil
 	case coinaccounttransaction.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -2641,6 +2692,9 @@ func (m *CoinAccountTransactionMutation) ResetField(name string) error {
 		return nil
 	case coinaccounttransaction.FieldFailHold:
 		m.ResetFailHold()
+		return nil
+	case coinaccounttransaction.FieldCreatedFor:
+		m.ResetCreatedFor()
 		return nil
 	case coinaccounttransaction.FieldCreateAt:
 		m.ResetCreateAt()
@@ -4461,6 +4515,8 @@ type GoodPaymentMutation struct {
 	account_id           *uuid.UUID
 	idle                 *bool
 	occupied_by          *string
+	available_at         *uint32
+	addavailable_at      *int32
 	create_at            *uint32
 	addcreate_at         *int32
 	update_at            *uint32
@@ -4757,6 +4813,62 @@ func (m *GoodPaymentMutation) ResetOccupiedBy() {
 	m.occupied_by = nil
 }
 
+// SetAvailableAt sets the "available_at" field.
+func (m *GoodPaymentMutation) SetAvailableAt(u uint32) {
+	m.available_at = &u
+	m.addavailable_at = nil
+}
+
+// AvailableAt returns the value of the "available_at" field in the mutation.
+func (m *GoodPaymentMutation) AvailableAt() (r uint32, exists bool) {
+	v := m.available_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAvailableAt returns the old "available_at" field's value of the GoodPayment entity.
+// If the GoodPayment object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoodPaymentMutation) OldAvailableAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAvailableAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAvailableAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAvailableAt: %w", err)
+	}
+	return oldValue.AvailableAt, nil
+}
+
+// AddAvailableAt adds u to the "available_at" field.
+func (m *GoodPaymentMutation) AddAvailableAt(u int32) {
+	if m.addavailable_at != nil {
+		*m.addavailable_at += u
+	} else {
+		m.addavailable_at = &u
+	}
+}
+
+// AddedAvailableAt returns the value that was added to the "available_at" field in this mutation.
+func (m *GoodPaymentMutation) AddedAvailableAt() (r int32, exists bool) {
+	v := m.addavailable_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetAvailableAt resets all changes to the "available_at" field.
+func (m *GoodPaymentMutation) ResetAvailableAt() {
+	m.available_at = nil
+	m.addavailable_at = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *GoodPaymentMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -4944,7 +5056,7 @@ func (m *GoodPaymentMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *GoodPaymentMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.good_id != nil {
 		fields = append(fields, goodpayment.FieldGoodID)
 	}
@@ -4959,6 +5071,9 @@ func (m *GoodPaymentMutation) Fields() []string {
 	}
 	if m.occupied_by != nil {
 		fields = append(fields, goodpayment.FieldOccupiedBy)
+	}
+	if m.available_at != nil {
+		fields = append(fields, goodpayment.FieldAvailableAt)
 	}
 	if m.create_at != nil {
 		fields = append(fields, goodpayment.FieldCreateAt)
@@ -4987,6 +5102,8 @@ func (m *GoodPaymentMutation) Field(name string) (ent.Value, bool) {
 		return m.Idle()
 	case goodpayment.FieldOccupiedBy:
 		return m.OccupiedBy()
+	case goodpayment.FieldAvailableAt:
+		return m.AvailableAt()
 	case goodpayment.FieldCreateAt:
 		return m.CreateAt()
 	case goodpayment.FieldUpdateAt:
@@ -5012,6 +5129,8 @@ func (m *GoodPaymentMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldIdle(ctx)
 	case goodpayment.FieldOccupiedBy:
 		return m.OldOccupiedBy(ctx)
+	case goodpayment.FieldAvailableAt:
+		return m.OldAvailableAt(ctx)
 	case goodpayment.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case goodpayment.FieldUpdateAt:
@@ -5062,6 +5181,13 @@ func (m *GoodPaymentMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetOccupiedBy(v)
 		return nil
+	case goodpayment.FieldAvailableAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAvailableAt(v)
+		return nil
 	case goodpayment.FieldCreateAt:
 		v, ok := value.(uint32)
 		if !ok {
@@ -5091,6 +5217,9 @@ func (m *GoodPaymentMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *GoodPaymentMutation) AddedFields() []string {
 	var fields []string
+	if m.addavailable_at != nil {
+		fields = append(fields, goodpayment.FieldAvailableAt)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, goodpayment.FieldCreateAt)
 	}
@@ -5108,6 +5237,8 @@ func (m *GoodPaymentMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *GoodPaymentMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
+	case goodpayment.FieldAvailableAt:
+		return m.AddedAvailableAt()
 	case goodpayment.FieldCreateAt:
 		return m.AddedCreateAt()
 	case goodpayment.FieldUpdateAt:
@@ -5123,6 +5254,13 @@ func (m *GoodPaymentMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *GoodPaymentMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case goodpayment.FieldAvailableAt:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAvailableAt(v)
+		return nil
 	case goodpayment.FieldCreateAt:
 		v, ok := value.(int32)
 		if !ok {
@@ -5185,6 +5323,9 @@ func (m *GoodPaymentMutation) ResetField(name string) error {
 		return nil
 	case goodpayment.FieldOccupiedBy:
 		m.ResetOccupiedBy()
+		return nil
+	case goodpayment.FieldAvailableAt:
+		m.ResetAvailableAt()
 		return nil
 	case goodpayment.FieldCreateAt:
 		m.ResetCreateAt()

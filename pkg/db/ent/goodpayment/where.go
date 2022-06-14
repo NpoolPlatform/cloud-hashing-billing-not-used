@@ -126,6 +126,13 @@ func OccupiedBy(v string) predicate.GoodPayment {
 	})
 }
 
+// AvailableAt applies equality check predicate on the "available_at" field. It's identical to AvailableAtEQ.
+func AvailableAt(v uint32) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAvailableAt), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
@@ -497,6 +504,82 @@ func OccupiedByEqualFold(v string) predicate.GoodPayment {
 func OccupiedByContainsFold(v string) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldOccupiedBy), v))
+	})
+}
+
+// AvailableAtEQ applies the EQ predicate on the "available_at" field.
+func AvailableAtEQ(v uint32) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAvailableAt), v))
+	})
+}
+
+// AvailableAtNEQ applies the NEQ predicate on the "available_at" field.
+func AvailableAtNEQ(v uint32) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldAvailableAt), v))
+	})
+}
+
+// AvailableAtIn applies the In predicate on the "available_at" field.
+func AvailableAtIn(vs ...uint32) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldAvailableAt), v...))
+	})
+}
+
+// AvailableAtNotIn applies the NotIn predicate on the "available_at" field.
+func AvailableAtNotIn(vs ...uint32) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldAvailableAt), v...))
+	})
+}
+
+// AvailableAtGT applies the GT predicate on the "available_at" field.
+func AvailableAtGT(v uint32) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldAvailableAt), v))
+	})
+}
+
+// AvailableAtGTE applies the GTE predicate on the "available_at" field.
+func AvailableAtGTE(v uint32) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldAvailableAt), v))
+	})
+}
+
+// AvailableAtLT applies the LT predicate on the "available_at" field.
+func AvailableAtLT(v uint32) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldAvailableAt), v))
+	})
+}
+
+// AvailableAtLTE applies the LTE predicate on the "available_at" field.
+func AvailableAtLTE(v uint32) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldAvailableAt), v))
 	})
 }
 

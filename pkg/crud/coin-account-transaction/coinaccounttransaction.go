@@ -37,6 +37,21 @@ func validateCoinAccountTransaction(info *npool.CoinAccountTransaction) error {
 	if _, err := uuid.Parse(info.ToAddressID); err != nil {
 		return xerrors.Errorf("invalid to address id: %v", err)
 	}
+
+	if info.GetCreatedFor() == "" {
+		info.CreatedFor = constant.TransactionForCompatible
+	}
+
+	switch info.GetCreatedFor() {
+	case constant.TransactionForWithdraw:
+	case constant.TransactionForWarmTransfer:
+	case constant.TransactionForCollecting:
+	case constant.TransactionForPlatformBenefit:
+	case constant.TransactionForUserBenefit:
+	case constant.TransactionForCompatible:
+	default:
+		return xerrors.Errorf("unknown created for: %v", info.GetCreatedFor())
+	}
 	return nil
 }
 
@@ -56,6 +71,7 @@ func dbRowToCoinAccountTransaction(row *ent.CoinAccountTransaction) *npool.CoinA
 		CreateAt:           row.CreateAt,
 		State:              string(row.State),
 		FailHold:           row.FailHold,
+		CreatedFor:         row.CreatedFor,
 	}
 }
 
@@ -83,6 +99,7 @@ func Create(ctx context.Context, in *npool.CreateCoinAccountTransactionRequest) 
 		SetMessage(in.GetInfo().GetMessage()).
 		SetChainTransactionID(in.GetInfo().GetChainTransactionID()).
 		SetState(constant.CoinTransactionStateCreated).
+		SetCreatedFor(in.GetInfo().GetCreatedFor()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create coin account: %v", err)

@@ -2,6 +2,7 @@ package goodpayment
 
 import (
 	"context"
+	"time"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-billing"
 
@@ -35,6 +36,7 @@ func dbRowToGoodPayment(row *ent.GoodPayment) *npool.GoodPayment {
 		AccountID:         row.AccountID.String(),
 		Idle:              row.Idle,
 		OccupiedBy:        row.OccupiedBy,
+		AvailableAt:       row.AvailableAt,
 	}
 }
 
@@ -81,12 +83,27 @@ func Update(ctx context.Context, in *npool.UpdateGoodPaymentRequest) (*npool.Upd
 		return nil, xerrors.Errorf("fail get db client: %v", err)
 	}
 
-	info, err := cli.
+	resp, err := Get(ctx, &npool.GetGoodPaymentRequest{
+		ID: in.GetInfo().GetID(),
+	})
+	if err != nil || resp.Info == nil {
+		return nil, xerrors.Errorf("fail get good payment: %v", err)
+	}
+
+	const cooldown = 1 * time.Hour
+
+	stm := cli.
 		GoodPayment.
 		UpdateOneID(id).
 		SetIdle(in.GetInfo().GetIdle()).
-		SetOccupiedBy(in.GetInfo().GetOccupiedBy()).
-		Save(ctx)
+		SetOccupiedBy(in.GetInfo().GetOccupiedBy())
+
+	// If reset to idle, cooldown for some time
+	if !resp.Info.Idle && in.GetInfo().GetIdle() {
+		stm = stm.SetAvailableAt(uint32(time.Now().Add(cooldown).Unix()))
+	}
+
+	info, err := stm.Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update good payment: %v", err)
 	}

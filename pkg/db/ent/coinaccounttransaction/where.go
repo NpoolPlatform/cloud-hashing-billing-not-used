@@ -168,6 +168,13 @@ func FailHold(v bool) predicate.CoinAccountTransaction {
 	})
 }
 
+// CreatedFor applies equality check predicate on the "created_for" field. It's identical to CreatedForEQ.
+func CreatedFor(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCreatedFor), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
@@ -1078,6 +1085,117 @@ func FailHoldEQ(v bool) predicate.CoinAccountTransaction {
 func FailHoldNEQ(v bool) predicate.CoinAccountTransaction {
 	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldFailHold), v))
+	})
+}
+
+// CreatedForEQ applies the EQ predicate on the "created_for" field.
+func CreatedForEQ(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForNEQ applies the NEQ predicate on the "created_for" field.
+func CreatedForNEQ(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForIn applies the In predicate on the "created_for" field.
+func CreatedForIn(vs ...string) predicate.CoinAccountTransaction {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldCreatedFor), v...))
+	})
+}
+
+// CreatedForNotIn applies the NotIn predicate on the "created_for" field.
+func CreatedForNotIn(vs ...string) predicate.CoinAccountTransaction {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldCreatedFor), v...))
+	})
+}
+
+// CreatedForGT applies the GT predicate on the "created_for" field.
+func CreatedForGT(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForGTE applies the GTE predicate on the "created_for" field.
+func CreatedForGTE(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForLT applies the LT predicate on the "created_for" field.
+func CreatedForLT(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForLTE applies the LTE predicate on the "created_for" field.
+func CreatedForLTE(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForContains applies the Contains predicate on the "created_for" field.
+func CreatedForContains(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForHasPrefix applies the HasPrefix predicate on the "created_for" field.
+func CreatedForHasPrefix(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForHasSuffix applies the HasSuffix predicate on the "created_for" field.
+func CreatedForHasSuffix(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForEqualFold applies the EqualFold predicate on the "created_for" field.
+func CreatedForEqualFold(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldCreatedFor), v))
+	})
+}
+
+// CreatedForContainsFold applies the ContainsFold predicate on the "created_for" field.
+func CreatedForContainsFold(v string) predicate.CoinAccountTransaction {
+	return predicate.CoinAccountTransaction(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldCreatedFor), v))
 	})
 }
 

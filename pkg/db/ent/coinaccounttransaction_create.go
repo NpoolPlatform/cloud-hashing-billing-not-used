@@ -111,6 +111,20 @@ func (catc *CoinAccountTransactionCreate) SetNillableFailHold(b *bool) *CoinAcco
 	return catc
 }
 
+// SetCreatedFor sets the "created_for" field.
+func (catc *CoinAccountTransactionCreate) SetCreatedFor(s string) *CoinAccountTransactionCreate {
+	catc.mutation.SetCreatedFor(s)
+	return catc
+}
+
+// SetNillableCreatedFor sets the "created_for" field if the given value is not nil.
+func (catc *CoinAccountTransactionCreate) SetNillableCreatedFor(s *string) *CoinAccountTransactionCreate {
+	if s != nil {
+		catc.SetCreatedFor(*s)
+	}
+	return catc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (catc *CoinAccountTransactionCreate) SetCreateAt(u uint32) *CoinAccountTransactionCreate {
 	catc.mutation.SetCreateAt(u)
@@ -246,6 +260,10 @@ func (catc *CoinAccountTransactionCreate) defaults() {
 		v := coinaccounttransaction.DefaultFailHold
 		catc.mutation.SetFailHold(v)
 	}
+	if _, ok := catc.mutation.CreatedFor(); !ok {
+		v := coinaccounttransaction.DefaultCreatedFor
+		catc.mutation.SetCreatedFor(v)
+	}
 	if _, ok := catc.mutation.CreateAt(); !ok {
 		v := coinaccounttransaction.DefaultCreateAt()
 		catc.mutation.SetCreateAt(v)
@@ -306,6 +324,9 @@ func (catc *CoinAccountTransactionCreate) check() error {
 	}
 	if _, ok := catc.mutation.FailHold(); !ok {
 		return &ValidationError{Name: "fail_hold", err: errors.New(`ent: missing required field "CoinAccountTransaction.fail_hold"`)}
+	}
+	if _, ok := catc.mutation.CreatedFor(); !ok {
+		return &ValidationError{Name: "created_for", err: errors.New(`ent: missing required field "CoinAccountTransaction.created_for"`)}
 	}
 	if _, ok := catc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CoinAccountTransaction.create_at"`)}
@@ -448,6 +469,14 @@ func (catc *CoinAccountTransactionCreate) createSpec() (*CoinAccountTransaction,
 			Column: coinaccounttransaction.FieldFailHold,
 		})
 		_node.FailHold = value
+	}
+	if value, ok := catc.mutation.CreatedFor(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: coinaccounttransaction.FieldCreatedFor,
+		})
+		_node.CreatedFor = value
 	}
 	if value, ok := catc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -680,6 +709,18 @@ func (u *CoinAccountTransactionUpsert) SetFailHold(v bool) *CoinAccountTransacti
 // UpdateFailHold sets the "fail_hold" field to the value that was provided on create.
 func (u *CoinAccountTransactionUpsert) UpdateFailHold() *CoinAccountTransactionUpsert {
 	u.SetExcluded(coinaccounttransaction.FieldFailHold)
+	return u
+}
+
+// SetCreatedFor sets the "created_for" field.
+func (u *CoinAccountTransactionUpsert) SetCreatedFor(v string) *CoinAccountTransactionUpsert {
+	u.Set(coinaccounttransaction.FieldCreatedFor, v)
+	return u
+}
+
+// UpdateCreatedFor sets the "created_for" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsert) UpdateCreatedFor() *CoinAccountTransactionUpsert {
+	u.SetExcluded(coinaccounttransaction.FieldCreatedFor)
 	return u
 }
 
@@ -966,6 +1007,20 @@ func (u *CoinAccountTransactionUpsertOne) SetFailHold(v bool) *CoinAccountTransa
 func (u *CoinAccountTransactionUpsertOne) UpdateFailHold() *CoinAccountTransactionUpsertOne {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateFailHold()
+	})
+}
+
+// SetCreatedFor sets the "created_for" field.
+func (u *CoinAccountTransactionUpsertOne) SetCreatedFor(v string) *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetCreatedFor(v)
+	})
+}
+
+// UpdateCreatedFor sets the "created_for" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertOne) UpdateCreatedFor() *CoinAccountTransactionUpsertOne {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateCreatedFor()
 	})
 }
 
@@ -1427,6 +1482,20 @@ func (u *CoinAccountTransactionUpsertBulk) SetFailHold(v bool) *CoinAccountTrans
 func (u *CoinAccountTransactionUpsertBulk) UpdateFailHold() *CoinAccountTransactionUpsertBulk {
 	return u.Update(func(s *CoinAccountTransactionUpsert) {
 		s.UpdateFailHold()
+	})
+}
+
+// SetCreatedFor sets the "created_for" field.
+func (u *CoinAccountTransactionUpsertBulk) SetCreatedFor(v string) *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.SetCreatedFor(v)
+	})
+}
+
+// UpdateCreatedFor sets the "created_for" field to the value that was provided on create.
+func (u *CoinAccountTransactionUpsertBulk) UpdateCreatedFor() *CoinAccountTransactionUpsertBulk {
+	return u.Update(func(s *CoinAccountTransactionUpsert) {
+		s.UpdateCreatedFor()
 	})
 }
 

@@ -74,18 +74,22 @@ func init() {
 	coinaccounttransactionDescFailHold := coinaccounttransactionFields[12].Descriptor()
 	// coinaccounttransaction.DefaultFailHold holds the default value on creation for the fail_hold field.
 	coinaccounttransaction.DefaultFailHold = coinaccounttransactionDescFailHold.Default.(bool)
+	// coinaccounttransactionDescCreatedFor is the schema descriptor for created_for field.
+	coinaccounttransactionDescCreatedFor := coinaccounttransactionFields[13].Descriptor()
+	// coinaccounttransaction.DefaultCreatedFor holds the default value on creation for the created_for field.
+	coinaccounttransaction.DefaultCreatedFor = coinaccounttransactionDescCreatedFor.Default.(string)
 	// coinaccounttransactionDescCreateAt is the schema descriptor for create_at field.
-	coinaccounttransactionDescCreateAt := coinaccounttransactionFields[13].Descriptor()
+	coinaccounttransactionDescCreateAt := coinaccounttransactionFields[14].Descriptor()
 	// coinaccounttransaction.DefaultCreateAt holds the default value on creation for the create_at field.
 	coinaccounttransaction.DefaultCreateAt = coinaccounttransactionDescCreateAt.Default.(func() uint32)
 	// coinaccounttransactionDescUpdateAt is the schema descriptor for update_at field.
-	coinaccounttransactionDescUpdateAt := coinaccounttransactionFields[14].Descriptor()
+	coinaccounttransactionDescUpdateAt := coinaccounttransactionFields[15].Descriptor()
 	// coinaccounttransaction.DefaultUpdateAt holds the default value on creation for the update_at field.
 	coinaccounttransaction.DefaultUpdateAt = coinaccounttransactionDescUpdateAt.Default.(func() uint32)
 	// coinaccounttransaction.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	coinaccounttransaction.UpdateDefaultUpdateAt = coinaccounttransactionDescUpdateAt.UpdateDefault.(func() uint32)
 	// coinaccounttransactionDescDeleteAt is the schema descriptor for delete_at field.
-	coinaccounttransactionDescDeleteAt := coinaccounttransactionFields[15].Descriptor()
+	coinaccounttransactionDescDeleteAt := coinaccounttransactionFields[16].Descriptor()
 	// coinaccounttransaction.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	coinaccounttransaction.DefaultDeleteAt = coinaccounttransactionDescDeleteAt.Default.(func() uint32)
 	// coinaccounttransactionDescID is the schema descriptor for id field.
@@ -134,18 +138,22 @@ func init() {
 	goodbenefit.DefaultID = goodbenefitDescID.Default.(func() uuid.UUID)
 	goodpaymentFields := schema.GoodPayment{}.Fields()
 	_ = goodpaymentFields
+	// goodpaymentDescAvailableAt is the schema descriptor for available_at field.
+	goodpaymentDescAvailableAt := goodpaymentFields[6].Descriptor()
+	// goodpayment.DefaultAvailableAt holds the default value on creation for the available_at field.
+	goodpayment.DefaultAvailableAt = goodpaymentDescAvailableAt.Default.(uint32)
 	// goodpaymentDescCreateAt is the schema descriptor for create_at field.
-	goodpaymentDescCreateAt := goodpaymentFields[6].Descriptor()
+	goodpaymentDescCreateAt := goodpaymentFields[7].Descriptor()
 	// goodpayment.DefaultCreateAt holds the default value on creation for the create_at field.
 	goodpayment.DefaultCreateAt = goodpaymentDescCreateAt.Default.(func() uint32)
 	// goodpaymentDescUpdateAt is the schema descriptor for update_at field.
-	goodpaymentDescUpdateAt := goodpaymentFields[7].Descriptor()
+	goodpaymentDescUpdateAt := goodpaymentFields[8].Descriptor()
 	// goodpayment.DefaultUpdateAt holds the default value on creation for the update_at field.
 	goodpayment.DefaultUpdateAt = goodpaymentDescUpdateAt.Default.(func() uint32)
 	// goodpayment.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	goodpayment.UpdateDefaultUpdateAt = goodpaymentDescUpdateAt.UpdateDefault.(func() uint32)
 	// goodpaymentDescDeleteAt is the schema descriptor for delete_at field.
-	goodpaymentDescDeleteAt := goodpaymentFields[8].Descriptor()
+	goodpaymentDescDeleteAt := goodpaymentFields[9].Descriptor()
 	// goodpayment.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	goodpayment.DefaultDeleteAt = goodpaymentDescDeleteAt.Default.(func() uint32)
 	// goodpaymentDescID is the schema descriptor for id field.

@@ -24,6 +24,7 @@ func (GoodPayment) Fields() []ent.Field {
 		field.UUID("account_id", uuid.UUID{}).Unique(),
 		field.Bool("idle"),
 		field.String("occupied_by"),
+		field.Uint32("available_at").Default(uint32(time.Now().Unix())),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

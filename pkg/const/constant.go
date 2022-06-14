@@ -10,4 +10,11 @@ const (
 
 	WithdrawTypeBenefit    = "benefit"
 	WithdrawTypeCommission = "commission"
+
+	TransactionForCompatible      = "compatible"
+	TransactionForWithdraw        = "withdraw"
+	TransactionForWarmTransfer    = "warm-transfer"
+	TransactionForCollecting      = "collecting"
+	TransactionForPlatformBenefit = "platform-benefit"
+	TransactionForUserBenefit     = "user-benefit"
 )

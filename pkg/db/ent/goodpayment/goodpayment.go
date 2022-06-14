@@ -21,6 +21,8 @@ const (
 	FieldIdle = "idle"
 	// FieldOccupiedBy holds the string denoting the occupied_by field in the database.
 	FieldOccupiedBy = "occupied_by"
+	// FieldAvailableAt holds the string denoting the available_at field in the database.
+	FieldAvailableAt = "available_at"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -39,6 +41,7 @@ var Columns = []string{
 	FieldAccountID,
 	FieldIdle,
 	FieldOccupiedBy,
+	FieldAvailableAt,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
@@ -55,6 +58,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultAvailableAt holds the default value on creation for the "available_at" field.
+	DefaultAvailableAt uint32
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.

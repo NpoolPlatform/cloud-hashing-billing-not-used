@@ -53,6 +53,20 @@ func (gpc *GoodPaymentCreate) SetOccupiedBy(s string) *GoodPaymentCreate {
 	return gpc
 }
 
+// SetAvailableAt sets the "available_at" field.
+func (gpc *GoodPaymentCreate) SetAvailableAt(u uint32) *GoodPaymentCreate {
+	gpc.mutation.SetAvailableAt(u)
+	return gpc
+}
+
+// SetNillableAvailableAt sets the "available_at" field if the given value is not nil.
+func (gpc *GoodPaymentCreate) SetNillableAvailableAt(u *uint32) *GoodPaymentCreate {
+	if u != nil {
+		gpc.SetAvailableAt(*u)
+	}
+	return gpc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (gpc *GoodPaymentCreate) SetCreateAt(u uint32) *GoodPaymentCreate {
 	gpc.mutation.SetCreateAt(u)
@@ -180,6 +194,10 @@ func (gpc *GoodPaymentCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (gpc *GoodPaymentCreate) defaults() {
+	if _, ok := gpc.mutation.AvailableAt(); !ok {
+		v := goodpayment.DefaultAvailableAt
+		gpc.mutation.SetAvailableAt(v)
+	}
 	if _, ok := gpc.mutation.CreateAt(); !ok {
 		v := goodpayment.DefaultCreateAt()
 		gpc.mutation.SetCreateAt(v)
@@ -214,6 +232,9 @@ func (gpc *GoodPaymentCreate) check() error {
 	}
 	if _, ok := gpc.mutation.OccupiedBy(); !ok {
 		return &ValidationError{Name: "occupied_by", err: errors.New(`ent: missing required field "GoodPayment.occupied_by"`)}
+	}
+	if _, ok := gpc.mutation.AvailableAt(); !ok {
+		return &ValidationError{Name: "available_at", err: errors.New(`ent: missing required field "GoodPayment.available_at"`)}
 	}
 	if _, ok := gpc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "GoodPayment.create_at"`)}
@@ -300,6 +321,14 @@ func (gpc *GoodPaymentCreate) createSpec() (*GoodPayment, *sqlgraph.CreateSpec) 
 			Column: goodpayment.FieldOccupiedBy,
 		})
 		_node.OccupiedBy = value
+	}
+	if value, ok := gpc.mutation.AvailableAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: goodpayment.FieldAvailableAt,
+		})
+		_node.AvailableAt = value
 	}
 	if value, ok := gpc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -436,6 +465,24 @@ func (u *GoodPaymentUpsert) SetOccupiedBy(v string) *GoodPaymentUpsert {
 // UpdateOccupiedBy sets the "occupied_by" field to the value that was provided on create.
 func (u *GoodPaymentUpsert) UpdateOccupiedBy() *GoodPaymentUpsert {
 	u.SetExcluded(goodpayment.FieldOccupiedBy)
+	return u
+}
+
+// SetAvailableAt sets the "available_at" field.
+func (u *GoodPaymentUpsert) SetAvailableAt(v uint32) *GoodPaymentUpsert {
+	u.Set(goodpayment.FieldAvailableAt, v)
+	return u
+}
+
+// UpdateAvailableAt sets the "available_at" field to the value that was provided on create.
+func (u *GoodPaymentUpsert) UpdateAvailableAt() *GoodPaymentUpsert {
+	u.SetExcluded(goodpayment.FieldAvailableAt)
+	return u
+}
+
+// AddAvailableAt adds v to the "available_at" field.
+func (u *GoodPaymentUpsert) AddAvailableAt(v uint32) *GoodPaymentUpsert {
+	u.Add(goodpayment.FieldAvailableAt, v)
 	return u
 }
 
@@ -610,6 +657,27 @@ func (u *GoodPaymentUpsertOne) SetOccupiedBy(v string) *GoodPaymentUpsertOne {
 func (u *GoodPaymentUpsertOne) UpdateOccupiedBy() *GoodPaymentUpsertOne {
 	return u.Update(func(s *GoodPaymentUpsert) {
 		s.UpdateOccupiedBy()
+	})
+}
+
+// SetAvailableAt sets the "available_at" field.
+func (u *GoodPaymentUpsertOne) SetAvailableAt(v uint32) *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetAvailableAt(v)
+	})
+}
+
+// AddAvailableAt adds v to the "available_at" field.
+func (u *GoodPaymentUpsertOne) AddAvailableAt(v uint32) *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.AddAvailableAt(v)
+	})
+}
+
+// UpdateAvailableAt sets the "available_at" field to the value that was provided on create.
+func (u *GoodPaymentUpsertOne) UpdateAvailableAt() *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdateAvailableAt()
 	})
 }
 
@@ -959,6 +1027,27 @@ func (u *GoodPaymentUpsertBulk) SetOccupiedBy(v string) *GoodPaymentUpsertBulk {
 func (u *GoodPaymentUpsertBulk) UpdateOccupiedBy() *GoodPaymentUpsertBulk {
 	return u.Update(func(s *GoodPaymentUpsert) {
 		s.UpdateOccupiedBy()
+	})
+}
+
+// SetAvailableAt sets the "available_at" field.
+func (u *GoodPaymentUpsertBulk) SetAvailableAt(v uint32) *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetAvailableAt(v)
+	})
+}
+
+// AddAvailableAt adds v to the "available_at" field.
+func (u *GoodPaymentUpsertBulk) AddAvailableAt(v uint32) *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.AddAvailableAt(v)
+	})
+}
+
+// UpdateAvailableAt sets the "available_at" field to the value that was provided on create.
+func (u *GoodPaymentUpsertBulk) UpdateAvailableAt() *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdateAvailableAt()
 	})
 }
 

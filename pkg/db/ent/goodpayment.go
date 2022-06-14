@@ -26,6 +26,8 @@ type GoodPayment struct {
 	Idle bool `json:"idle,omitempty"`
 	// OccupiedBy holds the value of the "occupied_by" field.
 	OccupiedBy string `json:"occupied_by,omitempty"`
+	// AvailableAt holds the value of the "available_at" field.
+	AvailableAt uint32 `json:"available_at,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -41,7 +43,7 @@ func (*GoodPayment) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case goodpayment.FieldIdle:
 			values[i] = new(sql.NullBool)
-		case goodpayment.FieldCreateAt, goodpayment.FieldUpdateAt, goodpayment.FieldDeleteAt:
+		case goodpayment.FieldAvailableAt, goodpayment.FieldCreateAt, goodpayment.FieldUpdateAt, goodpayment.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case goodpayment.FieldOccupiedBy:
 			values[i] = new(sql.NullString)
@@ -97,6 +99,12 @@ func (gp *GoodPayment) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field occupied_by", values[i])
 			} else if value.Valid {
 				gp.OccupiedBy = value.String
+			}
+		case goodpayment.FieldAvailableAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field available_at", values[i])
+			} else if value.Valid {
+				gp.AvailableAt = uint32(value.Int64)
 			}
 		case goodpayment.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -154,6 +162,8 @@ func (gp *GoodPayment) String() string {
 	builder.WriteString(fmt.Sprintf("%v", gp.Idle))
 	builder.WriteString(", occupied_by=")
 	builder.WriteString(gp.OccupiedBy)
+	builder.WriteString(", available_at=")
+	builder.WriteString(fmt.Sprintf("%v", gp.AvailableAt))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", gp.CreateAt))
 	builder.WriteString(", update_at=")

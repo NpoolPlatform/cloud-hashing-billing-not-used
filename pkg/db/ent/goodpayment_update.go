@@ -58,6 +58,27 @@ func (gpu *GoodPaymentUpdate) SetOccupiedBy(s string) *GoodPaymentUpdate {
 	return gpu
 }
 
+// SetAvailableAt sets the "available_at" field.
+func (gpu *GoodPaymentUpdate) SetAvailableAt(u uint32) *GoodPaymentUpdate {
+	gpu.mutation.ResetAvailableAt()
+	gpu.mutation.SetAvailableAt(u)
+	return gpu
+}
+
+// SetNillableAvailableAt sets the "available_at" field if the given value is not nil.
+func (gpu *GoodPaymentUpdate) SetNillableAvailableAt(u *uint32) *GoodPaymentUpdate {
+	if u != nil {
+		gpu.SetAvailableAt(*u)
+	}
+	return gpu
+}
+
+// AddAvailableAt adds u to the "available_at" field.
+func (gpu *GoodPaymentUpdate) AddAvailableAt(u int32) *GoodPaymentUpdate {
+	gpu.mutation.AddAvailableAt(u)
+	return gpu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (gpu *GoodPaymentUpdate) SetCreateAt(u uint32) *GoodPaymentUpdate {
 	gpu.mutation.ResetCreateAt()
@@ -234,6 +255,20 @@ func (gpu *GoodPaymentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: goodpayment.FieldOccupiedBy,
 		})
 	}
+	if value, ok := gpu.mutation.AvailableAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: goodpayment.FieldAvailableAt,
+		})
+	}
+	if value, ok := gpu.mutation.AddedAvailableAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: goodpayment.FieldAvailableAt,
+		})
+	}
 	if value, ok := gpu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -322,6 +357,27 @@ func (gpuo *GoodPaymentUpdateOne) SetIdle(b bool) *GoodPaymentUpdateOne {
 // SetOccupiedBy sets the "occupied_by" field.
 func (gpuo *GoodPaymentUpdateOne) SetOccupiedBy(s string) *GoodPaymentUpdateOne {
 	gpuo.mutation.SetOccupiedBy(s)
+	return gpuo
+}
+
+// SetAvailableAt sets the "available_at" field.
+func (gpuo *GoodPaymentUpdateOne) SetAvailableAt(u uint32) *GoodPaymentUpdateOne {
+	gpuo.mutation.ResetAvailableAt()
+	gpuo.mutation.SetAvailableAt(u)
+	return gpuo
+}
+
+// SetNillableAvailableAt sets the "available_at" field if the given value is not nil.
+func (gpuo *GoodPaymentUpdateOne) SetNillableAvailableAt(u *uint32) *GoodPaymentUpdateOne {
+	if u != nil {
+		gpuo.SetAvailableAt(*u)
+	}
+	return gpuo
+}
+
+// AddAvailableAt adds u to the "available_at" field.
+func (gpuo *GoodPaymentUpdateOne) AddAvailableAt(u int32) *GoodPaymentUpdateOne {
+	gpuo.mutation.AddAvailableAt(u)
 	return gpuo
 }
 
@@ -523,6 +579,20 @@ func (gpuo *GoodPaymentUpdateOne) sqlSave(ctx context.Context) (_node *GoodPayme
 			Type:   field.TypeString,
 			Value:  value,
 			Column: goodpayment.FieldOccupiedBy,
+		})
+	}
+	if value, ok := gpuo.mutation.AvailableAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: goodpayment.FieldAvailableAt,
+		})
+	}
+	if value, ok := gpuo.mutation.AddedAvailableAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: goodpayment.FieldAvailableAt,
 		})
 	}
 	if value, ok := gpuo.mutation.CreateAt(); ok {

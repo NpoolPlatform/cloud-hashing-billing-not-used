@@ -37,6 +37,8 @@ const (
 	FieldChainTransactionID = "chain_transaction_id"
 	// FieldFailHold holds the string denoting the fail_hold field in the database.
 	FieldFailHold = "fail_hold"
+	// FieldCreatedFor holds the string denoting the created_for field in the database.
+	FieldCreatedFor = "created_for"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -62,6 +64,7 @@ var Columns = []string{
 	FieldState,
 	FieldChainTransactionID,
 	FieldFailHold,
+	FieldCreatedFor,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
@@ -82,6 +85,8 @@ var (
 	DefaultTransactionFee uint64
 	// DefaultFailHold holds the default value on creation for the "fail_hold" field.
 	DefaultFailHold bool
+	// DefaultCreatedFor holds the default value on creation for the "created_for" field.
+	DefaultCreatedFor string
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.

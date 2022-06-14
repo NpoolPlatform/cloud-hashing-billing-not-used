@@ -130,6 +130,20 @@ func (catu *CoinAccountTransactionUpdate) SetNillableFailHold(b *bool) *CoinAcco
 	return catu
 }
 
+// SetCreatedFor sets the "created_for" field.
+func (catu *CoinAccountTransactionUpdate) SetCreatedFor(s string) *CoinAccountTransactionUpdate {
+	catu.mutation.SetCreatedFor(s)
+	return catu
+}
+
+// SetNillableCreatedFor sets the "created_for" field if the given value is not nil.
+func (catu *CoinAccountTransactionUpdate) SetNillableCreatedFor(s *string) *CoinAccountTransactionUpdate {
+	if s != nil {
+		catu.SetCreatedFor(*s)
+	}
+	return catu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (catu *CoinAccountTransactionUpdate) SetCreateAt(u uint32) *CoinAccountTransactionUpdate {
 	catu.mutation.ResetCreateAt()
@@ -385,6 +399,13 @@ func (catu *CoinAccountTransactionUpdate) sqlSave(ctx context.Context) (n int, e
 			Column: coinaccounttransaction.FieldFailHold,
 		})
 	}
+	if value, ok := catu.mutation.CreatedFor(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: coinaccounttransaction.FieldCreatedFor,
+		})
+	}
 	if value, ok := catu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -544,6 +565,20 @@ func (catuo *CoinAccountTransactionUpdateOne) SetFailHold(b bool) *CoinAccountTr
 func (catuo *CoinAccountTransactionUpdateOne) SetNillableFailHold(b *bool) *CoinAccountTransactionUpdateOne {
 	if b != nil {
 		catuo.SetFailHold(*b)
+	}
+	return catuo
+}
+
+// SetCreatedFor sets the "created_for" field.
+func (catuo *CoinAccountTransactionUpdateOne) SetCreatedFor(s string) *CoinAccountTransactionUpdateOne {
+	catuo.mutation.SetCreatedFor(s)
+	return catuo
+}
+
+// SetNillableCreatedFor sets the "created_for" field if the given value is not nil.
+func (catuo *CoinAccountTransactionUpdateOne) SetNillableCreatedFor(s *string) *CoinAccountTransactionUpdateOne {
+	if s != nil {
+		catuo.SetCreatedFor(*s)
 	}
 	return catuo
 }
@@ -825,6 +860,13 @@ func (catuo *CoinAccountTransactionUpdateOne) sqlSave(ctx context.Context) (_nod
 			Type:   field.TypeBool,
 			Value:  value,
 			Column: coinaccounttransaction.FieldFailHold,
+		})
+	}
+	if value, ok := catuo.mutation.CreatedFor(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: coinaccounttransaction.FieldCreatedFor,
 		})
 	}
 	if value, ok := catuo.mutation.CreateAt(); ok {

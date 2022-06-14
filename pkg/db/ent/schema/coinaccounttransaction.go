@@ -40,6 +40,7 @@ func (CoinAccountTransaction) Fields() []ent.Field {
 				constant.CoinTransactionStateFail),
 		field.String("chain_transaction_id"),
 		field.Bool("fail_hold").Default(false),
+		field.String("created_for").Default(constant.TransactionForCompatible),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())
