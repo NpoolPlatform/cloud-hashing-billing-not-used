@@ -26,6 +26,11 @@ func (UserPaymentBalance) Fields() []ent.Field {
 		field.UUID("payment_id", uuid.UUID{}),
 		field.UUID("used_by_payment_id", uuid.UUID{}),
 		field.Uint64("amount"),
+		field.Uint64("coin_usd_currency"),
+		field.UUID("coin_type_id", uuid.UUID{}).
+			Default(func() uuid.UUID {
+				return uuid.UUID{}
+			}),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

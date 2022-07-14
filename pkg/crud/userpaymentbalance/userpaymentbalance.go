@@ -25,8 +25,14 @@ func validateUserPaymentBalance(info *npool.UserPaymentBalance) error {
 	if _, err := uuid.Parse(info.GetPaymentID()); err != nil {
 		return xerrors.Errorf("invalid payment id: %v", err)
 	}
+	if _, err := uuid.Parse(info.GetCoinTypeID()); err != nil {
+		return xerrors.Errorf("invalid coin type id: %v", err)
+	}
 	if info.GetAmount() <= 0.0 {
 		return xerrors.Errorf("invalid amount")
+	}
+	if info.GetCoinUSDCurrency() <= 0 {
+		return xerrors.Errorf("invalid coin usd currency")
 	}
 	return nil
 }
@@ -39,6 +45,8 @@ func dbRowToUserPaymentBalance(row *ent.UserPaymentBalance) *npool.UserPaymentBa
 		PaymentID:       row.PaymentID.String(),
 		UsedByPaymentID: row.UsedByPaymentID.String(),
 		Amount:          price.DBPriceToVisualPrice(row.Amount),
+		CoinTypeID:      row.CoinTypeID.String(),
+		CoinUSDCurrency: price.DBPriceToVisualPrice(row.CoinUsdCurrency),
 	}
 }
 
@@ -60,6 +68,9 @@ func Create(ctx context.Context, in *npool.CreateUserPaymentBalanceRequest) (*np
 		SetPaymentID(uuid.MustParse(in.GetInfo().GetPaymentID())).
 		SetUsedByPaymentID(uuid.UUID{}).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
+		SetUsedByPaymentID(uuid.UUID{}).
+		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
+		SetCoinUsdCurrency(price.VisualPriceToDBPrice(in.GetInfo().GetCoinUSDCurrency())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create user payment balance: %v", err)
