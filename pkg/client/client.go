@@ -89,3 +89,18 @@ func CreateTransaction(ctx context.Context, tx *npool.CoinAccountTransaction) (*
 	}
 	return info.(*npool.CoinAccountTransaction), nil
 }
+
+func GetUserPaymentBalances(ctx context.Context, appID, userID string) ([]*npool.UserPaymentBalance, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetUserPaymentBalancesByAppUser(ctx, &npool.GetUserPaymentBalancesByAppUserRequest{})
+		if err != nil {
+			return nil, fmt.Errorf("fail get user payment balance: %v", err)
+		}
+		return resp.Infos, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get user payment balance: %v", err)
+	}
+	return infos.([]*npool.UserPaymentBalance), nil
+}
