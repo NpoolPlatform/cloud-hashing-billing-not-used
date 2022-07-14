@@ -29,7 +29,11 @@ func validateUserWithdrawItem(info *npool.UserWithdrawItem) error {
 	if _, err := uuid.Parse(info.GetWithdrawToAccountID()); err != nil {
 		return xerrors.Errorf("invalid account id: %v", err)
 	}
-	if info.GetWithdrawType() != constant.WithdrawTypeBenefit && info.GetWithdrawType() != constant.WithdrawTypeCommission {
+	switch info.GetWithdrawType() {
+	case constant.WithdrawTypeBenefit:
+	case constant.WithdrawTypeCommission:
+	case constant.WithdrawTypeUserPaymentBalance:
+	default:
 		return xerrors.Errorf("invalid withdraw type")
 	}
 	return nil

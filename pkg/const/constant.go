@@ -8,8 +8,9 @@ const (
 	CoinTransactionStateFail       = "fail"
 	CoinTransactionStateRejected   = "rejected"
 
-	WithdrawTypeBenefit    = "benefit"
-	WithdrawTypeCommission = "commission"
+	WithdrawTypeBenefit            = "benefit"
+	WithdrawTypeCommission         = "commission"
+	WithdrawTypeUserPaymentBalance = "user-payment-balance"
 
 	TransactionForCompatible      = "compatible"
 	TransactionForWithdraw        = "withdraw"
