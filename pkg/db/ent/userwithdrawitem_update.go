@@ -77,6 +77,20 @@ func (uwiu *UserWithdrawItemUpdate) SetWithdrawType(s string) *UserWithdrawItemU
 	return uwiu
 }
 
+// SetExemptFee sets the "exempt_fee" field.
+func (uwiu *UserWithdrawItemUpdate) SetExemptFee(b bool) *UserWithdrawItemUpdate {
+	uwiu.mutation.SetExemptFee(b)
+	return uwiu
+}
+
+// SetNillableExemptFee sets the "exempt_fee" field if the given value is not nil.
+func (uwiu *UserWithdrawItemUpdate) SetNillableExemptFee(b *bool) *UserWithdrawItemUpdate {
+	if b != nil {
+		uwiu.SetExemptFee(*b)
+	}
+	return uwiu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (uwiu *UserWithdrawItemUpdate) SetCreateAt(u uint32) *UserWithdrawItemUpdate {
 	uwiu.mutation.ResetCreateAt()
@@ -274,6 +288,13 @@ func (uwiu *UserWithdrawItemUpdate) sqlSave(ctx context.Context) (n int, err err
 			Column: userwithdrawitem.FieldWithdrawType,
 		})
 	}
+	if value, ok := uwiu.mutation.ExemptFee(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: userwithdrawitem.FieldExemptFee,
+		})
+	}
 	if value, ok := uwiu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -381,6 +402,20 @@ func (uwiuo *UserWithdrawItemUpdateOne) SetPlatformTransactionID(u uuid.UUID) *U
 // SetWithdrawType sets the "withdraw_type" field.
 func (uwiuo *UserWithdrawItemUpdateOne) SetWithdrawType(s string) *UserWithdrawItemUpdateOne {
 	uwiuo.mutation.SetWithdrawType(s)
+	return uwiuo
+}
+
+// SetExemptFee sets the "exempt_fee" field.
+func (uwiuo *UserWithdrawItemUpdateOne) SetExemptFee(b bool) *UserWithdrawItemUpdateOne {
+	uwiuo.mutation.SetExemptFee(b)
+	return uwiuo
+}
+
+// SetNillableExemptFee sets the "exempt_fee" field if the given value is not nil.
+func (uwiuo *UserWithdrawItemUpdateOne) SetNillableExemptFee(b *bool) *UserWithdrawItemUpdateOne {
+	if b != nil {
+		uwiuo.SetExemptFee(*b)
+	}
 	return uwiuo
 }
 
@@ -609,6 +644,13 @@ func (uwiuo *UserWithdrawItemUpdateOne) sqlSave(ctx context.Context) (_node *Use
 			Type:   field.TypeString,
 			Value:  value,
 			Column: userwithdrawitem.FieldWithdrawType,
+		})
+	}
+	if value, ok := uwiuo.mutation.ExemptFee(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: userwithdrawitem.FieldExemptFee,
 		})
 	}
 	if value, ok := uwiuo.mutation.CreateAt(); ok {

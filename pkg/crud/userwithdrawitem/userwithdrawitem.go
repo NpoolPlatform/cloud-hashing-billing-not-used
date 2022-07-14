@@ -49,6 +49,7 @@ func dbRowToUserWithdrawItem(row *ent.UserWithdrawItem) *npool.UserWithdrawItem 
 		Amount:                price.DBPriceToVisualPrice(row.Amount),
 		PlatformTransactionID: row.PlatformTransactionID.String(),
 		WithdrawType:          row.WithdrawType,
+		ExemptFee:             row.ExemptFee,
 	}
 }
 
@@ -72,6 +73,7 @@ func Create(ctx context.Context, in *npool.CreateUserWithdrawItemRequest) (*npoo
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetPlatformTransactionID(uuid.UUID{}).
 		SetWithdrawType(in.GetInfo().GetWithdrawType()).
+		SetExemptFee(in.GetInfo().GetExemptFee()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create user withdraw item: %v", err)

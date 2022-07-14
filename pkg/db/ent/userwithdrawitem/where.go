@@ -128,6 +128,13 @@ func WithdrawType(v string) predicate.UserWithdrawItem {
 	})
 }
 
+// ExemptFee applies equality check predicate on the "exempt_fee" field. It's identical to ExemptFeeEQ.
+func ExemptFee(v bool) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldExemptFee), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.UserWithdrawItem {
 	return predicate.UserWithdrawItem(func(s *sql.Selector) {
@@ -713,6 +720,20 @@ func WithdrawTypeEqualFold(v string) predicate.UserWithdrawItem {
 func WithdrawTypeContainsFold(v string) predicate.UserWithdrawItem {
 	return predicate.UserWithdrawItem(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldWithdrawType), v))
+	})
+}
+
+// ExemptFeeEQ applies the EQ predicate on the "exempt_fee" field.
+func ExemptFeeEQ(v bool) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldExemptFee), v))
+	})
+}
+
+// ExemptFeeNEQ applies the NEQ predicate on the "exempt_fee" field.
+func ExemptFeeNEQ(v bool) predicate.UserWithdrawItem {
+	return predicate.UserWithdrawItem(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldExemptFee), v))
 	})
 }
 

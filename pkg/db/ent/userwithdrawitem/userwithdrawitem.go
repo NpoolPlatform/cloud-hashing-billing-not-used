@@ -25,6 +25,8 @@ const (
 	FieldPlatformTransactionID = "platform_transaction_id"
 	// FieldWithdrawType holds the string denoting the withdraw_type field in the database.
 	FieldWithdrawType = "withdraw_type"
+	// FieldExemptFee holds the string denoting the exempt_fee field in the database.
+	FieldExemptFee = "exempt_fee"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -45,6 +47,7 @@ var Columns = []string{
 	FieldAmount,
 	FieldPlatformTransactionID,
 	FieldWithdrawType,
+	FieldExemptFee,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
@@ -61,6 +64,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultExemptFee holds the default value on creation for the "exempt_fee" field.
+	DefaultExemptFee bool
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.

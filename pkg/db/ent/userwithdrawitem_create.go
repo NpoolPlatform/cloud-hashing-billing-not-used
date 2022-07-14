@@ -65,6 +65,20 @@ func (uwic *UserWithdrawItemCreate) SetWithdrawType(s string) *UserWithdrawItemC
 	return uwic
 }
 
+// SetExemptFee sets the "exempt_fee" field.
+func (uwic *UserWithdrawItemCreate) SetExemptFee(b bool) *UserWithdrawItemCreate {
+	uwic.mutation.SetExemptFee(b)
+	return uwic
+}
+
+// SetNillableExemptFee sets the "exempt_fee" field if the given value is not nil.
+func (uwic *UserWithdrawItemCreate) SetNillableExemptFee(b *bool) *UserWithdrawItemCreate {
+	if b != nil {
+		uwic.SetExemptFee(*b)
+	}
+	return uwic
+}
+
 // SetCreateAt sets the "create_at" field.
 func (uwic *UserWithdrawItemCreate) SetCreateAt(u uint32) *UserWithdrawItemCreate {
 	uwic.mutation.SetCreateAt(u)
@@ -198,6 +212,10 @@ func (uwic *UserWithdrawItemCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (uwic *UserWithdrawItemCreate) defaults() {
+	if _, ok := uwic.mutation.ExemptFee(); !ok {
+		v := userwithdrawitem.DefaultExemptFee
+		uwic.mutation.SetExemptFee(v)
+	}
 	if _, ok := uwic.mutation.CreateAt(); !ok {
 		v := userwithdrawitem.DefaultCreateAt()
 		uwic.mutation.SetCreateAt(v)
@@ -238,6 +256,9 @@ func (uwic *UserWithdrawItemCreate) check() error {
 	}
 	if _, ok := uwic.mutation.WithdrawType(); !ok {
 		return &ValidationError{Name: "withdraw_type", err: errors.New(`ent: missing required field "UserWithdrawItem.withdraw_type"`)}
+	}
+	if _, ok := uwic.mutation.ExemptFee(); !ok {
+		return &ValidationError{Name: "exempt_fee", err: errors.New(`ent: missing required field "UserWithdrawItem.exempt_fee"`)}
 	}
 	if _, ok := uwic.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserWithdrawItem.create_at"`)}
@@ -340,6 +361,14 @@ func (uwic *UserWithdrawItemCreate) createSpec() (*UserWithdrawItem, *sqlgraph.C
 			Column: userwithdrawitem.FieldWithdrawType,
 		})
 		_node.WithdrawType = value
+	}
+	if value, ok := uwic.mutation.ExemptFee(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: userwithdrawitem.FieldExemptFee,
+		})
+		_node.ExemptFee = value
 	}
 	if value, ok := uwic.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -506,6 +535,18 @@ func (u *UserWithdrawItemUpsert) SetWithdrawType(v string) *UserWithdrawItemUpse
 // UpdateWithdrawType sets the "withdraw_type" field to the value that was provided on create.
 func (u *UserWithdrawItemUpsert) UpdateWithdrawType() *UserWithdrawItemUpsert {
 	u.SetExcluded(userwithdrawitem.FieldWithdrawType)
+	return u
+}
+
+// SetExemptFee sets the "exempt_fee" field.
+func (u *UserWithdrawItemUpsert) SetExemptFee(v bool) *UserWithdrawItemUpsert {
+	u.Set(userwithdrawitem.FieldExemptFee, v)
+	return u
+}
+
+// UpdateExemptFee sets the "exempt_fee" field to the value that was provided on create.
+func (u *UserWithdrawItemUpsert) UpdateExemptFee() *UserWithdrawItemUpsert {
+	u.SetExcluded(userwithdrawitem.FieldExemptFee)
 	return u
 }
 
@@ -715,6 +756,20 @@ func (u *UserWithdrawItemUpsertOne) SetWithdrawType(v string) *UserWithdrawItemU
 func (u *UserWithdrawItemUpsertOne) UpdateWithdrawType() *UserWithdrawItemUpsertOne {
 	return u.Update(func(s *UserWithdrawItemUpsert) {
 		s.UpdateWithdrawType()
+	})
+}
+
+// SetExemptFee sets the "exempt_fee" field.
+func (u *UserWithdrawItemUpsertOne) SetExemptFee(v bool) *UserWithdrawItemUpsertOne {
+	return u.Update(func(s *UserWithdrawItemUpsert) {
+		s.SetExemptFee(v)
+	})
+}
+
+// UpdateExemptFee sets the "exempt_fee" field to the value that was provided on create.
+func (u *UserWithdrawItemUpsertOne) UpdateExemptFee() *UserWithdrawItemUpsertOne {
+	return u.Update(func(s *UserWithdrawItemUpsert) {
+		s.UpdateExemptFee()
 	})
 }
 
@@ -1099,6 +1154,20 @@ func (u *UserWithdrawItemUpsertBulk) SetWithdrawType(v string) *UserWithdrawItem
 func (u *UserWithdrawItemUpsertBulk) UpdateWithdrawType() *UserWithdrawItemUpsertBulk {
 	return u.Update(func(s *UserWithdrawItemUpsert) {
 		s.UpdateWithdrawType()
+	})
+}
+
+// SetExemptFee sets the "exempt_fee" field.
+func (u *UserWithdrawItemUpsertBulk) SetExemptFee(v bool) *UserWithdrawItemUpsertBulk {
+	return u.Update(func(s *UserWithdrawItemUpsert) {
+		s.SetExemptFee(v)
+	})
+}
+
+// UpdateExemptFee sets the "exempt_fee" field to the value that was provided on create.
+func (u *UserWithdrawItemUpsertBulk) UpdateExemptFee() *UserWithdrawItemUpsertBulk {
+	return u.Update(func(s *UserWithdrawItemUpsert) {
+		s.UpdateExemptFee()
 	})
 }
 

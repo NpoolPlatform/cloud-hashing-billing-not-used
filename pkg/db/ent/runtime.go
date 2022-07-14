@@ -286,18 +286,22 @@ func init() {
 	userwithdraw.DefaultID = userwithdrawDescID.Default.(func() uuid.UUID)
 	userwithdrawitemFields := schema.UserWithdrawItem{}.Fields()
 	_ = userwithdrawitemFields
+	// userwithdrawitemDescExemptFee is the schema descriptor for exempt_fee field.
+	userwithdrawitemDescExemptFee := userwithdrawitemFields[8].Descriptor()
+	// userwithdrawitem.DefaultExemptFee holds the default value on creation for the exempt_fee field.
+	userwithdrawitem.DefaultExemptFee = userwithdrawitemDescExemptFee.Default.(bool)
 	// userwithdrawitemDescCreateAt is the schema descriptor for create_at field.
-	userwithdrawitemDescCreateAt := userwithdrawitemFields[8].Descriptor()
+	userwithdrawitemDescCreateAt := userwithdrawitemFields[9].Descriptor()
 	// userwithdrawitem.DefaultCreateAt holds the default value on creation for the create_at field.
 	userwithdrawitem.DefaultCreateAt = userwithdrawitemDescCreateAt.Default.(func() uint32)
 	// userwithdrawitemDescUpdateAt is the schema descriptor for update_at field.
-	userwithdrawitemDescUpdateAt := userwithdrawitemFields[9].Descriptor()
+	userwithdrawitemDescUpdateAt := userwithdrawitemFields[10].Descriptor()
 	// userwithdrawitem.DefaultUpdateAt holds the default value on creation for the update_at field.
 	userwithdrawitem.DefaultUpdateAt = userwithdrawitemDescUpdateAt.Default.(func() uint32)
 	// userwithdrawitem.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	userwithdrawitem.UpdateDefaultUpdateAt = userwithdrawitemDescUpdateAt.UpdateDefault.(func() uint32)
 	// userwithdrawitemDescDeleteAt is the schema descriptor for delete_at field.
-	userwithdrawitemDescDeleteAt := userwithdrawitemFields[10].Descriptor()
+	userwithdrawitemDescDeleteAt := userwithdrawitemFields[11].Descriptor()
 	// userwithdrawitem.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	userwithdrawitem.DefaultDeleteAt = userwithdrawitemDescDeleteAt.Default.(func() uint32)
 	// userwithdrawitemDescID is the schema descriptor for id field.

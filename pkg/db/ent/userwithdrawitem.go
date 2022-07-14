@@ -30,6 +30,8 @@ type UserWithdrawItem struct {
 	PlatformTransactionID uuid.UUID `json:"platform_transaction_id,omitempty"`
 	// WithdrawType holds the value of the "withdraw_type" field.
 	WithdrawType string `json:"withdraw_type,omitempty"`
+	// ExemptFee holds the value of the "exempt_fee" field.
+	ExemptFee bool `json:"exempt_fee,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -43,6 +45,8 @@ func (*UserWithdrawItem) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case userwithdrawitem.FieldExemptFee:
+			values[i] = new(sql.NullBool)
 		case userwithdrawitem.FieldAmount, userwithdrawitem.FieldCreateAt, userwithdrawitem.FieldUpdateAt, userwithdrawitem.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case userwithdrawitem.FieldWithdrawType:
@@ -112,6 +116,12 @@ func (uwi *UserWithdrawItem) assignValues(columns []string, values []interface{}
 			} else if value.Valid {
 				uwi.WithdrawType = value.String
 			}
+		case userwithdrawitem.FieldExemptFee:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field exempt_fee", values[i])
+			} else if value.Valid {
+				uwi.ExemptFee = value.Bool
+			}
 		case userwithdrawitem.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -178,6 +188,9 @@ func (uwi *UserWithdrawItem) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("withdraw_type=")
 	builder.WriteString(uwi.WithdrawType)
+	builder.WriteString(", ")
+	builder.WriteString("exempt_fee=")
+	builder.WriteString(fmt.Sprintf("%v", uwi.ExemptFee))
 	builder.WriteString(", ")
 	builder.WriteString("create_at=")
 	builder.WriteString(fmt.Sprintf("%v", uwi.CreateAt))

@@ -27,6 +27,7 @@ func (UserWithdrawItem) Fields() []ent.Field {
 		field.Uint64("amount"),
 		field.UUID("platform_transaction_id", uuid.UUID{}),
 		field.String("withdraw_type"),
+		field.Bool("exempt_fee").Default(false),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

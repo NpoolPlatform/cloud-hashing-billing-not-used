@@ -10697,6 +10697,7 @@ type UserWithdrawItemMutation struct {
 	addamount               *int64
 	platform_transaction_id *uuid.UUID
 	withdraw_type           *string
+	exempt_fee              *bool
 	create_at               *uint32
 	addcreate_at            *int32
 	update_at               *uint32
@@ -11085,6 +11086,42 @@ func (m *UserWithdrawItemMutation) ResetWithdrawType() {
 	m.withdraw_type = nil
 }
 
+// SetExemptFee sets the "exempt_fee" field.
+func (m *UserWithdrawItemMutation) SetExemptFee(b bool) {
+	m.exempt_fee = &b
+}
+
+// ExemptFee returns the value of the "exempt_fee" field in the mutation.
+func (m *UserWithdrawItemMutation) ExemptFee() (r bool, exists bool) {
+	v := m.exempt_fee
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExemptFee returns the old "exempt_fee" field's value of the UserWithdrawItem entity.
+// If the UserWithdrawItem object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserWithdrawItemMutation) OldExemptFee(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExemptFee is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExemptFee requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExemptFee: %w", err)
+	}
+	return oldValue.ExemptFee, nil
+}
+
+// ResetExemptFee resets all changes to the "exempt_fee" field.
+func (m *UserWithdrawItemMutation) ResetExemptFee() {
+	m.exempt_fee = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *UserWithdrawItemMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -11272,7 +11309,7 @@ func (m *UserWithdrawItemMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserWithdrawItemMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 11)
 	if m.app_id != nil {
 		fields = append(fields, userwithdrawitem.FieldAppID)
 	}
@@ -11293,6 +11330,9 @@ func (m *UserWithdrawItemMutation) Fields() []string {
 	}
 	if m.withdraw_type != nil {
 		fields = append(fields, userwithdrawitem.FieldWithdrawType)
+	}
+	if m.exempt_fee != nil {
+		fields = append(fields, userwithdrawitem.FieldExemptFee)
 	}
 	if m.create_at != nil {
 		fields = append(fields, userwithdrawitem.FieldCreateAt)
@@ -11325,6 +11365,8 @@ func (m *UserWithdrawItemMutation) Field(name string) (ent.Value, bool) {
 		return m.PlatformTransactionID()
 	case userwithdrawitem.FieldWithdrawType:
 		return m.WithdrawType()
+	case userwithdrawitem.FieldExemptFee:
+		return m.ExemptFee()
 	case userwithdrawitem.FieldCreateAt:
 		return m.CreateAt()
 	case userwithdrawitem.FieldUpdateAt:
@@ -11354,6 +11396,8 @@ func (m *UserWithdrawItemMutation) OldField(ctx context.Context, name string) (e
 		return m.OldPlatformTransactionID(ctx)
 	case userwithdrawitem.FieldWithdrawType:
 		return m.OldWithdrawType(ctx)
+	case userwithdrawitem.FieldExemptFee:
+		return m.OldExemptFee(ctx)
 	case userwithdrawitem.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case userwithdrawitem.FieldUpdateAt:
@@ -11417,6 +11461,13 @@ func (m *UserWithdrawItemMutation) SetField(name string, value ent.Value) error 
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetWithdrawType(v)
+		return nil
+	case userwithdrawitem.FieldExemptFee:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExemptFee(v)
 		return nil
 	case userwithdrawitem.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -11559,6 +11610,9 @@ func (m *UserWithdrawItemMutation) ResetField(name string) error {
 		return nil
 	case userwithdrawitem.FieldWithdrawType:
 		m.ResetWithdrawType()
+		return nil
+	case userwithdrawitem.FieldExemptFee:
+		m.ResetExemptFee()
 		return nil
 	case userwithdrawitem.FieldCreateAt:
 		m.ResetCreateAt()
