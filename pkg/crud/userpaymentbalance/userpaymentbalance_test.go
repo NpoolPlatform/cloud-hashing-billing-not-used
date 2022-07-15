@@ -30,6 +30,7 @@ func assertUserPaymentBalance(t *testing.T, actual, expected *npool.UserPaymentB
 	assert.Equal(t, actual.PaymentID, expected.PaymentID)
 	assert.Equal(t, actual.Amount, expected.Amount)
 	assert.Equal(t, actual.CoinTypeID, expected.CoinTypeID)
+	assert.Equal(t, actual.CoinUSDCurrency, expected.CoinUSDCurrency)
 }
 
 func TestCRUD(t *testing.T) {
@@ -38,11 +39,12 @@ func TestCRUD(t *testing.T) {
 	}
 
 	userPaymentBalance := npool.UserPaymentBalance{
-		AppID:      uuid.New().String(),
-		UserID:     uuid.New().String(),
-		PaymentID:  uuid.New().String(),
-		CoinTypeID: uuid.New().String(),
-		Amount:     1.0,
+		AppID:           uuid.New().String(),
+		UserID:          uuid.New().String(),
+		PaymentID:       uuid.New().String(),
+		CoinTypeID:      uuid.New().String(),
+		Amount:          1.0,
+		CoinUSDCurrency: 1.0,
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateUserPaymentBalanceRequest{
