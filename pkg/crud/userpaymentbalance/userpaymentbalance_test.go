@@ -38,11 +38,11 @@ func TestCRUD(t *testing.T) {
 	}
 
 	userPaymentBalance := npool.UserPaymentBalance{
-		AppID:     uuid.New().String(),
-		UserID:    uuid.New().String(),
-		PaymentID: uuid.New().String(),
-                CoinTypeID:uuid.New().String(),
-		Amount:    1.0,
+		AppID:     	uuid.New().String(),
+		UserID:    	uuid.New().String(),
+		PaymentID: 	uuid.New().String(),
+                CoinTypeID:	uuid.New().String(),
+		Amount:    	1.0,
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateUserPaymentBalanceRequest{
