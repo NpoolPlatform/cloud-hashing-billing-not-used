@@ -41,7 +41,7 @@ func TestCRUD(t *testing.T) {
 		AppID:     	uuid.New().String(),
 		UserID:    	uuid.New().String(),
 		PaymentID: 	uuid.New().String(),
-                CoinTypeID:	uuid.New().String(),
+		CoinTypeID:	uuid.New().String(),
 		Amount:    	1.0,
 	}
 
