@@ -18,4 +18,6 @@ const (
 	TransactionForCollecting      = "collecting"
 	TransactionForPlatformBenefit = "platform-benefit"
 	TransactionForUserBenefit     = "user-benefit"
+	TransactionForPaying          = "paying"
+	TransactionForNotUsed         = "not-used"
 )

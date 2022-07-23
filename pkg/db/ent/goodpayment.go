@@ -28,6 +28,10 @@ type GoodPayment struct {
 	OccupiedBy string `json:"occupied_by,omitempty"`
 	// AvailableAt holds the value of the "available_at" field.
 	AvailableAt uint32 `json:"available_at,omitempty"`
+	// CollectingTid holds the value of the "collecting_tid" field.
+	CollectingTid uuid.UUID `json:"collecting_tid,omitempty"`
+	// UsedFor holds the value of the "used_for" field.
+	UsedFor string `json:"used_for,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -45,9 +49,9 @@ func (*GoodPayment) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullBool)
 		case goodpayment.FieldAvailableAt, goodpayment.FieldCreateAt, goodpayment.FieldUpdateAt, goodpayment.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case goodpayment.FieldOccupiedBy:
+		case goodpayment.FieldOccupiedBy, goodpayment.FieldUsedFor:
 			values[i] = new(sql.NullString)
-		case goodpayment.FieldID, goodpayment.FieldGoodID, goodpayment.FieldPaymentCoinTypeID, goodpayment.FieldAccountID:
+		case goodpayment.FieldID, goodpayment.FieldGoodID, goodpayment.FieldPaymentCoinTypeID, goodpayment.FieldAccountID, goodpayment.FieldCollectingTid:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type GoodPayment", columns[i])
@@ -105,6 +109,18 @@ func (gp *GoodPayment) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field available_at", values[i])
 			} else if value.Valid {
 				gp.AvailableAt = uint32(value.Int64)
+			}
+		case goodpayment.FieldCollectingTid:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field collecting_tid", values[i])
+			} else if value != nil {
+				gp.CollectingTid = *value
+			}
+		case goodpayment.FieldUsedFor:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field used_for", values[i])
+			} else if value.Valid {
+				gp.UsedFor = value.String
 			}
 		case goodpayment.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -169,6 +185,12 @@ func (gp *GoodPayment) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("available_at=")
 	builder.WriteString(fmt.Sprintf("%v", gp.AvailableAt))
+	builder.WriteString(", ")
+	builder.WriteString("collecting_tid=")
+	builder.WriteString(fmt.Sprintf("%v", gp.CollectingTid))
+	builder.WriteString(", ")
+	builder.WriteString("used_for=")
+	builder.WriteString(gp.UsedFor)
 	builder.WriteString(", ")
 	builder.WriteString("create_at=")
 	builder.WriteString(fmt.Sprintf("%v", gp.CreateAt))

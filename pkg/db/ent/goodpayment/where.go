@@ -121,6 +121,20 @@ func AvailableAt(v uint32) predicate.GoodPayment {
 	})
 }
 
+// CollectingTid applies equality check predicate on the "collecting_tid" field. It's identical to CollectingTidEQ.
+func CollectingTid(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCollectingTid), v))
+	})
+}
+
+// UsedFor applies equality check predicate on the "used_for" field. It's identical to UsedForEQ.
+func UsedFor(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUsedFor), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
@@ -568,6 +582,221 @@ func AvailableAtLT(v uint32) predicate.GoodPayment {
 func AvailableAtLTE(v uint32) predicate.GoodPayment {
 	return predicate.GoodPayment(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldAvailableAt), v))
+	})
+}
+
+// CollectingTidEQ applies the EQ predicate on the "collecting_tid" field.
+func CollectingTidEQ(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCollectingTid), v))
+	})
+}
+
+// CollectingTidNEQ applies the NEQ predicate on the "collecting_tid" field.
+func CollectingTidNEQ(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldCollectingTid), v))
+	})
+}
+
+// CollectingTidIn applies the In predicate on the "collecting_tid" field.
+func CollectingTidIn(vs ...uuid.UUID) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldCollectingTid), v...))
+	})
+}
+
+// CollectingTidNotIn applies the NotIn predicate on the "collecting_tid" field.
+func CollectingTidNotIn(vs ...uuid.UUID) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldCollectingTid), v...))
+	})
+}
+
+// CollectingTidGT applies the GT predicate on the "collecting_tid" field.
+func CollectingTidGT(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldCollectingTid), v))
+	})
+}
+
+// CollectingTidGTE applies the GTE predicate on the "collecting_tid" field.
+func CollectingTidGTE(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldCollectingTid), v))
+	})
+}
+
+// CollectingTidLT applies the LT predicate on the "collecting_tid" field.
+func CollectingTidLT(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldCollectingTid), v))
+	})
+}
+
+// CollectingTidLTE applies the LTE predicate on the "collecting_tid" field.
+func CollectingTidLTE(v uuid.UUID) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldCollectingTid), v))
+	})
+}
+
+// CollectingTidIsNil applies the IsNil predicate on the "collecting_tid" field.
+func CollectingTidIsNil() predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldCollectingTid)))
+	})
+}
+
+// CollectingTidNotNil applies the NotNil predicate on the "collecting_tid" field.
+func CollectingTidNotNil() predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldCollectingTid)))
+	})
+}
+
+// UsedForEQ applies the EQ predicate on the "used_for" field.
+func UsedForEQ(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForNEQ applies the NEQ predicate on the "used_for" field.
+func UsedForNEQ(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForIn applies the In predicate on the "used_for" field.
+func UsedForIn(vs ...string) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldUsedFor), v...))
+	})
+}
+
+// UsedForNotIn applies the NotIn predicate on the "used_for" field.
+func UsedForNotIn(vs ...string) predicate.GoodPayment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldUsedFor), v...))
+	})
+}
+
+// UsedForGT applies the GT predicate on the "used_for" field.
+func UsedForGT(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForGTE applies the GTE predicate on the "used_for" field.
+func UsedForGTE(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForLT applies the LT predicate on the "used_for" field.
+func UsedForLT(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForLTE applies the LTE predicate on the "used_for" field.
+func UsedForLTE(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForContains applies the Contains predicate on the "used_for" field.
+func UsedForContains(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForHasPrefix applies the HasPrefix predicate on the "used_for" field.
+func UsedForHasPrefix(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForHasSuffix applies the HasSuffix predicate on the "used_for" field.
+func UsedForHasSuffix(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForIsNil applies the IsNil predicate on the "used_for" field.
+func UsedForIsNil() predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldUsedFor)))
+	})
+}
+
+// UsedForNotNil applies the NotNil predicate on the "used_for" field.
+func UsedForNotNil() predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldUsedFor)))
+	})
+}
+
+// UsedForEqualFold applies the EqualFold predicate on the "used_for" field.
+func UsedForEqualFold(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldUsedFor), v))
+	})
+}
+
+// UsedForContainsFold applies the ContainsFold predicate on the "used_for" field.
+func UsedForContainsFold(v string) predicate.GoodPayment {
+	return predicate.GoodPayment(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldUsedFor), v))
 	})
 }
 

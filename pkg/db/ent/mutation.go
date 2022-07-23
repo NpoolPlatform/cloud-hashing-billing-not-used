@@ -4517,6 +4517,8 @@ type GoodPaymentMutation struct {
 	occupied_by          *string
 	available_at         *uint32
 	addavailable_at      *int32
+	collecting_tid       *uuid.UUID
+	used_for             *string
 	create_at            *uint32
 	addcreate_at         *int32
 	update_at            *uint32
@@ -4869,6 +4871,104 @@ func (m *GoodPaymentMutation) ResetAvailableAt() {
 	m.addavailable_at = nil
 }
 
+// SetCollectingTid sets the "collecting_tid" field.
+func (m *GoodPaymentMutation) SetCollectingTid(u uuid.UUID) {
+	m.collecting_tid = &u
+}
+
+// CollectingTid returns the value of the "collecting_tid" field in the mutation.
+func (m *GoodPaymentMutation) CollectingTid() (r uuid.UUID, exists bool) {
+	v := m.collecting_tid
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectingTid returns the old "collecting_tid" field's value of the GoodPayment entity.
+// If the GoodPayment object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoodPaymentMutation) OldCollectingTid(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectingTid is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectingTid requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectingTid: %w", err)
+	}
+	return oldValue.CollectingTid, nil
+}
+
+// ClearCollectingTid clears the value of the "collecting_tid" field.
+func (m *GoodPaymentMutation) ClearCollectingTid() {
+	m.collecting_tid = nil
+	m.clearedFields[goodpayment.FieldCollectingTid] = struct{}{}
+}
+
+// CollectingTidCleared returns if the "collecting_tid" field was cleared in this mutation.
+func (m *GoodPaymentMutation) CollectingTidCleared() bool {
+	_, ok := m.clearedFields[goodpayment.FieldCollectingTid]
+	return ok
+}
+
+// ResetCollectingTid resets all changes to the "collecting_tid" field.
+func (m *GoodPaymentMutation) ResetCollectingTid() {
+	m.collecting_tid = nil
+	delete(m.clearedFields, goodpayment.FieldCollectingTid)
+}
+
+// SetUsedFor sets the "used_for" field.
+func (m *GoodPaymentMutation) SetUsedFor(s string) {
+	m.used_for = &s
+}
+
+// UsedFor returns the value of the "used_for" field in the mutation.
+func (m *GoodPaymentMutation) UsedFor() (r string, exists bool) {
+	v := m.used_for
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUsedFor returns the old "used_for" field's value of the GoodPayment entity.
+// If the GoodPayment object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoodPaymentMutation) OldUsedFor(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUsedFor is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUsedFor requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUsedFor: %w", err)
+	}
+	return oldValue.UsedFor, nil
+}
+
+// ClearUsedFor clears the value of the "used_for" field.
+func (m *GoodPaymentMutation) ClearUsedFor() {
+	m.used_for = nil
+	m.clearedFields[goodpayment.FieldUsedFor] = struct{}{}
+}
+
+// UsedForCleared returns if the "used_for" field was cleared in this mutation.
+func (m *GoodPaymentMutation) UsedForCleared() bool {
+	_, ok := m.clearedFields[goodpayment.FieldUsedFor]
+	return ok
+}
+
+// ResetUsedFor resets all changes to the "used_for" field.
+func (m *GoodPaymentMutation) ResetUsedFor() {
+	m.used_for = nil
+	delete(m.clearedFields, goodpayment.FieldUsedFor)
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *GoodPaymentMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -5056,7 +5156,7 @@ func (m *GoodPaymentMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *GoodPaymentMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 11)
 	if m.good_id != nil {
 		fields = append(fields, goodpayment.FieldGoodID)
 	}
@@ -5074,6 +5174,12 @@ func (m *GoodPaymentMutation) Fields() []string {
 	}
 	if m.available_at != nil {
 		fields = append(fields, goodpayment.FieldAvailableAt)
+	}
+	if m.collecting_tid != nil {
+		fields = append(fields, goodpayment.FieldCollectingTid)
+	}
+	if m.used_for != nil {
+		fields = append(fields, goodpayment.FieldUsedFor)
 	}
 	if m.create_at != nil {
 		fields = append(fields, goodpayment.FieldCreateAt)
@@ -5104,6 +5210,10 @@ func (m *GoodPaymentMutation) Field(name string) (ent.Value, bool) {
 		return m.OccupiedBy()
 	case goodpayment.FieldAvailableAt:
 		return m.AvailableAt()
+	case goodpayment.FieldCollectingTid:
+		return m.CollectingTid()
+	case goodpayment.FieldUsedFor:
+		return m.UsedFor()
 	case goodpayment.FieldCreateAt:
 		return m.CreateAt()
 	case goodpayment.FieldUpdateAt:
@@ -5131,6 +5241,10 @@ func (m *GoodPaymentMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldOccupiedBy(ctx)
 	case goodpayment.FieldAvailableAt:
 		return m.OldAvailableAt(ctx)
+	case goodpayment.FieldCollectingTid:
+		return m.OldCollectingTid(ctx)
+	case goodpayment.FieldUsedFor:
+		return m.OldUsedFor(ctx)
 	case goodpayment.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case goodpayment.FieldUpdateAt:
@@ -5187,6 +5301,20 @@ func (m *GoodPaymentMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAvailableAt(v)
+		return nil
+	case goodpayment.FieldCollectingTid:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectingTid(v)
+		return nil
+	case goodpayment.FieldUsedFor:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUsedFor(v)
 		return nil
 	case goodpayment.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -5289,7 +5417,14 @@ func (m *GoodPaymentMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *GoodPaymentMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(goodpayment.FieldCollectingTid) {
+		fields = append(fields, goodpayment.FieldCollectingTid)
+	}
+	if m.FieldCleared(goodpayment.FieldUsedFor) {
+		fields = append(fields, goodpayment.FieldUsedFor)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -5302,6 +5437,14 @@ func (m *GoodPaymentMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *GoodPaymentMutation) ClearField(name string) error {
+	switch name {
+	case goodpayment.FieldCollectingTid:
+		m.ClearCollectingTid()
+		return nil
+	case goodpayment.FieldUsedFor:
+		m.ClearUsedFor()
+		return nil
+	}
 	return fmt.Errorf("unknown GoodPayment nullable field %s", name)
 }
 
@@ -5326,6 +5469,12 @@ func (m *GoodPaymentMutation) ResetField(name string) error {
 		return nil
 	case goodpayment.FieldAvailableAt:
 		m.ResetAvailableAt()
+		return nil
+	case goodpayment.FieldCollectingTid:
+		m.ResetCollectingTid()
+		return nil
+	case goodpayment.FieldUsedFor:
+		m.ResetUsedFor()
 		return nil
 	case goodpayment.FieldCreateAt:
 		m.ResetCreateAt()

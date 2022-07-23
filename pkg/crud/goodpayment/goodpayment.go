@@ -10,6 +10,8 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent"
 	"github.com/NpoolPlatform/cloud-hashing-billing/pkg/db/ent/goodpayment"
 
+	constant "github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
+
 	"github.com/google/uuid"
 
 	"golang.org/x/xerrors"
@@ -37,6 +39,8 @@ func dbRowToGoodPayment(row *ent.GoodPayment) *npool.GoodPayment {
 		Idle:              row.Idle,
 		OccupiedBy:        row.OccupiedBy,
 		AvailableAt:       row.AvailableAt,
+		CollectingTID:     row.CollectingTid.String(),
+		UsedFor:           row.UsedFor,
 	}
 }
 
@@ -57,6 +61,7 @@ func Create(ctx context.Context, in *npool.CreateGoodPaymentRequest) (*npool.Cre
 		SetPaymentCoinTypeID(uuid.MustParse(in.GetInfo().GetPaymentCoinTypeID())).
 		SetAccountID(uuid.MustParse(in.GetInfo().GetAccountID())).
 		SetOccupiedBy(in.GetInfo().GetOccupiedBy()).
+		SetUsedFor(constant.TransactionForNotUsed).
 		SetIdle(true).
 		Save(ctx)
 	if err != nil {
@@ -96,11 +101,20 @@ func Update(ctx context.Context, in *npool.UpdateGoodPaymentRequest) (*npool.Upd
 		GoodPayment.
 		UpdateOneID(id).
 		SetIdle(in.GetInfo().GetIdle()).
-		SetOccupiedBy(in.GetInfo().GetOccupiedBy())
+		SetOccupiedBy(in.GetInfo().GetOccupiedBy()).
+		SetUsedFor(in.GetInfo().GetUsedFor())
 
 	// If reset to idle, cooldown for some time
 	if !resp.Info.Idle && in.GetInfo().GetIdle() {
 		stm = stm.SetAvailableAt(uint32(time.Now().Add(cooldown).Unix()))
+	}
+	if in.GetInfo().GetUsedFor() == constant.TransactionForCollecting {
+		if _, err := uuid.Parse(in.GetInfo().GetCollectingTID()); err != nil {
+			return nil, xerrors.Errorf("invalid collecting tid: %v", err)
+		}
+		stm = stm.SetCollectingTid(uuid.MustParse(in.GetInfo().GetCollectingTID()))
+	} else {
+		stm = stm.SetCollectingTid(uuid.UUID{})
 	}
 
 	info, err := stm.Save(ctx)

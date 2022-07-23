@@ -79,6 +79,46 @@ func (gpu *GoodPaymentUpdate) AddAvailableAt(u int32) *GoodPaymentUpdate {
 	return gpu
 }
 
+// SetCollectingTid sets the "collecting_tid" field.
+func (gpu *GoodPaymentUpdate) SetCollectingTid(u uuid.UUID) *GoodPaymentUpdate {
+	gpu.mutation.SetCollectingTid(u)
+	return gpu
+}
+
+// SetNillableCollectingTid sets the "collecting_tid" field if the given value is not nil.
+func (gpu *GoodPaymentUpdate) SetNillableCollectingTid(u *uuid.UUID) *GoodPaymentUpdate {
+	if u != nil {
+		gpu.SetCollectingTid(*u)
+	}
+	return gpu
+}
+
+// ClearCollectingTid clears the value of the "collecting_tid" field.
+func (gpu *GoodPaymentUpdate) ClearCollectingTid() *GoodPaymentUpdate {
+	gpu.mutation.ClearCollectingTid()
+	return gpu
+}
+
+// SetUsedFor sets the "used_for" field.
+func (gpu *GoodPaymentUpdate) SetUsedFor(s string) *GoodPaymentUpdate {
+	gpu.mutation.SetUsedFor(s)
+	return gpu
+}
+
+// SetNillableUsedFor sets the "used_for" field if the given value is not nil.
+func (gpu *GoodPaymentUpdate) SetNillableUsedFor(s *string) *GoodPaymentUpdate {
+	if s != nil {
+		gpu.SetUsedFor(*s)
+	}
+	return gpu
+}
+
+// ClearUsedFor clears the value of the "used_for" field.
+func (gpu *GoodPaymentUpdate) ClearUsedFor() *GoodPaymentUpdate {
+	gpu.mutation.ClearUsedFor()
+	return gpu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (gpu *GoodPaymentUpdate) SetCreateAt(u uint32) *GoodPaymentUpdate {
 	gpu.mutation.ResetCreateAt()
@@ -269,6 +309,32 @@ func (gpu *GoodPaymentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: goodpayment.FieldAvailableAt,
 		})
 	}
+	if value, ok := gpu.mutation.CollectingTid(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: goodpayment.FieldCollectingTid,
+		})
+	}
+	if gpu.mutation.CollectingTidCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Column: goodpayment.FieldCollectingTid,
+		})
+	}
+	if value, ok := gpu.mutation.UsedFor(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: goodpayment.FieldUsedFor,
+		})
+	}
+	if gpu.mutation.UsedForCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: goodpayment.FieldUsedFor,
+		})
+	}
 	if value, ok := gpu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -378,6 +444,46 @@ func (gpuo *GoodPaymentUpdateOne) SetNillableAvailableAt(u *uint32) *GoodPayment
 // AddAvailableAt adds u to the "available_at" field.
 func (gpuo *GoodPaymentUpdateOne) AddAvailableAt(u int32) *GoodPaymentUpdateOne {
 	gpuo.mutation.AddAvailableAt(u)
+	return gpuo
+}
+
+// SetCollectingTid sets the "collecting_tid" field.
+func (gpuo *GoodPaymentUpdateOne) SetCollectingTid(u uuid.UUID) *GoodPaymentUpdateOne {
+	gpuo.mutation.SetCollectingTid(u)
+	return gpuo
+}
+
+// SetNillableCollectingTid sets the "collecting_tid" field if the given value is not nil.
+func (gpuo *GoodPaymentUpdateOne) SetNillableCollectingTid(u *uuid.UUID) *GoodPaymentUpdateOne {
+	if u != nil {
+		gpuo.SetCollectingTid(*u)
+	}
+	return gpuo
+}
+
+// ClearCollectingTid clears the value of the "collecting_tid" field.
+func (gpuo *GoodPaymentUpdateOne) ClearCollectingTid() *GoodPaymentUpdateOne {
+	gpuo.mutation.ClearCollectingTid()
+	return gpuo
+}
+
+// SetUsedFor sets the "used_for" field.
+func (gpuo *GoodPaymentUpdateOne) SetUsedFor(s string) *GoodPaymentUpdateOne {
+	gpuo.mutation.SetUsedFor(s)
+	return gpuo
+}
+
+// SetNillableUsedFor sets the "used_for" field if the given value is not nil.
+func (gpuo *GoodPaymentUpdateOne) SetNillableUsedFor(s *string) *GoodPaymentUpdateOne {
+	if s != nil {
+		gpuo.SetUsedFor(*s)
+	}
+	return gpuo
+}
+
+// ClearUsedFor clears the value of the "used_for" field.
+func (gpuo *GoodPaymentUpdateOne) ClearUsedFor() *GoodPaymentUpdateOne {
+	gpuo.mutation.ClearUsedFor()
 	return gpuo
 }
 
@@ -599,6 +705,32 @@ func (gpuo *GoodPaymentUpdateOne) sqlSave(ctx context.Context) (_node *GoodPayme
 			Type:   field.TypeUint32,
 			Value:  value,
 			Column: goodpayment.FieldAvailableAt,
+		})
+	}
+	if value, ok := gpuo.mutation.CollectingTid(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: goodpayment.FieldCollectingTid,
+		})
+	}
+	if gpuo.mutation.CollectingTidCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Column: goodpayment.FieldCollectingTid,
+		})
+	}
+	if value, ok := gpuo.mutation.UsedFor(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: goodpayment.FieldUsedFor,
+		})
+	}
+	if gpuo.mutation.UsedForCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: goodpayment.FieldUsedFor,
 		})
 	}
 	if value, ok := gpuo.mutation.CreateAt(); ok {

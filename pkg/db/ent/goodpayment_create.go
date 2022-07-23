@@ -67,6 +67,34 @@ func (gpc *GoodPaymentCreate) SetNillableAvailableAt(u *uint32) *GoodPaymentCrea
 	return gpc
 }
 
+// SetCollectingTid sets the "collecting_tid" field.
+func (gpc *GoodPaymentCreate) SetCollectingTid(u uuid.UUID) *GoodPaymentCreate {
+	gpc.mutation.SetCollectingTid(u)
+	return gpc
+}
+
+// SetNillableCollectingTid sets the "collecting_tid" field if the given value is not nil.
+func (gpc *GoodPaymentCreate) SetNillableCollectingTid(u *uuid.UUID) *GoodPaymentCreate {
+	if u != nil {
+		gpc.SetCollectingTid(*u)
+	}
+	return gpc
+}
+
+// SetUsedFor sets the "used_for" field.
+func (gpc *GoodPaymentCreate) SetUsedFor(s string) *GoodPaymentCreate {
+	gpc.mutation.SetUsedFor(s)
+	return gpc
+}
+
+// SetNillableUsedFor sets the "used_for" field if the given value is not nil.
+func (gpc *GoodPaymentCreate) SetNillableUsedFor(s *string) *GoodPaymentCreate {
+	if s != nil {
+		gpc.SetUsedFor(*s)
+	}
+	return gpc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (gpc *GoodPaymentCreate) SetCreateAt(u uint32) *GoodPaymentCreate {
 	gpc.mutation.SetCreateAt(u)
@@ -204,6 +232,14 @@ func (gpc *GoodPaymentCreate) defaults() {
 		v := goodpayment.DefaultAvailableAt
 		gpc.mutation.SetAvailableAt(v)
 	}
+	if _, ok := gpc.mutation.CollectingTid(); !ok {
+		v := goodpayment.DefaultCollectingTid()
+		gpc.mutation.SetCollectingTid(v)
+	}
+	if _, ok := gpc.mutation.UsedFor(); !ok {
+		v := goodpayment.DefaultUsedFor
+		gpc.mutation.SetUsedFor(v)
+	}
 	if _, ok := gpc.mutation.CreateAt(); !ok {
 		v := goodpayment.DefaultCreateAt()
 		gpc.mutation.SetCreateAt(v)
@@ -335,6 +371,22 @@ func (gpc *GoodPaymentCreate) createSpec() (*GoodPayment, *sqlgraph.CreateSpec) 
 			Column: goodpayment.FieldAvailableAt,
 		})
 		_node.AvailableAt = value
+	}
+	if value, ok := gpc.mutation.CollectingTid(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: goodpayment.FieldCollectingTid,
+		})
+		_node.CollectingTid = value
+	}
+	if value, ok := gpc.mutation.UsedFor(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: goodpayment.FieldUsedFor,
+		})
+		_node.UsedFor = value
 	}
 	if value, ok := gpc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -489,6 +541,42 @@ func (u *GoodPaymentUpsert) UpdateAvailableAt() *GoodPaymentUpsert {
 // AddAvailableAt adds v to the "available_at" field.
 func (u *GoodPaymentUpsert) AddAvailableAt(v uint32) *GoodPaymentUpsert {
 	u.Add(goodpayment.FieldAvailableAt, v)
+	return u
+}
+
+// SetCollectingTid sets the "collecting_tid" field.
+func (u *GoodPaymentUpsert) SetCollectingTid(v uuid.UUID) *GoodPaymentUpsert {
+	u.Set(goodpayment.FieldCollectingTid, v)
+	return u
+}
+
+// UpdateCollectingTid sets the "collecting_tid" field to the value that was provided on create.
+func (u *GoodPaymentUpsert) UpdateCollectingTid() *GoodPaymentUpsert {
+	u.SetExcluded(goodpayment.FieldCollectingTid)
+	return u
+}
+
+// ClearCollectingTid clears the value of the "collecting_tid" field.
+func (u *GoodPaymentUpsert) ClearCollectingTid() *GoodPaymentUpsert {
+	u.SetNull(goodpayment.FieldCollectingTid)
+	return u
+}
+
+// SetUsedFor sets the "used_for" field.
+func (u *GoodPaymentUpsert) SetUsedFor(v string) *GoodPaymentUpsert {
+	u.Set(goodpayment.FieldUsedFor, v)
+	return u
+}
+
+// UpdateUsedFor sets the "used_for" field to the value that was provided on create.
+func (u *GoodPaymentUpsert) UpdateUsedFor() *GoodPaymentUpsert {
+	u.SetExcluded(goodpayment.FieldUsedFor)
+	return u
+}
+
+// ClearUsedFor clears the value of the "used_for" field.
+func (u *GoodPaymentUpsert) ClearUsedFor() *GoodPaymentUpsert {
+	u.SetNull(goodpayment.FieldUsedFor)
 	return u
 }
 
@@ -684,6 +772,48 @@ func (u *GoodPaymentUpsertOne) AddAvailableAt(v uint32) *GoodPaymentUpsertOne {
 func (u *GoodPaymentUpsertOne) UpdateAvailableAt() *GoodPaymentUpsertOne {
 	return u.Update(func(s *GoodPaymentUpsert) {
 		s.UpdateAvailableAt()
+	})
+}
+
+// SetCollectingTid sets the "collecting_tid" field.
+func (u *GoodPaymentUpsertOne) SetCollectingTid(v uuid.UUID) *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetCollectingTid(v)
+	})
+}
+
+// UpdateCollectingTid sets the "collecting_tid" field to the value that was provided on create.
+func (u *GoodPaymentUpsertOne) UpdateCollectingTid() *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdateCollectingTid()
+	})
+}
+
+// ClearCollectingTid clears the value of the "collecting_tid" field.
+func (u *GoodPaymentUpsertOne) ClearCollectingTid() *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.ClearCollectingTid()
+	})
+}
+
+// SetUsedFor sets the "used_for" field.
+func (u *GoodPaymentUpsertOne) SetUsedFor(v string) *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetUsedFor(v)
+	})
+}
+
+// UpdateUsedFor sets the "used_for" field to the value that was provided on create.
+func (u *GoodPaymentUpsertOne) UpdateUsedFor() *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdateUsedFor()
+	})
+}
+
+// ClearUsedFor clears the value of the "used_for" field.
+func (u *GoodPaymentUpsertOne) ClearUsedFor() *GoodPaymentUpsertOne {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.ClearUsedFor()
 	})
 }
 
@@ -1054,6 +1184,48 @@ func (u *GoodPaymentUpsertBulk) AddAvailableAt(v uint32) *GoodPaymentUpsertBulk 
 func (u *GoodPaymentUpsertBulk) UpdateAvailableAt() *GoodPaymentUpsertBulk {
 	return u.Update(func(s *GoodPaymentUpsert) {
 		s.UpdateAvailableAt()
+	})
+}
+
+// SetCollectingTid sets the "collecting_tid" field.
+func (u *GoodPaymentUpsertBulk) SetCollectingTid(v uuid.UUID) *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetCollectingTid(v)
+	})
+}
+
+// UpdateCollectingTid sets the "collecting_tid" field to the value that was provided on create.
+func (u *GoodPaymentUpsertBulk) UpdateCollectingTid() *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdateCollectingTid()
+	})
+}
+
+// ClearCollectingTid clears the value of the "collecting_tid" field.
+func (u *GoodPaymentUpsertBulk) ClearCollectingTid() *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.ClearCollectingTid()
+	})
+}
+
+// SetUsedFor sets the "used_for" field.
+func (u *GoodPaymentUpsertBulk) SetUsedFor(v string) *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.SetUsedFor(v)
+	})
+}
+
+// UpdateUsedFor sets the "used_for" field to the value that was provided on create.
+func (u *GoodPaymentUpsertBulk) UpdateUsedFor() *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.UpdateUsedFor()
+	})
+}
+
+// ClearUsedFor clears the value of the "used_for" field.
+func (u *GoodPaymentUpsertBulk) ClearUsedFor() *GoodPaymentUpsertBulk {
+	return u.Update(func(s *GoodPaymentUpsert) {
+		s.ClearUsedFor()
 	})
 }
 

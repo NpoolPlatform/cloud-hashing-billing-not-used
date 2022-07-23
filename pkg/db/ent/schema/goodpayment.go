@@ -7,6 +7,8 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
+	constant "github.com/NpoolPlatform/cloud-hashing-billing/pkg/const"
+
 	"github.com/google/uuid"
 )
 
@@ -25,6 +27,10 @@ func (GoodPayment) Fields() []ent.Field {
 		field.Bool("idle"),
 		field.String("occupied_by"),
 		field.Uint32("available_at").Default(uint32(time.Now().Unix())),
+		field.UUID("collecting_tid", uuid.UUID{}).Optional().Default(func() uuid.UUID {
+			return uuid.UUID{}
+		}),
+		field.String("used_for").Optional().Default(constant.TransactionForNotUsed),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

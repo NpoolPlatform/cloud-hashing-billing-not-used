@@ -23,6 +23,10 @@ const (
 	FieldOccupiedBy = "occupied_by"
 	// FieldAvailableAt holds the string denoting the available_at field in the database.
 	FieldAvailableAt = "available_at"
+	// FieldCollectingTid holds the string denoting the collecting_tid field in the database.
+	FieldCollectingTid = "collecting_tid"
+	// FieldUsedFor holds the string denoting the used_for field in the database.
+	FieldUsedFor = "used_for"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -42,6 +46,8 @@ var Columns = []string{
 	FieldIdle,
 	FieldOccupiedBy,
 	FieldAvailableAt,
+	FieldCollectingTid,
+	FieldUsedFor,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
@@ -60,6 +66,10 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultAvailableAt holds the default value on creation for the "available_at" field.
 	DefaultAvailableAt uint32
+	// DefaultCollectingTid holds the default value on creation for the "collecting_tid" field.
+	DefaultCollectingTid func() uuid.UUID
+	// DefaultUsedFor holds the default value on creation for the "used_for" field.
+	DefaultUsedFor string
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.
