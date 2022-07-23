@@ -195,17 +195,34 @@ func CreatePaymentBalance(ctx context.Context, in *npool.UserPaymentBalance) (*n
 
 func GetTransactions(ctx context.Context, state string) ([]*npool.CoinAccountTransaction, error) {
 	// conds: NOT USED NOW, will be used after refactor code
-	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
 		resp, err := cli.GetCoinAccountTransactionsByState(ctx, &npool.GetCoinAccountTransactionsByStateRequest{
 			State: state,
 		})
 		if err != nil {
-			return nil, fmt.Errorf("fail create transaction: %v", err)
+			return nil, fmt.Errorf("fail get transactions: %v", err)
 		}
 		return resp.Infos, nil
 	})
 	if err != nil {
-		return nil, fmt.Errorf("fail create transaction: %v", err)
+		return nil, fmt.Errorf("fail get transactions: %v", err)
 	}
-	return info.([]*npool.CoinAccountTransaction), nil
+	return infos.([]*npool.CoinAccountTransaction), nil
+}
+
+func GetTransaction(ctx context.Context, id string) (*npool.CoinAccountTransaction, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetCoinAccountTransaction(ctx, &npool.GetCoinAccountTransactionRequest{
+			ID: id,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get transaction: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get transaction: %v", err)
+	}
+	return info.(*npool.CoinAccountTransaction), nil
 }
