@@ -134,7 +134,7 @@ func GetTransactions(ctx context.Context, state string) ([]*npool.CoinAccountTra
 		if err != nil {
 			return nil, fmt.Errorf("fail create transaction: %v", err)
 		}
-		return resp.Info, nil
+		return resp.Infos, nil
 	})
 	if err != nil {
 		return nil, fmt.Errorf("fail create transaction: %v", err)
