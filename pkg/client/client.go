@@ -58,6 +58,23 @@ func GetAccountGoodPayment(ctx context.Context, accountID string) (*npool.GoodPa
 	return info.(*npool.GoodPayment), nil
 }
 
+func UpdateGoodPayment(ctx context.Context, in *npool.GoodPayment) (*npool.GoodPayment, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.UpdateGoodPayment(ctx, &npool.UpdateGoodPaymentRequest{
+			Info: in,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail update good payment: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail update good payment: %v", err)
+	}
+	return info.(*npool.GoodPayment), nil
+}
+
 func GetAccount(ctx context.Context, id string) (*npool.CoinAccountInfo, error) {
 	// conds: NOT USED NOW, will be used after refactor code
 	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
