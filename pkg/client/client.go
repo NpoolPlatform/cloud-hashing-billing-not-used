@@ -107,6 +107,23 @@ func GetCoinSettings(ctx context.Context) ([]*npool.CoinSetting, error) {
 	return infos.([]*npool.CoinSetting), nil
 }
 
+func GetCoinSetting(ctx context.Context, coinTypeID string) (*npool.CoinSetting, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetCoinSettingByCoin(ctx, &npool.GetCoinSettingByCoinRequest{
+			CoinTypeID: coinTypeID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get coin setting: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get coin setting: %v", err)
+	}
+	return info.(*npool.CoinSetting), nil
+}
+
 func CreateTransaction(ctx context.Context, tx *npool.CoinAccountTransaction) (*npool.CoinAccountTransaction, error) {
 	// conds: NOT USED NOW, will be used after refactor code
 	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
