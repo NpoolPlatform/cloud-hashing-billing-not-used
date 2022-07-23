@@ -90,6 +90,23 @@ func CreateTransaction(ctx context.Context, tx *npool.CoinAccountTransaction) (*
 	return info.(*npool.CoinAccountTransaction), nil
 }
 
+func UpdateTransaction(ctx context.Context, tx *npool.CoinAccountTransaction) (*npool.CoinAccountTransaction, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.UpdateCoinAccountTransaction(ctx, &npool.UpdateCoinAccountTransactionRequest{
+			Info: tx,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail update transaction: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail update transaction: %v", err)
+	}
+	return info.(*npool.CoinAccountTransaction), nil
+}
+
 func GetUserPaymentBalances(ctx context.Context, appID, userID string) ([]*npool.UserPaymentBalance, error) {
 	// conds: NOT USED NOW, will be used after refactor code
 	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
