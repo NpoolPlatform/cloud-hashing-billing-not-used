@@ -225,6 +225,24 @@ func GetTransactions(ctx context.Context, state string) ([]*npool.CoinAccountTra
 	return infos.([]*npool.CoinAccountTransaction), nil
 }
 
+func GetAccountTransactions(ctx context.Context, coinTypeID, accountID string) ([]*npool.CoinAccountTransaction, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetCoinAccountTransactionsByCoinAccount(ctx, &npool.GetCoinAccountTransactionsByCoinAccountRequest{
+			CoinTypeID: coinTypeID,
+			AddressID:  accountID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get transactions: %v", err)
+		}
+		return resp.Infos, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get transactions: %v", err)
+	}
+	return infos.([]*npool.CoinAccountTransaction), nil
+}
+
 func GetTransaction(ctx context.Context, id string) (*npool.CoinAccountTransaction, error) {
 	// conds: NOT USED NOW, will be used after refactor code
 	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
