@@ -259,3 +259,20 @@ func GetTransaction(ctx context.Context, id string) (*npool.CoinAccountTransacti
 	}
 	return info.(*npool.CoinAccountTransaction), nil
 }
+
+func GetGoodBenefit(ctx context.Context, goodID string) (*npool.GoodBenefit, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetGoodBenefitByGood(ctx, &npool.GetGoodBenefitByGoodRequest{
+			GoodID: goodID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get good benefit: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get good benefit: %v", err)
+	}
+	return info.(*npool.GoodBenefit), nil
+}
