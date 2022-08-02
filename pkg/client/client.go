@@ -74,7 +74,7 @@ func GetGoodPayment(ctx context.Context, id string) (*npool.GoodPayment, error) 
 	return info.(*npool.GoodPayment), nil
 }
 
-func GetGoodIdleGoodPayments(ctx context.Context, goodID, coinTypeID string) ([]*npool.GoodPayment, error) {
+func GetIdleGoodPayments(ctx context.Context, goodID, coinTypeID string) ([]*npool.GoodPayment, error) {
 	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
 		resp, err := cli.GetIdleGoodPaymentsByGoodPaymentCoin(ctx, &npool.GetIdleGoodPaymentsByGoodPaymentCoinRequest{
 			GoodID:            goodID,
