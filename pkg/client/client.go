@@ -157,6 +157,21 @@ func GetAccount(ctx context.Context, id string) (*npool.CoinAccountInfo, error) 
 	return info.(*npool.CoinAccountInfo), nil
 }
 
+func GetAccounts(ctx context.Context) ([]*npool.CoinAccountInfo, error) {
+	// conds: NOT USED NOW, will be used after refactor code
+	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetCoinAccounts(ctx, &npool.GetCoinAccountsRequest{})
+		if err != nil {
+			return nil, fmt.Errorf("fail get coin accounts: %v", err)
+		}
+		return resp.Infos, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get coin accounts: %v", err)
+	}
+	return infos.([]*npool.CoinAccountInfo), nil
+}
+
 func GetCoinSettings(ctx context.Context) ([]*npool.CoinSetting, error) {
 	// conds: NOT USED NOW, will be used after refactor code
 	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
