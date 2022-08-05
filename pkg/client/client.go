@@ -29,7 +29,9 @@ func do(ctx context.Context, fn func(_ctx context.Context, cli npool.CloudHashin
 func CreateGoodPayment(ctx context.Context, in *npool.GoodPayment) (*npool.GoodPayment, error) {
 	// conds: NOT USED NOW, will be used after refactor code
 	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
-		resp, err := cli.CreateGoodPayment(ctx, &npool.CreateGoodPaymentRequest{})
+		resp, err := cli.CreateGoodPayment(ctx, &npool.CreateGoodPaymentRequest{
+			Info: in,
+		})
 		if err != nil {
 			return nil, fmt.Errorf("fail create good payment: %v", err)
 		}
