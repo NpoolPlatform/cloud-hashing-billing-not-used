@@ -356,3 +356,37 @@ func GetGoodBenefit(ctx context.Context, goodID string) (*npool.GoodBenefit, err
 	}
 	return info.(*npool.GoodBenefit), nil
 }
+
+func GetWithdrawSetting(ctx context.Context, appID, coinTypeID string) (*npool.AppWithdrawSetting, error) {
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetAppWithdrawSettingByAppCoin(ctx, &npool.GetAppWithdrawSettingByAppCoinRequest{
+			AppID:      appID,
+			CoinTypeID: coinTypeID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get withdraw setting: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get withdraw setting: %v", err)
+	}
+	return info.(*npool.AppWithdrawSetting), nil
+}
+
+func GetWithdrawAccounts(ctx context.Context, appID, userID string) ([]*npool.UserWithdraw, error) {
+	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetUserWithdrawsByAppUser(ctx, &npool.GetUserWithdrawsByAppUserRequest{
+			AppID:  appID,
+			UserID: userID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get user withdraw: %v", err)
+		}
+		return resp.Infos, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get user withdraw: %v", err)
+	}
+	return infos.([]*npool.UserWithdraw), nil
+}
