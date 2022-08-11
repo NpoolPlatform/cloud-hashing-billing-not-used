@@ -392,3 +392,19 @@ func GetWithdrawAccounts(ctx context.Context, appID, userID string) ([]*npool.Us
 	}
 	return infos.([]*npool.UserWithdraw), nil
 }
+
+func GetWithdrawAccount(ctx context.Context, accountID string) (*npool.UserWithdraw, error) {
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingBillingClient) (cruder.Any, error) {
+		resp, err := cli.GetUserWithdrawByAccount(ctx, &npool.GetUserWithdrawByAccountRequest{
+			AccountID: accountID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get user withdraw: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get user withdraw: %v", err)
+	}
+	return info.(*npool.UserWithdraw), nil
+}
