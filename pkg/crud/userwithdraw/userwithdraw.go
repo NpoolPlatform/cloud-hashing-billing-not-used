@@ -181,7 +181,6 @@ func GetByAccount(ctx context.Context, in *npool.GetUserWithdrawByAccountRequest
 		Where(
 			userwithdraw.And(
 				userwithdraw.AccountID(accountID),
-				userwithdraw.DeleteAt(0),
 			),
 		).
 		All(ctx)
@@ -223,7 +222,6 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserWithdrawsByAppUserReques
 			userwithdraw.And(
 				userwithdraw.AppID(appID),
 				userwithdraw.UserID(userID),
-				userwithdraw.DeleteAt(0),
 			),
 		).
 		All(ctx)
@@ -305,7 +303,6 @@ func GetByAppUserCoin(ctx context.Context, in *npool.GetUserWithdrawsByAppUserCo
 				userwithdraw.AppID(appID),
 				userwithdraw.UserID(userID),
 				userwithdraw.CoinTypeID(coinTypeID),
-				userwithdraw.DeleteAt(0),
 			),
 		).
 		All(ctx)
