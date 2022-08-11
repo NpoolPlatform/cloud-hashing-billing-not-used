@@ -42,6 +42,7 @@ func dbRowToUserWithdraw(row *ent.UserWithdraw) *npool.UserWithdraw {
 		Name:       row.Name,
 		Message:    row.Message,
 		Labels:     row.Labels,
+		DeleteAt:   row.DeleteAt,
 	}
 }
 
