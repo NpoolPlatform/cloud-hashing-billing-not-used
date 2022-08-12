@@ -124,7 +124,12 @@ func Get(ctx context.Context, in *npool.GetAppWithdrawSettingRequest) (*npool.Ge
 }
 
 func GetByAppCoin(ctx context.Context, in *npool.GetAppWithdrawSettingByAppCoinRequest) (*npool.GetAppWithdrawSettingByAppCoinResponse, error) {
-	coinID, err := uuid.Parse(in.GetAppID())
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid coin id: %v", err)
+	}
+
+	coinID, err := uuid.Parse(in.GetCoinTypeID())
 	if err != nil {
 		return nil, xerrors.Errorf("invalid coin id: %v", err)
 	}
@@ -138,7 +143,8 @@ func GetByAppCoin(ctx context.Context, in *npool.GetAppWithdrawSettingByAppCoinR
 		AppWithdrawSetting.
 		Query().
 		Where(
-			appwithdrawsetting.AppID(coinID),
+			appwithdrawsetting.AppID(appID),
+			appwithdrawsetting.CoinTypeID(coinID),
 		).
 		All(ctx)
 	if err != nil {
